@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "outDir": "./build",
+    "allowJs": false,
+    "sourceMap": true,
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "target": "es5",
+    "types": [
+      "node",
+      "jasmine",
+    ],
+    "experimentalDecorators": true
+  },
+  "include": [
+    "./src/**/*",
+    "./spec/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

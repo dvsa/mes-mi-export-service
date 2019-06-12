@@ -16,7 +16,7 @@ for func_name in ${functions}; do
   continue
   fi
   if [ -z ${LAMBDAS} ] || echo ${LAMBDAS} | grep ${func_name}; then
-    source_libs="lib/*.so"
+    source_libs="../oracle-instant-client/lib/*.so"
     bundle_path="${bundle_dir}${func_name}.js"
     bundle_lib="${bundle_dir}/lib"
     mkdir -p ${bundle_lib}

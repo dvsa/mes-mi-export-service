@@ -1,15 +1,10 @@
 import { cloneDeep } from 'lodash';
-import { mapDataForMIExport, MissingTestResultDataError } from '../data-mapper';
-import {
-  MIExportTestResult,
-  ChannelIndicator,
-  Language,
-  ResultIndicator,
-  Gender,
-} from '../../domain/mi-export-data';
-import { InterfaceType, ResultUpload } from '../../application/result-client';
+import { MissingTestResultDataError } from '../data-mapper';
+import { ChannelIndicator, DataField, Gender, Language, ResultIndicator } from '../../../domain/mi-export-data';
+import { InterfaceType, ResultUpload } from '../../result-client';
+import { mapCommonData } from '../common-mapper';
 
-describe('mapDataForMIExport', () => {
+describe('mapCommonData', () => {
 
   // minimally populated pass, manual gearbox
   const minimalInput: ResultUpload = {
@@ -56,6 +51,11 @@ describe('mapDataForMIExport', () => {
         },
       },
       activityCode: '1',
+      communicationPreferences: {
+        updatedEmail: 'still-noone@nowhere.com',
+        communicationMethod: 'Email',
+        conductedLanguage: 'English',
+      },
       vehicleDetails: {
         registrationNumber: 'DDDDDD',
         gearboxCategory: 'Manual',
@@ -75,63 +75,61 @@ describe('mapDataForMIExport', () => {
     },
   };
 
-  it('Should map a minially populated regular test result (pass, manual)', () => {
-    const expected: MIExportTestResult = {
-      channelIndicator: ChannelIndicator.MES,
-      drivingSchoolCar: 0,
-      d255: 0,
-      applicationReference: 2222113,
-      testDate: '19:06:10',
-      testTime: '09:30',
-      testCentreCostCode: 'CC1',
-      staffNumber: '001122',
-      testCategory: 'B',
-      automatic: 0,
-      extended: 0,
-      testType: 2,
-      instructorPRN: null,
-      supervisorAccompanied: 0,
-      instructorAccompanied: 0,
-      interpreterAccompanied: 0,
-      otherAccompanied: 0,
-      visitingExaminer: 0,
-      change: 0,
-      // TODO: 1a eyesight .. element 5 - C
-      result: ResultIndicator.Pass,
-      totalFaults: 10,
-      route: 15,
-      etaVerbal: 0,
-      etaPhysical: 0,
-      dualControls: 0,
-      ecoAssessed: 0,
-      ecoControl: 0,
-      ecoPlanning: 0,
-      debriefGiven: 1,
-      activityCode: 1,
-      passCertificateNumber: 'C4444Q',
-      licenseReceived: 1,
-      candidateDOB: new Date('1974-12-24'), // DUMMY
-      candidateForenames: 'BBBBBB',
-      candidateGender: Gender.Male, // DUMMY
-      candidateIndividualId: 1111,
-      candidatePostCode: 'AA12 3BB',
-      candidateSurname: 'AAAAAA',
-      candidateTitle: 'Mr',
-      driverNumber: 'AAAAA111111BB9CC',
-      examinerIndividualId: 1234,
-      bookedTestCategory: 'B',
-      testCentreId: 1234,
-      testCentreName: 'Dummy', // not needed?
-      vehicleSlotType: 'B57mins',
-      language: Language.English, // DUMMY
-      ethnicityCode: 'A', // DUMMY
-      vehicleRegistration: 'DDDDDD',
-    };
+  it('Should map a minially populated regular test result (pass, manual, english)', () => {
+    const expected: DataField[] = [
+      { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
+      { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
+      { col: 'SPECIAL_NEEDS', val: 0 },
+      { col: 'APP_REF_NO', val: 2222113 },
+      { col: 'DATE_OF_TEST', val: '19:06:10' },
+      { col: 'TIME', val: '09:30' },
+      { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
+      { col: 'STAFF_NO', val: '001122' },
+      { col: 'TEST_CATEGORY_TYPE', val: 'B' },
+      { col: 'AUTOMATIC_TEST', val: 0 },
+      { col: 'EXTENDED_TEST', val: 0 },
+      { col: 'TEST_TYPE', val: 2 },
+      { col: 'ACCOMPANIED_BY_DSA', val: 0 },
+      { col: 'ACCOMPANIED_BY_ADI', val: 0 },
+      { col: 'ACCOMPANIED_BY_INTERPRETER', val: 0 },
+      { col: 'ACCOMPANIED_BY_OTHER', val: 0 },
+      { col: 'VISITING_EXAMINER', val: 0 },
+      { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
+      { col: 'TEST_RESULT', val: ResultIndicator.Pass },
+      { col: 'TOTAL_FAULTS', val: 10 },
+      { col: 'ROUTE_NUMBER', val: 15 },
+      { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },
+      { col: 'DUAL_CONTROL_IND', val: 0 },
+      { col: 'DEBRIEF_GIVEN', val: 1 },
+      { col: 'ACTIVITY_CODE', val: 1 },
+      { col: 'LICENCE_RECEIVED', val: 1 },
+      { col: 'DOB', val: new Date('1974-12-24') }, // DUMMY
+      { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
+      { col: 'GENDER', val: Gender.Male }, // DUMMY
+      { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
+      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
+      { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
+      { col: 'CANDIDATE_TITLE', val: 'Mr' },
+      { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
+      { col: 'EXAMINER_PERSON_ID', val: 1234 },
+      { col: 'TEST_CATEGORY_REF', val: 'B' },
+      { col: 'TEST_CENTRE_ID', val: 1234 },
+      // testCentreName: 'Dummy', // not needed?
+      { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
+      { col: 'WELSH_FORM_IND', val: Language.English },
+      { col: 'ETHNICITY', val: 'A' }, // DUMMY
+      { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
+      { col: 'ECO_SAFE_COMPLETED', val: 0 },
+      { col: 'ECO_SAFE_CONTROL', val: 0 },
+      { col: 'ECO_SAFE_PLANNING', val: 0 },
+      { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
+    ];
 
-    expect(mapDataForMIExport(minimalInput)).toEqual(expected);
+    expect(mapCommonData(minimalInput)).toEqual(expected);
   });
 
-  it('Should map a fully populated regular test result (fail, automatic)', () => {
+  it('Should map a fully populated regular test result (fail, automatic, welsh)', () => {
     const input: ResultUpload = {
       uploadKey: {
         applicationReference: 2222113,
@@ -192,7 +190,7 @@ describe('mapDataForMIExport', () => {
         communicationPreferences: {
           updatedEmail: 'still-noone@nowhere.com',
           communicationMethod: 'Email',
-          conductedLanguage: 'English',
+          conductedLanguage: 'Cymraeg',
         },
         preTestDeclarations: {
           insuranceDeclarationAccepted: true,
@@ -241,62 +239,60 @@ describe('mapDataForMIExport', () => {
       },
     };
 
-    const expected: MIExportTestResult = {
-      channelIndicator: ChannelIndicator.MES,
-      drivingSchoolCar: 1,
-      d255: 1,
-      applicationReference: 2222113,
-      testDate: '19:06:10',
-      testTime: '09:30',
-      testCentreCostCode: 'CC1',
-      staffNumber: '001122',
-      testCategory: 'B',
-      automatic: 1,
-      extended: 1,
-      testType: 2,
-      instructorPRN: '555555',
-      supervisorAccompanied: 1,
-      instructorAccompanied: 1,
-      interpreterAccompanied: 0, // missing
-      otherAccompanied: 1,
-      visitingExaminer: 0,
-      change: 0,
-      // TODO: 1a eyesight .. element 5 - C
-      result: ResultIndicator.Fail,
-      totalFaults: 20,
-      route: 15,
-      etaVerbal: 1,
-      etaPhysical: 1,
-      dualControls: 1,
-      ecoAssessed: 1,
-      ecoControl: 1,
-      ecoPlanning: 1,
-      debriefGiven: 1,
-      activityCode: 2,
-      passCertificateNumber: null,
-      licenseReceived: 0,
-      candidateDOB: new Date('1974-12-24'), // DUMMY
-      candidateForenames: 'BBBBBB',
-      candidateGender: Gender.Male, // DUMMY
-      candidateIndividualId: 1111,
-      candidatePostCode: 'AA12 3BB',
-      candidateSurname: 'AAAAAA',
-      candidateTitle: 'Mr',
-      driverNumber: 'AAAAA111111BB9CC',
-      examinerIndividualId: 1234,
-      bookedTestCategory: 'B',
-      testCentreId: 1234,
-      testCentreName: 'Dummy', // not needed?
-      vehicleSlotType: 'B57mins',
-      language: Language.English, // DUMMY
-      ethnicityCode: 'A', // DUMMY
-      vehicleRegistration: 'DDDDDD',
-    };
+    const expected: DataField[] = [
+      { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
+      { col: 'DRIVING_SCHOOL_CANDIDATE', val: 1 },
+      { col: 'SPECIAL_NEEDS', val: 1 },
+      { col: 'APP_REF_NO', val: 2222113 },
+      { col: 'DATE_OF_TEST', val: '19:06:10' },
+      { col: 'TIME', val: '09:30' },
+      { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
+      { col: 'STAFF_NO', val: '001122' },
+      { col: 'TEST_CATEGORY_TYPE', val: 'B' },
+      { col: 'AUTOMATIC_TEST', val: 1 },
+      { col: 'EXTENDED_TEST', val: 1 },
+      { col: 'TEST_TYPE', val: 2 },
+      { col: 'ACCOMPANIED_BY_DSA', val: 1 },
+      { col: 'ACCOMPANIED_BY_ADI', val: 1 },
+      { col: 'ACCOMPANIED_BY_INTERPRETER', val: 0 },
+      { col: 'ACCOMPANIED_BY_OTHER', val: 1 },
+      { col: 'VISITING_EXAMINER', val: 0 },
+      { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
+      { col: 'TEST_RESULT', val: ResultIndicator.Fail },
+      { col: 'TOTAL_FAULTS', val: 20 },
+      { col: 'ROUTE_NUMBER', val: 15 },
+      { col: 'EXAMINER_ACTION_VERBAL', val: 1 },
+      { col: 'EXAMINER_ACTION_PHYSICAL', val: 1 },
+      { col: 'DUAL_CONTROL_IND', val: 1 },
+      { col: 'DEBRIEF_GIVEN', val: 1 },
+      { col: 'ACTIVITY_CODE', val: 2 },
+      { col: 'LICENCE_RECEIVED', val: 0 },
+      { col: 'DOB', val: new Date('1974-12-24') }, // DUMMY
+      { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
+      { col: 'GENDER', val: Gender.Male }, // DUMMY
+      { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
+      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
+      { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
+      { col: 'CANDIDATE_TITLE', val: 'Mr' },
+      { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
+      { col: 'EXAMINER_PERSON_ID', val: 1234 },
+      { col: 'TEST_CATEGORY_REF', val: 'B' },
+      { col: 'TEST_CENTRE_ID', val: 1234 },
+      // testCentreName: 'Dummy', // not needed?
+      { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
+      { col: 'WELSH_FORM_IND', val: Language.Welsh },
+      { col: 'ETHNICITY', val: 'A' }, // DUMMY
+      { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
+      { col: 'ECO_SAFE_COMPLETED', val: 1 },
+      { col: 'ECO_SAFE_CONTROL', val: 1 },
+      { col: 'ECO_SAFE_PLANNING', val: 1 },
+      { col: 'ADI_NUMBER', val: '555555' },
+    ];
 
-    expect(mapDataForMIExport(input)).toEqual(expected);
+    expect(mapCommonData(input)).toEqual(expected);
   });
 
-  it('Should map a terminated test result (with defaulted route number)', () => {
+  it('Should map a terminated test result (with defaulted route number, english)', () => {
     const input: ResultUpload = {
       uploadKey: {
         applicationReference: 2222113,
@@ -396,59 +392,57 @@ describe('mapDataForMIExport', () => {
       },
     };
 
-    const expected: MIExportTestResult = {
-      channelIndicator: ChannelIndicator.MES,
-      drivingSchoolCar: 0,
-      d255: 0,
-      applicationReference: 2222113,
-      testDate: '19:06:10',
-      testTime: '12:45',
-      testCentreCostCode: 'CC1',
-      staffNumber: '001122',
-      testCategory: 'B',
-      automatic: 0,
-      extended: 0,
-      testType: 2,
-      instructorPRN: '555555',
-      supervisorAccompanied: 0,
-      instructorAccompanied: 0,
-      interpreterAccompanied: 0, // missing
-      otherAccompanied: 0,
-      visitingExaminer: 0,
-      change: 0,
-      // TODO: 1a eyesight .. element 5 - C
-      result: ResultIndicator.None,
-      totalFaults: 0,
-      route: 87,
-      etaVerbal: 0,
-      etaPhysical: 0,
-      dualControls: 0,
-      ecoAssessed: 0,
-      ecoControl: 0,
-      ecoPlanning: 0,
-      debriefGiven: 1,
-      activityCode: 22,
-      passCertificateNumber: null,
-      licenseReceived: 0,
-      candidateDOB: new Date('1974-12-24'), // DUMMY
-      candidateForenames: 'BBBBBB',
-      candidateGender: Gender.Male, // DUMMY
-      candidateIndividualId: 1111,
-      candidatePostCode: 'AA12 3BB',
-      candidateSurname: 'AAAAAA',
-      candidateTitle: 'Mr',
-      driverNumber: 'AAAAA111111BB9CC',
-      examinerIndividualId: 1234,
-      bookedTestCategory: 'B',
-      testCentreId: 1234,
-      testCentreName: 'Dummy', // not needed?
-      vehicleSlotType: 'B57mins',
-      language: Language.English, // DUMMY
-      ethnicityCode: 'A', // DUMMY
-      vehicleRegistration: 'DDDDDD',
-    };
+    const expected: DataField[] = [
+      { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
+      { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
+      { col: 'SPECIAL_NEEDS', val: 0 },
+      { col: 'APP_REF_NO', val: 2222113 },
+      { col: 'DATE_OF_TEST', val: '19:06:10' },
+      { col: 'TIME', val: '12:45' },
+      { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
+      { col: 'STAFF_NO', val: '001122' },
+      { col: 'TEST_CATEGORY_TYPE', val: 'B' },
+      { col: 'AUTOMATIC_TEST', val: 0 },
+      { col: 'EXTENDED_TEST', val: 0 },
+      { col: 'TEST_TYPE', val: 2 },
+      { col: 'ACCOMPANIED_BY_DSA', val: 0 },
+      { col: 'ACCOMPANIED_BY_ADI', val: 0 },
+      { col: 'ACCOMPANIED_BY_INTERPRETER', val: 0 },
+      { col: 'ACCOMPANIED_BY_OTHER', val: 0 },
+      { col: 'VISITING_EXAMINER', val: 0 },
+      { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
+      { col: 'TEST_RESULT', val: ResultIndicator.None },
+      { col: 'TOTAL_FAULTS', val: 0 },
+      { col: 'ROUTE_NUMBER', val: 87 },
+      { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },
+      { col: 'DUAL_CONTROL_IND', val: 0 },
+      { col: 'DEBRIEF_GIVEN', val: 1 },
+      { col: 'ACTIVITY_CODE', val: 22 },
+      { col: 'LICENCE_RECEIVED', val: 0 },
+      { col: 'DOB', val: new Date('1974-12-24') }, // DUMMY
+      { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
+      { col: 'GENDER', val: Gender.Male }, // DUMMY
+      { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
+      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
+      { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
+      { col: 'CANDIDATE_TITLE', val: 'Mr' },
+      { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
+      { col: 'EXAMINER_PERSON_ID', val: 1234 },
+      { col: 'TEST_CATEGORY_REF', val: 'B' },
+      { col: 'TEST_CENTRE_ID', val: 1234 },
+      // testCentreName: 'Dummy', // not needed?
+      { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
+      { col: 'WELSH_FORM_IND', val: Language.English },
+      { col: 'ETHNICITY', val: 'A' }, // DUMMY
+      { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
+      { col: 'ECO_SAFE_COMPLETED', val: 0 },
+      { col: 'ECO_SAFE_CONTROL', val: 0 },
+      { col: 'ECO_SAFE_PLANNING', val: 0 },
+      { col: 'ADI_NUMBER', val: '555555' },
+    ];
 
-    expect(mapDataForMIExport(input)).toEqual(expected);
+    expect(mapCommonData(input)).toEqual(expected);
   });
 
   it('Should reject a test result with missing mandatory data (vehicle reg)', () => {
@@ -457,7 +451,7 @@ describe('mapDataForMIExport', () => {
       delete missingMandatory.testResult.vehicleDetails.registrationNumber;
     }
 
-    expect(() => mapDataForMIExport(missingMandatory))
+    expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('testResult.vehicleDetails.registrationNumber'));
   });
 
@@ -467,7 +461,7 @@ describe('mapDataForMIExport', () => {
       delete missingMandatory.testResult.vehicleDetails.gearboxCategory;
     }
 
-    expect(() => mapDataForMIExport(missingMandatory))
+    expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('testResult.vehicleDetails.gearboxCategory'));
   });
 
@@ -475,7 +469,7 @@ describe('mapDataForMIExport', () => {
     const missingMandatory = cloneDeep(minimalInput);
     delete missingMandatory.testResult.journalData.candidate.driverNumber;
 
-    expect(() => mapDataForMIExport(missingMandatory))
+    expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('testResult.journalData.candidate.driverNumber'));
   });
 
@@ -484,14 +478,23 @@ describe('mapDataForMIExport', () => {
     if (missingMandatory.testResult.journalData.candidate.candidateName) {
       delete missingMandatory.testResult.journalData.candidate.candidateName.firstName;
     }
-    expect(() => mapDataForMIExport(missingMandatory))
+    expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('testResult.journalData.candidate.candidateName.firstName'));
+  });
+
+  it('Should reject a test result with missing mandatory data (language)', () => {
+    const missingMandatory = cloneDeep(minimalInput);
+    if (missingMandatory.testResult.communicationPreferences) {
+      delete missingMandatory.testResult.communicationPreferences.conductedLanguage;
+    }
+    expect(() => mapCommonData(missingMandatory))
+      .toThrow(new MissingTestResultDataError('testResult.communicationPreferences.conductedLanguage'));
   });
 
   it('Should reject a test result with invalid data (unsupported test category)', () => {
     const invalidResult = cloneDeep(minimalInput);
     invalidResult.testResult.category = 'XYZ';
 
-    expect(() => mapDataForMIExport(invalidResult)).toThrow(new Error('Unsupported test category XYZ'));
+    expect(() => mapCommonData(invalidResult)).toThrow(new Error('Unsupported test category XYZ'));
   });
 });

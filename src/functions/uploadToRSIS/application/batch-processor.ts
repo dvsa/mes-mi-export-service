@@ -5,7 +5,7 @@ import {
   ProcessingStatus,
   updateUploadStatus,
 } from '../application/result-client';
-import { mapDataForMIExport } from '../application/data-mapper';
+import { mapDataForMIExport } from '../application/data-mapper/data-mapper';
 
 /**
  * Upload a batch of test results to RSIS MI.

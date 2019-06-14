@@ -16,11 +16,19 @@ for func_name in ${functions}; do
   continue
   fi
   if [ -z ${LAMBDAS} ] || echo ${LAMBDAS} | grep ${func_name}; then
-    source_libs="../oracle-instant-client/lib/*.so"
+    ora_client_repo="../oracle-instant-client"
+    if [ ! -d ${ora_client_repo} ]; then
+      echo
+      echo "Error: ${ora_client_repo} not found."
+      echo "Please check out the oracle-instant-client GitLab repo alongside this repo."
+      echo
+      exit 1
+    fi
     bundle_path="${bundle_dir}${func_name}.js"
     bundle_lib="${bundle_dir}/lib"
     mkdir -p ${bundle_lib}
-    cp ${source_libs} ${bundle_lib}
+    cp -p ${ora_client_repo}/lib/*.so ${bundle_lib}
+    chmod 755 ${bundle_lib}/*
     zip_filename="${func_name}-${version_num}-${git_rev}.zip"
     zip_path="${artefact_dir}${zip_filename}"
     pushd ${bundle_dir}

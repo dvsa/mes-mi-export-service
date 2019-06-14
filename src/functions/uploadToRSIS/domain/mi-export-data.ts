@@ -1,3 +1,7 @@
+/*
+ * Constants and types used by the RSIS MI staging table.
+ */
+
 export enum ChannelIndicator {
   // SCANNING = 0,
   MES = 1,
@@ -20,59 +24,18 @@ export enum Language {
   Welsh = 'W',
 }
 
+/**
+ * Oracle DB doesn't have a native boolean type, so 1-digit numbers are used.
+ * (``0`` is false, ``1`` is true)
+ */
 export type BooleanAsNumber = 0 | 1;
 
 /**
- * Used to hold a test result, in data format suitable for the RSIS MI staging table.
+ * All staging table columns are VARCHAR2, NUMBER, DATE.
  */
-export type MIExportTestResult = {
-  channelIndicator: ChannelIndicator,
-  drivingSchoolCar: BooleanAsNumber,
-  d255: BooleanAsNumber,
-  applicationReference: number,
-  testDate: string,
-  testTime: string,
-  testCentreCostCode: string,
-  staffNumber: string,
-  testCategory: string,
-  automatic: BooleanAsNumber,
-  extended: BooleanAsNumber,
-  testType: number,
-  instructorPRN: string | null,
-  supervisorAccompanied: BooleanAsNumber,
-  instructorAccompanied: BooleanAsNumber,
-  interpreterAccompanied: BooleanAsNumber,
-  otherAccompanied: BooleanAsNumber,
-  visitingExaminer: BooleanAsNumber,
-  change: BooleanAsNumber,
-  // TODO: 1a eyesight .. element 5 - C
-  result: ResultIndicator,
-  totalFaults: number,
-  route: number,
-  etaVerbal: BooleanAsNumber,
-  etaPhysical: BooleanAsNumber,
-  dualControls: BooleanAsNumber,
-  ecoAssessed: BooleanAsNumber,
-  ecoControl: BooleanAsNumber,
-  ecoPlanning: BooleanAsNumber,
-  debriefGiven: BooleanAsNumber,
-  activityCode: number,
-  passCertificateNumber: string | null,
-  licenseReceived: BooleanAsNumber,
-  candidateDOB: Date,
-  candidateForenames: string,
-  candidateGender: Gender,
-  candidateIndividualId: number,
-  candidatePostCode: string,
-  candidateSurname: string,
-  candidateTitle: string,
-  driverNumber: string,
-  examinerIndividualId: number,
-  bookedTestCategory: string,
-  testCentreId: number,
-  testCentreName: string, // not needed?
-  vehicleSlotType: string,
-  language: Language,
-  ethnicityCode: string,
-  vehicleRegistration: string,
+export type DataFieldValue = string | number | Date;
+
+export type DataField = {
+  col: string,
+  val: DataFieldValue;
 };

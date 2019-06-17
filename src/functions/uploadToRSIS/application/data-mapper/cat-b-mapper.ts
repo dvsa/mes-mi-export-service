@@ -1,5 +1,18 @@
 import { ResultUpload } from '../result-client';
 import { DataField } from '../../domain/mi-export-data';
+import {
+  field,
+  formatManoeuvreFault,
+  formatEyesightResult,
+  formatQuestionFault,
+  formatManoeuvreSerious,
+  optional,
+  formatQuestionSerious,
+  optionalBoolean,
+  formatManoeuvreDangerous,
+  formatQuestionDangerous,
+  formatQuestionCompleted,
+} from './data-mapper';
 
 /**
  * Maps data specific to the ``B`` (Car) test category.
@@ -9,209 +22,241 @@ import { DataField } from '../../domain/mi-export-data';
  * @throws MissingTestResultDataError If mandatory data missing from MES test result
  */
 export const mapCatBData = (result: ResultUpload): DataField[] => {
-  const mappedFields: DataField[] = [];
+  const testData = result.testResult.testData;
 
-  //  EYESIGHT_SERIOUS                                   NUMBER(1)
-//  H_CODE_SAFETY_TOTAL                                NUMBER(2)
-//  CONTROL_STOP_PROMPT_TOTAL                          NUMBER(2)
-//  CONTROL_STOP_CONTROL_TOTAL                         NUMBER(2)
-//  REV_LEFT_TRAIL_CONT_TOTAL                          NUMBER(2)
-//  REV_LEFT_TRAIL_OBSERV_TOTAL                        NUMBER(2)
-//  REV_RIGHT_TRAIL_CONT_TOTAL                         NUMBER(2)
-//  REV_RIGHT_TRAIL_OBSERV_TOTAL                       NUMBER(2)
-//  REVERSE_PARK_CONT_TOTAL                            NUMBER(2)
-//  REVERSE_PARK_OBSERV_TOTAL                          NUMBER(2)
-//  TURN_IN_ROAD_CONT_TOTAL                            NUMBER(2)
-//  TURN_IN_ROAD_OBSERV_TOTAL                          NUMBER(2)
-//  VEHICLE_CHECKS_TOTAL                               NUMBER(2)
-//  TAXI_MAN_CONTROL_TOTAL                             NUMBER(2)
-//  TAXI_MAN_OBSERV_TOTAL                              NUMBER(2)
-//  TAXI_WHEELCHAIR_TOTAL                              NUMBER(2)
-//  UNCOUPLE_RECOUPLE_TOTAL                            NUMBER(2)
-//  PRECAUTIONS_TOTAL                                  NUMBER(2)
-//  CONTROL_ACC_TOTAL                                  NUMBER(2)
-//  CONTROL_CLUTCH_TOTAL                               NUMBER(2)
-//  CONTROL_GEARS_TOTAL                                NUMBER(2)
-//  CONTROL_FOOTBRAKE_TOTAL                            NUMBER(2)
-//  CONTROL_PARK_TOTAL                                 NUMBER(2)
-//  CONTROL_STEERING_TOTAL                             NUMBER(2)
-//  CONTROL_BALANCE_TOTAL                              NUMBER(2)
-//  CONTROL_LGV_PCV_GEAR_TOTAL                         NUMBER(2)
-//  CONTROL_PCV_DOOR_TOTAL                             NUMBER(2)
-//  MOVE_OFF_SAFETY_TOTAL                              NUMBER(2)
-//  MOVE_OFF_CONTROL_TOTAL                             NUMBER(2)
-//  MIRRORS_MC_REAR_SIG_TOTAL                          NUMBER(2)
-//  MIRRORS_MC_REAR_DIR_TOTAL                          NUMBER(2)
-//  MIRRORS_MC_REAR_SPE_TOTAL                          NUMBER(2)
-//  SIGNALS_NECESSARY_TOTAL                            NUMBER(2)
-//  SIGNALS_CORRECTLY_TOTAL                            NUMBER(2)
-//  SIGNALS_TIMED_TOTAL                                NUMBER(2)
-//  CLEARANCE_OBSTRUCT_TOTAL                           NUMBER(2)
-//  RESPONSE_TRAF_SIGNS_TOTAL                          NUMBER(2)
-//  RESPONSE_ROAD_MARK_TOTAL                           NUMBER(2)
-//  RESPONSE_TRAF_LIGHT_TOTAL                          NUMBER(2)
-//  RESPONSE_TRAF_CONT_TOTAL                           NUMBER(2)
-//  RESPONSE_OTHER_TOTAL                               NUMBER(2)
-//  USE_OF_SPEED_TOTAL                                 NUMBER(2)
-//  FOLLOWING_DISTANCE_TOTAL                           NUMBER(2)
-//  MAINTAIN_PROG_SPEED_TOTAL                          NUMBER(2)
-//  MAINTAIN_PROG_HES_TOTAL                            NUMBER(2)
-//  JUNCTIONS_SPEED_TOTAL                              NUMBER(2)
-//  JUNCTIONS_OBSERV_TOTAL                             NUMBER(2)
-//  JUNCTIONS_TURN_RIGHT_TOTAL                         NUMBER(2)
-//  JUNCTIONS_TURN_LEFT_TOTAL                          NUMBER(2)
-//  JUNCTIONS_TURN_CUT_TOTAL                           NUMBER(2)
-//  JUDGEMENT_OVER_TOTAL                               NUMBER(2)
-//  JUDGEMENT_MEET_TOTAL                               NUMBER(2)
-//  JUDGEMENT_CROSS_TOTAL                              NUMBER(2)
-//  POSITIONING_NORMAL_TOTAL                           NUMBER(2)
-//  POSITIONING_LANE_TOTAL                             NUMBER(2)
-//  PEDESTRIAN_CROSSING_TOTAL                          NUMBER(2)
-//  POSTITION_STOPS_TOTAL                              NUMBER(2)
-//  AWARENESS_PLAN_TOTAL                               NUMBER(2)
-//  ANCILLARY_CONTROLS_TOTAL                           NUMBER(2)
-//  SPARE1_TOTAL                                       NUMBER(2)
-//  SPARE2_TOTAL                                       NUMBER(2)
-//  SPARE3_TOTAL                                       NUMBER(2)
-//  SPARE4_TOTAL                                       NUMBER(2)
-//  SPARE5_TOTAL                                       NUMBER(2)
-//  H_CODE_SAFETY_SERIOUS                              NUMBER(1)
-//  CONTROL_STOP_PROMPT_SERIOUS                        NUMBER(1)
-//  CONTROL_STOP_CONTROL_SERIOUS                       NUMBER(1)
-//  REV_LEFT_TRAIL_CONT_SERIOUS                        NUMBER(1)
-//  REV_LEFT_TRAIL_OBSERV_SERIOUS                      NUMBER(1)
-//  REV_RIGHT_TRAIL_CONT_SERIOUS                       NUMBER(1)
-//  REV_RIGHT_TRAIL_OBSERV_SERIOUS                     NUMBER(1)
-//  REVERSE_PARK_CONT_SERIOUS                          NUMBER(1)
-//  REVERSE_PARK_OBSERV_SERIOUS                        NUMBER(1)
-//  TURN_IN_ROAD_CONT_SERIOUS                          NUMBER(1)
-//  TURN_IN_ROAD_OBSERV_SERIOUS                        NUMBER(1)
-//  VEHICLE_CHECKS_SERIOUS                             NUMBER(1)
-//  TAXI_MAN_CONTROL_SERIOUS                           NUMBER(1)
-//  TAXI_MAN_OBSERV_SERIOUS                            NUMBER(1)
-//  TAXI_WHEELCHAIR_SERIOUS                            NUMBER(1)
-//  UNCOUPLE_RECOUPLE_SERIOUS                          NUMBER(1)
-//  PRECAUTIONS_SERIOUS                                NUMBER(1)
-//  CONTROL_ACC_SERIOUS                                NUMBER(1)
-//  CONTROL_CLUTCH_SERIOUS                             NUMBER(1)
-//  CONTROL_GEARS_SERIOUS                              NUMBER(1)
-//  CONTROL_FOOTBRAKE_SERIOUS                          NUMBER(1)
-//  CONTROL_PARK_SERIOUS                               NUMBER(1)
-//  CONTROL_STEERING_SERIOUS                           NUMBER(1)
-//  CONTROL_BALANCE_SERIOUS                            NUMBER(1)
-//  CONTROL_LGV_PCV_GEAR_SERIOUS                       NUMBER(1)
-//  CONTROL_PCV_DOOR_SERIOUS                           NUMBER(1)
-//  MOVE_OFF_SAFETY_SERIOUS                            NUMBER(1)
-//  MOVE_OFF_CONTROL_SERIOUS                           NUMBER(1)
-//  MIRRORS_MC_REAR_SIG_SERIOUS                        NUMBER(1)
-//  MIRRORS_MC_REAR_DIR_SERIOUS                        NUMBER(1)
-//  MIRRORS_MC_REAR_SPE_SERIOUS                        NUMBER(1)
-//  SIGNALS_NECESSARY_SERIOUS                          NUMBER(1)
-//  SIGNALS_CORRECTLY_SERIOUS                          NUMBER(1)
-//  SIGNALS_TIMED_SERIOUS                              NUMBER(1)
-//  CLEARANCE_OBSTRUCT_SERIOUS                         NUMBER(1)
-//  RESPONSE_TRAF_SIGNS_SERIOUS                        NUMBER(1)
-//  RESPONSE_ROAD_MARK_SERIOUS                         NUMBER(1)
-//  RESPONSE_TRAF_LIGHT_SERIOUS                        NUMBER(1)
-//  RESPONSE_TRAF_CONT_SERIOUS                         NUMBER(1)
-//  RESPONSE_OTHER_SERIOUS                             NUMBER(1)
-//  USE_OF_SPEED_SERIOUS                               NUMBER(1)
-//  FOLLOWING_DISTANCE_SERIOUS                         NUMBER(1)
-//  MAINTAIN_PROG_SPEED_SERIOUS                        NUMBER(1)
-//  MAINTAIN_PROG_HES_SERIOUS                          NUMBER(1)
-//  JUNCTIONS_SPEED_SERIOUS                            NUMBER(1)
-//  JUNCTIONS_OBSERV_SERIOUS                           NUMBER(1)
-//  JUNCTIONS_TURN_RIGHT_SERIOUS                       NUMBER(1)
-//  JUNCTIONS_TURN_LEFT_SERIOUS                        NUMBER(1)
-//  JUNCTIONS_TURN_CUT_SERIOUS                         NUMBER(1)
-//  JUDGEMENT_OVER_SERIOUS                             NUMBER(1)
-//  JUDGEMENT_MEET_SERIOUS                             NUMBER(1)
-//  JUDGEMENT_CROSS_SERIOUS                            NUMBER(1)
-//  POSITIONING_NORMAL_SERIOUS                         NUMBER(1)
-//  POSITIONING_LANE_SERIOUS                           NUMBER(1)
-//  PEDESTRIAN_CROSSING_SERIOUS                        NUMBER(1)
-//  POSTITION_STOPS_SERIOUS                            NUMBER(1)
-//  AWARENESS_PLAN_SERIOUS                             NUMBER(1)
-//  ANCILLARY_CONTROLS_SERIOUS                         NUMBER(1)
-//  SPARE1_SERIOUS                                     NUMBER(1)
-//  SPARE2_SERIOUS                                     NUMBER(1)
-//  SPARE3_SERIOUS                                     NUMBER(1)
-//  SPARE4_SERIOUS                                     NUMBER(1)
-//  SPARE5_SERIOUS                                     NUMBER(1)
-//  H_CODE_SAFETY_DANGEROUS                            NUMBER(1)
-//  CONTROL_STOP_PROMPT_DANGEROUS                      NUMBER(1)
-//  CONTROL_STOP_CONTROL_DANGEROUS                     NUMBER(1)
-//  REV_LEFT_TRAIL_CONT_DANGEROUS                      NUMBER(1)
-//  REV_LEFT_TRAIL_OBSER_DANGEROUS                     NUMBER(1)
-//  REV_RIGHT_TRAIL_CONT_DANGER                        NUMBER(1)
-//  REV_RIGHT_TRAIL_OBSERV_DANGER                      NUMBER(1)
-//  REVERSE_PARK_CONTROL_DANGEROUS                     NUMBER(1)
-//  REVERSE_PARK_OBSERV_DANGEROUS                      NUMBER(1)
-//  TURN_IN_ROAD_CONT_DANGEROUS                        NUMBER(1)
-//  TURN_IN_ROAD_OBSERV_DANGEROUS                      NUMBER(1)
-//  VEHICLE_CHECKS_DANGEROUS                           NUMBER(1)
-//  TAXI_MAN_CONTROL_DANGEROUS                         NUMBER(1)
-//  TAXI_MAN_OBSERV_DANGEROUS                          NUMBER(1)
-//  TAXI_WHEELCHAIR_DANGEROUS                          NUMBER(1)
-//  UNCOUPLE_RECOUPLE_DANGEROUS                        NUMBER(1)
-//  PRECAUTIONS_DANGEROUS                              NUMBER(1)
-//  CONTROL_ACC_DANGEROUS                              NUMBER(1)
-//  CONTROL_CLUTCH_DANGEROUS                           NUMBER(1)
-//  CONTROL_GEARS_DANGEROUS                            NUMBER(1)
-//  CONTROL_FOOTBRAKE_DANGEROUS                        NUMBER(1)
-//  CONTROL_PARK_DANGEROUS                             NUMBER(1)
-//  CONTROL_STEERING_DANGEROUS                         NUMBER(1)
-//  CONTROL_BALANCE_DANGEROUS                          NUMBER(1)
-//  CONTROL_LGV_PCV_GEAR_DANGEROUS                     NUMBER(1)
-//  CONTROL_PCV_DOOR_DANGEROUS                         NUMBER(1)
-//  MOVE_OFF_SAFETY_DANGEROUS                          NUMBER(1)
-//  MOVE_OFF_CONTROL_DANGEROUS                         NUMBER(1)
-//  MIRRORS_MC_REAR_SIG_DANGEROUS                      NUMBER(1)
-//  MIRRORS_MC_REAR_DIR_DANGEROUS                      NUMBER(1)
-//  MIRRORS_MC_REAR_SPE_DANGEROUS                      NUMBER(1)
-//  SIGNALS_NECESSARY_DANGEROUS                        NUMBER(1)
-//  SIGNALS_CORRECTLY_DANGEROUS                        NUMBER(1)
-//  SIGNALS_TIMED_DANGEROUS                            NUMBER(1)
-//  CLEARANCE_OBSTRUCT_DANGEROUS                       NUMBER(1)
-//  RESPONSE_TRAF_SIGNS_DANGEROUS                      NUMBER(1)
-//  RESPONSE_ROAD_MARK_DANGEROUS                       NUMBER(1)
-//  RESPONSE_TRAF_LIGHT_DANGEROUS                      NUMBER(1)
-//  RESPONSE_TRAF_CONT_DANGEROUS                       NUMBER(1)
-//  RESPONSE_OTHER_DANGEROUS                           NUMBER(1)
-//  USE_OF_SPEED_DANGEROUS                             NUMBER(1)
-//  FOLLOWING_DISTANCE_DANGEROUS                       NUMBER(1)
-//  MAINTAIN_PROG_SPEED_DANGEROUS                      NUMBER(1)
-//  MAINTAIN_PROG_HES_DANGEROUS                        NUMBER(1)
-//  JUNCTIONS_SPEED_DANGEROUS                          NUMBER(1)
-//  JUNCTIONS_OBSERV_DANGEROUS                         NUMBER(1)
-//  JUNCTIONS_TURN_RIGHT_DANGEROUS                     NUMBER(1)
-//  JUNCTIONS_TURN_LEFT_DANGEROUS                      NUMBER(1)
-//  JUNCTIONS_TURN_CUT_DANGEROUS                       NUMBER(1)
-//  JUDGEMENT_OVER_DANGEROUS                           NUMBER(1)
-//  JUDGEMENT_MEET_DANGEROUS                           NUMBER(1)
-//  JUDGEMENT_CROSS_DANGEROUS                          NUMBER(1)
-//  POSITIONING_NORMAL_DANGEROUS                       NUMBER(1)
-//  POSITIONING_LANE_DANGEROUS                         NUMBER(1)
-//  PEDESTRIAN_CROSSING_DANGEROUS                      NUMBER(1)
-//  POSTITION_STOPS_DANGEROUS                          NUMBER(1)
-//  AWARENESS_PLAN_DANGEROUS                           NUMBER(1)
-//  ANCILLARY_CONTROLS_DANGEROUS                       NUMBER(1)
-//  SPARE1_DANGEROUS                                   NUMBER(1)
-//  SPARE2_DANGEROUS                                   NUMBER(1)
-//  SPARE3_DANGEROUS                                   NUMBER(1)
-//  SPARE4_DANGEROUS                                   NUMBER(1)
-//  SPARE5_DANGEROUS                                   NUMBER(1)
-//  CONTROL_STOP_COMPLETED                             NUMBER(1)
-//  REV_LEFT_TRAIL_COMPLETED                           NUMBER(1)
-//  REV_RIGHT_TRAIL_COMPLETED                          NUMBER(1)
-//  REVERSE_PARK_COMPLETED                             NUMBER(1)
-//  TURN_IN_ROAD_COMPLETED                             NUMBER(1)
-//  VEHICLE_CHECKS_COMPLETED                           NUMBER(1)
-//  TAXI_MANOEUVRE_COMPLETED                           NUMBER(1)
-//  TAXI_WHEELCHAIR_COMPLETED                          NUMBER(1)
-//  UNCOUPLE_RECOUPLE_COMPLETED                        NUMBER(1)
-//  CATEGORY_5_REVERSE_ROAD                            NUMBER(1)
-//  CATEGORY_5_REVERSE_CAR_PARK                        NUMBER(1)
+  const mappedFields: DataField[] = [
+    field('EYESIGHT_SERIOUS', formatEyesightResult(result)),
+    //  H_CODE_SAFETY_TOTAL                                NUMBER(2)
 
+    field('CONTROL_STOP_PROMPT_TOTAL', formatManoeuvreFault(testData, 'controlledStop.fault')),
+    //  ?? CONTROL_STOP_CONTROL_TOTAL                         NUMBER(2)
+
+    //  REV_LEFT_TRAIL_CONT_TOTAL                          NUMBER(2)
+    //  REV_LEFT_TRAIL_OBSERV_TOTAL                        NUMBER(2)
+    field('REV_RIGHT_TRAIL_CONT_TOTAL', formatManoeuvreFault(testData, 'manoeuvres.reverseRight.controlFault')),
+    field('REV_RIGHT_TRAIL_OBSERV_TOTAL', formatManoeuvreFault(testData, 'manoeuvres.reverseRight.observationFault')),
+
+    // ?? question with Gez, as MES records reverse park road and reverse park car park, but RSIS only has 1?
+    //  REVERSE_PARK_CONT_TOTAL                            NUMBER(2)
+    //  REVERSE_PARK_OBSERV_TOTAL                          NUMBER(2)
+
+    //  TURN_IN_ROAD_CONT_TOTAL                            NUMBER(2)
+    //  TURN_IN_ROAD_OBSERV_TOTAL                          NUMBER(2)
+    field('VEHICLE_CHECKS_TOTAL', formatQuestionFault(testData)),
+
+    // ?? question with Gez, are these field re-used for Cat B forward park?
+    field('TAXI_MAN_CONTROL_TOTAL', formatManoeuvreFault(testData, 'manoeuvres.forwardPark.controlFault')),
+    field('TAXI_MAN_OBSERV_TOTAL', formatManoeuvreFault(testData, 'manoeuvres.forwardPark.observationFault')),
+
+    //  TAXI_WHEELCHAIR_TOTAL                              NUMBER(2)
+    //  UNCOUPLE_RECOUPLE_TOTAL                            NUMBER(2)
+    field('PRECAUTIONS_TOTAL', optional(testData, 'drivingFaults.precautions', 0)),
+    field('CONTROL_ACC_TOTAL', optional(testData, 'drivingFaults.controlsAccelerator', 0)),
+    field('CONTROL_CLUTCH_TOTAL', optional(testData, 'drivingFaults.controlsClutch', 0)),
+    field('CONTROL_GEARS_TOTAL', optional(testData, 'drivingFaults.controlsGears', 0)),
+    field('CONTROL_FOOTBRAKE_TOTAL', optional(testData, 'drivingFaults.controlsFootbrake', 0)),
+    field('CONTROL_PARK_TOTAL', optional(testData, 'drivingFaults.controlsParkingBrake', 0)),
+    field('CONTROL_STEERING_TOTAL', optional(testData, 'drivingFaults.controlsSteering', 0)),
+    //  CONTROL_BALANCE_TOTAL                              NUMBER(2)
+    //  CONTROL_LGV_PCV_GEAR_TOTAL                         NUMBER(2)
+    //  CONTROL_PCV_DOOR_TOTAL                             NUMBER(2)
+    field('MOVE_OFF_SAFETY_TOTAL', optional(testData, 'drivingFaults.moveOffSafety', 0)),
+    field('MOVE_OFF_CONTROL_TOTAL', optional(testData, 'drivingFaults.moveOffControl', 0)),
+    field('MIRRORS_MC_REAR_SIG_TOTAL', optional(testData, 'drivingFaults.useOfMirrorsSignalling', 0)),
+    field('MIRRORS_MC_REAR_DIR_TOTAL', optional(testData, 'drivingFaults.useOfMirrorsChangeDirection', 0)),
+    field('MIRRORS_MC_REAR_SPE_TOTAL', optional(testData, 'drivingFaults.useOfMirrorsChangeSpeed', 0)),
+    field('SIGNALS_NECESSARY_TOTAL', optional(testData, 'drivingFaults.signalsNecessary', 0)),
+    field('SIGNALS_CORRECTLY_TOTAL', optional(testData, 'drivingFaults.signalsCorrectly', 0)),
+    field('SIGNALS_TIMED_TOTAL', optional(testData, 'drivingFaults.signalsTimed', 0)),
+    field('CLEARANCE_OBSTRUCT_TOTAL', optional(testData, 'drivingFaults.clearance', 0)),
+    field('RESPONSE_TRAF_SIGNS_TOTAL', optional(testData, 'drivingFaults.responseToSignsTrafficSigns', 0)),
+    field('RESPONSE_ROAD_MARK_TOTAL', optional(testData, 'drivingFaults.responseToSignsRoadMarkings', 0)),
+    field('RESPONSE_TRAF_LIGHT_TOTAL', optional(testData, 'drivingFaults.responseToSignsTrafficLights', 0)),
+    field('RESPONSE_TRAF_CONT_TOTAL', optional(testData, 'drivingFaults.responseToSignsTrafficControllers', 0)),
+    field('RESPONSE_OTHER_TOTAL', optional(testData, 'drivingFaults.responseToSignsOtherRoadUsers', 0)),
+    field('USE_OF_SPEED_TOTAL', optional(testData, 'drivingFaults.useOfSpeed', 0)),
+    field('FOLLOWING_DISTANCE_TOTAL', optional(testData, 'drivingFaults.followingDistance', 0)),
+    field('MAINTAIN_PROG_SPEED_TOTAL', optional(testData, 'drivingFaults.progressAppropriateSpeed', 0)),
+    field('MAINTAIN_PROG_HES_TOTAL', optional(testData, 'drivingFaults.progressUndueHesitation', 0)),
+    field('JUNCTIONS_SPEED_TOTAL', optional(testData, 'drivingFaults.junctionsApproachSpeed', 0)),
+    field('JUNCTIONS_OBSERV_TOTAL', optional(testData, 'drivingFaults.junctionsObservation', 0)),
+    field('JUNCTIONS_TURN_RIGHT_TOTAL', optional(testData, 'drivingFaults.junctionsTurningRight', 0)),
+    field('JUNCTIONS_TURN_LEFT_TOTAL', optional(testData, 'drivingFaults.junctionsTurningLeft', 0)),
+    field('JUNCTIONS_TURN_CUT_TOTAL', optional(testData, 'drivingFaults.junctionsCuttingCorners', 0)),
+    field('JUDGEMENT_OVER_TOTAL', optional(testData, 'drivingFaults.judgementOvertaking', 0)),
+    field('JUDGEMENT_MEET_TOTAL', optional(testData, 'drivingFaults.judgementMeeting', 0)),
+    field('JUDGEMENT_CROSS_TOTAL', optional(testData, 'drivingFaults.judgementCrossing', 0)),
+    field('POSITIONING_NORMAL_TOTAL', optional(testData, 'drivingFaults.positioningNormalDriving', 0)),
+    field('POSITIONING_LANE_TOTAL', optional(testData, 'drivingFaults.positioningLaneDiscipline', 0)),
+    field('PEDESTRIAN_CROSSING_TOTAL', optional(testData, 'drivingFaults.pedestrianCrossings', 0)),
+    field('POSTITION_STOPS_TOTAL', optional(testData, 'drivingFaults.positionNormalStops', 0)),
+    field('AWARENESS_PLAN_TOTAL', optional(testData, 'drivingFaults.awarenessPlanning', 0)),
+    field('ANCILLARY_CONTROLS_TOTAL', optional(testData, 'drivingFaults.ancillaryControls', 0)),
+    //  SPARE1_TOTAL                                       NUMBER(2)
+    //  SPARE2_TOTAL                                       NUMBER(2)
+    //  SPARE3_TOTAL                                       NUMBER(2)
+    //  SPARE4_TOTAL                                       NUMBER(2)
+    //  SPARE5_TOTAL                                       NUMBER(2)
+    //  H_CODE_SAFETY_SERIOUS                              NUMBER(1)
+
+    field('CONTROL_STOP_PROMPT_SERIOUS', formatManoeuvreSerious(testData, 'controlledStop.fault')),
+    //  ?? CONTROL_STOP_CONTROL_SERIOUS                       NUMBER(1)
+
+    //  REV_LEFT_TRAIL_CONT_SERIOUS                        NUMBER(1)
+    //  REV_LEFT_TRAIL_OBSERV_SERIOUS                      NUMBER(1)
+    field('REV_RIGHT_TRAIL_CONT_SERIOUS', formatManoeuvreSerious(testData, 'manoeuvres.reverseRight.controlFault')),
+    field('REV_RIGHT_TRAIL_OBSERV_SERIOUS',
+          formatManoeuvreSerious(testData, 'manoeuvres.reverseRight.observationFault')),
+
+    // ?? question with Gez, as MES records reverse park road and reverse park car park, but RSIS only has 1?
+    //  REVERSE_PARK_CONT_SERIOUS                          NUMBER(1)
+    //  REVERSE_PARK_OBSERV_SERIOUS                        NUMBER(1)
+
+    //  TURN_IN_ROAD_CONT_SERIOUS                          NUMBER(1)
+    //  TURN_IN_ROAD_OBSERV_SERIOUS                        NUMBER(1)
+    field('VEHICLE_CHECKS_SERIOUS', formatQuestionSerious(testData)),
+
+    // ?? question with Gez, are these field re-used for Cat B forward park?
+    field('TAXI_MAN_CONTROL_SERIOUS', formatManoeuvreSerious(testData, 'manoeuvres.forwardPark.controlFault')),
+    field('TAXI_MAN_OBSERV_SERIOUS', formatManoeuvreSerious(testData, 'manoeuvres.forwardPark.observationFault')),
+
+    //  TAXI_WHEELCHAIR_SERIOUS                            NUMBER(1)
+    //  UNCOUPLE_RECOUPLE_SERIOUS                          NUMBER(1)
+    field('PRECAUTIONS_SERIOUS', optionalBoolean(testData, 'seriousFaults.precautions')),
+    field('CONTROL_ACC_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsAccelerator')),
+    field('CONTROL_CLUTCH_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsClutch')),
+    field('CONTROL_GEARS_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsGears')),
+    field('CONTROL_FOOTBRAKE_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsFootbrake')),
+    field('CONTROL_PARK_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsParkingBrake')),
+    field('CONTROL_STEERING_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsSteering')),
+    //  CONTROL_BALANCE_SERIOUS                            NUMBER(1)
+    //  CONTROL_LGV_PCV_GEAR_SERIOUS                       NUMBER(1)
+    //  CONTROL_PCV_DOOR_SERIOUS                           NUMBER(1)
+    field('MOVE_OFF_SAFETY_SERIOUS', optionalBoolean(testData, 'seriousFaults.moveOffSafety')),
+    field('MOVE_OFF_CONTROL_SERIOUS', optionalBoolean(testData, 'seriousFaults.moveOffControl')),
+    field('MIRRORS_MC_REAR_SIG_SERIOUS', optionalBoolean(testData, 'seriousFaults.useOfMirrorsSignalling')),
+    field('MIRRORS_MC_REAR_DIR_SERIOUS', optionalBoolean(testData, 'seriousFaults.useOfMirrorsChangeDirection')),
+    field('MIRRORS_MC_REAR_SPE_SERIOUS', optionalBoolean(testData, 'seriousFaults.useOfMirrorsChangeSpeed')),
+    field('SIGNALS_NECESSARY_SERIOUS', optionalBoolean(testData, 'seriousFaults.signalsNecessary')),
+    field('SIGNALS_CORRECTLY_SERIOUS', optionalBoolean(testData, 'seriousFaults.signalsCorrectly')),
+    field('SIGNALS_TIMED_SERIOUS', optionalBoolean(testData, 'seriousFaults.signalsTimed')),
+    field('CLEARANCE_OBSTRUCT_SERIOUS', optionalBoolean(testData, 'seriousFaults.clearance')),
+    field('RESPONSE_TRAF_SIGNS_SERIOUS', optionalBoolean(testData, 'seriousFaults.responseToSignsTrafficSigns')),
+    field('RESPONSE_ROAD_MARK_SERIOUS', optionalBoolean(testData, 'seriousFaults.responseToSignsRoadMarkings')),
+    field('RESPONSE_TRAF_LIGHT_SERIOUS', optionalBoolean(testData, 'seriousFaults.responseToSignsTrafficLights')),
+    field('RESPONSE_TRAF_CONT_SERIOUS', optionalBoolean(testData, 'seriousFaults.responseToSignsTrafficControllers')),
+    field('RESPONSE_OTHER_SERIOUS', optionalBoolean(testData, 'seriousFaults.responseToSignsOtherRoadUsers')),
+    field('USE_OF_SPEED_SERIOUS', optionalBoolean(testData, 'seriousFaults.useOfSpeed')),
+    field('FOLLOWING_DISTANCE_SERIOUS', optionalBoolean(testData, 'seriousFaults.followingDistance')),
+    field('MAINTAIN_PROG_SPEED_SERIOUS', optionalBoolean(testData, 'seriousFaults.progressAppropriateSpeed')),
+    field('MAINTAIN_PROG_HES_SERIOUS', optionalBoolean(testData, 'seriousFaults.progressUndueHesitation')),
+    field('JUNCTIONS_SPEED_SERIOUS', optionalBoolean(testData, 'seriousFaults.junctionsApproachSpeed')),
+    field('JUNCTIONS_OBSERV_SERIOUS', optionalBoolean(testData, 'seriousFaults.junctionsObservation')),
+    field('JUNCTIONS_TURN_RIGHT_SERIOUS', optionalBoolean(testData, 'seriousFaults.junctionsTurningRight')),
+    field('JUNCTIONS_TURN_LEFT_SERIOUS', optionalBoolean(testData, 'seriousFaults.junctionsTurningLeft')),
+    field('JUNCTIONS_TURN_CUT_SERIOUS', optionalBoolean(testData, 'seriousFaults.junctionsCuttingCorners')),
+    field('JUDGEMENT_OVER_SERIOUS', optionalBoolean(testData, 'seriousFaults.judgementOvertaking')),
+    field('JUDGEMENT_MEET_SERIOUS', optionalBoolean(testData, 'seriousFaults.judgementMeeting')),
+    field('JUDGEMENT_CROSS_SERIOUS', optionalBoolean(testData, 'seriousFaults.judgementCrossing')),
+    field('POSITIONING_NORMAL_SERIOUS', optionalBoolean(testData, 'seriousFaults.positioningNormalDriving')),
+    field('POSITIONING_LANE_SERIOUS', optionalBoolean(testData, 'seriousFaults.positioningLaneDiscipline')),
+    field('PEDESTRIAN_CROSSING_SERIOUS', optionalBoolean(testData, 'seriousFaults.pedestrianCrossings')),
+    field('POSTITION_STOPS_SERIOUS', optionalBoolean(testData, 'seriousFaults.positionNormalStops')),
+    field('AWARENESS_PLAN_SERIOUS', optionalBoolean(testData, 'seriousFaults.awarenessPlanning')),
+    field('ANCILLARY_CONTROLS_SERIOUS', optionalBoolean(testData, 'seriousFaults.ancillaryControls')),
+    //  SPARE1_SERIOUS                                     NUMBER(1)
+    //  SPARE2_SERIOUS                                     NUMBER(1)
+    //  SPARE3_SERIOUS                                     NUMBER(1)
+    //  SPARE4_SERIOUS                                     NUMBER(1)
+    //  SPARE5_SERIOUS                                     NUMBER(1)
+    //  H_CODE_SAFETY_DANGEROUS                            NUMBER(1)
+
+    field('CONTROL_STOP_PROMPT_DANGEROUS', formatManoeuvreDangerous(testData, 'controlledStop.fault')),
+    //  ?? CONTROL_STOP_CONTROL_DANGEROUS                       NUMBER(1)
+
+    //  REV_LEFT_TRAIL_CONT_DANGEROUS                      NUMBER(1)
+    //  REV_LEFT_TRAIL_OBSER_DANGEROUS                     NUMBER(1)
+    field('REV_RIGHT_TRAIL_CONT_DANGER', formatManoeuvreDangerous(testData, 'manoeuvres.reverseRight.controlFault')),
+    field('REV_RIGHT_TRAIL_OBSERV_DANGER',
+          formatManoeuvreDangerous(testData, 'manoeuvres.reverseRight.observationFault')),
+
+    // ?? question with Gez, as MES records reverse park road and reverse park car park, but RSIS only has 1?
+    //  REVERSE_PARK_CONT_SERIOUS                          NUMBER(1)
+    //  REVERSE_PARK_OBSERV_SERIOUS                        NUMBER(1)
+
+    //  TURN_IN_ROAD_CONT_DANGEROUS                        NUMBER(1)
+    //  TURN_IN_ROAD_OBSERV_DANGEROUS                      NUMBER(1)
+    field('VEHICLE_CHECKS_DANGEROUS', formatQuestionDangerous(testData)),
+
+    // ?? question with Gez, are these field re-used for Cat B forward park?
+    field('TAXI_MAN_CONTROL_DANGEROUS', formatManoeuvreDangerous(testData, 'manoeuvres.forwardPark.controlFault')),
+    field('TAXI_MAN_OBSERV_DANGEROUS', formatManoeuvreDangerous(testData, 'manoeuvres.forwardPark.observationFault')),
+
+    //  TAXI_WHEELCHAIR_DANGEROUS                          NUMBER(1)
+    //  UNCOUPLE_RECOUPLE_DANGEROUS                        NUMBER(1)
+    field('PRECAUTIONS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.precautions')),
+    field('CONTROL_ACC_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsAccelerator')),
+    field('CONTROL_CLUTCH_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsClutch')),
+    field('CONTROL_GEARS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsGears')),
+    field('CONTROL_FOOTBRAKE_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsFootbrake')),
+    field('CONTROL_PARK_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsParkingBrake')),
+    field('CONTROL_STEERING_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsSteering')),
+    //  CONTROL_BALANCE_DANGEROUS                          NUMBER(1)
+    //  CONTROL_LGV_PCV_GEAR_DANGEROUS                     NUMBER(1)
+    //  CONTROL_PCV_DOOR_DANGEROUS                         NUMBER(1)
+    field('MOVE_OFF_SAFETY_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.moveOffSafety')),
+    field('MOVE_OFF_CONTROL_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.moveOffControl')),
+    field('MIRRORS_MC_REAR_SIG_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.useOfMirrorsSignalling')),
+    field('MIRRORS_MC_REAR_DIR_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.useOfMirrorsChangeDirection')),
+    field('MIRRORS_MC_REAR_SPE_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.useOfMirrorsChangeSpeed')),
+    field('SIGNALS_NECESSARY_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.signalsNecessary')),
+    field('SIGNALS_CORRECTLY_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.signalsCorrectly')),
+    field('SIGNALS_TIMED_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.signalsTimed')),
+    field('CLEARANCE_OBSTRUCT_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.clearance')),
+    field('RESPONSE_TRAF_SIGNS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.responseToSignsTrafficSigns')),
+    field('RESPONSE_ROAD_MARK_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.responseToSignsRoadMarkings')),
+    field('RESPONSE_TRAF_LIGHT_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.responseToSignsTrafficLights')),
+    field('RESPONSE_TRAF_CONT_DANGEROUS',
+          optionalBoolean(testData, 'dangerousFaults.responseToSignsTrafficControllers')),
+    field('RESPONSE_OTHER_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.responseToSignsOtherRoadUsers')),
+    field('USE_OF_SPEED_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.useOfSpeed')),
+    field('FOLLOWING_DISTANCE_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.followingDistance')),
+    field('MAINTAIN_PROG_SPEED_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.progressAppropriateSpeed')),
+    field('MAINTAIN_PROG_HES_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.progressUndueHesitation')),
+    field('JUNCTIONS_SPEED_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.junctionsApproachSpeed')),
+    field('JUNCTIONS_OBSERV_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.junctionsObservation')),
+    field('JUNCTIONS_TURN_RIGHT_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.junctionsTurningRight')),
+    field('JUNCTIONS_TURN_LEFT_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.junctionsTurningLeft')),
+    field('JUNCTIONS_TURN_CUT_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.junctionsCuttingCorners')),
+    field('JUDGEMENT_OVER_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.judgementOvertaking')),
+    field('JUDGEMENT_MEET_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.judgementMeeting')),
+    field('JUDGEMENT_CROSS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.judgementCrossing')),
+    field('POSITIONING_NORMAL_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.positioningNormalDriving')),
+    field('POSITIONING_LANE_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.positioningLaneDiscipline')),
+    field('PEDESTRIAN_CROSSING_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.pedestrianCrossings')),
+    field('POSTITION_STOPS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.positionNormalStops')),
+    field('AWARENESS_PLAN_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.awarenessPlanning')),
+    field('ANCILLARY_CONTROLS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.ancillaryControls')),
+    //  SPARE1_DANGEROUS                                   NUMBER(1)
+    //  SPARE2_DANGEROUS                                   NUMBER(1)
+    //  SPARE3_DANGEROUS                                   NUMBER(1)
+    //  SPARE4_DANGEROUS                                   NUMBER(1)
+    //  SPARE5_DANGEROUS                                   NUMBER(1)
+    field('CONTROL_STOP_COMPLETED', optionalBoolean(testData, 'controlledStop.selected')),
+    //  REV_LEFT_TRAIL_COMPLETED                           NUMBER(1)
+    field('REV_RIGHT_TRAIL_COMPLETED', optionalBoolean(testData, 'manoeuvres.reverseRight.selected')),
+
+    //  ?? REVERSE_PARK_COMPLETED                             NUMBER(1)
+
+    //  TURN_IN_ROAD_COMPLETED                             NUMBER(1)
+    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(testData)),
+    field('TAXI_MANOEUVRE_COMPLETED', optionalBoolean(testData, 'manoeuvres.forwardPark.selected')),
+
+    //  TAXI_WHEELCHAIR_COMPLETED                          NUMBER(1)
+    //  UNCOUPLE_RECOUPLE_COMPLETED                        NUMBER(1)
+
+    //  reverse park - CATEGORY_5_REVERSE_ROAD                            NUMBER(1)
+    //  reverse park - CATEGORY_5_REVERSE_CAR_PARK                        NUMBER(1)
+  ];
   return mappedFields;
 };

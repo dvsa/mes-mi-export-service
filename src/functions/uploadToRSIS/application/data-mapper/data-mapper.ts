@@ -4,6 +4,7 @@ import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
 import { error } from '../../../../common/application/utils/logger';
+import { ManoeuvreOutcome, EyesightTestResult, TestData, QuestionOutcome } from '@dvsa/mes-test-schema/categories/B';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -119,4 +120,120 @@ export const mandatory = (object: any, path: string): any => {
   }
 
   throw new MissingTestResultDataError(path);
+};
+
+/**
+ * Formats eyesight result as a number (boolean flag, "is serious fault").
+ *
+ * @param result The MES test result
+ * @returns The result (as a number)
+ */
+export const formatEyesightResult = (result: ResultUpload): BooleanAsNumber => {
+  const eyesightResult: EyesightTestResult = get(result, 'testResult.eyesightTestResult', 'P');
+  return (eyesightResult === 'P') ? 0 : 1;
+};
+
+/**
+ * Get the number of faults for the specified manoeuvre, if any.
+ *
+ * @param object The MES test result
+ * @param path The JSON object path to descend, for the manoeuvre outcome
+ * @returns The total number (can only be ``0`` or ``1``)
+ */
+export const formatManoeuvreFault = (object: any, path: string): BooleanAsNumber => {
+  const outcome: ManoeuvreOutcome | null = get(object, path, null);
+  if (outcome && outcome === 'DF') {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Get the number of faults for show me and tell me questions (max is ``1``).
+ *
+ * @param object The MES test result
+ * @returns The total number (can only be ``0`` or ``1``)
+ */
+export const formatQuestionFault = (testData: TestData | undefined): BooleanAsNumber => {
+  const tellMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P');
+  const showMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P');
+  if (tellMeFaults === 'DF' || showMeFaults === 'DF') {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Get whether there was a serious fault for the specified manoeuvre.
+ *
+ * @param object The MES test result
+ * @param path The JSON object path to descend, for the manoeuvre outcome
+ * @returns The boolean value (as a number)
+ */
+export const formatManoeuvreSerious = (object: any, path: string): BooleanAsNumber => {
+  const outcome: ManoeuvreOutcome | null = get(object, path, null);
+  if (outcome && outcome === 'S') {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Get whether there was a serious fault for show me or tell me question.
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionSerious = (testData: TestData | undefined): BooleanAsNumber => {
+  const tellMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P');
+  const showMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P');
+  if (tellMeFaults === 'S' || showMeFaults === 'S') {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Get whether there was a dangerous fault for the specified manoeuvre.
+ *
+ * @param object The MES test result
+ * @param path The JSON object path to descend, for the manoeuvre outcome
+ * @returns The boolean value (as a number)
+ */
+export const formatManoeuvreDangerous = (object: any, path: string): BooleanAsNumber => {
+  const outcome: ManoeuvreOutcome | null = get(object, path, null);
+  if (outcome && outcome === 'D') {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Get whether there was a dangerous fault for show me or tell me question.
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionDangerous = (testData: TestData | undefined): BooleanAsNumber => {
+  const tellMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P');
+  const showMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P');
+  if (tellMeFaults === 'D' || showMeFaults === 'D') {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Get whether the show me and tell me questions were completed.
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionCompleted = (testData: TestData | undefined): BooleanAsNumber => {
+  const tellMeCode = get(testData, 'vehicleChecks.tellMeQuestion.code', null);
+  const showMeCode = get(testData, 'vehicleChecks.showMeQuestion.code', null);
+  if (tellMeCode && showMeCode) {
+    return 1;
+  }
+  return 0;
 };

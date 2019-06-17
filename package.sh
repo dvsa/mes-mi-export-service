@@ -16,11 +16,11 @@ for func_name in ${functions}; do
   continue
   fi
   if [ -z ${LAMBDAS} ] || echo ${LAMBDAS} | grep ${func_name}; then
-    ora_client_repo="../oracle-instant-client"
+    ora_client_repo="oracle-instant-client"
     if [ ! -d ${ora_client_repo} ]; then
       echo
       echo "Error: ${ora_client_repo} not found."
-      echo "Please check out the oracle-instant-client GitLab repo alongside this repo."
+      echo "Please check out the oracle-instant-client GitLab repo in the root folder of this repo."
       echo
       exit 1
     fi

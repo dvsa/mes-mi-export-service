@@ -1,6 +1,13 @@
 import { cloneDeep } from 'lodash';
 import { MissingTestResultDataError } from '../data-mapper';
-import { ChannelIndicator, DataField, Gender, Language, ResultIndicator } from '../../../domain/mi-export-data';
+import {
+  ChannelIndicator,
+  DataField,
+  FormType,
+  Gender,
+  Language,
+  ResultIndicator,
+} from '../../../domain/mi-export-data';
 import { InterfaceType, ResultUpload } from '../../result-client';
 import { mapCommonData } from '../common-mapper';
 
@@ -78,6 +85,7 @@ describe('mapCommonData', () => {
   it('Should map a minially populated regular test result (pass, manual, english)', () => {
     const expected: DataField[] = [
       { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
+      { col: 'FORM_TYPE', val: FormType.MES },
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
       { col: 'SPECIAL_NEEDS', val: 0 },
       { col: 'APP_REF_NO', val: 2222113 },
@@ -115,7 +123,6 @@ describe('mapCommonData', () => {
       { col: 'EXAMINER_PERSON_ID', val: 1234 },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      // testCentreName: 'Dummy', // not needed?
       { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
       { col: 'WELSH_FORM_IND', val: Language.English },
       { col: 'ETHNICITY', val: 'A' }, // DUMMY
@@ -241,6 +248,7 @@ describe('mapCommonData', () => {
 
     const expected: DataField[] = [
       { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
+      { col: 'FORM_TYPE', val: FormType.MES },
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 1 },
       { col: 'SPECIAL_NEEDS', val: 1 },
       { col: 'APP_REF_NO', val: 2222113 },
@@ -278,7 +286,6 @@ describe('mapCommonData', () => {
       { col: 'EXAMINER_PERSON_ID', val: 1234 },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      // testCentreName: 'Dummy', // not needed?
       { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
       { col: 'WELSH_FORM_IND', val: Language.Welsh },
       { col: 'ETHNICITY', val: 'A' }, // DUMMY
@@ -394,6 +401,7 @@ describe('mapCommonData', () => {
 
     const expected: DataField[] = [
       { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
+      { col: 'FORM_TYPE', val: FormType.MES },
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
       { col: 'SPECIAL_NEEDS', val: 0 },
       { col: 'APP_REF_NO', val: 2222113 },
@@ -431,7 +439,6 @@ describe('mapCommonData', () => {
       { col: 'EXAMINER_PERSON_ID', val: 1234 },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      // testCentreName: 'Dummy', // not needed?
       { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
       { col: 'WELSH_FORM_IND', val: Language.English },
       { col: 'ETHNICITY', val: 'A' }, // DUMMY

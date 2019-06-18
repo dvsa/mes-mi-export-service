@@ -9,6 +9,7 @@ import {
   BooleanAsNumber,
   ResultIndicator,
   Language,
+  FormType,
 } from '../../domain/mi-export-data';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/B';
 
@@ -30,7 +31,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 
     //  REC_TYPE                                           NUMBER(1)
     //  REC_NO                                             NUMBER(6)
-    //  FORM_TYPE                                          NUMBER(1)
+    field('FORM_TYPE', FormType.MES),
     field('DRIVING_SCHOOL_CANDIDATE', optionalBoolean(result, 'testResult.vehicleDetails.schoolCar')),
     field('SPECIAL_NEEDS', optionalBoolean(result, 'testResult.testSummary.D255')),
     field('APP_REF_NO', formatAppRef(result.testResult.journalData.applicationReference)),

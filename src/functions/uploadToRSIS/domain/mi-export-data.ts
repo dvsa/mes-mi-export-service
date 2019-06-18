@@ -8,6 +8,14 @@ export enum ChannelIndicator {
   MES_REKEY = 2,
 }
 
+export enum FormType {
+  // Old Paper DL25 = 0,
+  // Current Paper DL25 = 1,
+  // Current Paper CPC4 = 2,
+  // Current Paper Dl25MC = 3,
+  MES = 4,
+}
+
 export enum ResultIndicator {
   Pass = 'P',
   Fail = 'F',

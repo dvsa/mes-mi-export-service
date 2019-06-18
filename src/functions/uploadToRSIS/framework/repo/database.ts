@@ -1,0 +1,46 @@
+import { Connection, getConnection } from 'oracledb';
+import { Config } from '../config/config';
+import { info, error } from '../../../../common/application/utils/logger';
+
+/**
+ * Create a new database connection.
+ * @param config The RSIS DB config to use
+ * @throws Various errors that must be caught and logged
+ */
+export const createConnection = async (config: Config): Promise<Connection> => {
+  // TODO: change config to full connection string...
+  const connectionString = config.rsisDatabaseHostname;
+  info(`Opening database connection to ${connectionString}`);
+
+  const connection = await getConnection({
+    user: config.rsisDatabaseUsername,
+    password: config.rsisDatabasePassword,
+    connectString: connectionString,
+  });
+
+  info(`Conenction successfully created`);
+  return connection;
+};
+
+/**
+ * Executes a SQL statement (e.g. an insert or update). Auto-Commit mode is set to true.
+ * @param connection   The Connection to use
+ * @param sqlUpdate    The SQL update to run
+ * @param expectedRows The number of rows that should be updated
+ * @param bindValues   The bind variables values
+ * @throws Various errors that must be caught and logged, including if expected rows proved to be different
+ */
+export const execute = async (connection: Connection, sqlQuery: string, expectedRows: number, bindValues?: any):
+    Promise<void> => {
+  info(`Executing statement: \n***\n${sqlQuery}\n***`);
+
+  const result = await connection.execute(sqlQuery, bindValues || {}, { autoCommit: true });
+
+  info(`${result.rowsAffected} rows updated`);
+
+  if (result.rowsAffected !== expectedRows) {
+    const err = `Expected ${expectedRows} rows to be updated, but got ${result.rowsAffected}`;
+    error(err);
+    throw new Error(err);
+  }
+};

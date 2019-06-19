@@ -26,13 +26,11 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
 
   const mappedFields: DataField[] = [
     field('EYESIGHT_SERIOUS', formatEyesightResult(result)),
-    //  H_CODE_SAFETY_TOTAL                                NUMBER(2)
-
+    //  unused - H_CODE_SAFETY_TOTAL
     field('CONTROL_STOP_PROMPT_TOTAL', formatManoeuvreFault(testData, 'controlledStop.fault')),
-    //  ?? CONTROL_STOP_CONTROL_TOTAL                         NUMBER(2)
-
-    //  REV_LEFT_TRAIL_CONT_TOTAL                          NUMBER(2)
-    //  REV_LEFT_TRAIL_OBSERV_TOTAL                        NUMBER(2)
+    //  unused - CONTROL_STOP_CONTROL_TOTAL
+    //  unused - REV_LEFT_TRAIL_CONT_TOTAL
+    //  unused - REV_LEFT_TRAIL_OBSERV_TOTAL
     field('REV_RIGHT_TRAIL_CONT_TOTAL', formatManoeuvreFault(testData, 'manoeuvres.reverseRight.controlFault')),
     field('REV_RIGHT_TRAIL_OBSERV_TOTAL', formatManoeuvreFault(testData, 'manoeuvres.reverseRight.observationFault')),
 
@@ -40,16 +38,13 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     //  REVERSE_PARK_CONT_TOTAL                            NUMBER(2)
     //  REVERSE_PARK_OBSERV_TOTAL                          NUMBER(2)
 
-    //  TURN_IN_ROAD_CONT_TOTAL                            NUMBER(2)
-    //  TURN_IN_ROAD_OBSERV_TOTAL                          NUMBER(2)
+    //  unused - TURN_IN_ROAD_CONT_TOTAL
+    //  unused - TURN_IN_ROAD_OBSERV_TOTAL
     field('VEHICLE_CHECKS_TOTAL', formatQuestionFault(testData)),
-
-    // ?? question with Gez, are these field re-used for Cat B forward park?
     field('TAXI_MAN_CONTROL_TOTAL', formatManoeuvreFault(testData, 'manoeuvres.forwardPark.controlFault')),
     field('TAXI_MAN_OBSERV_TOTAL', formatManoeuvreFault(testData, 'manoeuvres.forwardPark.observationFault')),
-
-    //  TAXI_WHEELCHAIR_TOTAL                              NUMBER(2)
-    //  UNCOUPLE_RECOUPLE_TOTAL                            NUMBER(2)
+    //  unused - TAXI_WHEELCHAIR_TOTAL
+    //  unused - UNCOUPLE_RECOUPLE_TOTAL
     field('PRECAUTIONS_TOTAL', optional(testData, 'drivingFaults.precautions', 0)),
     field('CONTROL_ACC_TOTAL', optional(testData, 'drivingFaults.controlsAccelerator', 0)),
     field('CONTROL_CLUTCH_TOTAL', optional(testData, 'drivingFaults.controlsClutch', 0)),
@@ -57,9 +52,9 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     field('CONTROL_FOOTBRAKE_TOTAL', optional(testData, 'drivingFaults.controlsFootbrake', 0)),
     field('CONTROL_PARK_TOTAL', optional(testData, 'drivingFaults.controlsParkingBrake', 0)),
     field('CONTROL_STEERING_TOTAL', optional(testData, 'drivingFaults.controlsSteering', 0)),
-    //  CONTROL_BALANCE_TOTAL                              NUMBER(2)
-    //  CONTROL_LGV_PCV_GEAR_TOTAL                         NUMBER(2)
-    //  CONTROL_PCV_DOOR_TOTAL                             NUMBER(2)
+    //  unused - CONTROL_BALANCE_TOTAL
+    //  unused - CONTROL_LGV_PCV_GEAR_TOTAL
+    //  unused - CONTROL_PCV_DOOR_TOTAL
     field('MOVE_OFF_SAFETY_TOTAL', optional(testData, 'drivingFaults.moveOffSafety', 0)),
     field('MOVE_OFF_CONTROL_TOTAL', optional(testData, 'drivingFaults.moveOffControl', 0)),
     field('MIRRORS_MC_REAR_SIG_TOTAL', optional(testData, 'drivingFaults.useOfMirrorsSignalling', 0)),
@@ -92,18 +87,16 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     field('POSTITION_STOPS_TOTAL', optional(testData, 'drivingFaults.positionNormalStops', 0)),
     field('AWARENESS_PLAN_TOTAL', optional(testData, 'drivingFaults.awarenessPlanning', 0)),
     field('ANCILLARY_CONTROLS_TOTAL', optional(testData, 'drivingFaults.ancillaryControls', 0)),
-    //  SPARE1_TOTAL                                       NUMBER(2)
-    //  SPARE2_TOTAL                                       NUMBER(2)
-    //  SPARE3_TOTAL                                       NUMBER(2)
-    //  SPARE4_TOTAL                                       NUMBER(2)
-    //  SPARE5_TOTAL                                       NUMBER(2)
-    //  H_CODE_SAFETY_SERIOUS                              NUMBER(1)
-
+    //  unused - SPARE1_TOTAL
+    //  unused - SPARE2_TOTAL
+    //  unused - SPARE3_TOTAL
+    //  unused - SPARE4_TOTAL
+    //  unused - SPARE5_TOTAL
+    //  unused - H_CODE_SAFETY_SERIOUS
     field('CONTROL_STOP_PROMPT_SERIOUS', formatManoeuvreSerious(testData, 'controlledStop.fault')),
-    //  ?? CONTROL_STOP_CONTROL_SERIOUS                       NUMBER(1)
-
-    //  REV_LEFT_TRAIL_CONT_SERIOUS                        NUMBER(1)
-    //  REV_LEFT_TRAIL_OBSERV_SERIOUS                      NUMBER(1)
+    //  unused - CONTROL_STOP_CONTROL_SERIOUS
+    //  unused - REV_LEFT_TRAIL_CONT_SERIOUS
+    //  unused - REV_LEFT_TRAIL_OBSERV_SERIOUS
     field('REV_RIGHT_TRAIL_CONT_SERIOUS', formatManoeuvreSerious(testData, 'manoeuvres.reverseRight.controlFault')),
     field('REV_RIGHT_TRAIL_OBSERV_SERIOUS',
           formatManoeuvreSerious(testData, 'manoeuvres.reverseRight.observationFault')),
@@ -112,16 +105,13 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     //  REVERSE_PARK_CONT_SERIOUS                          NUMBER(1)
     //  REVERSE_PARK_OBSERV_SERIOUS                        NUMBER(1)
 
-    //  TURN_IN_ROAD_CONT_SERIOUS                          NUMBER(1)
-    //  TURN_IN_ROAD_OBSERV_SERIOUS                        NUMBER(1)
+    //  unused - TURN_IN_ROAD_CONT_SERIOUS
+    //  unused - TURN_IN_ROAD_OBSERV_SERIOUS
     field('VEHICLE_CHECKS_SERIOUS', formatQuestionSerious(testData)),
-
-    // ?? question with Gez, are these field re-used for Cat B forward park?
     field('TAXI_MAN_CONTROL_SERIOUS', formatManoeuvreSerious(testData, 'manoeuvres.forwardPark.controlFault')),
     field('TAXI_MAN_OBSERV_SERIOUS', formatManoeuvreSerious(testData, 'manoeuvres.forwardPark.observationFault')),
-
-    //  TAXI_WHEELCHAIR_SERIOUS                            NUMBER(1)
-    //  UNCOUPLE_RECOUPLE_SERIOUS                          NUMBER(1)
+    //  unused - TAXI_WHEELCHAIR_SERIOUS
+    //  unused - UNCOUPLE_RECOUPLE_SERIOUS
     field('PRECAUTIONS_SERIOUS', optionalBoolean(testData, 'seriousFaults.precautions')),
     field('CONTROL_ACC_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsAccelerator')),
     field('CONTROL_CLUTCH_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsClutch')),
@@ -129,9 +119,9 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     field('CONTROL_FOOTBRAKE_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsFootbrake')),
     field('CONTROL_PARK_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsParkingBrake')),
     field('CONTROL_STEERING_SERIOUS', optionalBoolean(testData, 'seriousFaults.controlsSteering')),
-    //  CONTROL_BALANCE_SERIOUS                            NUMBER(1)
-    //  CONTROL_LGV_PCV_GEAR_SERIOUS                       NUMBER(1)
-    //  CONTROL_PCV_DOOR_SERIOUS                           NUMBER(1)
+    //  unused - CONTROL_BALANCE_SERIOUS
+    //  unused - CONTROL_LGV_PCV_GEAR_SERIOUS
+    //  unused - CONTROL_PCV_DOOR_SERIOUS
     field('MOVE_OFF_SAFETY_SERIOUS', optionalBoolean(testData, 'seriousFaults.moveOffSafety')),
     field('MOVE_OFF_CONTROL_SERIOUS', optionalBoolean(testData, 'seriousFaults.moveOffControl')),
     field('MIRRORS_MC_REAR_SIG_SERIOUS', optionalBoolean(testData, 'seriousFaults.useOfMirrorsSignalling')),
@@ -164,18 +154,16 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     field('POSTITION_STOPS_SERIOUS', optionalBoolean(testData, 'seriousFaults.positionNormalStops')),
     field('AWARENESS_PLAN_SERIOUS', optionalBoolean(testData, 'seriousFaults.awarenessPlanning')),
     field('ANCILLARY_CONTROLS_SERIOUS', optionalBoolean(testData, 'seriousFaults.ancillaryControls')),
-    //  SPARE1_SERIOUS                                     NUMBER(1)
-    //  SPARE2_SERIOUS                                     NUMBER(1)
-    //  SPARE3_SERIOUS                                     NUMBER(1)
-    //  SPARE4_SERIOUS                                     NUMBER(1)
-    //  SPARE5_SERIOUS                                     NUMBER(1)
-    //  H_CODE_SAFETY_DANGEROUS                            NUMBER(1)
-
+    //  unused - SPARE1_SERIOUS
+    //  unused - SPARE2_SERIOUS
+    //  unused - SPARE3_SERIOUS
+    //  unused - SPARE4_SERIOUS
+    //  unused - SPARE5_SERIOUS
+    //  unused - H_CODE_SAFETY_DANGEROUS
     field('CONTROL_STOP_PROMPT_DANGEROUS', formatManoeuvreDangerous(testData, 'controlledStop.fault')),
-    //  ?? CONTROL_STOP_CONTROL_DANGEROUS                       NUMBER(1)
-
-    //  REV_LEFT_TRAIL_CONT_DANGEROUS                      NUMBER(1)
-    //  REV_LEFT_TRAIL_OBSER_DANGEROUS                     NUMBER(1)
+    //  unused - CONTROL_STOP_CONTROL_DANGEROUS
+    //  unused - REV_LEFT_TRAIL_CONT_DANGEROUS
+    //  unused - REV_LEFT_TRAIL_OBSER_DANGEROUS
     field('REV_RIGHT_TRAIL_CONT_DANGER', formatManoeuvreDangerous(testData, 'manoeuvres.reverseRight.controlFault')),
     field('REV_RIGHT_TRAIL_OBSERV_DANGER',
           formatManoeuvreDangerous(testData, 'manoeuvres.reverseRight.observationFault')),
@@ -184,16 +172,13 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     //  REVERSE_PARK_CONT_SERIOUS                          NUMBER(1)
     //  REVERSE_PARK_OBSERV_SERIOUS                        NUMBER(1)
 
-    //  TURN_IN_ROAD_CONT_DANGEROUS                        NUMBER(1)
-    //  TURN_IN_ROAD_OBSERV_DANGEROUS                      NUMBER(1)
+    //  unused - TURN_IN_ROAD_CONT_DANGEROUS
+    //  unused - TURN_IN_ROAD_OBSERV_DANGEROUS
     field('VEHICLE_CHECKS_DANGEROUS', formatQuestionDangerous(testData)),
-
-    // ?? question with Gez, are these field re-used for Cat B forward park?
     field('TAXI_MAN_CONTROL_DANGEROUS', formatManoeuvreDangerous(testData, 'manoeuvres.forwardPark.controlFault')),
     field('TAXI_MAN_OBSERV_DANGEROUS', formatManoeuvreDangerous(testData, 'manoeuvres.forwardPark.observationFault')),
-
-    //  TAXI_WHEELCHAIR_DANGEROUS                          NUMBER(1)
-    //  UNCOUPLE_RECOUPLE_DANGEROUS                        NUMBER(1)
+    //  unused - TAXI_WHEELCHAIR_DANGEROUS
+    //  unused - UNCOUPLE_RECOUPLE_DANGEROUS
     field('PRECAUTIONS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.precautions')),
     field('CONTROL_ACC_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsAccelerator')),
     field('CONTROL_CLUTCH_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsClutch')),
@@ -201,9 +186,9 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     field('CONTROL_FOOTBRAKE_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsFootbrake')),
     field('CONTROL_PARK_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsParkingBrake')),
     field('CONTROL_STEERING_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.controlsSteering')),
-    //  CONTROL_BALANCE_DANGEROUS                          NUMBER(1)
-    //  CONTROL_LGV_PCV_GEAR_DANGEROUS                     NUMBER(1)
-    //  CONTROL_PCV_DOOR_DANGEROUS                         NUMBER(1)
+    //  unused - CONTROL_BALANCE_DANGEROUS
+    //  unused - CONTROL_LGV_PCV_GEAR_DANGEROUS
+    //  unused - CONTROL_PCV_DOOR_DANGEROUS
     field('MOVE_OFF_SAFETY_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.moveOffSafety')),
     field('MOVE_OFF_CONTROL_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.moveOffControl')),
     field('MIRRORS_MC_REAR_SIG_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.useOfMirrorsSignalling')),
@@ -237,26 +222,59 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     field('POSTITION_STOPS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.positionNormalStops')),
     field('AWARENESS_PLAN_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.awarenessPlanning')),
     field('ANCILLARY_CONTROLS_DANGEROUS', optionalBoolean(testData, 'dangerousFaults.ancillaryControls')),
-    //  SPARE1_DANGEROUS                                   NUMBER(1)
-    //  SPARE2_DANGEROUS                                   NUMBER(1)
-    //  SPARE3_DANGEROUS                                   NUMBER(1)
-    //  SPARE4_DANGEROUS                                   NUMBER(1)
-    //  SPARE5_DANGEROUS                                   NUMBER(1)
+    //  unused - SPARE1_DANGEROUS
+    //  unused - SPARE2_DANGEROUS
+    //  unused - SPARE3_DANGEROUS
+    //  unused - SPARE4_DANGEROUS
+    //  unused - SPARE5_DANGEROUS
     field('CONTROL_STOP_COMPLETED', optionalBoolean(testData, 'controlledStop.selected')),
-    //  REV_LEFT_TRAIL_COMPLETED                           NUMBER(1)
+    //  unused - REV_LEFT_TRAIL_COMPLETED
     field('REV_RIGHT_TRAIL_COMPLETED', optionalBoolean(testData, 'manoeuvres.reverseRight.selected')),
 
     //  ?? REVERSE_PARK_COMPLETED                             NUMBER(1)
 
-    //  TURN_IN_ROAD_COMPLETED                             NUMBER(1)
+    //  unused - TURN_IN_ROAD_COMPLETED
     field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(testData)),
     field('TAXI_MANOEUVRE_COMPLETED', optionalBoolean(testData, 'manoeuvres.forwardPark.selected')),
-
-    //  TAXI_WHEELCHAIR_COMPLETED                          NUMBER(1)
-    //  UNCOUPLE_RECOUPLE_COMPLETED                        NUMBER(1)
+    //  unused - TAXI_WHEELCHAIR_COMPLETED
+    //  unused - UNCOUPLE_RECOUPLE_COMPLETED
 
     //  reverse park - CATEGORY_5_REVERSE_ROAD                            NUMBER(1)
     //  reverse park - CATEGORY_5_REVERSE_CAR_PARK                        NUMBER(1)
+
+    //  unused - MC_AVOIDANCE_DANGEROUS                             NUMBER(1)
+    //  unused - MC_AVOIDANCE_L                                     NUMBER(1)
+    //  unused - MC_AVOIDANCE_R                                     NUMBER(1)
+    //  unused - MC_AVOIDANCE_SERIOUS                               NUMBER(1)
+    //  unused - MC_AVOIDANCE_SPEED_FIRST                           NUMBER(2)
+    //  unused - MC_AVOIDANCE_SPEED_NOT_MET                         NUMBER(1)
+    //  unused - MC_AVOIDANCE_SPEED_SECOND                          NUMBER(2)
+    //  unused - MC_AVOIDANCE_TOTAL                                 NUMBER(2)
+    //  unused - MC_BENDS_DANGEROUS                                 NUMBER(1)
+    //  unused - MC_BENDS_SERIOUS                                   NUMBER(1)
+    //  unused - MC_BENDS_TOTAL                                     NUMBER(2)
+    //  unused - MC_DL196_CBT_CERT_NO                               NUMBER(8)
+    //  unused - MC_EMERGENCY_STOP_SPEED_FIRST                      NUMBER(2)
+    //  unused - MC_EMERGENCY_STOP_SPEED_SECOND                     NUMBER(2)
+    //  unused - MC_EMER_STOP_SPEED_NOT_MET                         NUMBER(1)
+    //  unused - MC_MANUAL_HANDLING_DANGEROUS                       NUMBER(1)
+    //  unused - MC_MANUAL_HANDLING_SERIOUS                         NUMBER(1)
+    //  unused - MC_MANUAL_HANDLING_TOTAL                           NUMBER(2)
+    //  unused - MC_SLALOM_DANGEROUS                                NUMBER(1)
+    //  unused - MC_SLALOM_SERIOUS                                  NUMBER(1)
+    //  unused - MC_SLALOM_TOTAL                                    NUMBER(2)
+    //  unused - MC_SLOW_CONTROL_DANGEROUS                          NUMBER(1)
+    //  unused - MC_SLOW_CONTROL_SERIOUS                            NUMBER(1)
+    //  unused - MC_SLOW_CONTROL_TOTAL                              NUMBER(2)
+    //  unused - MC_USE_OF_STAND_DANGEROUS                          NUMBER(1)
+    //  unused - MC_USE_OF_STAND_SERIOUS                            NUMBER(1)
+    //  unused - MC_USE_OF_STAND_TOTAL                              NUMBER(2)
+    //  unused - MC_UTURN_DANGEROUS                                 NUMBER(1)
+    //  unused - MC_UTURN_SERIOUS                                   NUMBER(1)
+    //  unused - MC_UTURN_TOTAL                                     NUMBER(2)
+    //  unused - SPARE6_DANGEROUS                                   NUMBER(1)
+    //  unused - SPARE6_SERIOUS                                     NUMBER(1)
+    //  unused - SPARE6_TOTAL                                       NUMBER(2)
   ];
   return mappedFields;
 };

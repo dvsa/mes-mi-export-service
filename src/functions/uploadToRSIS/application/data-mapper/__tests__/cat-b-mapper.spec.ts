@@ -951,15 +951,4 @@ describe('mapCatBData', () => {
     // expect all dangerous, no faults or serious
     expect(mapCatBData(fullyPopulated)).toEqual(expected);
   });
-
-  // is anything mandatory?
-  /*it('Should reject a test result with missing mandatory data (vehicle reg)', () => {
-    const missingMandatory = cloneDeep(minimalInput);
-    if (missingMandatory.testResult.vehicleDetails) {
-      delete missingMandatory.testResult.vehicleDetails.registrationNumber;
-    }
-
-    expect(() => mapCommonData(missingMandatory))
-      .toThrow(new MissingTestResultDataError('testResult.vehicleDetails.registrationNumber'));
-  });*/
 });

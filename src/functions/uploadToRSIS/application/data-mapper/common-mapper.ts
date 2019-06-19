@@ -29,13 +29,13 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // Note: when we add rekey functionality to MES, we should set this to MES_REKEY when relevant
     field('CHANNEL_INDICATOR', ChannelIndicator.MES),
 
-    //  REC_TYPE                                           NUMBER(1)
-    //  REC_NO                                             NUMBER(6)
+    //  unused - REC_TYPE
+    //  unused - REC_NO
     field('FORM_TYPE', FormType.MES),
     field('DRIVING_SCHOOL_CANDIDATE', optionalBoolean(result, 'testResult.vehicleDetails.schoolCar')),
     field('SPECIAL_NEEDS', optionalBoolean(result, 'testResult.testSummary.D255')),
     field('APP_REF_NO', formatAppRef(result.testResult.journalData.applicationReference)),
-    // DRIVER_NO_DOB                                      NUMBER(6)
+    // unused - DRIVER_NO_DOB
     field('DATE_OF_TEST', testDateTime.format('YY:MM:DD')),
     field('TIME', testDateTime.format('HH:mm')),
     field('DTC_AUTHORITY_CODE', result.testResult.journalData.testCentre.costCode),
@@ -49,7 +49,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('EXTENDED_TEST', optionalBoolean(result, 'testResult.journalData.testSlotAttributes.extendedTest')),
     field('TEST_TYPE', formatTestType(result)),
     // ADI_NUMBER is optional field set below
-    // ADI_REF_CODE                                       VARCHAR2(3)
+    // unused - ADI_REF_CODE
     field('ACCOMPANIED_BY_DSA', optionalBoolean(result, 'testResult.accompaniment.supervisor')),
     field('ACCOMPANIED_BY_ADI', optionalBoolean(result, 'testResult.accompaniment.ADI')),
     field('ACCOMPANIED_BY_INTERPRETER', 0), // missing - sign language interpreter
@@ -65,23 +65,27 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 
     // Note: use 87 for a failed test (as per current paper/scanning behaviour)
     // as detailed by Steve Holmes
-    // TODO: check this with Dave Giles, is route mandatory?
+    // TODO: awaiting Gez to confirm what we should set here
     field('ROUTE_NUMBER', optional(result, 'testResult.testSummary.routeNumber', 87)),
 
     field('EXAMINER_ACTION_VERBAL', optionalBoolean(result, 'testResult.testData.ETA.verbal')),
     field('EXAMINER_ACTION_PHYSICAL', optionalBoolean(result, 'testResult.testData.ETA.physical')),
     field('DUAL_CONTROL_IND', optionalBoolean(result, 'testResult.vehicleDetails.dualControls')),
-    //  SURVEY_A_IND                                       VARCHAR2(1)
-    //  SURVEY_B_IND                                       VARCHAR2(1)
-    //  SURVEY_C_IND                                       VARCHAR2(1)
-    //  SURVEY_D_IND                                       VARCHAR2(1)
-    //  SURVEY_E_IND                                       VARCHAR2(1)
-    //  SURVEY_F_IND                                       VARCHAR2(1)
-    //  SURVEY_G_IND                                       VARCHAR2(1)
-    //  SURVEY_H_IND                                       VARCHAR2(1)
-    field('DEBRIEF_GIVEN', 1), // debrief always given, if refused that is recorded in comments
+    //  unused - SURVEY_A_IND
+    //  unused - SURVEY_B_IND
+    //  unused - SURVEY_C_IND
+    //  unused - SURVEY_D_IND
+    //  unused - SURVEY_E_IND
+    //  unused - SURVEY_F_IND
+    //  unused - SURVEY_G_IND
+    //  unused - SURVEY_H_IND
+    // TODO: new field for "was debrief witnessed?"
+
+    // debrief is always given, unless candidate didn't turn up
+    field('DEBRIEF_GIVEN', result.testResult.category === '51' ? 0 : 1),
+
     field('ACTIVITY_CODE', Number(result.testResult.activityCode)),
-    // PASS_CERTIFICATE optional field set below
+    // PASS_CERTIFICATE is optional field set below
     field('LICENCE_RECEIVED', optionalBoolean(result, 'testResult.passCompletion.provisionalLicenceProvided')),
     field('DOB', new Date('1974-12-24')), // missing
     field('CANDIDATE_FORENAMES', mandatory(result, 'testResult.journalData.candidate.candidateName.firstName')),
@@ -91,80 +95,46 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('CANDIDATE_SURNAME', mandatory(result, 'testResult.journalData.candidate.candidateName.lastName')),
     field('CANDIDATE_TITLE', mandatory(result, 'testResult.journalData.candidate.candidateName.title')),
     field('DRIVER_NUMBER', mandatory(result, 'testResult.journalData.candidate.driverNumber')),
-    // EXAMINER_FORENAMES                                 VARCHAR2(50)
+    // unused - EXAMINER_FORENAMES
     field('EXAMINER_PERSON_ID', 1234), // missing
-    //  EXAMINER_POST_CODE                                 VARCHAR2(8)
-    //  EXAMINER_SURNAME                                   VARCHAR2(50)
-    //  EXAMINER_TITLE                                     VARCHAR2(20)
+    // unused - EXAMINER_POST_CODE
+    // unused - EXAMINER_SURNAME
+    // unused - EXAMINER_TITLE
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
     field('TEST_CATEGORY_REF', result.testResult.category),
 
-    //  TEST_CENTRE_AREA_COST_CODE                         VARCHAR2(4)
-    //  TEST_CENTRE_AREA_NAME                              VARCHAR2(50)
-    //  TEST_CENTRE_COUNTRY_DESC                           VARCHAR2(20)
-    //  TEST_CENTRE_COUNTRY_ID                             NUMBER(9)
+    // unused - TEST_CENTRE_AREA_COST_CODE
+    // unused - TEST_CENTRE_AREA_NAME
+    // unused - TEST_CENTRE_COUNTRY_DESC
+    // unused - TEST_CENTRE_COUNTRY_ID
     field('TEST_CENTRE_ID', result.testResult.journalData.testCentre.centreId),
-    //  TEST_CENTRE_LOCAL_AUTH_CODE                        VARCHAR2(6)
-    //  TEST_CENTRE_LOCAL_AUTH_ID                          NUMBER(9)
-    //  TEST_CENTRE_LOCAL_AUTH_NAME                        VARCHAR2(20)
-    // ** CHECK IF NEEDED ** TEST_CENTRE_NAME  VARCHAR2(50)
-    //  TEST_CENTRE_SECTOR_AREA_ID                         NUMBER(9)
-    //  TEST_CENTRE_SECTOR_DESC                            VARCHAR2(50)
-    //  TEST_CENTRE_SECTOR_ID                              NUMBER(9)
-    //  TEST_CENTRE_MAIN_COST_CODE                         VARCHAR2(6)
-    //  TEST_CENTRE_MAIN_LA_ID                             NUMBER(9)
+    // unused - TEST_CENTRE_LOCAL_AUTH_CODE
+    // unused - TEST_CENTRE_LOCAL_AUTH_ID
+    // unused - TEST_CENTRE_LOCAL_AUTH_NAME
+    // unused - TEST_CENTRE_NAME
+    // unused - TEST_CENTRE_SECTOR_AREA_ID
+    // unused - TEST_CENTRE_SECTOR_DESC
+    // unused - TEST_CENTRE_SECTOR_ID
+    // unused - TEST_CENTRE_MAIN_COST_CODE
+    // unused - TEST_CENTRE_MAIN_LA_ID
     field('VEHICLE_SLOT_TYPE', result.testResult.journalData.testSlotAttributes.vehicleSlotType),
     field('WELSH_FORM_IND', formatLanguage(result)),
-    //  IMAGE_REFERENCE                                    VARCHAR2(24)
-    //  DATA_VALIDATION_FLAGS                              VARCHAR2(1500)
-    //  AUDIT_DATA                                         CLOB
-    //  TOTAL_DATA_KEYSTROKES                              NUMBER(6)
-    //  TOTAL_FUNCTION_KEYSTROKES                          NUMBER(6)
+    // unused - IMAGE_REFERENCE
+    // unused - DATA_VALIDATION_FLAGS
+    // unused - AUDIT_DATA
+    // unused - TOTAL_DATA_KEYSTROKES
+    // unused - TOTAL_FUNCTION_KEYSTROKES
     field('ETHNICITY', 'A'), // missing
-    //  COA_LICENCE                                        NUMBER
-    //  NO_LICENCE                                         NUMBER
+    // unused - COA_LICENCE
+    // unused - NO_LICENCE
     field('VEHICLE_REGISTRATION', mandatory(result, 'testResult.vehicleDetails.registrationNumber')),
     field('ECO_SAFE_COMPLETED', optionalBoolean(result, 'testResult.testData.eco.completed')), // ???
     field('ECO_SAFE_CONTROL', optionalBoolean(result, 'testResult.testData.eco.adviceGivenControl')),
-    // ??? ECO_SAFE_COVERED                                   NUMBER(1)
+    // unused - ECO_SAFE_COVERED
     field('ECO_SAFE_PLANNING', optionalBoolean(result, 'testResult.testData.eco.adviceGivenPlanning')),
-
-//  INSTRUCTOR_CERT                                    NUMBER(7)
-//  MC_AVOIDANCE_DANGEROUS                             NUMBER(1)
-//  MC_AVOIDANCE_L                                     NUMBER(1)
-//  MC_AVOIDANCE_R                                     NUMBER(1)
-//  MC_AVOIDANCE_SERIOUS                               NUMBER(1)
-//  MC_AVOIDANCE_SPEED_FIRST                           NUMBER(2)
-//  MC_AVOIDANCE_SPEED_NOT_MET                         NUMBER(1)
-//  MC_AVOIDANCE_SPEED_SECOND                          NUMBER(2)
-//  MC_AVOIDANCE_TOTAL                                 NUMBER(2)
-//  MC_BENDS_DANGEROUS                                 NUMBER(1)
-//  MC_BENDS_SERIOUS                                   NUMBER(1)
-//  MC_BENDS_TOTAL                                     NUMBER(2)
-//  MC_DL196_CBT_CERT_NO                               NUMBER(8)
-//  MC_EMERGENCY_STOP_SPEED_FIRST                      NUMBER(2)
-//  MC_EMERGENCY_STOP_SPEED_SECOND                     NUMBER(2)
-//  MC_EMER_STOP_SPEED_NOT_MET                         NUMBER(1)
-//  MC_MANUAL_HANDLING_DANGEROUS                       NUMBER(1)
-//  MC_MANUAL_HANDLING_SERIOUS                         NUMBER(1)
-//  MC_MANUAL_HANDLING_TOTAL                           NUMBER(2)
-//  MC_SLALOM_DANGEROUS                                NUMBER(1)
-//  MC_SLALOM_SERIOUS                                  NUMBER(1)
-//  MC_SLALOM_TOTAL                                    NUMBER(2)
-//  MC_SLOW_CONTROL_DANGEROUS                          NUMBER(1)
-//  MC_SLOW_CONTROL_SERIOUS                            NUMBER(1)
-//  MC_SLOW_CONTROL_TOTAL                              NUMBER(2)
-//  MC_USE_OF_STAND_DANGEROUS                          NUMBER(1)
-//  MC_USE_OF_STAND_SERIOUS                            NUMBER(1)
-//  MC_USE_OF_STAND_TOTAL                              NUMBER(2)
-//  MC_UTURN_DANGEROUS                                 NUMBER(1)
-//  MC_UTURN_SERIOUS                                   NUMBER(1)
-//  MC_UTURN_TOTAL                                     NUMBER(2)
-//  SPARE6_DANGEROUS                                   NUMBER(1)
-//  SPARE6_SERIOUS                                     NUMBER(1)
-//  SPARE6_TOTAL                                       NUMBER(2)
+    // unused - INSTRUCTOR_CERT
   ];
 
   // add the optional fields, only if set

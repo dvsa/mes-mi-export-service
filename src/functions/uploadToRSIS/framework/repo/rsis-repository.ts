@@ -8,7 +8,7 @@ import { DataField } from '../../domain/mi-export-data';
  */
 export const saveTestResult = async (connection: Connection, mappedFields: DataField[]): Promise<void> => {
 
-  const insertSql = `insert into dl25_holding (
+  const insertSql = `insert into dl25mes_holding (
     ${mappedFields.map(field => field.col).join(',')}
     ) values (
     ${mappedFields.map(_ => '?').join(',')}

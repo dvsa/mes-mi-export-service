@@ -17,7 +17,7 @@ describe('saveTestResult', () => {
     const moqConn = Mock.ofType<Connection>();
     spyOn(database, 'execute');
 
-    const expectedSql = 'insert into dl25mes_holding (\n    TEST1,TEST2,TEST3\n    ) values (\n    ?,?,?\n    )';
+    const expectedSql = 'insert into dl25mes_holding (\n    TEST1,TEST2,TEST3\n    ) values (\n    :0,:1,:2\n    )';
     const expectedValues = ['dummy', 1234, inputDate];
 
     await saveTestResult(moqConn.object, input);

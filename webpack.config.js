@@ -14,12 +14,15 @@ module.exports = env => ({
     ? env.lambdas.split(',').reduce((entryObj, fnName) => ({ ...entryObj, [fnName]: allEntries[fnName] }), {})
     : allEntries,
   devtool: 'eval',
+  externals: {
+    oracledb: 'oracledb'
+  },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
     ],
   },

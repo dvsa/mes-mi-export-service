@@ -1,6 +1,7 @@
 import { execute } from './database';
 import { Connection } from 'oracledb';
 import { DataField } from '../../domain/mi-export-data';
+import { range } from 'lodash';
 
 /**
  * Saves a test result to the RSIS MI DB, by populating a staging table.
@@ -11,7 +12,7 @@ export const saveTestResult = async (connection: Connection, mappedFields: DataF
   const insertSql = `insert into dl25mes_holding (
     ${mappedFields.map(field => field.col).join(',')}
     ) values (
-    ${mappedFields.map(_ => '?').join(',')}
+    ${range(0, mappedFields.length).map(index => `:${index}`).join(',')}
     )`;
 
   const params = mappedFields.map(field => field.val);

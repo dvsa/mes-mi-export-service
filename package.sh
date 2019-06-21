@@ -27,12 +27,14 @@ for func_name in ${functions}; do
     bundle_path="${bundle_dir}${func_name}.js"
     bundle_lib="${bundle_dir}/lib"
     mkdir -p ${bundle_lib}
-    cp -p ${ora_client_repo}/lib/*.so ${bundle_lib}
+    cp -ap ${ora_client_repo}/lib/*.so* ${bundle_lib}
+    mkdir ${bundle_dir}/node_modules
+    cp -rp node_modules/oracledb ${bundle_dir}/node_modules
     chmod 755 ${bundle_lib}/*
     zip_filename="${func_name}-${version_num}-${git_rev}.zip"
     zip_path="${artefact_dir}${zip_filename}"
     pushd ${bundle_dir}
-    zip -Xr ../../${zip_path} ${func_name}.js lib
+    zip -Xyr ../../${zip_path} ${func_name}.js lib node_modules
     popd
     echo "LAMBDA ARTIFACT: ${bundle_path} => ${zip_path}"
   fi

@@ -3,7 +3,7 @@ import { BooleanAsNumber, DataField, DataFieldValue } from '../../domain/mi-expo
 import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
-import { error } from '../../../../common/application/utils/logger';
+import { debug, error } from '../../../../common/application/utils/logger';
 import { ManoeuvreOutcome, EyesightTestResult, TestData, QuestionOutcome } from '@dvsa/mes-test-schema/categories/B';
 
 /**
@@ -54,6 +54,11 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     error(message);
     throw new Error(message);
   }
+
+  const mappingSummary = mappedDataFields.map((field, index) => {
+    return `Field: ${index}\tColumn: ${field.col}\tValue: '${field.val}'`;
+  }).join('\n');
+  debug(`Mapped result ${JSON.stringify(result.uploadKey)} to ${mappedDataFields.length} fields:\n${mappingSummary}`);
 
   return mappedDataFields;
 };

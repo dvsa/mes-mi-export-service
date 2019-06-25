@@ -1,3 +1,7 @@
+export function debug(msg: string): void {
+  console.log(`DEBUG: ${msg}`);
+}
+
 export function info(msg: string): void {
   console.log(`INFO: ${msg}`);
 }

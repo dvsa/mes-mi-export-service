@@ -22,7 +22,6 @@ describe('data mapper', () => {
     },
     testResult: {
       category: 'B',
-      id: 'TBC',
       journalData: {
         examiner: {
           staffNumber: '001122',

@@ -36,8 +36,8 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('SPECIAL_NEEDS', optionalBoolean(result, 'testResult.testSummary.D255')),
     field('APP_REF_NO', formatAppRef(result.testResult.journalData.applicationReference)),
     // unused - DRIVER_NO_DOB
-    field('DATE_OF_TEST', testDateTime.format('YY:MM:DD')),
-    field('TIME', testDateTime.format('HH:mm')),
+    field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
+    field('TIME', testDateTime.format('HHmm')),
     field('DTC_AUTHORITY_CODE', result.testResult.journalData.testCentre.costCode),
     field('STAFF_NO', result.testResult.journalData.examiner.staffNumber),
 
@@ -52,9 +52,9 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // unused - ADI_REF_CODE
     field('ACCOMPANIED_BY_DSA', optionalBoolean(result, 'testResult.accompaniment.supervisor')),
     field('ACCOMPANIED_BY_ADI', optionalBoolean(result, 'testResult.accompaniment.ADI')),
-    field('ACCOMPANIED_BY_INTERPRETER', 0), // missing - sign language interpreter
+    field('ACCOMPANIED_BY_INTERPRETER', optionalBoolean(result, 'testResult.accompaniment.interpreter')),
     field('ACCOMPANIED_BY_OTHER', optionalBoolean(result, 'testResult.accompaniment.other')),
-    field('VISITING_EXAMINER', 0), // missing - visiting examiner
+    field('VISITING_EXAMINER', optionalBoolean(result, 'testResult.journalData.testSlotAttributes.examinerVisiting')),
 
     // Note: if we add functionality to transfer tests at short notice (without telling TARS)
     // then set this change marker to true
@@ -87,16 +87,16 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('ACTIVITY_CODE', Number(result.testResult.activityCode)),
     // PASS_CERTIFICATE is optional field set below
     field('LICENCE_RECEIVED', optionalBoolean(result, 'testResult.passCompletion.provisionalLicenceProvided')),
-    field('DOB', new Date('1974-12-24')), // missing
+    field('DOB', formatDateOfBirth(result)),
     field('CANDIDATE_FORENAMES', mandatory(result, 'testResult.journalData.candidate.candidateName.firstName')),
-    field('GENDER', Gender.Male), // missing
+    field('GENDER', mandatory(result, 'testResult.journalData.candidate.gender')),
     field('CANDIDATE_INDIVIDUAL_ID', mandatory(result, 'testResult.journalData.candidate.candidateId')),
     field('CANDIDATE_POST_CODE', mandatory(result, 'testResult.journalData.candidate.candidateAddress.postcode')),
     field('CANDIDATE_SURNAME', mandatory(result, 'testResult.journalData.candidate.candidateName.lastName')),
     field('CANDIDATE_TITLE', mandatory(result, 'testResult.journalData.candidate.candidateName.title')),
     field('DRIVER_NUMBER', mandatory(result, 'testResult.journalData.candidate.driverNumber')),
     // unused - EXAMINER_FORENAMES
-    field('EXAMINER_PERSON_ID', 1234), // missing
+    // unused - EXAMINER_PERSON_ID
     // unused - EXAMINER_POST_CODE
     // unused - EXAMINER_SURNAME
     // unused - EXAMINER_TITLE
@@ -119,18 +119,18 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // unused - TEST_CENTRE_SECTOR_ID
     // unused - TEST_CENTRE_MAIN_COST_CODE
     // unused - TEST_CENTRE_MAIN_LA_ID
-    field('VEHICLE_SLOT_TYPE', result.testResult.journalData.testSlotAttributes.vehicleSlotType),
+    field('VEHICLE_SLOT_TYPE', 'C'), // TODO: read real vehicle_type_code in journal extract
     field('WELSH_FORM_IND', formatLanguage(result)),
     // unused - IMAGE_REFERENCE
     // unused - DATA_VALIDATION_FLAGS
     // unused - AUDIT_DATA
     // unused - TOTAL_DATA_KEYSTROKES
     // unused - TOTAL_FUNCTION_KEYSTROKES
-    field('ETHNICITY', 'A'), // missing
+    field('ETHNICITY', 'A'), // TODO: missing
     // unused - COA_LICENCE
     // unused - NO_LICENCE
     field('VEHICLE_REGISTRATION', mandatory(result, 'testResult.vehicleDetails.registrationNumber')),
-    field('ECO_SAFE_COMPLETED', optionalBoolean(result, 'testResult.testData.eco.completed')), // ???
+    field('ECO_SAFE_COMPLETED', optionalBoolean(result, 'testResult.testData.eco.completed')),
     field('ECO_SAFE_CONTROL', optionalBoolean(result, 'testResult.testData.eco.adviceGivenControl')),
     // unused - ECO_SAFE_COVERED
     field('ECO_SAFE_PLANNING', optionalBoolean(result, 'testResult.testData.eco.adviceGivenPlanning')),
@@ -148,11 +148,12 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
  * Formats application reference as a single number, of the form <``app-id``><``book-seq``><``check-digit``>.
  *
  * @param appRef The application reference
- * @returns The app id, booking sequence and check digit as a single digit
+ * @returns The app id, booking sequence (padded to 2 digits) and check digit
  */
 const formatAppRef = (appRef: ApplicationReference): number => {
+  const formatter = Intl.NumberFormat('en-gb', { minimumIntegerDigits: 2 });
   return Number(appRef.applicationId.toString() +
-                appRef.bookingSequence.toString() +
+                formatter.format(appRef.bookingSequence) +
                 appRef.checkDigit.toString());
 };
 
@@ -258,4 +259,18 @@ const formatLanguage = (result: ResultUpload): Language => {
     return Language.Welsh;
   }
   throw new MissingTestResultDataError('testResult.communicationPreferences.conductedLanguage');
+};
+
+/**
+ * Formats the candidate's date of birth.
+ *
+ * @param result The MES test result
+ * @returns The language indicator
+ */
+const formatDateOfBirth = (result: ResultUpload): Date => {
+  const dob = get(result, 'testResult.journalData.candidate.dateOfBirth', null);
+  if (dob) {
+    return moment(dob, 'YYYY-MM-DD').toDate();
+  }
+  throw new MissingTestResultDataError('testResult.journalData.candidate.dateOfBirth');
 };

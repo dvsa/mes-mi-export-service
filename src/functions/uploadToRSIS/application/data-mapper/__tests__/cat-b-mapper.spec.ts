@@ -15,7 +15,6 @@ describe('mapCatBData', () => {
       },
       testResult: {
         category: 'B',
-        id: 'TBC',
         journalData: {
           examiner: {
             staffNumber: '001122',
@@ -213,7 +212,6 @@ describe('mapCatBData', () => {
       },
       testResult: {
         category: 'B',
-        id: 'TBC',
         journalData: {
           examiner: {
             staffNumber: '001122',
@@ -491,7 +489,6 @@ describe('mapCatBData', () => {
       },
       testResult: {
         category: 'B',
-        id: 'TBC',
         journalData: {
           examiner: {
             staffNumber: '001122',
@@ -769,7 +766,6 @@ describe('mapCatBData', () => {
       },
       testResult: {
         category: 'B',
-        id: 'TBC',
         journalData: {
           examiner: {
             staffNumber: '001122',

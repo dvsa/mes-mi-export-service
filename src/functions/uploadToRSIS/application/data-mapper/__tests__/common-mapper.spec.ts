@@ -22,7 +22,6 @@ describe('mapCommonData', () => {
     },
     testResult: {
       category: 'B',
-      id: 'TBC',
       journalData: {
         examiner: {
           staffNumber: '001122',
@@ -50,10 +49,12 @@ describe('mapCommonData', () => {
             postcode: 'AA12 3BB',
           },
           driverNumber: 'AAAAA111111BB9CC',
+          dateOfBirth: '2000-01-31',
+          gender: 'M',
         },
         applicationReference: {
           applicationId: 2222,
-          bookingSequence: 11,
+          bookingSequence: 1,
           checkDigit: 3,
         },
       },
@@ -88,9 +89,9 @@ describe('mapCommonData', () => {
       { col: 'FORM_TYPE', val: FormType.MES },
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
       { col: 'SPECIAL_NEEDS', val: 0 },
-      { col: 'APP_REF_NO', val: 2222113 },
-      { col: 'DATE_OF_TEST', val: '19:06:10' },
-      { col: 'TIME', val: '09:30' },
+      { col: 'APP_REF_NO', val: 2222013 },
+      { col: 'DATE_OF_TEST', val: '190610' },
+      { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'STAFF_NO', val: '001122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
@@ -112,18 +113,17 @@ describe('mapCommonData', () => {
       { col: 'DEBRIEF_GIVEN', val: 1 },
       { col: 'ACTIVITY_CODE', val: 1 },
       { col: 'LICENCE_RECEIVED', val: 1 },
-      { col: 'DOB', val: new Date('1974-12-24') }, // DUMMY
+      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
-      { col: 'GENDER', val: Gender.Male }, // DUMMY
+      { col: 'GENDER', val: Gender.Male },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
       { col: 'CANDIDATE_TITLE', val: 'Mr' },
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
-      { col: 'EXAMINER_PERSON_ID', val: 1234 },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
+      { col: 'VEHICLE_SLOT_TYPE', val: 'C' }, // DUMMY
       { col: 'WELSH_FORM_IND', val: Language.English },
       { col: 'ETHNICITY', val: 'A' }, // DUMMY
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
@@ -145,7 +145,6 @@ describe('mapCommonData', () => {
       },
       testResult: {
         category: 'B',
-        id: 'TBC',
         journalData: {
           examiner: {
             staffNumber: '001122',
@@ -161,6 +160,7 @@ describe('mapCommonData', () => {
             welshTest: true,
             specialNeeds: true,
             extendedTest: true,
+            examinerVisiting: true,
           },
           candidate: {
             candidateId: 1111,
@@ -186,6 +186,8 @@ describe('mapCommonData', () => {
             prn: 666666,
             previousADITests: 3,
             driverNumber: 'AAAAA111111BB9CC',
+            dateOfBirth: '2000-01-31',
+            gender: 'F',
           },
           applicationReference: {
             applicationId: 2222,
@@ -208,6 +210,7 @@ describe('mapCommonData', () => {
         accompaniment: {
           ADI: true,
           supervisor: true,
+          interpreter: true,
           other: true,
         },
         vehicleDetails: {
@@ -252,8 +255,8 @@ describe('mapCommonData', () => {
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 1 },
       { col: 'SPECIAL_NEEDS', val: 1 },
       { col: 'APP_REF_NO', val: 2222113 },
-      { col: 'DATE_OF_TEST', val: '19:06:10' },
-      { col: 'TIME', val: '09:30' },
+      { col: 'DATE_OF_TEST', val: '190610' },
+      { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'STAFF_NO', val: '001122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
@@ -262,9 +265,9 @@ describe('mapCommonData', () => {
       { col: 'TEST_TYPE', val: 2 },
       { col: 'ACCOMPANIED_BY_DSA', val: 1 },
       { col: 'ACCOMPANIED_BY_ADI', val: 1 },
-      { col: 'ACCOMPANIED_BY_INTERPRETER', val: 0 },
+      { col: 'ACCOMPANIED_BY_INTERPRETER', val: 1 },
       { col: 'ACCOMPANIED_BY_OTHER', val: 1 },
-      { col: 'VISITING_EXAMINER', val: 0 },
+      { col: 'VISITING_EXAMINER', val: 1 },
       { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
       { col: 'TEST_RESULT', val: ResultIndicator.Fail },
       { col: 'TOTAL_FAULTS', val: 20 },
@@ -275,18 +278,17 @@ describe('mapCommonData', () => {
       { col: 'DEBRIEF_GIVEN', val: 1 },
       { col: 'ACTIVITY_CODE', val: 2 },
       { col: 'LICENCE_RECEIVED', val: 0 },
-      { col: 'DOB', val: new Date('1974-12-24') }, // DUMMY
+      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
-      { col: 'GENDER', val: Gender.Male }, // DUMMY
+      { col: 'GENDER', val: Gender.Female },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
       { col: 'CANDIDATE_TITLE', val: 'Mr' },
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
-      { col: 'EXAMINER_PERSON_ID', val: 1234 },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
+      { col: 'VEHICLE_SLOT_TYPE', val: 'C' }, // DUMMY
       { col: 'WELSH_FORM_IND', val: Language.Welsh },
       { col: 'ETHNICITY', val: 'A' }, // DUMMY
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
@@ -308,7 +310,6 @@ describe('mapCommonData', () => {
       },
       testResult: {
         category: 'B',
-        id: 'TBC',
         journalData: {
           examiner: {
             staffNumber: '001122',
@@ -324,6 +325,7 @@ describe('mapCommonData', () => {
             welshTest: false,
             specialNeeds: false,
             extendedTest: false,
+            examinerVisiting: false,
           },
           candidate: {
             candidateId: 1111,
@@ -349,6 +351,8 @@ describe('mapCommonData', () => {
             prn: 666666,
             previousADITests: 3,
             driverNumber: 'AAAAA111111BB9CC',
+            dateOfBirth: '2000-01-31',
+            gender: 'M',
           },
           applicationReference: {
             applicationId: 2222,
@@ -371,6 +375,7 @@ describe('mapCommonData', () => {
         accompaniment: {
           ADI: false,
           supervisor: false,
+          interpreter: false,
           other: false,
         },
         vehicleDetails: {
@@ -405,8 +410,8 @@ describe('mapCommonData', () => {
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
       { col: 'SPECIAL_NEEDS', val: 0 },
       { col: 'APP_REF_NO', val: 2222113 },
-      { col: 'DATE_OF_TEST', val: '19:06:10' },
-      { col: 'TIME', val: '12:45' },
+      { col: 'DATE_OF_TEST', val: '190610' },
+      { col: 'TIME', val: '1245' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'STAFF_NO', val: '001122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
@@ -428,18 +433,17 @@ describe('mapCommonData', () => {
       { col: 'DEBRIEF_GIVEN', val: 1 },
       { col: 'ACTIVITY_CODE', val: 22 },
       { col: 'LICENCE_RECEIVED', val: 0 },
-      { col: 'DOB', val: new Date('1974-12-24') }, // DUMMY
+      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
-      { col: 'GENDER', val: Gender.Male }, // DUMMY
+      { col: 'GENDER', val: Gender.Male },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
       { col: 'CANDIDATE_TITLE', val: 'Mr' },
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
-      { col: 'EXAMINER_PERSON_ID', val: 1234 },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      { col: 'VEHICLE_SLOT_TYPE', val: 'B57mins' },
+      { col: 'VEHICLE_SLOT_TYPE', val: 'C' }, // DUMMY
       { col: 'WELSH_FORM_IND', val: Language.English },
       { col: 'ETHNICITY', val: 'A' }, // DUMMY
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },

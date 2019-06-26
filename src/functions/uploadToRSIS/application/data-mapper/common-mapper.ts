@@ -63,10 +63,8 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('TEST_RESULT', formatResult(result)),
     field('TOTAL_FAULTS', optional(result, 'testResult.testData.faultSummary.totalDrivingFaults', 0)),
 
-    // Note: use 87 for a failed test (as per current paper/scanning behaviour)
-    // as detailed by Steve Holmes
-    // TODO: awaiting Gez to confirm what we should set here
-    field('ROUTE_NUMBER', optional(result, 'testResult.testSummary.routeNumber', 87)),
+    // Note: use 99 if no route recorded (e.g. if test terminated early/eyesight failed)
+    field('ROUTE_NUMBER', optional(result, 'testResult.testSummary.routeNumber', 99)),
 
     field('EXAMINER_ACTION_VERBAL', optionalBoolean(result, 'testResult.testData.ETA.verbal')),
     field('EXAMINER_ACTION_PHYSICAL', optionalBoolean(result, 'testResult.testData.ETA.physical')),

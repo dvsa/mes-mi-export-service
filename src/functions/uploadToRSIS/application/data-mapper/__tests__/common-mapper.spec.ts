@@ -426,7 +426,7 @@ describe('mapCommonData', () => {
       { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
       { col: 'TEST_RESULT', val: ResultIndicator.None },
       { col: 'TOTAL_FAULTS', val: 0 },
-      { col: 'ROUTE_NUMBER', val: 87 },
+      { col: 'ROUTE_NUMBER', val: 99 },
       { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
       { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },
       { col: 'DUAL_CONTROL_IND', val: 0 },

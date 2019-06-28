@@ -1,15 +1,24 @@
-import { throwIfNotPresent, defaultIfNotPresent } from '../../../../common/framework/config/config-helpers';
+import { throwIfNotPresent, defaultIfNotPresent, getSecrets } from '../../../../common/framework/config/config-helpers';
+import { debug } from '../../../../common/application/utils/logger';
 
 export type Config = {
   batchSize: number;
   rsisDatabaseConnectString: string;
   rsisDatabaseUsername: string;
+  rsisDatabasePassword: string;
   getNextBatchUrl: string;
   updateUploadStatusUrl: string;
 };
 
 let configuration: Config;
 export const bootstrapConfig = async (): Promise<void> => {
+  const secretName = process.env.MI_EXPORT_SERVICE_SECRET_NAME;
+  if (!secretName) {
+    throw new Error('Environment variable RSIS_SECRET_NAME not set');
+  }
+  debug(`Loading secrets for ${secretName}`);
+  const secrets = await getSecrets(secretName, ['USERNAME', 'PASSWORD']);
+
   configuration = {
     batchSize: Number(defaultIfNotPresent(
       process.env.BATCH_SIZE,
@@ -20,8 +29,12 @@ export const bootstrapConfig = async (): Promise<void> => {
       'rsisDatabaseConnectString',
     ),
     rsisDatabaseUsername: throwIfNotPresent(
-      process.env.RSIS_DB_USERNAME,
+      secrets.get('USERNAME'),
       'rsisDatabaseUsername',
+    ),
+    rsisDatabasePassword: throwIfNotPresent(
+      secrets.get('PASSWORD'),
+      'rsisDatabasePassword',
     ),
     getNextBatchUrl: throwIfNotPresent(
       process.env.TEST_RESULT_ENDPOINT,

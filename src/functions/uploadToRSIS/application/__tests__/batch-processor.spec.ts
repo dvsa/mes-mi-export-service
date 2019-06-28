@@ -50,8 +50,9 @@ describe('batch-processor', () => {
     batchSize: 10,
     rsisDatabaseConnectString: 'aaa',
     rsisDatabaseUsername: 'bbb',
-    getNextBatchUrl: 'ccc',
-    updateUploadStatusUrl: 'ddd',
+    rsisDatabasePassword: 'ccc',
+    getNextBatchUrl: 'ddd',
+    updateUploadStatusUrl: 'eee',
   };
 
   const moqConn = Mock.ofType<Connection>();

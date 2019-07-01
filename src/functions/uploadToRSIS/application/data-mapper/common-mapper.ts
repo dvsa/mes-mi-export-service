@@ -5,13 +5,12 @@ import { get } from 'lodash';
 import {
   DataField,
   ChannelIndicator,
-  Gender,
   BooleanAsNumber,
   ResultIndicator,
   Language,
   FormType,
 } from '../../domain/mi-export-data';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/B';
+import { formatApplicationReference } from '../../domain/tars';
 
 /**
  * Maps data common to all test categories.
@@ -34,7 +33,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('FORM_TYPE', FormType.MES),
     field('DRIVING_SCHOOL_CANDIDATE', optionalBoolean(result, 'testResult.vehicleDetails.schoolCar')),
     field('SPECIAL_NEEDS', optionalBoolean(result, 'testResult.testSummary.D255')),
-    field('APP_REF_NO', formatAppRef(result.testResult.journalData.applicationReference)),
+    field('APP_REF_NO', formatApplicationReference(result.testResult.journalData.applicationReference)),
     // unused - DRIVER_NO_DOB
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('TIME', testDateTime.format('HHmm')),
@@ -140,19 +139,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(result, 'testResult.passCompletion.passCertificateNumber', null));
 
   return mappedFields;
-};
-
-/**
- * Formats application reference as a single number, of the form <``app-id``><``book-seq``><``check-digit``>.
- *
- * @param appRef The application reference
- * @returns The app id, booking sequence (padded to 2 digits) and check digit
- */
-const formatAppRef = (appRef: ApplicationReference): number => {
-  const formatter = Intl.NumberFormat('en-gb', { minimumIntegerDigits: 2 });
-  return Number(appRef.applicationId.toString() +
-                formatter.format(appRef.bookingSequence) +
-                appRef.checkDigit.toString());
 };
 
 /**

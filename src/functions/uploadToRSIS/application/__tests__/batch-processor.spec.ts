@@ -11,8 +11,12 @@ describe('batch-processor', () => {
 
   const dummyKey1: resultClient.UploadKey = {
     interfaceType: resultClient.InterfaceType.RSIS,
-    applicationReference: 1234,
-    staffNumber: 4321,
+    applicationReference: {
+      applicationId: 1234,
+      bookingSequence: 1,
+      checkDigit: 2,
+    },
+    staffNumber: '4321',
   };
 
   const dummyResult1: resultClient.ResultUpload = {
@@ -130,13 +134,16 @@ describe('batch-processor', () => {
       spyOn(repository, 'saveTestResult');
       spyOn(resultClient, 'updateUploadStatus');
 
-      const result = await processResult(moqConn.object, dummyResult1);
+      const result = await processResult(dummyConfig, moqConn.object, dummyResult1);
       expect(result).toBe(true); // processed successfully
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
-      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(resultClient.InterfaceType.RSIS,
+      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(dummyConfig.updateUploadStatusUrl,
+                                                                   resultClient.InterfaceType.RSIS,
                                                                    dummyKey1,
-                                                                   resultClient.ProcessingStatus.Accepted);
+                                                                   resultClient.ProcessingStatus.ACCEPTED,
+                                                                   0,
+                                                                   null);
     });
 
     it('Should set upload error to failed', async () => {
@@ -144,13 +151,16 @@ describe('batch-processor', () => {
       spyOn(repository, 'saveTestResult').and.throwError('Oops');
       spyOn(resultClient, 'updateUploadStatus');
 
-      const result = await processResult(moqConn.object, dummyResult1);
+      const result = await processResult(dummyConfig, moqConn.object, dummyResult1);
       expect(result).toBe(true); // processed successfully
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
-      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(resultClient.InterfaceType.RSIS,
-                                                                   dummyKey1,
-                                                                   resultClient.ProcessingStatus.Failed);
+      expect(resultClient.updateUploadStatus)
+        .toHaveBeenCalledWith(dummyConfig.updateUploadStatusUrl, resultClient.InterfaceType.RSIS,
+                              dummyKey1, resultClient.ProcessingStatus.FAILED, 0,
+                              'Error saving data for {"interfaceType":1,' +
+                              '"applicationReference":{"applicationId":1234,"bookingSequence":1,"checkDigit":2},' +
+                              '"staffNumber":"4321"}: Oops');
     });
 
     it('Should set mapping error to failed', async () => {
@@ -159,13 +169,16 @@ describe('batch-processor', () => {
       spyOn(repository, 'saveTestResult');
       spyOn(resultClient, 'updateUploadStatus');
 
-      const result = await processResult(moqConn.object, dummyResult1);
+      const result = await processResult(dummyConfig, moqConn.object, dummyResult1);
       expect(result).toBe(true); // processed successfully
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalledTimes(0); // not called
-      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(resultClient.InterfaceType.RSIS,
-                                                                   dummyKey1,
-                                                                   resultClient.ProcessingStatus.Failed);
+      expect(resultClient.updateUploadStatus)
+        .toHaveBeenCalledWith(dummyConfig.updateUploadStatusUrl, resultClient.InterfaceType.RSIS,
+                              dummyKey1, resultClient.ProcessingStatus.FAILED, 0,
+                              'Error mapping data for {"interfaceType":1,' +
+                              '"applicationReference":{"applicationId":1234,"bookingSequence":1,"checkDigit":2},' +
+                              '"staffNumber":"4321"}: Field oops is missing');
     });
 
     it('Should abort batch if update status fails', async () => {
@@ -173,13 +186,16 @@ describe('batch-processor', () => {
       spyOn(repository, 'saveTestResult');
       spyOn(resultClient, 'updateUploadStatus').and.throwError('oops');
 
-      const result = await processResult(moqConn.object, dummyResult1);
+      const result = await processResult(dummyConfig, moqConn.object, dummyResult1);
       expect(result).toBe(false); // abort batch
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
-      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(resultClient.InterfaceType.RSIS,
+      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(dummyConfig.updateUploadStatusUrl,
+                                                                   resultClient.InterfaceType.RSIS,
                                                                    dummyKey1,
-                                                                   resultClient.ProcessingStatus.Accepted);
+                                                                   resultClient.ProcessingStatus.ACCEPTED,
+                                                                   0,
+                                                                   null);
     });
   });
 });

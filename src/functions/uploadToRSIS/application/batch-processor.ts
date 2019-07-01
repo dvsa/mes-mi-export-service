@@ -7,7 +7,7 @@ import {
   ResultUpload,
   UploadKey,
 } from '../application/result-client';
-import { mapDataForMIExport } from '../application/data-mapper/data-mapper';
+import { mapDataForMIExport, MissingTestResultDataError } from '../application/data-mapper/data-mapper';
 import { Config } from '../framework/config/config';
 import { createConnection } from '../framework/repo/database';
 import { Connection } from 'oracledb';
@@ -22,7 +22,7 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
   let connection: Connection | undefined = undefined;
   let batch: ResultUpload[] | undefined = undefined;
   try {
-    batch = await getNextUploadBatch(InterfaceType.RSIS, config.batchSize);
+    batch = await getNextUploadBatch(config.getNextBatchUrl, InterfaceType.RSIS, config.batchSize);
     // if error, return failure
     info(`successfully read a batch of ${batch.length}`);
 
@@ -33,7 +33,8 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
 
       // error after reading the batch, so set all results in the batch to failed
       for (const resultUpload of batch) {
-        const completed = await updateStatus(resultUpload.uploadKey, ProcessingStatus.Failed);
+        const errorMessage = `Unable to connect to RSIS MI DB: ${JSON.stringify(err)}`;
+        const completed = await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.FAILED, errorMessage);
         if (!completed) {
           // abort setting the rest of failed
           error('error processing, so aborting the batch');
@@ -44,7 +45,7 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
     }
 
     for (const resultUpload of batch) {
-      const completed = await processResult(connection, resultUpload);
+      const completed = await processResult(config, connection, resultUpload);
       if (!completed) {
         // abort the rest of the batch
         error('error processing, so aborting the batch');
@@ -69,11 +70,13 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
 
 /**
  * Process a single test result, uploading to RSIS MI and setting status accordingly.
+ * @param config The app config
  * @param connection The RSIS MI DB connection
  * @param resultUpload The test result
  * @returns Whether the result was able to be processed, if ``false`` then abort the rest of the batch
  */
-export async function processResult(connection: Connection, resultUpload: ResultUpload): Promise<boolean> {
+export async function processResult(config: Config, connection: Connection, resultUpload: ResultUpload):
+    Promise<boolean> {
   try {
     // map MES test result to RSIS data fields
     info(`Mapping data fields for ${JSON.stringify(resultUpload.uploadKey)}`);
@@ -87,26 +90,38 @@ export async function processResult(connection: Connection, resultUpload: Result
     info(`Save successful, setting to Accepted...`);
 
     // update test result as accepted
-    return await updateStatus(resultUpload.uploadKey, ProcessingStatus.Accepted);
+    return await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.ACCEPTED, null);
 
   } catch (err) {
-    error(err);
-    info(`Save error, setting to Failed...`);
+    let errorMessage = null;
+    if (err instanceof MissingTestResultDataError) {
+      errorMessage = `Error mapping data for ${JSON.stringify(resultUpload.uploadKey)}: ${err.message}`;
+    } else if (err instanceof Error) {
+      errorMessage = `Error saving data for ${JSON.stringify(resultUpload.uploadKey)}: ${err.message}`;
+    } else {
+      errorMessage = `Error processing data for ${JSON.stringify(resultUpload.uploadKey)}: ${JSON.stringify(err)}`;
+    }
+    error(errorMessage);
 
     // mapping or upload error, so update test result as failed
-    return await updateStatus(resultUpload.uploadKey, ProcessingStatus.Failed);
+    info(`Save error, setting to Failed...`);
+    return await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.FAILED, errorMessage);
   }
 }
 
 /**
  * Updates the status of a test result.
+ * @param config The app config
  * @param uploadKey Identifies the test result
  * @param status The new status to set
+ * @param errorMessage The error message to set, if any
  * @returns Whether the status was successfully updated
  */
-async function updateStatus(uploadKey: UploadKey, status: ProcessingStatus): Promise<boolean> {
+async function updateStatus(config: Config, uploadKey: UploadKey, status: ProcessingStatus,
+                            errorMessage: string | null): Promise<boolean> {
   try {
-    await updateUploadStatus(InterfaceType.RSIS, uploadKey, status);
+    // retry count is always zero, we never retry an RSIS DB failure
+    await updateUploadStatus(config.updateUploadStatusUrl, InterfaceType.RSIS, uploadKey, status, 0, errorMessage);
     return true;
 
   } catch (err) {

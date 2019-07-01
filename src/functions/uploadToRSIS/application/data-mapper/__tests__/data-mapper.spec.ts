@@ -16,8 +16,12 @@ describe('data mapper', () => {
 
   const minimalInput: ResultUpload = {
     uploadKey: {
-      applicationReference: 2222113,
-      staffNumber: 1122,
+      applicationReference: {
+        applicationId: 2222,
+        bookingSequence: 11,
+        checkDigit: 3,
+      },
+      staffNumber: '1122',
       interfaceType: InterfaceType.RSIS,
     },
     testResult: {

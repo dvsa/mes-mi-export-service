@@ -9,8 +9,12 @@ describe('mapCatBData', () => {
   it('Should map a minially populated test result (test terminated early as possible)', () => {
     const minimalInput: ResultUpload = {
       uploadKey: {
-        applicationReference: 2222113,
-        staffNumber: 1122,
+        applicationReference: {
+          applicationId: 2222,
+          bookingSequence: 11,
+          checkDigit: 3,
+        },
+        staffNumber: '1122',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
@@ -206,8 +210,12 @@ describe('mapCatBData', () => {
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
     const fullyPopulated: ResultUpload = {
       uploadKey: {
-        applicationReference: 2222113,
-        staffNumber: 1122,
+        applicationReference: {
+          applicationId: 2222,
+          bookingSequence: 11,
+          checkDigit: 3,
+        },
+        staffNumber: '1122',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
@@ -483,8 +491,12 @@ describe('mapCatBData', () => {
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
     const fullyPopulated: ResultUpload = {
       uploadKey: {
-        applicationReference: 2222113,
-        staffNumber: 1122,
+        applicationReference: {
+          applicationId: 2222,
+          bookingSequence: 11,
+          checkDigit: 3,
+        },
+        staffNumber: '1122',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
@@ -760,8 +772,12 @@ describe('mapCatBData', () => {
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
     const fullyPopulated: ResultUpload = {
       uploadKey: {
-        applicationReference: 2222113,
-        staffNumber: 1122,
+        applicationReference: {
+          applicationId: 2222,
+          bookingSequence: 11,
+          checkDigit: 3,
+        },
+        staffNumber: '1122',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {

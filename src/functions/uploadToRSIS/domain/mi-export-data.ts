@@ -3,9 +3,9 @@
  */
 
 export enum ChannelIndicator {
-  // SCANNING = 0,
-  MES = 1,
-  MES_REKEY = 2,
+  // SCANNING = 1,
+  MES = 2,
+  MES_REKEY = 3,
 }
 
 export enum FormType {

@@ -16,8 +16,12 @@ describe('mapCommonData', () => {
   // minimally populated pass, manual gearbox
   const minimalInput: ResultUpload = {
     uploadKey: {
-      applicationReference: 2222113,
-      staffNumber: 1122,
+      applicationReference: {
+        applicationId: 2222,
+        bookingSequence: 11,
+        checkDigit: 3,
+      },
+      staffNumber: '1122',
       interfaceType: InterfaceType.RSIS,
     },
     testResult: {
@@ -139,8 +143,12 @@ describe('mapCommonData', () => {
   it('Should map a fully populated regular test result (fail, automatic, welsh)', () => {
     const input: ResultUpload = {
       uploadKey: {
-        applicationReference: 2222113,
-        staffNumber: 1122,
+        applicationReference: {
+          applicationId: 2222,
+          bookingSequence: 11,
+          checkDigit: 3,
+        },
+        staffNumber: '1122',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
@@ -304,8 +312,12 @@ describe('mapCommonData', () => {
   it('Should map a terminated test result (with defaulted route number, english)', () => {
     const input: ResultUpload = {
       uploadKey: {
-        applicationReference: 2222113,
-        staffNumber: 1122,
+        applicationReference: {
+          applicationId: 2222,
+          bookingSequence: 11,
+          checkDigit: 3,
+        },
+        staffNumber: '1122',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {

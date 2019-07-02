@@ -76,9 +76,9 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     //  unused - SURVEY_F_IND
     //  unused - SURVEY_G_IND
     //  unused - SURVEY_H_IND
-    // TODO: new field for "was debrief witnessed?"
+    field('DEBRIEF_WITNESSED', optionalBoolean(result, 'testResult.testSummary.debriefWitnessed')),
 
-    // debrief is always given, unless candidate didn't turn up
+    // debrief is always given (even to explain why test is being terminated), unless candidate didn't turn up
     field('DEBRIEF_GIVEN', result.testResult.category === '51' ? 0 : 1),
 
     field('ACTIVITY_CODE', Number(result.testResult.activityCode)),

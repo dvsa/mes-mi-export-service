@@ -6,8 +6,8 @@ export type Config = {
   rsisDatabaseConnectString: string;
   rsisDatabaseUsername: string;
   rsisDatabasePassword: string;
-  getNextBatchUrl: string;
-  updateUploadStatusUrl: string;
+  testResultsBaseUrl: string;
+  useRSIS: boolean;
 };
 
 let configuration: Config;
@@ -36,14 +36,14 @@ export const bootstrapConfig = async (): Promise<void> => {
       secrets.get('PASSWORD'),
       'rsisDatabasePassword',
     ),
-    getNextBatchUrl: throwIfNotPresent(
-      process.env.TEST_RESULT_ENDPOINT,
-      'getNextBatchUrl',
+    testResultsBaseUrl: throwIfNotPresent(
+      process.env.TEST_RESULTS_BASE_URL,
+      'testResultsBaseUrl',
     ),
-    updateUploadStatusUrl: throwIfNotPresent(
-      process.env.OUTCOME_REPORTING_URL_TEMPLATE,
-      'updateUploadStatusUrl',
-    ),
+    useRSIS: Boolean(defaultIfNotPresent(
+      process.env.USE_RSIS,
+      'false',
+    )),
   };
 };
 

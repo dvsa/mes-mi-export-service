@@ -13,9 +13,9 @@ export enum ProcessingStatus {
 
 // Needs to be kept in sync with the INTERFACE_TYPE table
 export enum InterfaceType {
-  TARS,
-  RSIS,
-  NOTIFY,
+  TARS = 'TARS',
+  RSIS = 'RSIS',
+  NOTIFY = 'NOTIFY',
 }
 
 // Needs to be kept in sync with the UPLOAD_QUEUE table
@@ -52,8 +52,8 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
     Promise<ResultUpload[]> => {
   info(`Calling getNextUpdateBatch for ${interfaceType}, batch size of ${batchSize}`);
 
-  const url = `${baseUrl}?interface=${interfaceType}&batch_size=${batchSize}`;
-  info(`calling ${url}`);
+  const url = `${baseUrl}/upload?interface=${interfaceType}&batch_size=${batchSize}`;
+  debug(`calling ${url}`);
   return new Promise((resolve, reject) => {
     const result = axiosInstance.get(url);
     result.then((response) => {
@@ -95,11 +95,12 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
           reject(new Error('failed parsing test result'));
         }
       });
-      debug(`Batch of ${resultList.length} test results to upload`);
+      debug(`Received batch`);
       resolve(resultList);
     }).catch((err) => {
-      error(`Get Next Upload Batch API call error: ${err}`);
-      reject(mapHTTPErrorToDomainError(err));
+      const ex = mapHTTPErrorToDomainError(err);
+      error(ex.message);
+      reject(ex);
     });
   });
 };
@@ -116,9 +117,9 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
  */
 export const updateUploadStatus = async (baseUrl: string, interfaceType: InterfaceType, key: UploadKey,
                                          status: ProcessingStatus, retryCount: number, errorMessage: string | null) => {
-  info(`Calling updateUploadStatus for ${interfaceType} and ${key}, to set status to ${status}`);
+  info(`Calling updateUploadStatus - status ${status} for ${interfaceType} and key ${JSON.stringify(key)}`);
   const url = `${baseUrl}/${formatApplicationReference(key.applicationReference)}/upload`;
-  info(`calling ${url}`);
+  debug(`calling ${url}`);
 
   const payload: UpdateUploadStatusPayload = {
     staff_number: key.staffNumber,
@@ -131,11 +132,12 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
   return new Promise((resolve, reject) => {
     const result = axiosInstance.put(url, payload);
     result.then((response) => {
-      debug('Status updated');
+      debug('Status successfully updated');
       resolve();
     }).catch((err) => {
-      error(`Update Upload Status API call error: ${err}`);
-      reject(mapHTTPErrorToDomainError(err));
+      const ex = mapHTTPErrorToDomainError(err);
+      error(ex.message);
+      reject(ex);
     });
   });
 };
@@ -143,7 +145,7 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
 const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
   const { request, response } = err;
   if (response) {
-    return new Error(err.message);
+    return new Error(JSON.stringify(response.data));
   }
   // Request was made, but no response received
   if (request) {

@@ -55,8 +55,8 @@ describe('batch-processor', () => {
     rsisDatabaseConnectString: 'aaa',
     rsisDatabaseUsername: 'bbb',
     rsisDatabasePassword: 'ccc',
-    getNextBatchUrl: 'ddd',
-    updateUploadStatusUrl: 'eee',
+    testResultsBaseUrl: 'ddd',
+    useRSIS: true,
   };
 
   const moqConn = Mock.ofType<Connection>();
@@ -138,7 +138,7 @@ describe('batch-processor', () => {
       expect(result).toBe(true); // processed successfully
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
-      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(dummyConfig.updateUploadStatusUrl,
+      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(dummyConfig.testResultsBaseUrl,
                                                                    resultClient.InterfaceType.RSIS,
                                                                    dummyKey1,
                                                                    resultClient.ProcessingStatus.ACCEPTED,
@@ -156,9 +156,9 @@ describe('batch-processor', () => {
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
       expect(resultClient.updateUploadStatus)
-        .toHaveBeenCalledWith(dummyConfig.updateUploadStatusUrl, resultClient.InterfaceType.RSIS,
+        .toHaveBeenCalledWith(dummyConfig.testResultsBaseUrl, resultClient.InterfaceType.RSIS,
                               dummyKey1, resultClient.ProcessingStatus.FAILED, 0,
-                              'Error saving data for {"interfaceType":1,' +
+                              'Error saving data for {"interfaceType":"RSIS",' +
                               '"applicationReference":{"applicationId":1234,"bookingSequence":1,"checkDigit":2},' +
                               '"staffNumber":"4321"}: Oops');
     });
@@ -174,9 +174,9 @@ describe('batch-processor', () => {
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalledTimes(0); // not called
       expect(resultClient.updateUploadStatus)
-        .toHaveBeenCalledWith(dummyConfig.updateUploadStatusUrl, resultClient.InterfaceType.RSIS,
+        .toHaveBeenCalledWith(dummyConfig.testResultsBaseUrl, resultClient.InterfaceType.RSIS,
                               dummyKey1, resultClient.ProcessingStatus.FAILED, 0,
-                              'Error mapping data for {"interfaceType":1,' +
+                              'Error mapping data for {"interfaceType":"RSIS",' +
                               '"applicationReference":{"applicationId":1234,"bookingSequence":1,"checkDigit":2},' +
                               '"staffNumber":"4321"}: Field oops is missing');
     });
@@ -190,7 +190,7 @@ describe('batch-processor', () => {
       expect(result).toBe(false); // abort batch
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
-      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(dummyConfig.updateUploadStatusUrl,
+      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(dummyConfig.testResultsBaseUrl,
                                                                    resultClient.InterfaceType.RSIS,
                                                                    dummyKey1,
                                                                    resultClient.ProcessingStatus.ACCEPTED,

@@ -16,14 +16,13 @@ import { saveTestResult } from '../framework/repo/rsis-repository';
 /**
  * Upload a batch of test results to RSIS MI.
  * @param config The configuration to use
- * @returns Whether the batch was able to be processed, if ``false`` then fail the Lambda execution.
+ * @returns Whether the batch was able to be processed
  */
 export async function uploadRSISBatch(config: Config): Promise<boolean> {
   let connection: Connection | undefined = undefined;
   let batch: ResultUpload[] | undefined = undefined;
   try {
-    batch = await getNextUploadBatch(config.getNextBatchUrl, InterfaceType.RSIS, config.batchSize);
-    // if error, return failure
+    batch = await getNextUploadBatch(config.testResultsBaseUrl, InterfaceType.RSIS, config.batchSize);
     info(`successfully read a batch of ${batch.length}`);
 
     try {
@@ -75,7 +74,7 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
  * @param resultUpload The test result
  * @returns Whether the result was able to be processed, if ``false`` then abort the rest of the batch
  */
-export async function processResult(config: Config, connection: Connection, resultUpload: ResultUpload):
+export async function processResult(config: Config, connection: Connection | undefined, resultUpload: ResultUpload):
     Promise<boolean> {
   try {
     // map MES test result to RSIS data fields
@@ -85,7 +84,7 @@ export async function processResult(config: Config, connection: Connection, resu
     info(`Mapped to ${miData.length} columns, saving to DB...`);
 
     // insert into staging table and commit
-    await saveTestResult(connection, miData);
+    await saveTestResult(connection, config, miData);
 
     info(`Save successful, setting to Accepted...`);
 
@@ -121,7 +120,7 @@ async function updateStatus(config: Config, uploadKey: UploadKey, status: Proces
                             errorMessage: string | null): Promise<boolean> {
   try {
     // retry count is always zero, we never retry an RSIS DB failure
-    await updateUploadStatus(config.updateUploadStatusUrl, InterfaceType.RSIS, uploadKey, status, 0, errorMessage);
+    await updateUploadStatus(config.testResultsBaseUrl, InterfaceType.RSIS, uploadKey, status, 0, errorMessage);
     return true;
 
   } catch (err) {

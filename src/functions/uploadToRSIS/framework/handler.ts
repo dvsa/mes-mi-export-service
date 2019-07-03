@@ -12,8 +12,10 @@ export async function handler(event: APIGatewayProxyEvent, fnCtx: Context): Prom
   info('upload to RSIS invoked...');
 
   try {
-    await uploadRSISBatch(config());
-    info('batch processed successfully...');
+    const outcome = await uploadRSISBatch(config());
+    info(`batch processed successfully: ${outcome}`);
+
+    // return OK even if batch failed, to avoid Lambda retries
     return createResponse({ message: 'batch progressed ok' }, HttpStatus.OK);
 
   } catch (err) {

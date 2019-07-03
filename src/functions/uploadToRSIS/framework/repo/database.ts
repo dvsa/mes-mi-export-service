@@ -5,20 +5,24 @@ import { debug, info, error } from '../../../../common/application/utils/logger'
 /**
  * Create a new database connection.
  * @param config The RSIS DB config to use
+ * @returns The connection, or ``undefined`` if in mock mode
  * @throws Various errors that must be caught and logged
  */
-export const createConnection = async (config: Config): Promise<Connection> => {
-  // TODO: change config to full connection string...
-  const connectionString = config.rsisDatabaseConnectString;
-  info(`Opening database connection to ${connectionString}`);
+export const createConnection = async (config: Config): Promise<Connection | undefined> => {
+  if (config.useRSIS) {
+    const connectionString = config.rsisDatabaseConnectString;
+    info(`Opening database connection to ${connectionString}`);
 
-  const connection = await getConnection({
-    user: config.rsisDatabaseUsername,
-    password: config.rsisDatabaseUsername, // TODO: load from ASM
-    connectString: connectionString,
-  });
-  info(`Conenction successfully created`);
-  return connection;
+    const connection = await getConnection({
+      user: config.rsisDatabaseUsername,
+      password: config.rsisDatabaseUsername,
+      connectString: connectionString,
+    });
+    info(`Conenction successfully created`);
+    return connection;
+  }
+  debug('In mock mode');
+  return undefined;
 };
 
 /**

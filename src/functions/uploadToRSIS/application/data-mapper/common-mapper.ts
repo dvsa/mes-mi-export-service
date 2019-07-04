@@ -10,7 +10,7 @@ import {
   Language,
   FormType,
 } from '../../domain/mi-export-data';
-import { formatApplicationReference } from '../../domain/tars';
+import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 
 /**
  * Maps data common to all test categories.

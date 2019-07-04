@@ -2,7 +2,7 @@ import { info, error, debug } from '../../../common/application/utils/logger';
 import { StandardCarTestCATBSchema, ApplicationReference } from '@dvsa/mes-test-schema/categories/B';
 import axios, { AxiosError } from 'axios';
 import * as zlib from 'zlib';
-import { formatApplicationReference } from '../domain/tars';
+import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {

@@ -6,9 +6,9 @@ import { formatApplicationReference } from '../domain/tars';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {
-  PROCESSING,
-  ACCEPTED,
-  FAILED,
+  PROCESSING = 'PROCESSING',
+  ACCEPTED = 'ACCEPTED',
+  FAILED = 'FAILED',
 }
 
 // Needs to be kept in sync with the INTERFACE_TYPE table
@@ -119,7 +119,6 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
                                          status: ProcessingStatus, retryCount: number, errorMessage: string | null) => {
   info(`Calling updateUploadStatus - status ${status} for ${interfaceType} and key ${JSON.stringify(key)}`);
   const url = `${baseUrl}/${formatApplicationReference(key.applicationReference)}/upload`;
-  debug(`calling ${url}`);
 
   const payload: UpdateUploadStatusPayload = {
     staff_number: key.staffNumber,
@@ -128,6 +127,8 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
     retry_count: retryCount,
     error_message: errorMessage && errorMessage.length > 0 ? errorMessage : null,
   };
+
+  debug(`calling ${url} with body ${JSON.stringify(payload)}`);
 
   return new Promise((resolve, reject) => {
     const result = axiosInstance.put(url, payload);

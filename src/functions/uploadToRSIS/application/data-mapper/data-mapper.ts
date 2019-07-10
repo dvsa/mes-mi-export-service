@@ -3,7 +3,7 @@ import { BooleanAsNumber, DataField, DataFieldValue } from '../../domain/mi-expo
 import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
-import { debug, error } from '../../../../common/application/utils/logger';
+import { debug, error } from '@dvsa/mes-microservice-common/application/utils/logger';
 import { ManoeuvreOutcome, EyesightTestResult, TestData, QuestionOutcome } from '@dvsa/mes-test-schema/categories/B';
 
 /**

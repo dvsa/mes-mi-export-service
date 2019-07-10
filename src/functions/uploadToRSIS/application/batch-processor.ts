@@ -1,4 +1,4 @@
-import { info, error } from '../../../common/application/utils/logger';
+import { info, error } from '@dvsa/mes-microservice-common/application/utils/logger';
 import {
   getNextUploadBatch,
   InterfaceType,
@@ -23,35 +23,40 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
   let batch: ResultUpload[] | undefined = undefined;
   try {
     batch = await getNextUploadBatch(config.testResultsBaseUrl, InterfaceType.RSIS, config.batchSize);
-    info(`successfully read a batch of ${batch.length}`);
+    info('successfully read a batch of ', batch.length);
 
-    try {
-      connection = await createConnection(config);
-    } catch (err) {
-      error(err);
+    if (batch.length > 0) {
+      try {
+        connection = await createConnection(config);
+      } catch (err) {
+        error(err);
 
-      // error after reading the batch, so set all results in the batch to failed
+        // error after reading the batch, so set all results in the batch to failed
+        for (const resultUpload of batch) {
+          const errorMessage = `Unable to connect to RSIS MI DB: ${JSON.stringify(err)}`;
+          const completed = await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.FAILED, errorMessage);
+          if (!completed) {
+            // abort setting the rest of failed
+            error('error processing, so aborting the batch');
+            return false;
+          }
+        }
+        return true;
+      }
+
       for (const resultUpload of batch) {
-        const errorMessage = `Unable to connect to RSIS MI DB: ${JSON.stringify(err)}`;
-        const completed = await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.FAILED, errorMessage);
+        const completed = await processResult(config, connection, resultUpload);
         if (!completed) {
-          // abort setting the rest of failed
+          // abort the rest of the batch
           error('error processing, so aborting the batch');
           return false;
         }
       }
-      return true;
-    }
+      info('batch processed...');
 
-    for (const resultUpload of batch) {
-      const completed = await processResult(config, connection, resultUpload);
-      if (!completed) {
-        // abort the rest of the batch
-        error('error processing, so aborting the batch');
-        return false;
-      }
+    } else {
+      info('Nothing to process');
     }
-    info('batch processed...');
 
   } catch (err) {
     error(err);
@@ -78,7 +83,7 @@ export async function processResult(config: Config, connection: Connection | und
     Promise<boolean> {
   try {
     // map MES test result to RSIS data fields
-    info(`Mapping data fields for ${JSON.stringify(resultUpload.uploadKey)}`);
+    info('Mapping data fields for ', resultUpload.uploadKey);
     const miData = mapDataForMIExport(resultUpload);
 
     info(`Mapped to ${miData.length} columns, saving to DB...`);
@@ -124,8 +129,7 @@ async function updateStatus(config: Config, uploadKey: UploadKey, status: Proces
     return true;
 
   } catch (err) {
-    const message = `Error updating status to ${status} for result ${JSON.stringify(uploadKey)}`;
-    error(message);
+    error(`Error updating status to ${status} for result `, uploadKey);
     return false;
   }
 }

@@ -1,6 +1,6 @@
 import { saveTestResult } from '../rsis-repository';
 import * as database from '../database';
-import * as logger from '../../../../../common/application/utils/logger';
+import * as logger from '@dvsa/mes-microservice-common/application/utils/logger';
 import { Mock } from 'typemoq';
 import { Connection } from 'oracledb';
 import { DataField } from '../../../domain/mi-export-data';

@@ -62,6 +62,21 @@ describe('batch-processor', () => {
   const moqConn = Mock.ofType<Connection>();
 
   describe('upload-result', () => {
+    it('Should do nothing with an empty batch', async () => {
+      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([]);
+      spyOn(database, 'createConnection');
+      spyOn(dataMapper, 'mapDataForMIExport');
+      spyOn(repository, 'saveTestResult');
+      spyOn(resultClient, 'updateUploadStatus');
+
+      const result = await uploadRSISBatch(dummyConfig);
+      expect(result).toBe(true); // processed successfully
+      expect(database.createConnection).toHaveBeenCalledTimes(0); // no attempt to connect to DB made
+      expect(dataMapper.mapDataForMIExport).toHaveBeenCalledTimes(0); // data mapper not used
+      expect(repository.saveTestResult).toHaveBeenCalledTimes(0);
+      expect(resultClient.updateUploadStatus).toHaveBeenCalledTimes(0);
+    });
+
     it('Should process a successful batch of 1', async () => {
       spyOn(resultClient, 'getNextUploadBatch').and.returnValue([dummyResult1]);
       spyOn(database, 'createConnection').and.returnValue(moqConn);

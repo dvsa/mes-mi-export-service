@@ -1,5 +1,5 @@
 import { throwIfNotPresent, defaultIfNotPresent, getSecrets } from '../../../../common/framework/config/config-helpers';
-import { debug } from '../../../../common/application/utils/logger';
+import { debug } from '@dvsa/mes-microservice-common/application/utils/logger';
 
 export type Config = {
   batchSize: number;

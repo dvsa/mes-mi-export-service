@@ -1,6 +1,6 @@
 import { Connection, getConnection } from 'oracledb';
 import { Config } from '../config/config';
-import { debug, info, error } from '../../../../common/application/utils/logger';
+import { debug, info, error } from '@dvsa/mes-microservice-common/application/utils/logger';
 
 /**
  * Create a new database connection.
@@ -11,14 +11,14 @@ import { debug, info, error } from '../../../../common/application/utils/logger'
 export const createConnection = async (config: Config): Promise<Connection | undefined> => {
   if (config.useRSIS) {
     const connectionString = config.rsisDatabaseConnectString;
-    info(`Opening database connection to ${connectionString}`);
+    info('Opening database connection to ', connectionString);
 
     const connection = await getConnection({
       user: config.rsisDatabaseUsername,
       password: config.rsisDatabaseUsername,
       connectString: connectionString,
     });
-    info(`Conenction successfully created`);
+    info(`Connection successfully created`);
     return connection;
   }
   debug('In mock mode');

@@ -25,9 +25,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   const testDateTime = moment(result.testResult.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
 
   const mappedFields: DataField[] = [
-    // Note: when we add rekey functionality to MES, we should set this to MES_REKEY when relevant
-    field('CHANNEL_INDICATOR', ChannelIndicator.MES),
-
+    field('CHANNEL_INDICATOR', result.testResult.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
     //  unused - REC_TYPE
     //  unused - REC_NO
     field('FORM_TYPE', FormType.MES),
@@ -116,14 +114,14 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // unused - TEST_CENTRE_SECTOR_ID
     // unused - TEST_CENTRE_MAIN_COST_CODE
     // unused - TEST_CENTRE_MAIN_LA_ID
-    field('VEHICLE_SLOT_TYPE', 'C'), // TODO: read real vehicle_type_code in journal extract
+    field('VEHICLE_SLOT_TYPE', result.testResult.journalData.testSlotAttributes.vehicleTypeCode),
     field('WELSH_FORM_IND', formatLanguage(result)),
     // unused - IMAGE_REFERENCE
     // unused - DATA_VALIDATION_FLAGS
     // unused - AUDIT_DATA
     // unused - TOTAL_DATA_KEYSTROKES
     // unused - TOTAL_FUNCTION_KEYSTROKES
-    field('ETHNICITY', 'A'), // TODO: missing
+    // ETHNICITY is optional field set below
     // unused - COA_LICENCE
     // unused - NO_LICENCE
     field('VEHICLE_REGISTRATION', mandatory(result, 'testResult.vehicleDetails.registrationNumber')),
@@ -137,6 +135,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   // add the optional fields, only if set
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result));
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(result, 'testResult.passCompletion.passCertificateNumber', null));
+  addIfSet(mappedFields, 'ETHNICITY', optional(result, 'testResult.journalData.candidate.ethnicityCode', null));
 
   return mappedFields;
 };

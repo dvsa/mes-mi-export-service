@@ -23,6 +23,7 @@ describe('batch-processor', () => {
     uploadKey: dummyKey1,
     testResult: {
       category: 'B',
+      rekey: false,
       journalData: {
         examiner: {
           staffNumber: '001122',
@@ -34,7 +35,7 @@ describe('batch-processor', () => {
         testSlotAttributes: {
           slotId: 1234,
           start: '2019-06-10T09:30:00',
-          vehicleSlotType: 'B57mins',
+          vehicleTypeCode: 'C',
           welshTest: false,
           specialNeeds: false,
           extendedTest: false,

@@ -26,6 +26,7 @@ describe('mapCommonData', () => {
     },
     testResult: {
       category: 'B',
+      rekey: false,
       journalData: {
         examiner: {
           staffNumber: '001122',
@@ -37,7 +38,7 @@ describe('mapCommonData', () => {
         testSlotAttributes: {
           slotId: 1234,
           start: '2019-06-10T09:30:00',
-          vehicleSlotType: 'B57mins',
+          vehicleTypeCode: 'C',
           welshTest: false,
           specialNeeds: false,
           extendedTest: false,
@@ -128,9 +129,8 @@ describe('mapCommonData', () => {
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      { col: 'VEHICLE_SLOT_TYPE', val: 'C' }, // DUMMY
+      { col: 'VEHICLE_SLOT_TYPE', val: 'C' },
       { col: 'WELSH_FORM_IND', val: Language.English },
-      { col: 'ETHNICITY', val: 'A' }, // DUMMY
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
       { col: 'ECO_SAFE_COMPLETED', val: 0 },
       { col: 'ECO_SAFE_CONTROL', val: 0 },
@@ -141,7 +141,7 @@ describe('mapCommonData', () => {
     expect(mapCommonData(minimalInput)).toEqual(expected);
   });
 
-  it('Should map a fully populated regular test result (fail, automatic, welsh)', () => {
+  it('Should map a fully populated regular test result (fail, automatic, welsh, rekey, ethnicity)', () => {
     const input: ResultUpload = {
       uploadKey: {
         applicationReference: {
@@ -154,6 +154,7 @@ describe('mapCommonData', () => {
       },
       testResult: {
         category: 'B',
+        rekey: true,
         journalData: {
           examiner: {
             staffNumber: '001122',
@@ -165,7 +166,7 @@ describe('mapCommonData', () => {
           testSlotAttributes: {
             slotId: 1234,
             start: '2019-06-10T09:30:00',
-            vehicleSlotType: 'B57mins',
+            vehicleTypeCode: 'C',
             welshTest: true,
             specialNeeds: true,
             extendedTest: true,
@@ -197,6 +198,7 @@ describe('mapCommonData', () => {
             driverNumber: 'AAAAA111111BB9CC',
             dateOfBirth: '2000-01-31',
             gender: 'F',
+            ethnicityCode: 'A',
           },
           applicationReference: {
             applicationId: 2222,
@@ -259,7 +261,7 @@ describe('mapCommonData', () => {
     };
 
     const expected: DataField[] = [
-      { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
+      { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES_REKEY },
       { col: 'FORM_TYPE', val: FormType.MES },
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 1 },
       { col: 'SPECIAL_NEEDS', val: 1 },
@@ -298,20 +300,20 @@ describe('mapCommonData', () => {
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      { col: 'VEHICLE_SLOT_TYPE', val: 'C' }, // DUMMY
+      { col: 'VEHICLE_SLOT_TYPE', val: 'C' },
       { col: 'WELSH_FORM_IND', val: Language.Welsh },
-      { col: 'ETHNICITY', val: 'A' }, // DUMMY
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
       { col: 'ECO_SAFE_COMPLETED', val: 1 },
       { col: 'ECO_SAFE_CONTROL', val: 1 },
       { col: 'ECO_SAFE_PLANNING', val: 1 },
       { col: 'ADI_NUMBER', val: '555555' },
+      { col: 'ETHNICITY', val: 'A' },
     ];
 
     expect(mapCommonData(input)).toEqual(expected);
   });
 
-  it('Should map a terminated test result (with defaulted route number, english)', () => {
+  it('Should map a terminated test result (with defaulted route number, english, vehicle type A)', () => {
     const input: ResultUpload = {
       uploadKey: {
         applicationReference: {
@@ -324,6 +326,7 @@ describe('mapCommonData', () => {
       },
       testResult: {
         category: 'B',
+        rekey: false,
         journalData: {
           examiner: {
             staffNumber: '001122',
@@ -335,7 +338,7 @@ describe('mapCommonData', () => {
           testSlotAttributes: {
             slotId: 1234,
             start: '2019-06-10T12:45:30',
-            vehicleSlotType: 'B57mins',
+            vehicleTypeCode: 'A',
             welshTest: false,
             specialNeeds: false,
             extendedTest: false,
@@ -458,9 +461,8 @@ describe('mapCommonData', () => {
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
       { col: 'TEST_CENTRE_ID', val: 1234 },
-      { col: 'VEHICLE_SLOT_TYPE', val: 'C' }, // DUMMY
+      { col: 'VEHICLE_SLOT_TYPE', val: 'A' },
       { col: 'WELSH_FORM_IND', val: Language.English },
-      { col: 'ETHNICITY', val: 'A' }, // DUMMY
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
       { col: 'ECO_SAFE_COMPLETED', val: 0 },
       { col: 'ECO_SAFE_CONTROL', val: 0 },

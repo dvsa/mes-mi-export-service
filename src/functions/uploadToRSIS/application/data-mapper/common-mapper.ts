@@ -21,51 +21,53 @@ import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain
  */
 export const mapCommonData = (result: ResultUpload): DataField[] => {
 
+  const r = result.testResult;
+
   // test slot start date time from TARS is in local timezone, not UTC
-  const testDateTime = moment(result.testResult.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
+  const testDateTime = moment(r.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
 
   const mappedFields: DataField[] = [
-    field('CHANNEL_INDICATOR', result.testResult.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
+    field('CHANNEL_INDICATOR', r.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
     //  unused - REC_TYPE
     //  unused - REC_NO
     field('FORM_TYPE', FormType.MES),
-    field('DRIVING_SCHOOL_CANDIDATE', optionalBoolean(result, 'testResult.vehicleDetails.schoolCar')),
-    field('SPECIAL_NEEDS', optionalBoolean(result, 'testResult.testSummary.D255')),
-    field('APP_REF_NO', formatApplicationReference(result.testResult.journalData.applicationReference)),
+    field('DRIVING_SCHOOL_CANDIDATE', optionalBoolean(r, 'vehicleDetails.schoolCar')),
+    field('SPECIAL_NEEDS', optionalBoolean(r, 'testSummary.D255')),
+    field('APP_REF_NO', formatApplicationReference(r.journalData.applicationReference)),
     // unused - DRIVER_NO_DOB
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('TIME', testDateTime.format('HHmm')),
-    field('DTC_AUTHORITY_CODE', result.testResult.journalData.testCentre.costCode),
-    field('STAFF_NO', result.testResult.journalData.examiner.staffNumber),
+    field('DTC_AUTHORITY_CODE', r.journalData.testCentre.costCode),
+    field('STAFF_NO', r.journalData.examiner.staffNumber),
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
-    field('TEST_CATEGORY_TYPE', result.testResult.category),
+    field('TEST_CATEGORY_TYPE', r.category),
 
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),
-    field('EXTENDED_TEST', optionalBoolean(result, 'testResult.journalData.testSlotAttributes.extendedTest')),
+    field('EXTENDED_TEST', optionalBoolean(r, 'journalData.testSlotAttributes.extendedTest')),
     field('TEST_TYPE', formatTestType(result)),
     // ADI_NUMBER is optional field set below
     // unused - ADI_REF_CODE
-    field('ACCOMPANIED_BY_DSA', optionalBoolean(result, 'testResult.accompaniment.supervisor')),
-    field('ACCOMPANIED_BY_ADI', optionalBoolean(result, 'testResult.accompaniment.ADI')),
-    field('ACCOMPANIED_BY_INTERPRETER', optionalBoolean(result, 'testResult.accompaniment.interpreter')),
-    field('ACCOMPANIED_BY_OTHER', optionalBoolean(result, 'testResult.accompaniment.other')),
-    field('VISITING_EXAMINER', optionalBoolean(result, 'testResult.journalData.testSlotAttributes.examinerVisiting')),
+    field('ACCOMPANIED_BY_DSA', optionalBoolean(r, 'accompaniment.supervisor')),
+    field('ACCOMPANIED_BY_ADI', optionalBoolean(r, 'accompaniment.ADI')),
+    field('ACCOMPANIED_BY_INTERPRETER', optionalBoolean(r, 'accompaniment.interpreter')),
+    field('ACCOMPANIED_BY_OTHER', optionalBoolean(r, 'accompaniment.other')),
+    field('VISITING_EXAMINER', optionalBoolean(r, 'journalData.testSlotAttributes.examinerVisiting')),
 
     // Note: if we add functionality to transfer tests at short notice (without telling TARS)
     // then set this change marker to true
     field('SHORT_NOTICE_EXAMINER', 0),
 
     field('TEST_RESULT', formatResult(result)),
-    field('TOTAL_FAULTS', optional(result, 'testResult.testData.faultSummary.totalDrivingFaults', 0)),
+    field('TOTAL_FAULTS', optional(r, 'testData.faultSummary.totalDrivingFaults', 0)),
 
     // Note: use 99 if no route recorded (e.g. if test terminated early/eyesight failed)
-    field('ROUTE_NUMBER', optional(result, 'testResult.testSummary.routeNumber', 99)),
+    field('ROUTE_NUMBER', optional(r, 'testSummary.routeNumber', 99)),
 
-    field('EXAMINER_ACTION_VERBAL', optionalBoolean(result, 'testResult.testData.ETA.verbal')),
-    field('EXAMINER_ACTION_PHYSICAL', optionalBoolean(result, 'testResult.testData.ETA.physical')),
-    field('DUAL_CONTROL_IND', optionalBoolean(result, 'testResult.vehicleDetails.dualControls')),
+    field('EXAMINER_ACTION_VERBAL', optionalBoolean(r, 'testData.ETA.verbal')),
+    field('EXAMINER_ACTION_PHYSICAL', optionalBoolean(r, 'testData.ETA.physical')),
+    field('DUAL_CONTROL_IND', optionalBoolean(r, 'vehicleDetails.dualControls')),
     //  unused - SURVEY_A_IND
     //  unused - SURVEY_B_IND
     //  unused - SURVEY_C_IND
@@ -74,22 +76,22 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     //  unused - SURVEY_F_IND
     //  unused - SURVEY_G_IND
     //  unused - SURVEY_H_IND
-    field('DEBRIEF_WITNESSED', optionalBoolean(result, 'testResult.testSummary.debriefWitnessed')),
+    field('DEBRIEF_WITNESSED', optionalBoolean(r, 'testSummary.debriefWitnessed')),
 
     // debrief is always given (even to explain why test is being terminated), unless candidate didn't turn up
-    field('DEBRIEF_GIVEN', result.testResult.category === '51' ? 0 : 1),
+    field('DEBRIEF_GIVEN', r.category === '51' ? 0 : 1),
 
-    field('ACTIVITY_CODE', Number(result.testResult.activityCode)),
+    field('ACTIVITY_CODE', Number(r.activityCode)),
     // PASS_CERTIFICATE is optional field set below
-    field('LICENCE_RECEIVED', optionalBoolean(result, 'testResult.passCompletion.provisionalLicenceProvided')),
+    field('LICENCE_RECEIVED', optionalBoolean(r, 'passCompletion.provisionalLicenceProvided')),
     field('DOB', formatDateOfBirth(result)),
-    field('CANDIDATE_FORENAMES', mandatory(result, 'testResult.journalData.candidate.candidateName.firstName')),
-    field('GENDER', mandatory(result, 'testResult.journalData.candidate.gender')),
-    field('CANDIDATE_INDIVIDUAL_ID', mandatory(result, 'testResult.journalData.candidate.candidateId')),
-    field('CANDIDATE_POST_CODE', mandatory(result, 'testResult.journalData.candidate.candidateAddress.postcode')),
-    field('CANDIDATE_SURNAME', mandatory(result, 'testResult.journalData.candidate.candidateName.lastName')),
-    field('CANDIDATE_TITLE', mandatory(result, 'testResult.journalData.candidate.candidateName.title')),
-    field('DRIVER_NUMBER', mandatory(result, 'testResult.journalData.candidate.driverNumber')),
+    field('CANDIDATE_FORENAMES', mandatory(r, 'journalData.candidate.candidateName.firstName')),
+    field('GENDER', mandatory(r, 'journalData.candidate.gender')),
+    field('CANDIDATE_INDIVIDUAL_ID', mandatory(r, 'journalData.candidate.candidateId')),
+    field('CANDIDATE_POST_CODE', mandatory(r, 'journalData.candidate.candidateAddress.postcode')),
+    field('CANDIDATE_SURNAME', mandatory(r, 'journalData.candidate.candidateName.lastName')),
+    field('CANDIDATE_TITLE', mandatory(r, 'journalData.candidate.candidateName.title')),
+    field('DRIVER_NUMBER', mandatory(r, 'journalData.candidate.driverNumber')),
     // unused - EXAMINER_FORENAMES
     // unused - EXAMINER_PERSON_ID
     // unused - EXAMINER_POST_CODE
@@ -98,13 +100,13 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
-    field('TEST_CATEGORY_REF', result.testResult.category),
+    field('TEST_CATEGORY_REF', r.category),
 
     // unused - TEST_CENTRE_AREA_COST_CODE
     // unused - TEST_CENTRE_AREA_NAME
     // unused - TEST_CENTRE_COUNTRY_DESC
     // unused - TEST_CENTRE_COUNTRY_ID
-    field('TEST_CENTRE_ID', result.testResult.journalData.testCentre.centreId),
+    field('TEST_CENTRE_ID', r.journalData.testCentre.centreId),
     // unused - TEST_CENTRE_LOCAL_AUTH_CODE
     // unused - TEST_CENTRE_LOCAL_AUTH_ID
     // unused - TEST_CENTRE_LOCAL_AUTH_NAME
@@ -114,7 +116,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // unused - TEST_CENTRE_SECTOR_ID
     // unused - TEST_CENTRE_MAIN_COST_CODE
     // unused - TEST_CENTRE_MAIN_LA_ID
-    field('VEHICLE_SLOT_TYPE', result.testResult.journalData.testSlotAttributes.vehicleTypeCode),
+    field('VEHICLE_SLOT_TYPE', r.journalData.testSlotAttributes.vehicleTypeCode),
     field('WELSH_FORM_IND', formatLanguage(result)),
     // unused - IMAGE_REFERENCE
     // unused - DATA_VALIDATION_FLAGS
@@ -124,18 +126,28 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // ETHNICITY is optional field set below
     // unused - COA_LICENCE
     // unused - NO_LICENCE
-    field('VEHICLE_REGISTRATION', mandatory(result, 'testResult.vehicleDetails.registrationNumber')),
-    field('ECO_SAFE_COMPLETED', optionalBoolean(result, 'testResult.testData.eco.completed')),
-    field('ECO_SAFE_CONTROL', optionalBoolean(result, 'testResult.testData.eco.adviceGivenControl')),
+    field('VEHICLE_REGISTRATION', mandatory(r, 'vehicleDetails.registrationNumber')),
+    field('ECO_SAFE_COMPLETED', optionalBoolean(r, 'testData.eco.completed')),
+    field('ECO_SAFE_CONTROL', optionalBoolean(r, 'testData.eco.adviceGivenControl')),
     // unused - ECO_SAFE_COVERED
-    field('ECO_SAFE_PLANNING', optionalBoolean(result, 'testResult.testData.eco.adviceGivenPlanning')),
+    field('ECO_SAFE_PLANNING', optionalBoolean(r, 'testData.eco.adviceGivenPlanning')),
     // unused - INSTRUCTOR_CERT
+    field('INSURANCE_DECLARATION_ACCEPTED', optionalBoolean(r, 'preTestDeclarations.insuranceDeclarationAccepted')),
+    field('RESIDENCY_DECLARATION_ACCEPTED', optionalBoolean(r, 'preTestDeclarations.residencyDeclarationAccepted')),
+    field('HEALTH_DECLARATION_ACCEPTED', optionalBoolean(r, 'postTestDeclarations.healthDeclarationAccepted')),
+    field('PASS_CERT_RECEIVED', optionalBoolean(r, 'postTestDeclarations.passCertificateNumberReceived')),
   ];
 
   // add the optional fields, only if set
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result));
-  addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(result, 'testResult.passCompletion.passCertificateNumber', null));
-  addIfSet(mappedFields, 'ETHNICITY', optional(result, 'testResult.journalData.candidate.ethnicityCode', null));
+  addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
+  addIfSet(mappedFields, 'ETHNICITY', optional(r, 'journalData.candidate.ethnicityCode', null));
+  addIfSet(mappedFields, 'CANDIDATE_PHYSICAL_DESCRIPTION', optional(r, 'testSummary.candidateDescription', null));
+  addIfSet(mappedFields, 'WEATHER_CONDITIONS', optional(r, 'testSummary.weatherConditions', []).join('|'));
+  addIfSet(mappedFields, 'CANDIDATE_IDENTIFICATION', optional(r, 'testSummary.identification', null));
+  addIfSet(mappedFields, 'ADDITIONAL_INFORMATION', optional(r, 'testSummary.additionalInformation', null));
+  addIfSet(mappedFields, 'COMMUNICATION_METHOD', optional(r, 'communicationPreferences.communicationMethod', null));
+  addIfSet(mappedFields, 'COMMUNICATION_EMAIL', optional(r, 'communicationPreferences.updatedEmail', null));
 
   return mappedFields;
 };

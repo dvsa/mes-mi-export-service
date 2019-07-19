@@ -13,7 +13,7 @@ import { mapCommonData } from '../common-mapper';
 
 describe('mapCommonData', () => {
 
-  // minimally populated pass, manual gearbox
+  // minimally populated pass, manual gearbox, staff number with leading zeros
   const minimalInput: ResultUpload = {
     uploadKey: {
       applicationReference: {
@@ -21,7 +21,7 @@ describe('mapCommonData', () => {
         bookingSequence: 11,
         checkDigit: 3,
       },
-      staffNumber: '1122',
+      staffNumber: '001122',
       interfaceType: InterfaceType.RSIS,
     },
     testResult: {
@@ -98,7 +98,7 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '001122' },
+      { col: 'STAFF_NO', val: '1122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },
@@ -155,7 +155,7 @@ describe('mapCommonData', () => {
           bookingSequence: 11,
           checkDigit: 3,
         },
-        staffNumber: '1122',
+        staffNumber: '001122',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
@@ -275,7 +275,7 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '001122' },
+      { col: 'STAFF_NO', val: '1122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 1 },
       { col: 'EXTENDED_TEST', val: 1 },
@@ -337,7 +337,7 @@ describe('mapCommonData', () => {
           bookingSequence: 11,
           checkDigit: 3,
         },
-        staffNumber: '1122',
+        staffNumber: '1234',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
@@ -345,7 +345,7 @@ describe('mapCommonData', () => {
         rekey: false,
         journalData: {
           examiner: {
-            staffNumber: '001122',
+            staffNumber: '1234',
           },
           testCentre: {
             centreId: 1234,
@@ -446,7 +446,7 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '1245' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '001122' },
+      { col: 'STAFF_NO', val: '1234' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },

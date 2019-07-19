@@ -242,3 +242,32 @@ export const formatQuestionCompleted = (testData: TestData | undefined): Boolean
   }
   return 0;
 };
+
+/**
+ * Get the fault/serious/dangerous comments for a specific competency, if any.
+ *
+ * Comments should never be completed for more than one competency (i.e. fault, serious, dangerous) but if they are
+ * then dangerous is used first, then serious, then driving faults.
+ *
+ * @param testData The MES test result
+ * @param path The JSON attribute, below ``drivingFaults``, ``seriousFaults`` and ``dangerousFaults``
+ * @returns The value, or ``null``
+ */
+export const getCompetencyComments = (testData: TestData | undefined, path: string): string | null => {
+  const dangerousComments = get(testData, `dangerousFaults.${path}`, null);
+  if (dangerousComments) {
+    return dangerousComments;
+  }
+
+  const seriousComments = get(testData, `seriousFaults.${path}`, null);
+  if (seriousComments) {
+    return seriousComments;
+  }
+
+  const faultComments = get(testData, `drivingFaults.${path}`, null);
+  if (faultComments) {
+    return faultComments;
+  }
+
+  return null;
+};

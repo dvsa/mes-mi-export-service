@@ -40,10 +40,10 @@ export const bootstrapConfig = async (): Promise<void> => {
       process.env.TEST_RESULTS_BASE_URL,
       'testResultsBaseUrl',
     ),
-    useRSIS: Boolean(defaultIfNotPresent(
+    useRSIS: defaultIfNotPresent(
       process.env.USE_RSIS,
       'false',
-    )),
+    ) === 'true',
   };
 };
 

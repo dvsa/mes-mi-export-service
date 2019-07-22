@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent, Context } from 'aws-lambda';
+import { Context, ScheduledEvent } from 'aws-lambda';
 import createResponse from '../../../common/application/utils/createResponse';
 import Response from '../../../common/application/api/Response';
 import { HttpStatus } from '../../../common/application/api/HttpStatus';
@@ -6,7 +6,7 @@ import { bootstrapConfig, config } from './config/config';
 import { info, error, bootstrapLogging } from '@dvsa/mes-microservice-common/application/utils/logger';
 import { uploadRSISBatch } from '../application/batch-processor';
 
-export async function handler(event: APIGatewayProxyEvent, fnCtx: Context): Promise<Response> {
+export async function handler(event: ScheduledEvent, fnCtx: Context): Promise<Response> {
   bootstrapLogging('mi-export-service', event);
   await bootstrapConfig();
 

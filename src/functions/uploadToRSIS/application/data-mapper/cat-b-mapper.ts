@@ -334,7 +334,7 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'POSITIONING_NORMAL_COMMENT', getCompetencyComments(t, 'positioningNormalDrivingComments'));
   addIfSet(m, 'POSITIONING_LANE_COMMENT', getCompetencyComments(t, 'positioningLaneDisciplineComments'));
   addIfSet(m, 'PEDESTRIAN_CROSSING_COMMENT', getCompetencyComments(t, 'pedestrianCrossingsComments'));
-  addIfSet(m, 'POSTITION_STOPS_COMMENT', getCompetencyComments(t, 'positionNormalStopsComments'));
+  addIfSet(m, 'POSITION_STOPS_COMMENT', getCompetencyComments(t, 'positionNormalStopsComments'));
   addIfSet(m, 'AWARENESS_PLAN_COMMENT', getCompetencyComments(t, 'awarenessPlanningComments'));
   addIfSet(m, 'ANCILLARY_CONTROLS_COMMENT', getCompetencyComments(t, 'ancillaryControlsComments'));
   addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestion.code', null));

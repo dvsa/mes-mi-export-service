@@ -8,6 +8,7 @@ import {
   mapDataForMIExport,
   MissingTestResultDataError,
   formatQuestionDangerous,
+  getCompetencyComments,
 } from '../data-mapper';
 import { cloneDeep } from 'lodash';
 import { QuestionOutcome, VehicleChecks } from '@dvsa/mes-test-schema/categories/B';
@@ -270,5 +271,61 @@ describe('data mapper', () => {
 
       expect(formatQuestionDangerous(input.testResult.testData)).toEqual(expected);
     };
+  });
+
+  describe('formatQuestionDangerous', () => {
+    it('Should return the dangerous comment if set', () => {
+      const input = cloneDeep(minimalInput);
+      input.testResult.testData = {
+        drivingFaults: {
+          precautionsComments: 'Precautions fault comment',
+        },
+        seriousFaults: {
+          precautionsComments: 'Precautions serious comment',
+        },
+        dangerousFaults: {
+          precautionsComments: 'Precautions dangerous comment',
+        },
+      };
+
+      expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
+        .toEqual('Precautions dangerous comment');
+    });
+
+    it('Should return the serious comment if set', () => {
+      const input = cloneDeep(minimalInput);
+      input.testResult.testData = {
+        drivingFaults: {
+          precautionsComments: 'Precautions fault comment',
+        },
+        seriousFaults: {
+          precautionsComments: 'Precautions serious comment',
+        },
+        // no dangerous comment
+      };
+
+      expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
+        .toEqual('Precautions serious comment');
+    });
+
+    it('Should return the fault comment if set', () => {
+      const input = cloneDeep(minimalInput);
+      input.testResult.testData = {
+        drivingFaults: {
+          precautionsComments: 'Precautions fault comment',
+        },
+        // no serious or dangerous comment
+      };
+
+      expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
+        .toEqual('Precautions fault comment');
+    });
+
+    it('Should return null if nothing set', () => {
+      const input = cloneDeep(minimalInput);
+      input.testResult.testData = { }; // no fault, serious or dangerous comment
+
+      expect(getCompetencyComments(input.testResult.testData, 'precautionsComments')).toBeNull();
+    });
   });
 });

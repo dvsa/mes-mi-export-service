@@ -13,7 +13,7 @@ import { mapCommonData } from '../common-mapper';
 
 describe('mapCommonData', () => {
 
-  // minimally populated pass, manual gearbox
+  // minimally populated pass, manual gearbox, staff number with leading zeros
   const minimalInput: ResultUpload = {
     uploadKey: {
       applicationReference: {
@@ -21,7 +21,7 @@ describe('mapCommonData', () => {
         bookingSequence: 11,
         checkDigit: 3,
       },
-      staffNumber: '1122',
+      staffNumber: '001122',
       interfaceType: InterfaceType.RSIS,
     },
     testResult: {
@@ -88,7 +88,7 @@ describe('mapCommonData', () => {
     },
   };
 
-  it('Should map a minially populated regular test result (pass, manual, english)', () => {
+  it('Should map a minially populated regular test result (pass, manual, english, minimal write up)', () => {
     const expected: DataField[] = [
       { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
       { col: 'FORM_TYPE', val: FormType.MES },
@@ -98,7 +98,7 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '001122' },
+      { col: 'STAFF_NO', val: '1122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },
@@ -135,13 +135,19 @@ describe('mapCommonData', () => {
       { col: 'ECO_SAFE_COMPLETED', val: 0 },
       { col: 'ECO_SAFE_CONTROL', val: 0 },
       { col: 'ECO_SAFE_PLANNING', val: 0 },
+      { col: 'INSURANCE_DECLARATION_ACCEPTED', val: 0 },
+      { col: 'RESIDENCY_DECLARATION_ACCEPTED', val: 0 },
+      { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
+      { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
+      { col: 'COMMUNICATION_METHOD', val: 'Email' },
+      { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
     ];
 
     expect(mapCommonData(minimalInput)).toEqual(expected);
   });
 
-  it('Should map a fully populated regular test result (fail, automatic, welsh, rekey, ethnicity)', () => {
+  it('Should map a fully populated regular test result (fail, automatic, welsh, rekey, ethnicity, write up)', () => {
     const input: ResultUpload = {
       uploadKey: {
         applicationReference: {
@@ -149,7 +155,7 @@ describe('mapCommonData', () => {
           bookingSequence: 11,
           checkDigit: 3,
         },
-        staffNumber: '1122',
+        staffNumber: '001122',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
@@ -209,7 +215,7 @@ describe('mapCommonData', () => {
         activityCode: '2',
         communicationPreferences: {
           updatedEmail: 'still-noone@nowhere.com',
-          communicationMethod: 'Email',
+          communicationMethod: 'Post',
           conductedLanguage: 'Cymraeg',
         },
         preTestDeclarations: {
@@ -252,10 +258,10 @@ describe('mapCommonData', () => {
           independentDriving: 'Sat nav',
           candidateDescription: 'Short',
           debriefWitnessed: false,
-          identification: 'Licence',
+          identification: 'Passport',
           weatherConditions: ['Showers', 'Windy'],
           D255: true,
-          additionalInformation: 'aaa',
+          additionalInformation: 'aaa bbb ccc',
         },
       },
     };
@@ -269,7 +275,7 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '001122' },
+      { col: 'STAFF_NO', val: '1122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 1 },
       { col: 'EXTENDED_TEST', val: 1 },
@@ -306,14 +312,24 @@ describe('mapCommonData', () => {
       { col: 'ECO_SAFE_COMPLETED', val: 1 },
       { col: 'ECO_SAFE_CONTROL', val: 1 },
       { col: 'ECO_SAFE_PLANNING', val: 1 },
+      { col: 'INSURANCE_DECLARATION_ACCEPTED', val: 1 },
+      { col: 'RESIDENCY_DECLARATION_ACCEPTED', val: 1 },
+      { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
+      { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'ETHNICITY', val: 'A' },
+      { col: 'CANDIDATE_PHYSICAL_DESCRIPTION', val: 'Short' },
+      { col: 'WEATHER_CONDITIONS', val: 'Showers|Windy' },
+      { col: 'CANDIDATE_IDENTIFICATION', val: 'Passport' },
+      { col: 'ADDITIONAL_INFORMATION', val: 'aaa bbb ccc' },
+      { col: 'COMMUNICATION_METHOD', val: 'Post' },
+      { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
     ];
 
     expect(mapCommonData(input)).toEqual(expected);
   });
 
-  it('Should map a terminated test result (with defaulted route number, english, vehicle type A)', () => {
+  it('Should map a terminated test result (with defaulted route number, english, vehicle type A, write up)', () => {
     const input: ResultUpload = {
       uploadKey: {
         applicationReference: {
@@ -321,7 +337,7 @@ describe('mapCommonData', () => {
           bookingSequence: 11,
           checkDigit: 3,
         },
-        staffNumber: '1122',
+        staffNumber: '1234',
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
@@ -329,7 +345,7 @@ describe('mapCommonData', () => {
         rekey: false,
         journalData: {
           examiner: {
-            staffNumber: '001122',
+            staffNumber: '1234',
           },
           testCentre: {
             centreId: 1234,
@@ -411,12 +427,12 @@ describe('mapCommonData', () => {
         },
         testSummary: {
           independentDriving: 'Sat nav',
-          candidateDescription: 'Short',
           debriefWitnessed: true,
           identification: 'Licence',
+          candidateDescription: 'Very tall',
           weatherConditions: ['Showers', 'Windy'],
           D255: false,
-          additionalInformation: 'aaa',
+          additionalInformation: 'aaa bbb ccc',
         },
       },
     };
@@ -430,7 +446,7 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '1245' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '001122' },
+      { col: 'STAFF_NO', val: '1234' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },
@@ -467,7 +483,17 @@ describe('mapCommonData', () => {
       { col: 'ECO_SAFE_COMPLETED', val: 0 },
       { col: 'ECO_SAFE_CONTROL', val: 0 },
       { col: 'ECO_SAFE_PLANNING', val: 0 },
+      { col: 'INSURANCE_DECLARATION_ACCEPTED', val: 1 },
+      { col: 'RESIDENCY_DECLARATION_ACCEPTED', val: 1 },
+      { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
+      { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
+      { col: 'CANDIDATE_PHYSICAL_DESCRIPTION', val: 'Very tall' },
+      { col: 'WEATHER_CONDITIONS', val: 'Showers|Windy' },
+      { col: 'CANDIDATE_IDENTIFICATION', val: 'Licence' },
+      { col: 'ADDITIONAL_INFORMATION', val: 'aaa bbb ccc' },
+      { col: 'COMMUNICATION_METHOD', val: 'Email' },
+      { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
     ];
 
     expect(mapCommonData(input)).toEqual(expected);
@@ -480,7 +506,7 @@ describe('mapCommonData', () => {
     }
 
     expect(() => mapCommonData(missingMandatory))
-      .toThrow(new MissingTestResultDataError('testResult.vehicleDetails.registrationNumber'));
+      .toThrow(new MissingTestResultDataError('vehicleDetails.registrationNumber'));
   });
 
   it('Should reject a test result with missing mandatory data (gearbox category)', () => {
@@ -498,7 +524,7 @@ describe('mapCommonData', () => {
     delete missingMandatory.testResult.journalData.candidate.driverNumber;
 
     expect(() => mapCommonData(missingMandatory))
-      .toThrow(new MissingTestResultDataError('testResult.journalData.candidate.driverNumber'));
+      .toThrow(new MissingTestResultDataError('journalData.candidate.driverNumber'));
   });
 
   it('Should reject a test result with missing mandatory data (candidate firstname)', () => {
@@ -507,7 +533,7 @@ describe('mapCommonData', () => {
       delete missingMandatory.testResult.journalData.candidate.candidateName.firstName;
     }
     expect(() => mapCommonData(missingMandatory))
-      .toThrow(new MissingTestResultDataError('testResult.journalData.candidate.candidateName.firstName'));
+      .toThrow(new MissingTestResultDataError('journalData.candidate.candidateName.firstName'));
   });
 
   it('Should reject a test result with missing mandatory data (language)', () => {

@@ -12,6 +12,8 @@ import {
   formatManoeuvreDangerous,
   formatQuestionDangerous,
   formatQuestionCompleted,
+  addIfSet,
+  getCompetencyComments,
 } from './data-mapper';
 
 /**
@@ -24,7 +26,7 @@ import {
 export const mapCatBData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData;
 
-  const mappedFields: DataField[] = [
+  const m: DataField[] = [
     field('EYESIGHT_SERIOUS', formatEyesightResult(result)),
     //  unused - H_CODE_SAFETY_TOTAL
     field('CONTROL_STOP_PROMPT_TOTAL', formatManoeuvreFault(t, 'controlledStop.fault')),
@@ -276,6 +278,71 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     //  unused - SPARE6_DANGEROUS                                   NUMBER(1)
     //  unused - SPARE6_SERIOUS                                     NUMBER(1)
     //  unused - SPARE6_TOTAL                                       NUMBER(2)
+
+    field('NORMAL_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart1')),
+    field('NORMAL_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart2')),
+    field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStart')),
+    field('HILL_START_COMPLETED', optionalBoolean(t, 'testRequirements.hillStart')),
   ];
-  return mappedFields;
+
+  // add the optional fields, only if set
+  addIfSet(m, 'CONTROL_STOP_COMMENT', optional(t, 'controlledStop.faultComments', null));
+  addIfSet(m, 'REV_RIGHT_TRAIL_CONT_COMMENT', optional(t, 'manoeuvres.reverseRight.controlFaultComments', null));
+  addIfSet(m, 'REV_RIGHT_TRAIL_OBSERV_COMMENT', optional(t, 'manoeuvres.reverseRight.observationFaultComments', null));
+  addIfSet(m, 'REV_PARK_CPARK_CONTROL_COMMENT',
+           optional(t, 'manoeuvres.reverseParkCarpark.controlFaultComments', null));
+  addIfSet(m, 'REV_PARK_CPARK_OBSERVE_COMMENT',
+           optional(t, 'manoeuvres.reverseParkCarpark.observationFaultComments', null));
+  addIfSet(m, 'REV_PARK_ROAD_CONTROL_COMMENT', optional(t, 'manoeuvres.reverseParkRoad.controlFaultComments', null));
+  addIfSet(m, 'REV_PARK_ROAD_OBSERVE_COMMENT',
+           optional(t, 'manoeuvres.reverseParkRoad.observationFaultComments', null));
+  addIfSet(m, 'FORWARD_PARK_CONTROL_COMMENT', optional(t, 'manoeuvres.forwardPark.controlFaultComments', null));
+  addIfSet(m, 'FORWARD_PARK_OBSERVE_COMMENT', optional(t, 'manoeuvres.forwardPark.observationFaultComments', null));
+  addIfSet(m, 'PRECAUTIONS_COMMENT', getCompetencyComments(t, 'precautionsComments'));
+  addIfSet(m, 'CONTROL_ACC_COMMENT', getCompetencyComments(t, 'controlsAcceleratorComments'));
+  addIfSet(m, 'CONTROL_CLUTCH_COMMENT', getCompetencyComments(t, 'controlsClutchComments'));
+  addIfSet(m, 'CONTROL_GEARS_COMMENT', getCompetencyComments(t, 'controlsGearsComments'));
+  addIfSet(m, 'CONTROL_FOOTBRAKE_COMMENT', getCompetencyComments(t, 'controlsFootbrakeComments'));
+  addIfSet(m, 'CONTROL_PARK_COMMENT', getCompetencyComments(t, 'controlsParkingBrakeComments'));
+  addIfSet(m, 'CONTROL_STEERING_COMMENT', getCompetencyComments(t, 'controlsSteeringComments'));
+  addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', getCompetencyComments(t, 'moveOffSafetyComments'));
+  addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', getCompetencyComments(t, 'moveOffControlComments'));
+  addIfSet(m, 'MIRRORS_MC_REAR_SIG_COMMENT', getCompetencyComments(t, 'useOfMirrorsSignallingComments'));
+  addIfSet(m, 'MIRRORS_MC_REAR_DIR_COMMENT', getCompetencyComments(t, 'useOfMirrorsChangeDirectionComments'));
+  addIfSet(m, 'MIRRORS_MC_REAR_SPE_COMMENT', getCompetencyComments(t, 'useOfMirrorsChangeSpeedComments'));
+  addIfSet(m, 'SIGNALS_NECESSARY_COMMENT', getCompetencyComments(t, 'signalsNecessaryComments'));
+  addIfSet(m, 'SIGNALS_CORRECTLY_COMMENT', getCompetencyComments(t, 'signalsCorrectlyComments'));
+  addIfSet(m, 'SIGNALS_TIMED_COMMENT', getCompetencyComments(t, 'signalsTimedComments'));
+  addIfSet(m, 'CLEARANCE_OBSTRUCT_COMMENT', getCompetencyComments(t, 'clearanceComments'));
+  addIfSet(m, 'RESPONSE_TRAF_SIGNS_COMMENT', getCompetencyComments(t, 'responseToSignsTrafficSignsComments'));
+  addIfSet(m, 'RESPONSE_ROAD_MARK_COMMENT', getCompetencyComments(t, 'responseToSignsRoadMarkingsComments'));
+  addIfSet(m, 'RESPONSE_TRAF_LIGHT_COMMENT', getCompetencyComments(t, 'responseToSignsTrafficLightsComments'));
+  addIfSet(m, 'RESPONSE_TRAF_CONT_COMMENT', getCompetencyComments(t, 'responseToSignsTrafficControllersComments'));
+  addIfSet(m, 'RESPONSE_OTHER_COMMENT', getCompetencyComments(t, 'responseToSignsOtherRoadUsersComments'));
+  addIfSet(m, 'USE_OF_SPEED_COMMENT', getCompetencyComments(t, 'useOfSpeedComments'));
+  addIfSet(m, 'FOLLOWING_DISTANCE_COMMENT', getCompetencyComments(t, 'followingDistanceComments'));
+  addIfSet(m, 'MAINTAIN_PROG_SPEED_COMMENT', getCompetencyComments(t, 'progressAppropriateSpeedComments'));
+  addIfSet(m, 'MAINTAIN_PROG_HES_COMMENT', getCompetencyComments(t, 'progressUndueHesitationComments'));
+  addIfSet(m, 'JUNCTIONS_SPEED_COMMENT', getCompetencyComments(t, 'junctionsApproachSpeedComments'));
+  addIfSet(m, 'JUNCTIONS_OBSERV_COMMENT', getCompetencyComments(t, 'junctionsObservationComments'));
+  addIfSet(m, 'JUNCTIONS_TURN_RIGHT_COMMENT', getCompetencyComments(t, 'junctionsTurningRightComments'));
+  addIfSet(m, 'JUNCTIONS_TURN_LEFT_COMMENT', getCompetencyComments(t, 'junctionsTurningLeftComments'));
+  addIfSet(m, 'JUNCTIONS_TURN_CUT_COMMENT', getCompetencyComments(t, 'junctionsCuttingCornersComments'));
+  addIfSet(m, 'JUDGEMENT_OVER_COMMENT', getCompetencyComments(t, 'judgementOvertakingComments'));
+  addIfSet(m, 'JUDGEMENT_MEET_COMMENT', getCompetencyComments(t, 'judgementMeetingComments'));
+  addIfSet(m, 'JUDGEMENT_CROSS_COMMENT', getCompetencyComments(t, 'judgementCrossingComments'));
+  addIfSet(m, 'POSITIONING_NORMAL_COMMENT', getCompetencyComments(t, 'positioningNormalDrivingComments'));
+  addIfSet(m, 'POSITIONING_LANE_COMMENT', getCompetencyComments(t, 'positioningLaneDisciplineComments'));
+  addIfSet(m, 'PEDESTRIAN_CROSSING_COMMENT', getCompetencyComments(t, 'pedestrianCrossingsComments'));
+  addIfSet(m, 'POSITION_STOPS_COMMENT', getCompetencyComments(t, 'positionNormalStopsComments'));
+  addIfSet(m, 'AWARENESS_PLAN_COMMENT', getCompetencyComments(t, 'awarenessPlanningComments'));
+  addIfSet(m, 'ANCILLARY_CONTROLS_COMMENT', getCompetencyComments(t, 'ancillaryControlsComments'));
+  addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestion.code', null));
+  addIfSet(m, 'SHOW_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestion.description', null));
+  addIfSet(m, 'TELL_ME_1_CODE', optional(t, 'vehicleChecks.tellMeQuestion.code', null));
+  addIfSet(m, 'TELL_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.tellMeQuestion.description', null));
+  addIfSet(m, 'VEHICLE_CHECKS_COMMENT', optional(t, 'vehicleChecks.showMeTellMeComments', null));
+  addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
+
+  return m;
 };

@@ -223,7 +223,6 @@ describe('mapCommonData', () => {
           residencyDeclarationAccepted: true,
           preTestSignature: '**DUMMY**',
         },
-        eyesightTestResult: 'P',
         accompaniment: {
           ADI: true,
           supervisor: true,
@@ -251,6 +250,9 @@ describe('mapCommonData', () => {
           },
           faultSummary: {
             totalDrivingFaults: 20,
+          },
+          eyesightTest: {
+            complete: true,
           },
         },
         testSummary: {
@@ -404,7 +406,6 @@ describe('mapCommonData', () => {
           residencyDeclarationAccepted: true,
           preTestSignature: '**DUMMY**',
         },
-        eyesightTestResult: 'P',
         accompaniment: {
           ADI: false,
           supervisor: false,
@@ -423,6 +424,9 @@ describe('mapCommonData', () => {
         testData: {
           faultSummary: {
             totalDrivingFaults: 0,
+          },
+          eyesightTest: {
+            complete: true,
           },
         },
         testSummary: {

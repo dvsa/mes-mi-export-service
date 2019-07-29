@@ -248,7 +248,6 @@ describe('mapCatBData', () => {
           },
         },
         activityCode: '2',
-        eyesightTestResult: 'F',
         testData: {
           testRequirements: {
             normalStart1: true,
@@ -383,6 +382,11 @@ describe('mapCatBData', () => {
             awarenessPlanningComments: 'awareness planning fault',
             ancillaryControls: 40,
             ancillaryControlsComments: 'ancillary controls fault',
+          },
+          eyesightTest: {
+            complete: true,
+            seriousFault: true,
+            faultComments: 'eye sight fault',
           },
         },
         testSummary: {
@@ -648,7 +652,6 @@ describe('mapCatBData', () => {
           },
         },
         activityCode: '2',
-        eyesightTestResult: 'F',
         testData: {
           testRequirements: {
             normalStart1: true,
@@ -783,6 +786,11 @@ describe('mapCatBData', () => {
             awarenessPlanningComments: 'awareness planning serious',
             ancillaryControls: true,
             ancillaryControlsComments: 'ancillary controls serious',
+          },
+          eyesightTest: {
+            complete: true,
+            seriousFault: true,
+            faultComments: 'eyesight fault',
           },
         },
         testSummary: {
@@ -1048,7 +1056,6 @@ describe('mapCatBData', () => {
           },
         },
         activityCode: '2',
-        eyesightTestResult: 'F',
         testData: {
           testRequirements: {
             normalStart1: true,
@@ -1183,6 +1190,11 @@ describe('mapCatBData', () => {
             awarenessPlanningComments: 'awareness planning dangerous',
             ancillaryControls: true,
             ancillaryControlsComments: 'ancillary controls dangerous',
+          },
+          eyesightTest: {
+            complete: true,
+            seriousFault: true,
+            faultComments: 'eyesight fault',
           },
         },
         testSummary: {

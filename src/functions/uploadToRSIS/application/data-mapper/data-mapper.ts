@@ -4,7 +4,7 @@ import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
 import { debug, error } from '@dvsa/mes-microservice-common/application/utils/logger';
-import { ManoeuvreOutcome, EyesightTestResult, TestData, QuestionOutcome } from '@dvsa/mes-test-schema/categories/B';
+import { ManoeuvreOutcome, TestData, QuestionOutcome } from '@dvsa/mes-test-schema/categories/B';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -134,8 +134,9 @@ export const mandatory = (object: any, path: string): any => {
  * @returns The result (as a number)
  */
 export const formatEyesightResult = (result: ResultUpload): BooleanAsNumber => {
-  const eyesightResult: EyesightTestResult = get(result, 'testResult.eyesightTestResult', 'P');
-  return (eyesightResult === 'P') ? 0 : 1;
+  const isEyesightSeriousFault: boolean =
+  get(result, 'testResult.testData.eyesightTest.seriousFault', false);
+  return isEyesightSeriousFault ? 1 : 0;
 };
 
 /**

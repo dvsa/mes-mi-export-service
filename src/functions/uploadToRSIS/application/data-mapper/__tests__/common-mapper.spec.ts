@@ -13,7 +13,7 @@ import { mapCommonData } from '../common-mapper';
 
 describe('mapCommonData', () => {
 
-  // minimally populated pass, manual gearbox, staff number with leading zeros
+  // minimally populated pass, manual gearbox, staff number with leading zeros, no gender
   const minimalInput: ResultUpload = {
     uploadKey: {
       applicationReference: {
@@ -55,7 +55,6 @@ describe('mapCommonData', () => {
           },
           driverNumber: 'AAAAA111111BB9CC',
           dateOfBirth: '2000-01-31',
-          gender: 'M',
         },
         applicationReference: {
           applicationId: 2222,
@@ -121,7 +120,6 @@ describe('mapCommonData', () => {
       { col: 'LICENCE_RECEIVED', val: 1 },
       { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
-      { col: 'GENDER', val: Gender.Male },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
@@ -251,9 +249,6 @@ describe('mapCommonData', () => {
           faultSummary: {
             totalDrivingFaults: 20,
           },
-          eyesightTest: {
-            complete: true,
-          },
         },
         testSummary: {
           routeNumber: 15,
@@ -300,7 +295,6 @@ describe('mapCommonData', () => {
       { col: 'LICENCE_RECEIVED', val: 0 },
       { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
-      { col: 'GENDER', val: Gender.Female },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
@@ -320,6 +314,7 @@ describe('mapCommonData', () => {
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'ETHNICITY', val: 'A' },
+      { col: 'GENDER', val: Gender.Female },
       { col: 'CANDIDATE_PHYSICAL_DESCRIPTION', val: 'Short' },
       { col: 'WEATHER_CONDITIONS', val: 'Showers|Windy' },
       { col: 'CANDIDATE_IDENTIFICATION', val: 'Passport' },
@@ -473,7 +468,6 @@ describe('mapCommonData', () => {
       { col: 'LICENCE_RECEIVED', val: 0 },
       { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
-      { col: 'GENDER', val: Gender.Male },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
@@ -492,6 +486,7 @@ describe('mapCommonData', () => {
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
+      { col: 'GENDER', val: Gender.Male },
       { col: 'CANDIDATE_PHYSICAL_DESCRIPTION', val: 'Very tall' },
       { col: 'WEATHER_CONDITIONS', val: 'Showers|Windy' },
       { col: 'CANDIDATE_IDENTIFICATION', val: 'Licence' },

@@ -86,7 +86,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('LICENCE_RECEIVED', optionalBoolean(r, 'passCompletion.provisionalLicenceProvided')),
     field('DOB', formatDateOfBirth(result)),
     field('CANDIDATE_FORENAMES', mandatory(r, 'journalData.candidate.candidateName.firstName')),
-    field('GENDER', mandatory(r, 'journalData.candidate.gender')),
     field('CANDIDATE_INDIVIDUAL_ID', mandatory(r, 'journalData.candidate.candidateId')),
     field('CANDIDATE_POST_CODE', mandatory(r, 'journalData.candidate.candidateAddress.postcode')),
     field('CANDIDATE_SURNAME', mandatory(r, 'journalData.candidate.candidateName.lastName')),
@@ -142,6 +141,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result));
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
   addIfSet(mappedFields, 'ETHNICITY', optional(r, 'journalData.candidate.ethnicityCode', null));
+  addIfSet(mappedFields, 'GENDER', optional(r, 'journalData.candidate.gender', null));
   addIfSet(mappedFields, 'CANDIDATE_PHYSICAL_DESCRIPTION', optional(r, 'testSummary.candidateDescription', null));
   addIfSet(mappedFields, 'WEATHER_CONDITIONS', optional(r, 'testSummary.weatherConditions', []).join('|'));
   addIfSet(mappedFields, 'CANDIDATE_IDENTIFICATION', optional(r, 'testSummary.identification', null));

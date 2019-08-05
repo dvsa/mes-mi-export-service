@@ -3,7 +3,6 @@ import { DataField } from '../../domain/mi-export-data';
 import {
   field,
   formatManoeuvreFault,
-  formatEyesightResult,
   formatQuestionFault,
   formatManoeuvreSerious,
   optional,
@@ -27,7 +26,6 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData;
 
   const m: DataField[] = [
-    field('EYESIGHT_SERIOUS', formatEyesightResult(result)),
     //  unused - H_CODE_SAFETY_TOTAL
     field('CONTROL_STOP_PROMPT_TOTAL', formatManoeuvreFault(t, 'controlledStop.fault')),
     //  unused - CONTROL_STOP_CONTROL_TOTAL
@@ -95,6 +93,7 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     //  unused - SPARE3_TOTAL
     //  unused - SPARE4_TOTAL
     //  unused - SPARE5_TOTAL
+    field('EYESIGHT_SERIOUS', optionalBoolean(t, 'eyesightTest.seriousFault')),
     //  unused - H_CODE_SAFETY_SERIOUS
     field('CONTROL_STOP_PROMPT_SERIOUS', formatManoeuvreSerious(t, 'controlledStop.fault')),
     //  unused - CONTROL_STOP_CONTROL_SERIOUS
@@ -231,6 +230,7 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     //  unused - SPARE3_DANGEROUS
     //  unused - SPARE4_DANGEROUS
     //  unused - SPARE5_DANGEROUS
+    field('EYESIGHT_COMPLETED', optionalBoolean(t, 'eyesightTest.complete')),
     field('CONTROL_STOP_COMPLETED', optionalBoolean(t, 'controlledStop.selected')),
     //  unused - REV_LEFT_TRAIL_COMPLETED
     field('REV_RIGHT_TRAIL_COMPLETED', optionalBoolean(t, 'manoeuvres.reverseRight.selected')),
@@ -286,6 +286,7 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
+  addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'CONTROL_STOP_COMMENT', optional(t, 'controlledStop.faultComments', null));
   addIfSet(m, 'REV_RIGHT_TRAIL_CONT_COMMENT', optional(t, 'manoeuvres.reverseRight.controlFaultComments', null));
   addIfSet(m, 'REV_RIGHT_TRAIL_OBSERV_COMMENT', optional(t, 'manoeuvres.reverseRight.observationFaultComments', null));

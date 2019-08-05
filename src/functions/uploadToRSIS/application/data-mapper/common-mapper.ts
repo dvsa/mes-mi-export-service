@@ -125,7 +125,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // ETHNICITY is optional field set below
     // unused - COA_LICENCE
     // unused - NO_LICENCE
-    field('VEHICLE_REGISTRATION', mandatory(r, 'vehicleDetails.registrationNumber')),
+    // VEHICLE_REGISTRATION is optional field set below
     field('ECO_SAFE_COMPLETED', optionalBoolean(r, 'testData.eco.completed')),
     field('ECO_SAFE_CONTROL', optionalBoolean(r, 'testData.eco.adviceGivenControl')),
     // unused - ECO_SAFE_COVERED
@@ -142,6 +142,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
   addIfSet(mappedFields, 'ETHNICITY', optional(r, 'journalData.candidate.ethnicityCode', null));
   addIfSet(mappedFields, 'GENDER', optional(r, 'journalData.candidate.gender', null));
+  addIfSet(mappedFields, 'VEHICLE_REGISTRATION', optional(r, 'vehicleDetails.registrationNumber', null)),
   addIfSet(mappedFields, 'CANDIDATE_PHYSICAL_DESCRIPTION', optional(r, 'testSummary.candidateDescription', null));
   addIfSet(mappedFields, 'WEATHER_CONDITIONS', optional(r, 'testSummary.weatherConditions', []).join('|'));
   addIfSet(mappedFields, 'CANDIDATE_IDENTIFICATION', optional(r, 'testSummary.identification', null));
@@ -153,19 +154,14 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 };
 
 /**
- * Converts from gearbox category to "is automatic" as a boolean (as a number).
+ * Converts from gearbox category (if any) to "is automatic" as a boolean (as a number).
  *
  * @param result The MES test result
  * @returns ``1`` if automatic, ``0`` otherwise
- * @throws MissingTestResultDataError If vehicle details not set
  */
 const formatGearboxCategory = (result: ResultUpload): BooleanAsNumber => {
-  const gearboxCategory = get(result, 'testResult.vehicleDetails.gearboxCategory', null);
-  if (gearboxCategory) {
-    return gearboxCategory === 'Manual' ? 0 : 1;
-  }
-
-  throw new MissingTestResultDataError('testResult.vehicleDetails.gearboxCategory');
+  const gearboxCategory = get(result, 'testResult.vehicleDetails.gearboxCategory', 'Manual');
+  return gearboxCategory === 'Manual' ? 0 : 1;
 };
 
 /**

@@ -46,7 +46,6 @@ describe('mapCatBData', () => {
     };
 
     const expected: DataField[] = [
-      { col: 'EYESIGHT_SERIOUS', val: 0 },
       { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 0 },
       { col: 'REV_RIGHT_TRAIL_CONT_TOTAL', val: 0 },
       { col: 'REV_RIGHT_TRAIL_OBSERV_TOTAL', val: 0 },
@@ -96,6 +95,7 @@ describe('mapCatBData', () => {
       { col: 'POSTITION_STOPS_TOTAL', val: 0 },
       { col: 'AWARENESS_PLAN_TOTAL', val: 0 },
       { col: 'ANCILLARY_CONTROLS_TOTAL', val: 0 },
+      { col: 'EYESIGHT_SERIOUS', val: 0 },
       { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 0 },
       { col: 'REV_RIGHT_TRAIL_CONT_SERIOUS', val: 0 },
       { col: 'REV_RIGHT_TRAIL_OBSERV_SERIOUS', val: 0 },
@@ -194,6 +194,7 @@ describe('mapCatBData', () => {
       { col: 'POSTITION_STOPS_DANGEROUS', val: 0 },
       { col: 'AWARENESS_PLAN_DANGEROUS', val: 0 },
       { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
+      { col: 'EYESIGHT_COMPLETED', val: 0 },
       { col: 'CONTROL_STOP_COMPLETED', val: 0 },
       { col: 'REV_RIGHT_TRAIL_COMPLETED', val: 0 },
       { col: 'REVERSE_PARK_CARPARK', val: 0 },
@@ -385,8 +386,6 @@ describe('mapCatBData', () => {
           },
           eyesightTest: {
             complete: true,
-            seriousFault: true,
-            faultComments: 'eye sight fault',
           },
         },
         testSummary: {
@@ -396,7 +395,6 @@ describe('mapCatBData', () => {
     };
 
     const expected: DataField[] = [
-      { col: 'EYESIGHT_SERIOUS', val: 1 },
       { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 1 },
       { col: 'REV_RIGHT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_RIGHT_TRAIL_OBSERV_TOTAL', val: 1 },
@@ -446,6 +444,7 @@ describe('mapCatBData', () => {
       { col: 'POSTITION_STOPS_TOTAL', val: 38 },
       { col: 'AWARENESS_PLAN_TOTAL', val: 39 },
       { col: 'ANCILLARY_CONTROLS_TOTAL', val: 40 },
+      { col: 'EYESIGHT_SERIOUS', val: 0 },
       { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 0 },
       { col: 'REV_RIGHT_TRAIL_CONT_SERIOUS', val: 0 },
       { col: 'REV_RIGHT_TRAIL_OBSERV_SERIOUS', val: 0 },
@@ -544,6 +543,7 @@ describe('mapCatBData', () => {
       { col: 'POSTITION_STOPS_DANGEROUS', val: 0 },
       { col: 'AWARENESS_PLAN_DANGEROUS', val: 0 },
       { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
+      { col: 'EYESIGHT_COMPLETED', val: 1 },
       { col: 'CONTROL_STOP_COMPLETED', val: 1 },
       { col: 'REV_RIGHT_TRAIL_COMPLETED', val: 1 },
       { col: 'REVERSE_PARK_CARPARK', val: 1 },
@@ -790,7 +790,7 @@ describe('mapCatBData', () => {
           eyesightTest: {
             complete: true,
             seriousFault: true,
-            faultComments: 'eyesight fault',
+            faultComments: 'eyesight serious',
           },
         },
         testSummary: {
@@ -800,7 +800,6 @@ describe('mapCatBData', () => {
     };
 
     const expected: DataField[] = [
-      { col: 'EYESIGHT_SERIOUS', val: 1 },
       { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 0 },
       { col: 'REV_RIGHT_TRAIL_CONT_TOTAL', val: 0 },
       { col: 'REV_RIGHT_TRAIL_OBSERV_TOTAL', val: 0 },
@@ -850,6 +849,7 @@ describe('mapCatBData', () => {
       { col: 'POSTITION_STOPS_TOTAL', val: 0 },
       { col: 'AWARENESS_PLAN_TOTAL', val: 0 },
       { col: 'ANCILLARY_CONTROLS_TOTAL', val: 0 },
+      { col: 'EYESIGHT_SERIOUS', val: 1 },
       { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 1 },
       { col: 'REV_RIGHT_TRAIL_CONT_SERIOUS', val: 1 },
       { col: 'REV_RIGHT_TRAIL_OBSERV_SERIOUS', val: 1 },
@@ -948,6 +948,7 @@ describe('mapCatBData', () => {
       { col: 'POSTITION_STOPS_DANGEROUS', val: 0 },
       { col: 'AWARENESS_PLAN_DANGEROUS', val: 0 },
       { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
+      { col: 'EYESIGHT_COMPLETED', val: 1 },
       { col: 'CONTROL_STOP_COMPLETED', val: 1 },
       { col: 'REV_RIGHT_TRAIL_COMPLETED', val: 1 },
       { col: 'REVERSE_PARK_CARPARK', val: 1 },
@@ -958,6 +959,7 @@ describe('mapCatBData', () => {
       { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
       { col: 'ANGLED_START_COMPLETED', val: 1 },
       { col: 'HILL_START_COMPLETED', val: 1 },
+      { col: 'EYESIGHT_COMMENT', val: 'eyesight serious' },
       { col: 'CONTROL_STOP_COMMENT', val: 'controlled stop' },
       { col: 'REV_RIGHT_TRAIL_CONT_COMMENT', val: 'reverse right control' },
       { col: 'REV_RIGHT_TRAIL_OBSERV_COMMENT', val: 'reverse right observation' },
@@ -1192,9 +1194,8 @@ describe('mapCatBData', () => {
             ancillaryControlsComments: 'ancillary controls dangerous',
           },
           eyesightTest: {
-            complete: true,
-            seriousFault: true,
-            faultComments: 'eyesight fault',
+            complete: false,
+            seriousFault: false,
           },
         },
         testSummary: {
@@ -1204,7 +1205,6 @@ describe('mapCatBData', () => {
     };
 
     const expected: DataField[] = [
-      { col: 'EYESIGHT_SERIOUS', val: 1 },
       { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 0 },
       { col: 'REV_RIGHT_TRAIL_CONT_TOTAL', val: 0 },
       { col: 'REV_RIGHT_TRAIL_OBSERV_TOTAL', val: 0 },
@@ -1254,6 +1254,7 @@ describe('mapCatBData', () => {
       { col: 'POSTITION_STOPS_TOTAL', val: 0 },
       { col: 'AWARENESS_PLAN_TOTAL', val: 0 },
       { col: 'ANCILLARY_CONTROLS_TOTAL', val: 0 },
+      { col: 'EYESIGHT_SERIOUS', val: 0 },
       { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 0 },
       { col: 'REV_RIGHT_TRAIL_CONT_SERIOUS', val: 0 },
       { col: 'REV_RIGHT_TRAIL_OBSERV_SERIOUS', val: 0 },
@@ -1352,6 +1353,7 @@ describe('mapCatBData', () => {
       { col: 'POSTITION_STOPS_DANGEROUS', val: 1 },
       { col: 'AWARENESS_PLAN_DANGEROUS', val: 1 },
       { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 1 },
+      { col: 'EYESIGHT_COMPLETED', val: 0 },
       { col: 'CONTROL_STOP_COMPLETED', val: 1 },
       { col: 'REV_RIGHT_TRAIL_COMPLETED', val: 1 },
       { col: 'REVERSE_PARK_CARPARK', val: 1 },

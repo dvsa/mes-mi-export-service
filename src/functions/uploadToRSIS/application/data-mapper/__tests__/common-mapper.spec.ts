@@ -13,7 +13,7 @@ import { mapCommonData } from '../common-mapper';
 
 describe('mapCommonData', () => {
 
-  // minimally populated pass, manual gearbox, staff number with leading zeros, no gender
+  // minimally populated pass, no gearbox or reg, staff number with leading zeros, no gender
   const minimalInput: ResultUpload = {
     uploadKey: {
       applicationReference: {
@@ -68,10 +68,6 @@ describe('mapCommonData', () => {
         communicationMethod: 'Email',
         conductedLanguage: 'English',
       },
-      vehicleDetails: {
-        registrationNumber: 'DDDDDD',
-        gearboxCategory: 'Manual',
-      },
       testData: {
         faultSummary: {
           totalDrivingFaults: 10,
@@ -87,7 +83,7 @@ describe('mapCommonData', () => {
     },
   };
 
-  it('Should map a minially populated regular test result (pass, manual, english, minimal write up)', () => {
+  it('Should map a minially populated regular test result (pass, no gearbox, english, minimal write up)', () => {
     const expected: DataField[] = [
       { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
       { col: 'FORM_TYPE', val: FormType.MES },
@@ -129,7 +125,6 @@ describe('mapCommonData', () => {
       { col: 'TEST_CENTRE_ID', val: 1234 },
       { col: 'VEHICLE_SLOT_TYPE', val: 'C' },
       { col: 'WELSH_FORM_IND', val: Language.English },
-      { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
       { col: 'ECO_SAFE_COMPLETED', val: 0 },
       { col: 'ECO_SAFE_CONTROL', val: 0 },
       { col: 'ECO_SAFE_PLANNING', val: 0 },
@@ -304,7 +299,6 @@ describe('mapCommonData', () => {
       { col: 'TEST_CENTRE_ID', val: 1234 },
       { col: 'VEHICLE_SLOT_TYPE', val: 'C' },
       { col: 'WELSH_FORM_IND', val: Language.Welsh },
-      { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
       { col: 'ECO_SAFE_COMPLETED', val: 1 },
       { col: 'ECO_SAFE_CONTROL', val: 1 },
       { col: 'ECO_SAFE_PLANNING', val: 1 },
@@ -315,6 +309,7 @@ describe('mapCommonData', () => {
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'ETHNICITY', val: 'A' },
       { col: 'GENDER', val: Gender.Female },
+      { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
       { col: 'CANDIDATE_PHYSICAL_DESCRIPTION', val: 'Short' },
       { col: 'WEATHER_CONDITIONS', val: 'Showers|Windy' },
       { col: 'CANDIDATE_IDENTIFICATION', val: 'Passport' },
@@ -477,7 +472,6 @@ describe('mapCommonData', () => {
       { col: 'TEST_CENTRE_ID', val: 1234 },
       { col: 'VEHICLE_SLOT_TYPE', val: 'A' },
       { col: 'WELSH_FORM_IND', val: Language.English },
-      { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
       { col: 'ECO_SAFE_COMPLETED', val: 0 },
       { col: 'ECO_SAFE_CONTROL', val: 0 },
       { col: 'ECO_SAFE_PLANNING', val: 0 },
@@ -487,6 +481,7 @@ describe('mapCommonData', () => {
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'GENDER', val: Gender.Male },
+      { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
       { col: 'CANDIDATE_PHYSICAL_DESCRIPTION', val: 'Very tall' },
       { col: 'WEATHER_CONDITIONS', val: 'Showers|Windy' },
       { col: 'CANDIDATE_IDENTIFICATION', val: 'Licence' },
@@ -498,24 +493,24 @@ describe('mapCommonData', () => {
     expect(mapCommonData(input)).toEqual(expected);
   });
 
-  it('Should reject a test result with missing mandatory data (vehicle reg)', () => {
+  it('Should reject a test result with missing mandatory data (candidate forenames)', () => {
     const missingMandatory = cloneDeep(minimalInput);
-    if (missingMandatory.testResult.vehicleDetails) {
-      delete missingMandatory.testResult.vehicleDetails.registrationNumber;
+    if (missingMandatory.testResult.journalData.candidate.candidateName) {
+      delete missingMandatory.testResult.journalData.candidate.candidateName.firstName;
     }
 
     expect(() => mapCommonData(missingMandatory))
-      .toThrow(new MissingTestResultDataError('vehicleDetails.registrationNumber'));
+      .toThrow(new MissingTestResultDataError('journalData.candidate.candidateName.firstName'));
   });
 
-  it('Should reject a test result with missing mandatory data (gearbox category)', () => {
+  it('Should reject a test result with missing mandatory data (candidate date of birth)', () => {
     const missingMandatory = cloneDeep(minimalInput);
-    if (missingMandatory.testResult.vehicleDetails) {
-      delete missingMandatory.testResult.vehicleDetails.gearboxCategory;
+    if (missingMandatory.testResult.journalData.candidate.dateOfBirth) {
+      delete missingMandatory.testResult.journalData.candidate.dateOfBirth;
     }
 
     expect(() => mapCommonData(missingMandatory))
-      .toThrow(new MissingTestResultDataError('testResult.vehicleDetails.gearboxCategory'));
+      .toThrow(new MissingTestResultDataError('testResult.journalData.candidate.dateOfBirth'));
   });
 
   it('Should reject a test result with missing mandatory data (driver number)', () => {

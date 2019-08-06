@@ -128,18 +128,6 @@ export const mandatory = (object: any, path: string): any => {
 };
 
 /**
- * Formats eyesight result as a number (boolean flag, "is serious fault").
- *
- * @param result The MES test result
- * @returns The result (as a number)
- */
-export const formatEyesightResult = (result: ResultUpload): BooleanAsNumber => {
-  const isEyesightSeriousFault: boolean =
-  get(result, 'testResult.testData.eyesightTest.seriousFault', false);
-  return isEyesightSeriousFault ? 1 : 0;
-};
-
-/**
  * Get the number of faults for the specified manoeuvre, if any.
  *
  * @param object The MES test result

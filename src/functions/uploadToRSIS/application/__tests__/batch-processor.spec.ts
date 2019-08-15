@@ -24,6 +24,10 @@ describe('batch-processor', () => {
     testResult: {
       category: 'B',
       rekey: false,
+      changeMarker: false,
+      examinerBooked: 12345678,
+      examinerConducted: 12345678,
+      examinerKeyed: 12345678,
       journalData: {
         examiner: {
           staffNumber: '001122',

@@ -27,6 +27,10 @@ describe('mapCommonData', () => {
     testResult: {
       category: 'B',
       rekey: false,
+      changeMarker: false,
+      examinerBooked: 12345678,
+      examinerConducted: 12345678,
+      examinerKeyed: 12345678,
       journalData: {
         examiner: {
           staffNumber: '001122',
@@ -154,6 +158,10 @@ describe('mapCommonData', () => {
       testResult: {
         category: 'B',
         rekey: true,
+        changeMarker: false,
+        examinerBooked: 12345678,
+        examinerConducted: 12345678,
+        examinerKeyed: 12345678,
         journalData: {
           examiner: {
             staffNumber: '001122',
@@ -335,6 +343,10 @@ describe('mapCommonData', () => {
       testResult: {
         category: 'B',
         rekey: false,
+        changeMarker: false,
+        examinerBooked: 12345678,
+        examinerConducted: 12345678,
+        examinerKeyed: 12345678,
         journalData: {
           examiner: {
             staffNumber: '1234',

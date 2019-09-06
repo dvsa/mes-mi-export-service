@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import { BooleanAsNumber, DataField, DataFieldValue } from '../../domain/mi-export-data';
 import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
@@ -120,7 +120,7 @@ export const optionalBoolean = (object: any, path: string): BooleanAsNumber => {
  */
 export const mandatory = (object: any, path: string): any => {
   const value = get(object, path, null);
-  if (value) {
+  if (value !== null) {
     return value;
   }
 

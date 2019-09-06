@@ -1,4 +1,4 @@
-import { get, isEmpty } from 'lodash';
+import { get } from 'lodash';
 import { BooleanAsNumber, DataField, DataFieldValue } from '../../domain/mi-export-data';
 import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';

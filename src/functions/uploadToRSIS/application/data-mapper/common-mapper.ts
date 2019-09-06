@@ -39,7 +39,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('TIME', testDateTime.format('HHmm')),
     field('DTC_AUTHORITY_CODE', r.journalData.testCentre.costCode),
-    // field('STAFF_NO', r.examinerConducted.toString()), // get rid of any leading zeros, if any
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to

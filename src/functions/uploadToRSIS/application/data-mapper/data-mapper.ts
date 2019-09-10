@@ -120,7 +120,7 @@ export const optionalBoolean = (object: any, path: string): BooleanAsNumber => {
  */
 export const mandatory = (object: any, path: string): any => {
   const value = get(object, path, null);
-  if (value) {
+  if (value !== null) {
     return value;
   }
 

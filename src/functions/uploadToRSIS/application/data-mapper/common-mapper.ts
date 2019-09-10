@@ -11,6 +11,7 @@ import {
   FormType,
 } from '../../domain/mi-export-data';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import { formatRekeyReason, formatIpadIssueReason } from './rekey-reason-mapper';
 
 /**
  * Maps data common to all test categories.
@@ -38,7 +39,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('TIME', testDateTime.format('HHmm')),
     field('DTC_AUTHORITY_CODE', r.journalData.testCentre.costCode),
-    field('STAFF_NO', Number(r.journalData.examiner.staffNumber).toString()), // get rid of any leading zeros, if any
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
@@ -57,7 +57,11 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 
     // Note: if we add functionality to transfer tests at short notice (without telling TARS)
     // then set this change marker to true
-    field('SHORT_NOTICE_EXAMINER', 0),
+    field('SHORT_NOTICE_EXAMINER', optionalBoolean(r, 'changeMarker')),
+
+    field('BOOKED_STAFF_NO', mandatory(r, 'examinerBooked').toString()),
+    field('STAFF_NO', mandatory(r, 'examinerConducted').toString()),
+    field('KEYED_STAFF_NO', mandatory(r, 'examinerKeyed').toString()),
 
     field('TEST_RESULT', formatResult(result)),
     field('TOTAL_FAULTS', optional(r, 'testData.faultSummary.totalDrivingFaults', 0)),
@@ -149,6 +153,11 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'ADDITIONAL_INFORMATION', optional(r, 'testSummary.additionalInformation', null));
   addIfSet(mappedFields, 'COMMUNICATION_METHOD', optional(r, 'communicationPreferences.communicationMethod', null));
   addIfSet(mappedFields, 'COMMUNICATION_EMAIL', optional(r, 'communicationPreferences.updatedEmail', null));
+
+  addIfSet(mappedFields, 'REKEY_TIMESTAMP', optional(r, 'rekeyDate', null));
+  addIfSet(mappedFields, 'REKEY_REASONS', formatRekeyReason(optional(r, 'rekeyReason', null)));
+  addIfSet(mappedFields, 'IPAD_ISSUE_REASON', formatIpadIssueReason(optional(r, 'rekeyReason', null)));
+  addIfSet(mappedFields, 'OTHER_REKEY_REASON', optional(r, 'rekeyReason.other.reason', null));
 
   return mappedFields;
 };

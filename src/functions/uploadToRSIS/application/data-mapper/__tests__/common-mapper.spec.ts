@@ -28,12 +28,12 @@ describe('mapCommonData', () => {
       category: 'B',
       rekey: false,
       changeMarker: false,
-      examinerBooked: 12345678,
+      examinerBooked: 12345679,
       examinerConducted: 12345678,
-      examinerKeyed: 12345678,
+      examinerKeyed: 12345670,
       journalData: {
         examiner: {
-          staffNumber: '001122',
+          staffNumber: '12345678',
         },
         testCentre: {
           centreId: 1234,
@@ -97,7 +97,6 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '1122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },
@@ -108,6 +107,9 @@ describe('mapCommonData', () => {
       { col: 'ACCOMPANIED_BY_OTHER', val: 0 },
       { col: 'VISITING_EXAMINER', val: 0 },
       { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
+      { col: 'BOOKED_STAFF_NO', val: '12345679' },
+      { col: 'STAFF_NO', val: '12345678' },
+      { col: 'KEYED_STAFF_NO', val: '12345670' },
       { col: 'TEST_RESULT', val: ResultIndicator.Pass },
       { col: 'TOTAL_FAULTS', val: 10 },
       { col: 'ROUTE_NUMBER', val: 15 },
@@ -159,12 +161,12 @@ describe('mapCommonData', () => {
         category: 'B',
         rekey: true,
         changeMarker: false,
-        examinerBooked: 12345678,
+        examinerBooked: 12345679,
         examinerConducted: 12345678,
-        examinerKeyed: 12345678,
+        examinerKeyed: 12345670,
         journalData: {
           examiner: {
-            staffNumber: '001122',
+            staffNumber: '12345678',
           },
           testCentre: {
             centreId: 1234,
@@ -275,7 +277,6 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '1122' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 1 },
       { col: 'EXTENDED_TEST', val: 1 },
@@ -286,6 +287,9 @@ describe('mapCommonData', () => {
       { col: 'ACCOMPANIED_BY_OTHER', val: 1 },
       { col: 'VISITING_EXAMINER', val: 1 },
       { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
+      { col: 'BOOKED_STAFF_NO', val: '12345679' },
+      { col: 'STAFF_NO', val: '12345678' },
+      { col: 'KEYED_STAFF_NO', val: '12345670' },
       { col: 'TEST_RESULT', val: ResultIndicator.Fail },
       { col: 'TOTAL_FAULTS', val: 20 },
       { col: 'ROUTE_NUMBER', val: 15 },
@@ -344,12 +348,12 @@ describe('mapCommonData', () => {
         category: 'B',
         rekey: false,
         changeMarker: false,
-        examinerBooked: 12345678,
+        examinerBooked: 12345679,
         examinerConducted: 12345678,
-        examinerKeyed: 12345678,
+        examinerKeyed: 12345670,
         journalData: {
           examiner: {
-            staffNumber: '1234',
+            staffNumber: '12345679',
           },
           testCentre: {
             centreId: 1234,
@@ -452,7 +456,6 @@ describe('mapCommonData', () => {
       { col: 'DATE_OF_TEST', val: '190610' },
       { col: 'TIME', val: '1245' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
-      { col: 'STAFF_NO', val: '1234' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
       { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },
@@ -463,6 +466,9 @@ describe('mapCommonData', () => {
       { col: 'ACCOMPANIED_BY_OTHER', val: 0 },
       { col: 'VISITING_EXAMINER', val: 0 },
       { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
+      { col: 'BOOKED_STAFF_NO', val: '12345679' },
+      { col: 'STAFF_NO', val: '12345678' },
+      { col: 'KEYED_STAFF_NO', val: '12345670' },
       { col: 'TEST_RESULT', val: ResultIndicator.None },
       { col: 'TOTAL_FAULTS', val: 0 },
       { col: 'ROUTE_NUMBER', val: 99 },
@@ -500,6 +506,87 @@ describe('mapCommonData', () => {
       { col: 'ADDITIONAL_INFORMATION', val: 'aaa bbb ccc' },
       { col: 'COMMUNICATION_METHOD', val: 'Email' },
       { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
+    ];
+
+    expect(mapCommonData(input)).toEqual(expected);
+  });
+
+  it('Should map all rekey properties to the right fields', () => {
+    const input: ResultUpload = {
+      ...minimalInput,
+      testResult: {
+        ...minimalInput.testResult,
+        rekeyDate: '2019-07-07',
+        rekeyReason: {
+          other: {
+            selected: true,
+            reason: 'other reason',
+          },
+          ipadIssue: {
+            selected: true,
+            stolen: true,
+          },
+        },
+      },
+    };
+
+    const expected: DataField[] = [
+      { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
+      { col: 'FORM_TYPE', val: FormType.MES },
+      { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
+      { col: 'SPECIAL_NEEDS', val: 0 },
+      { col: 'APP_REF_NO', val: 2222013 },
+      { col: 'DATE_OF_TEST', val: '190610' },
+      { col: 'TIME', val: '0930' },
+      { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
+      { col: 'TEST_CATEGORY_TYPE', val: 'B' },
+      { col: 'AUTOMATIC_TEST', val: 0 },
+      { col: 'EXTENDED_TEST', val: 0 },
+      { col: 'TEST_TYPE', val: 2 },
+      { col: 'ACCOMPANIED_BY_DSA', val: 0 },
+      { col: 'ACCOMPANIED_BY_ADI', val: 0 },
+      { col: 'ACCOMPANIED_BY_INTERPRETER', val: 0 },
+      { col: 'ACCOMPANIED_BY_OTHER', val: 0 },
+      { col: 'VISITING_EXAMINER', val: 0 },
+      { col: 'SHORT_NOTICE_EXAMINER', val: 0 },
+      { col: 'BOOKED_STAFF_NO', val: '12345679' },
+      { col: 'STAFF_NO', val: '12345678' },
+      { col: 'KEYED_STAFF_NO', val: '12345670' },
+      { col: 'TEST_RESULT', val: ResultIndicator.Pass },
+      { col: 'TOTAL_FAULTS', val: 10 },
+      { col: 'ROUTE_NUMBER', val: 15 },
+      { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },
+      { col: 'DUAL_CONTROL_IND', val: 0 },
+      { col: 'DEBRIEF_WITNESSED', val: 0 },
+      { col: 'DEBRIEF_GIVEN', val: 1 },
+      { col: 'ACTIVITY_CODE', val: 1 },
+      { col: 'LICENCE_RECEIVED', val: 1 },
+      { col: 'DOB', val: new Date('2000-01-31') },
+      { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
+      { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
+      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
+      { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
+      { col: 'CANDIDATE_TITLE', val: 'Mr' },
+      { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
+      { col: 'TEST_CATEGORY_REF', val: 'B' },
+      { col: 'TEST_CENTRE_ID', val: 1234 },
+      { col: 'VEHICLE_SLOT_TYPE', val: 'C' },
+      { col: 'WELSH_FORM_IND', val: Language.English },
+      { col: 'ECO_SAFE_COMPLETED', val: 0 },
+      { col: 'ECO_SAFE_CONTROL', val: 0 },
+      { col: 'ECO_SAFE_PLANNING', val: 0 },
+      { col: 'INSURANCE_DECLARATION_ACCEPTED', val: 0 },
+      { col: 'RESIDENCY_DECLARATION_ACCEPTED', val: 0 },
+      { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
+      { col: 'PASS_CERT_RECEIVED', val: 0 },
+      { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
+      { col: 'COMMUNICATION_METHOD', val: 'Email' },
+      { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
+      { col: 'REKEY_TIMESTAMP', val: '2019-07-07' },
+      { col: 'REKEY_REASONS', val: 'iPad issue|Other' },
+      { col: 'IPAD_ISSUE_REASON', val: 'stolen' },
+      { col: 'OTHER_REKEY_REASON', val: 'other reason' },
     ];
 
     expect(mapCommonData(input)).toEqual(expected);
@@ -549,6 +636,33 @@ describe('mapCommonData', () => {
     }
     expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('testResult.communicationPreferences.conductedLanguage'));
+  });
+
+  it('Should reject a test result with missing mandatory data (booked staff num)', () => {
+    const missingMandatory = cloneDeep(minimalInput);
+    if (missingMandatory.testResult) {
+      delete missingMandatory.testResult.examinerBooked;
+    }
+    expect(() => mapCommonData(missingMandatory))
+      .toThrow(new MissingTestResultDataError('examinerBooked'));
+  });
+
+  it('Should reject a test result with missing mandatory data (staff num)', () => {
+    const missingMandatory = cloneDeep(minimalInput);
+    if (missingMandatory.testResult) {
+      delete missingMandatory.testResult.examinerConducted;
+    }
+    expect(() => mapCommonData(missingMandatory))
+      .toThrow(new MissingTestResultDataError('examinerConducted'));
+  });
+
+  it('Should reject a test result with missing mandatory data (keyed staff num)', () => {
+    const missingMandatory = cloneDeep(minimalInput);
+    if (missingMandatory.testResult) {
+      delete missingMandatory.testResult.examinerKeyed;
+    }
+    expect(() => mapCommonData(missingMandatory))
+      .toThrow(new MissingTestResultDataError('examinerKeyed'));
   });
 
   it('Should reject a test result with invalid data (unsupported test category)', () => {

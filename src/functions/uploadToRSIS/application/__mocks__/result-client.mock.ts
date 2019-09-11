@@ -1,47 +1,12 @@
 // In order to use this mock just swap the imports in the batch-processor.ts
-// and inport everything from here.
+// and import everything from here.
 
 // This code has some mock data for test results so that the lambda does not have to fetch
 // the test results externally
 
 import { info } from '@dvsa/mes-microservice-common/application/utils/logger';
-import { StandardCarTestCATBSchema, ApplicationReference } from '@dvsa/mes-test-schema/categories/B';
-
+import { ProcessingStatus, InterfaceType, UploadKey, ResultUpload } from '../result-client';
 import { pass, failAllFaults, failAllSerious, failAllDangerous, rekeyPass } from './result-uploads.mock';
-
-// Needs to kept in sync with the PROCESSING_STATUS table
-export enum ProcessingStatus {
-  PROCESSING = 'PROCESSING',
-  ACCEPTED = 'ACCEPTED',
-  FAILED = 'FAILED',
-}
-
-// Needs to be kept in sync with the INTERFACE_TYPE table
-export enum InterfaceType {
-  TARS = 'TARS',
-  RSIS = 'RSIS',
-  NOTIFY = 'NOTIFY',
-}
-
-// Needs to be kept in sync with the UPLOAD_QUEUE table
-export type UploadKey = {
-  applicationReference: ApplicationReference,
-  staffNumber: string,
-  interfaceType: InterfaceType,
-};
-
-export type ResultUpload = {
-  uploadKey: UploadKey,
-  testResult: StandardCarTestCATBSchema,
-};
-
-type UpdateUploadStatusPayload = {
-  staff_number: string,
-  interface: InterfaceType,
-  state: ProcessingStatus,
-  retry_count: number,
-  error_message: string | null,
-};
 
 /**
  * Call the Get Next Upload Batch API, for the specified interface.

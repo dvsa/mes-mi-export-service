@@ -1,9 +1,14 @@
 
-import { ResultUpload, InterfaceType } from './result-client.mock';
+import { ResultUpload, InterfaceType } from '../result-client';
 
 const staffNumber = '000002';
 const tcId = 3024;
 
+/**
+ * This is used to test text being written to Oracle CLOB columns.
+ * @param length length of the returned text
+ * @returns a generated text
+ */
 const generateRandomText = (length: number): string => {
   const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let randomString = '';

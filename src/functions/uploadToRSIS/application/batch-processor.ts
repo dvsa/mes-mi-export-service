@@ -6,7 +6,7 @@ import {
   updateUploadStatus,
   ResultUpload,
   UploadKey,
-} from '../application/result-client';
+} from './result-client';
 import { mapDataForMIExport, MissingTestResultDataError } from '../application/data-mapper/data-mapper';
 import { Config } from '../framework/config/config';
 import { createConnection } from '../framework/repo/database';

@@ -3,7 +3,7 @@ import { Connection } from 'oracledb';
 import { DataField } from '../../domain/mi-export-data';
 import { range } from 'lodash';
 import { Config } from '../config/config';
-import { info, debug, error } from '@dvsa/mes-microservice-common/application/utils/logger';
+import { info, error } from '@dvsa/mes-microservice-common/application/utils/logger';
 import { isUndefined } from 'util';
 
 /**

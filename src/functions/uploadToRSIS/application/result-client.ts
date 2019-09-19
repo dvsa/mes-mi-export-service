@@ -1,8 +1,9 @@
 import { info, error, debug } from '@dvsa/mes-microservice-common/application/utils/logger';
-import { StandardCarTestCATBSchema, ApplicationReference } from '@dvsa/mes-test-schema/categories/B';
+import { StandardCarTestCATBSchema, ApplicationReference, TestSummary } from '@dvsa/mes-test-schema/categories/B';
 import axios, { AxiosError } from 'axios';
 import * as zlib from 'zlib';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import { isNull } from 'util';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {
@@ -28,6 +29,7 @@ export type UploadKey = {
 export type ResultUpload = {
   uploadKey: UploadKey,
   testResult: StandardCarTestCATBSchema,
+  autosaved?: boolean,
 };
 
 type UpdateUploadStatusPayload = {
@@ -79,6 +81,9 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
         try {
           test = JSON.parse(uncompressedResult);
 
+          // verify autosaved record
+          const isAutosaved = isRecordAutosaved(test);
+
           // convert to a ResultUpload instance
           const resultToUpload: ResultUpload = {
             uploadKey: {
@@ -87,6 +92,7 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
               interfaceType: InterfaceType.RSIS,
             },
             testResult: test,
+            autosaved: isAutosaved,
           };
 
           resultList.push(resultToUpload);
@@ -154,4 +160,10 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
   }
   // Failed to setup the request
   return new Error(err.message);
+};
+
+const isRecordAutosaved = (test: StandardCarTestCATBSchema): boolean => {
+  // If routeNumber is provided, we safely assume this is not an autosaved record.
+  // As testSummary maybe undefined, we use the non-null assertion operator.
+  return test.testSummary!.routeNumber ? false : true;
 };

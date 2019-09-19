@@ -85,6 +85,7 @@ describe('mapCommonData', () => {
         routeNumber: 15,
       },
     },
+    autosaved: 0, // false
   };
 
   it('Should map a minially populated regular test result (pass, no gearbox, english, minimal write up)', () => {
@@ -266,6 +267,7 @@ describe('mapCommonData', () => {
           additionalInformation: 'aaa bbb ccc',
         },
       },
+      autosaved: 0, // false
     };
 
     const expected: DataField[] = [
@@ -445,6 +447,7 @@ describe('mapCommonData', () => {
           additionalInformation: 'aaa bbb ccc',
         },
       },
+      autosaved: 0, // false
     };
 
     const expected: DataField[] = [

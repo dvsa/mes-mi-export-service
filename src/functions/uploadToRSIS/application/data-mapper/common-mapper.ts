@@ -139,6 +139,8 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('RESIDENCY_DECLARATION_ACCEPTED', optionalBoolean(r, 'preTestDeclarations.residencyDeclarationAccepted')),
     field('HEALTH_DECLARATION_ACCEPTED', optionalBoolean(r, 'postTestDeclarations.healthDeclarationAccepted')),
     field('PASS_CERT_RECEIVED', optionalBoolean(r, 'postTestDeclarations.passCertificateNumberReceived')),
+    // autosave flag
+    field('NO_WRITE_UP', result.autosaved),
   ];
 
   // add the optional fields, only if set

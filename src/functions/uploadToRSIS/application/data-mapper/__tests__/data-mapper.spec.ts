@@ -59,6 +59,7 @@ describe('data mapper', () => {
       },
       activityCode: '1',
     },
+    autosaved: 0, //  false
   };
 
   describe('mapDataForMIExport', () => {

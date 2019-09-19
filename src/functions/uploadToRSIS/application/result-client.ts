@@ -3,7 +3,7 @@ import { StandardCarTestCATBSchema, ApplicationReference, TestSummary } from '@d
 import axios, { AxiosError } from 'axios';
 import * as zlib from 'zlib';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
-import { isNull } from 'util';
+import { BooleanAsNumber } from '../domain/mi-export-data';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {
@@ -29,7 +29,7 @@ export type UploadKey = {
 export type ResultUpload = {
   uploadKey: UploadKey,
   testResult: StandardCarTestCATBSchema,
-  autosaved?: boolean,
+  autosaved: BooleanAsNumber,
 };
 
 type UpdateUploadStatusPayload = {
@@ -162,8 +162,8 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
   return new Error(err.message);
 };
 
-const isRecordAutosaved = (test: StandardCarTestCATBSchema): boolean => {
+const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNumber => {
   // If routeNumber is provided, we safely assume this is not an autosaved record.
   // As testSummary maybe undefined, we use the non-null assertion operator.
-  return test.testSummary!.routeNumber ? false : true;
+  return test.testSummary!.routeNumber ? 0 : 1;
 };

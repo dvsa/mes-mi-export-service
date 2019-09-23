@@ -22,6 +22,7 @@ describe('batch-processor', () => {
   const dummyResult1: resultClient.ResultUpload = {
     uploadKey: dummyKey1,
     testResult: {
+      version: '0.0.1',
       category: 'B',
       rekey: false,
       changeMarker: false,

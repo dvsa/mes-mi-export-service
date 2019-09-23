@@ -30,6 +30,7 @@ export const pass: ResultUpload = {
     interfaceType: InterfaceType.RSIS,
   },
   testResult: {
+    version: '0.0.1',
     category: 'B',
     rekey: false,
     rekeyDate: '',
@@ -191,6 +192,7 @@ export const rekeyPass: ResultUpload = {
     interfaceType: InterfaceType.RSIS,
   },
   testResult: {
+    version: '0.0.1',
     category: 'B',
     rekey: true,
     rekeyDate: '',
@@ -364,6 +366,7 @@ export const failAllFaults: ResultUpload = {
     interfaceType: InterfaceType.RSIS,
   },
   testResult: {
+    version: '0.0.1',
     category: 'B',
     rekey: false,
     rekeyDate: '',
@@ -612,6 +615,7 @@ export const failAllSerious: ResultUpload = {
     interfaceType: InterfaceType.RSIS,
   },
   testResult: {
+    version: '0.0.1',
     category: 'B',
     rekey: false,
     rekeyDate: '',
@@ -860,6 +864,7 @@ export const failAllDangerous: ResultUpload = {
     interfaceType: InterfaceType.RSIS,
   },
   testResult: {
+    version: '0.0.1',
     category: 'B',
     rekey: false,
     rekeyDate: '',

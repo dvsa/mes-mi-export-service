@@ -163,7 +163,13 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
 };
 
 const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNumber => {
-  // If routeNumber is provided, we safely assume this is not an autosaved record.
+  // If the following properties are provided, we safely assume this is not an autosaved record.
   // As testSummary maybe undefined, we use the non-null assertion operator.
-  return test.testSummary!.routeNumber ? 0 : 1;
+  return (test.testSummary!.additionalInformation &&
+    test.testSummary!.candidateDescription &&
+    test.testSummary!.identification &&
+    test.testSummary!.independentDriving &&
+    test.testSummary!.routeNumber &&
+    test.testSummary!.weatherConditions &&
+    test.testSummary!.routeNumber) ? 0 : 1;
 };

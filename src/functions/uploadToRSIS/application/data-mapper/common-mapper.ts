@@ -139,12 +139,8 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('RESIDENCY_DECLARATION_ACCEPTED', optionalBoolean(r, 'preTestDeclarations.residencyDeclarationAccepted')),
     field('HEALTH_DECLARATION_ACCEPTED', optionalBoolean(r, 'postTestDeclarations.healthDeclarationAccepted')),
     field('PASS_CERT_RECEIVED', optionalBoolean(r, 'postTestDeclarations.passCertificateNumberReceived')),
+    field('NO_WRITE_UP', result.autosaved)
   ];
-
-  // if record is autosaved add NO_WRITE_UP
-  if (result.autosaved) {
-    mappedFields.push(field('NO_WRITE_UP', result.autosaved));
-  }
 
   // add the optional fields, only if set
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result));

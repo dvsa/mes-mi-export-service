@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios';
 import * as zlib from 'zlib';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 import { BooleanAsNumber } from '../domain/mi-export-data';
-import * as _ from 'lodash';
+import { get } from 'lodash';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {
@@ -167,11 +167,11 @@ const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNumber => 
   // If the following properties are provided, we safely assume this is not an autosaved record.
   // As testSummary maybe undefined, we use the non-null assertion operator.
   return (
-    _.get(test, 'testSummary.additionalInformation', false) &&
-    _.get(test, 'testSummary.candidateDescription', false) &&
-    _.get(test, 'testSummary.identification', false) &&
-    _.get(test, 'testSummary.independentDriving', false) &&
-    _.get(test, 'testSummary.routeNumber', false) &&
-    _.get(test, 'testSummary.weatherConditions', false))
+    get(test, 'testSummary.additionalInformation', false) &&
+    get(test, 'testSummary.candidateDescription', false) &&
+    get(test, 'testSummary.identification', false) &&
+    get(test, 'testSummary.independentDriving', false) &&
+    get(test, 'testSummary.routeNumber', false) &&
+    get(test, 'testSummary.weatherConditions', false))
      ? 0 : 1;
 };

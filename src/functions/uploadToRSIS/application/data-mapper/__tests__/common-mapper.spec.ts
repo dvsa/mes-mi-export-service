@@ -85,6 +85,7 @@ describe('mapCommonData', () => {
         routeNumber: 15,
       },
     },
+    autosaved: 0, // false
   };
 
   it('Should map a minially populated regular test result (pass, no gearbox, english, minimal write up)', () => {
@@ -138,6 +139,7 @@ describe('mapCommonData', () => {
       { col: 'RESIDENCY_DECLARATION_ACCEPTED', val: 0 },
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
+      { col: 'NO_WRITE_UP', val: 0 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
       { col: 'COMMUNICATION_METHOD', val: 'Email' },
       { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
@@ -266,6 +268,7 @@ describe('mapCommonData', () => {
           additionalInformation: 'aaa bbb ccc',
         },
       },
+      autosaved: 0, // false
     };
 
     const expected: DataField[] = [
@@ -318,6 +321,7 @@ describe('mapCommonData', () => {
       { col: 'RESIDENCY_DECLARATION_ACCEPTED', val: 1 },
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
+      { col: 'NO_WRITE_UP', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'ETHNICITY', val: 'A' },
       { col: 'GENDER', val: Gender.Female },
@@ -445,6 +449,7 @@ describe('mapCommonData', () => {
           additionalInformation: 'aaa bbb ccc',
         },
       },
+      autosaved: 0, // false
     };
 
     const expected: DataField[] = [
@@ -497,6 +502,7 @@ describe('mapCommonData', () => {
       { col: 'RESIDENCY_DECLARATION_ACCEPTED', val: 1 },
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
+      { col: 'NO_WRITE_UP', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'GENDER', val: Gender.Male },
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
@@ -580,6 +586,7 @@ describe('mapCommonData', () => {
       { col: 'RESIDENCY_DECLARATION_ACCEPTED', val: 0 },
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
+      { col: 'NO_WRITE_UP', val: 0 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
       { col: 'COMMUNICATION_METHOD', val: 'Email' },
       { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },

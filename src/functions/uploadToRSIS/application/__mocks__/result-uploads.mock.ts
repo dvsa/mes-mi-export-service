@@ -178,6 +178,7 @@ export const pass: ResultUpload = {
       additionalInformation: generateRandomText(20),
     },
   },
+  autosaved: 0, // false
 };
 
 export const rekeyPass: ResultUpload = {
@@ -351,6 +352,7 @@ export const rekeyPass: ResultUpload = {
       additionalInformation: generateRandomText(20),
     },
   },
+  autosaved: 0, // false
 };
 
 export const failAllFaults: ResultUpload = {
@@ -599,6 +601,7 @@ export const failAllFaults: ResultUpload = {
       additionalInformation: generateRandomText(10000),
     },
   },
+  autosaved: 0, // false
 };
 
 export const failAllSerious: ResultUpload = {
@@ -847,6 +850,7 @@ export const failAllSerious: ResultUpload = {
       additionalInformation: generateRandomText(100000),
     },
   },
+  autosaved: 0, // false
 };
 
 export const failAllDangerous: ResultUpload = {
@@ -1095,4 +1099,5 @@ export const failAllDangerous: ResultUpload = {
       additionalInformation: generateRandomText(500000),
     },
   },
+  autosaved: 0, // false
 };

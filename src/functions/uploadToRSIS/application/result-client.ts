@@ -3,6 +3,8 @@ import { StandardCarTestCATBSchema, ApplicationReference } from '@dvsa/mes-test-
 import axios, { AxiosError } from 'axios';
 import * as zlib from 'zlib';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import { BooleanAsNumber } from '../domain/mi-export-data';
+import { get } from 'lodash';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {
@@ -28,6 +30,7 @@ export type UploadKey = {
 export type ResultUpload = {
   uploadKey: UploadKey,
   testResult: StandardCarTestCATBSchema,
+  autosaved: BooleanAsNumber,
 };
 
 type UpdateUploadStatusPayload = {
@@ -79,6 +82,9 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
         try {
           test = JSON.parse(uncompressedResult);
 
+          // verify autosaved record
+          const isAutosaved = isRecordAutosaved(test);
+
           // convert to a ResultUpload instance
           const resultToUpload: ResultUpload = {
             uploadKey: {
@@ -87,6 +93,7 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
               interfaceType: InterfaceType.RSIS,
             },
             testResult: test,
+            autosaved: isAutosaved,
           };
 
           resultList.push(resultToUpload);
@@ -154,4 +161,17 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
   }
   // Failed to setup the request
   return new Error(err.message);
+};
+
+const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNumber => {
+  // If the following properties are provided, we safely assume this is not an autosaved record.
+  // As testSummary maybe undefined, we use the non-null assertion operator.
+  return (
+    get(test, 'testSummary.additionalInformation', false) &&
+    get(test, 'testSummary.candidateDescription', false) &&
+    get(test, 'testSummary.identification', false) &&
+    get(test, 'testSummary.independentDriving', false) &&
+    get(test, 'testSummary.routeNumber', false) &&
+    get(test, 'testSummary.weatherConditions', false))
+     ? 0 : 1;
 };

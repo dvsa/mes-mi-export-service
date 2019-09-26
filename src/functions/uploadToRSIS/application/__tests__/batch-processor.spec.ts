@@ -53,6 +53,7 @@ describe('batch-processor', () => {
       },
       activityCode: '1',
     },
+    autosaved: 0, // false
   };
 
   const dummyConfig: Config = {

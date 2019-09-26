@@ -47,6 +47,7 @@ describe('mapCatBData', () => {
         },
         activityCode: '22',
       },
+      autosaved: 0, // false
     };
 
     const expected: DataField[] = [
@@ -400,6 +401,7 @@ describe('mapCatBData', () => {
           independentDriving: 'Sat nav',
         },
       },
+      autosaved: 0, // false
     };
 
     const expected: DataField[] = [
@@ -809,6 +811,7 @@ describe('mapCatBData', () => {
           independentDriving: 'Traffic signs',
         },
       },
+      autosaved: 0, // false
     };
 
     const expected: DataField[] = [
@@ -1218,6 +1221,7 @@ describe('mapCatBData', () => {
           independentDriving: 'N/A',
         },
       },
+      autosaved: 0, // false
     };
 
     const expected: DataField[] = [

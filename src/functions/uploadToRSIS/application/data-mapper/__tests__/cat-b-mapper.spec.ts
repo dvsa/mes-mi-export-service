@@ -16,6 +16,7 @@ describe('mapCatBData', () => {
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
+        version: '0.0.1',
         category: 'B',
         rekey: false,
         changeMarker: false,
@@ -228,6 +229,7 @@ describe('mapCatBData', () => {
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
+        version: '0.0.1',
         category: 'B',
         rekey: false,
         changeMarker: false,
@@ -636,6 +638,7 @@ describe('mapCatBData', () => {
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
+        version: '0.0.1',
         category: 'B',
         rekey: false,
         changeMarker: false,
@@ -1047,6 +1050,7 @@ describe('mapCatBData', () => {
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
+        version: '0.0.1',
         category: 'B',
         rekey: false,
         changeMarker: false,

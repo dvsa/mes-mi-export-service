@@ -25,6 +25,7 @@ describe('mapCommonData', () => {
       interfaceType: InterfaceType.RSIS,
     },
     testResult: {
+      version: '0.0.1',
       category: 'B',
       rekey: false,
       changeMarker: false,
@@ -160,6 +161,7 @@ describe('mapCommonData', () => {
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
+        version: '0.0.1',
         category: 'B',
         rekey: true,
         changeMarker: false,
@@ -349,6 +351,7 @@ describe('mapCommonData', () => {
         interfaceType: InterfaceType.RSIS,
       },
       testResult: {
+        version: '0.0.1',
         category: 'B',
         rekey: false,
         changeMarker: false,

@@ -163,10 +163,15 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
   return new Error(err.message);
 };
 
-const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNumber => {
+export const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNumber => {
+  
+  // Date two weeks ago for comparison
+  let dateTwoWeeksAgo = new Date().setDate(new Date().getDate() - 14);
+
   // If the following properties are provided, we safely assume this is not an autosaved record.
   // As testSummary maybe undefined, we use the non-null assertion operator.
-  return (
+ return (
+    dateTwoWeeksAgo > Date.parse(test.journalData.testSlotAttributes.start) &&
     get(test, 'testSummary.additionalInformation', false) &&
     get(test, 'testSummary.candidateDescription', false) &&
     get(test, 'testSummary.identification', false) &&

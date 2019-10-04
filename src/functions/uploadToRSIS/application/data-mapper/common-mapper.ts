@@ -155,7 +155,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'COMMUNICATION_METHOD', optional(r, 'communicationPreferences.communicationMethod', null));
   addIfSet(mappedFields, 'COMMUNICATION_EMAIL', optional(r, 'communicationPreferences.updatedEmail', null));
 
-  addIfSet(mappedFields, 'REKEY_TIMESTAMP', optional(r, 'rekeyDate', null));
+  addIfSet(mappedFields, 'REKEY_TIMESTAMP', formatRekeyDateTime(result));
   addIfSet(mappedFields, 'REKEY_REASONS', formatRekeyReason(optional(r, 'rekeyReason', null)));
   addIfSet(mappedFields, 'IPAD_ISSUE_REASON', formatIpadIssueReason(optional(r, 'rekeyReason', null)));
   addIfSet(mappedFields, 'OTHER_REKEY_REASON', optional(r, 'rekeyReason.other.reason', null));
@@ -274,4 +274,18 @@ const formatDateOfBirth = (result: ResultUpload): Date => {
     return moment(dob, 'YYYY-MM-DD').toDate();
   }
   throw new MissingTestResultDataError('testResult.journalData.candidate.dateOfBirth');
+};
+
+/**
+ * Formats the rekeyDatee
+ *
+ * @param result The MES test result
+ * @returns The formatted date
+ */
+const formatRekeyDateTime = (result: ResultUpload): Date|null => {
+  const rekeyDateText = get(result, 'testResult.rekeyDate', null);
+  if (rekeyDateText) {
+    return  moment(rekeyDateText, 'YYYY-MM-DDTHH:mm:ss').toDate();
+  }
+  return null;
 };

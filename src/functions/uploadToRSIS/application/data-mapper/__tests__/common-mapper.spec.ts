@@ -10,6 +10,7 @@ import {
 } from '../../../domain/mi-export-data';
 import { InterfaceType, ResultUpload } from '../../result-client';
 import { mapCommonData } from '../common-mapper';
+import moment = require('moment');
 
 describe('mapCommonData', () => {
 
@@ -525,7 +526,7 @@ describe('mapCommonData', () => {
       ...minimalInput,
       testResult: {
         ...minimalInput.testResult,
-        rekeyDate: '2019-07-07',
+        rekeyDate: '2019-10-02T11:50:57',
         rekeyReason: {
           other: {
             selected: true,
@@ -593,7 +594,7 @@ describe('mapCommonData', () => {
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
       { col: 'COMMUNICATION_METHOD', val: 'Email' },
       { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
-      { col: 'REKEY_TIMESTAMP', val: '2019-07-07' },
+      { col: 'REKEY_TIMESTAMP', val: moment('2019-10-02T11:50:57', 'YYYY-MM-DDTHH:mm:ss').toDate() },
       { col: 'REKEY_REASONS', val: 'iPad issue|Other' },
       { col: 'IPAD_ISSUE_REASON', val: 'stolen' },
       { col: 'OTHER_REKEY_REASON', val: 'other reason' },

@@ -33,7 +33,7 @@ describe('result-client', () => {
       };
 
       // ASSERT
-      expect(isRecordAutosaved(mockData as StandardCarTestCATBSchema)).toBeTruthy();
+      expect(isRecordAutosaved(mockData as StandardCarTestCATBSchema)).toBe(1);
     });
 
     describe('test over two weeks old', () => {
@@ -65,7 +65,7 @@ describe('result-client', () => {
         };
 
         // ASSERT
-        expect(isRecordAutosaved(mockData as StandardCarTestCATBSchema)).toBeTruthy();
+        expect(isRecordAutosaved(mockData as StandardCarTestCATBSchema)).toBe(1);
       });
 
       it('should be an autosave even with test summary', () => {
@@ -102,7 +102,7 @@ describe('result-client', () => {
         };
 
         // ASSERT
-        expect(isRecordAutosaved(mockData as StandardCarTestCATBSchema)).toBeTruthy();
+        expect(isRecordAutosaved(mockData as StandardCarTestCATBSchema)).toBe(1);
       });
     });
 
@@ -141,7 +141,7 @@ describe('result-client', () => {
       };
 
       // ASSERT
-      expect(isRecordAutosaved(mockData as StandardCarTestCATBSchema)).toBeFalsy();
+      expect(isRecordAutosaved(mockData as StandardCarTestCATBSchema)).toBe(0);
     });
 
   });

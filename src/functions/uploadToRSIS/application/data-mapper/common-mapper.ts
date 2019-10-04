@@ -284,7 +284,7 @@ const formatDateOfBirth = (result: ResultUpload): Date => {
 const formatRekeyDateTime = (result: ResultUpload): Date|null => {
   const rekeyDateText = get(result, 'testResult.rekeyDate', null);
   if (rekeyDateText) {
-    return  moment(rekeyDateText,'YYYY-MM-DDTHH:mm:ss').toDate();
+    return  moment(rekeyDateText, 'YYYY-MM-DDTHH:mm:ss').toDate();
   }
   return null;
 };

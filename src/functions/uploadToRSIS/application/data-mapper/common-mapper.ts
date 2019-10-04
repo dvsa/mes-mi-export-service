@@ -276,10 +276,10 @@ const formatDateOfBirth = (result: ResultUpload): Date => {
 };
 
 /**
- * Formats the candidate's date of birth.
+ * Formats the rekeyDatee
  *
  * @param result The MES test result
- * @returns The language indicator
+ * @returns The formatted date
  */
 const formatRekeyDateTime = (result: ResultUpload): Date|null => {
   const rekeyDateText = get(result, 'testResult.rekeyDate', null);

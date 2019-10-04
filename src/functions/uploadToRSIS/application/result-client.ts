@@ -5,6 +5,7 @@ import * as zlib from 'zlib';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 import { BooleanAsNumber } from '../domain/mi-export-data';
 import { get } from 'lodash';
+import * as moment from 'moment';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {
@@ -52,7 +53,7 @@ const axiosInstance = axios.create();
  * @throws Error API call failed
  */
 export const getNextUploadBatch = async (baseUrl: string, interfaceType: InterfaceType, batchSize: number):
-    Promise<ResultUpload[]> => {
+  Promise<ResultUpload[]> => {
   info(`Calling getNextUpdateBatch for ${interfaceType}, batch size of ${batchSize}`);
 
   const url = `${baseUrl}/upload?interface=${interfaceType}&batch_size=${batchSize}`;
@@ -164,19 +165,20 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
 };
 
 export const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNumber => {
-  
-  // Date two weeks ago for comparison
-  let dateTwoWeeksAgo = new Date().setDate(new Date().getDate() - 14);
+  const testDate = moment(new Date(test.journalData.testSlotAttributes.start));
 
-  // If the following properties are provided, we safely assume this is not an autosaved record.
-  // As testSummary maybe undefined, we use the non-null assertion operator.
- return (
-    dateTwoWeeksAgo > Date.parse(test.journalData.testSlotAttributes.start) &&
-    get(test, 'testSummary.additionalInformation', false) &&
-    get(test, 'testSummary.candidateDescription', false) &&
-    get(test, 'testSummary.identification', false) &&
-    get(test, 'testSummary.independentDriving', false) &&
-    get(test, 'testSummary.routeNumber', false) &&
-    get(test, 'testSummary.weatherConditions', false))
-     ? 0 : 1;
+  // Two weeks or older is always flagged as autosave
+  if (moment().diff(testDate, 'days') >= 14) {
+    return 1;
+  }
+
+  // We assume that when these properties are null then the test is autosaved
+  return (
+    (get(test, 'testSummary.additionalInformation', false) &&
+      get(test, 'testSummary.candidateDescription', false) &&
+      get(test, 'testSummary.identification', false) &&
+      get(test, 'testSummary.independentDriving', false) &&
+      get(test, 'testSummary.routeNumber', false) &&
+      get(test, 'testSummary.weatherConditions', false))
+  ) ? 0 : 1;
 };

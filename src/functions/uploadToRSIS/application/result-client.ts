@@ -174,7 +174,6 @@ export const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNum
 
   // We assume that when these properties are null then the test is autosaved
   return (
-    get(test, 'testSummary.additionalInformation', false) &&
       get(test, 'testSummary.candidateDescription', false) &&
       get(test, 'testSummary.identification', false) &&
       get(test, 'testSummary.independentDriving', false) &&

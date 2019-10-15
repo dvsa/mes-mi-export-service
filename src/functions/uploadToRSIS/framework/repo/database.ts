@@ -15,7 +15,7 @@ export const createConnection = async (config: Config): Promise<Connection | und
 
     const connection = await getConnection({
       user: config.rsisDatabaseUsername,
-      password: config.rsisDatabaseUsername,
+      password: config.rsisDatabasePassword,
       connectString: connectionString,
     });
     info(`Connection successfully created`);

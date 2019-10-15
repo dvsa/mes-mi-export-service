@@ -88,11 +88,11 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // PASS_CERTIFICATE is optional field set below
     field('LICENCE_RECEIVED', optionalBoolean(r, 'passCompletion.provisionalLicenceProvided')),
     field('DOB', formatDateOfBirth(result)),
-    // CANDIDATE_FORENAMES is optional field set below (not populated if DVLA data bad in TARS)
+    field('CANDIDATE_FORENAMES', mandatory(r, 'journalData.candidate.candidateName.firstName')),
     field('CANDIDATE_INDIVIDUAL_ID', mandatory(r, 'journalData.candidate.candidateId')),
     field('CANDIDATE_POST_CODE', mandatory(r, 'journalData.candidate.candidateAddress.postcode')),
     field('CANDIDATE_SURNAME', mandatory(r, 'journalData.candidate.candidateName.lastName')),
-    // CANDIDATE_TITLE is optional field set below (not populated if DVLA data bad in TARS)
+    field('CANDIDATE_TITLE', mandatory(r, 'journalData.candidate.candidateName.title')),
     field('DRIVER_NUMBER', mandatory(r, 'journalData.candidate.driverNumber')),
     // unused - EXAMINER_FORENAMES
     // unused - EXAMINER_PERSON_ID
@@ -144,8 +144,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   // add the optional fields, only if set
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result));
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
-  addIfSet(mappedFields, 'CANDIDATE_FORENAMES', optional(r, 'journalData.candidate.candidateName.firstName', null)),
-  addIfSet(mappedFields, 'CANDIDATE_TITLE', optional(r, 'journalData.candidate.candidateName.title', null)),
   addIfSet(mappedFields, 'ETHNICITY', optional(r, 'journalData.candidate.ethnicityCode', null));
   addIfSet(mappedFields, 'GENDER', optional(r, 'journalData.candidate.gender', null));
   addIfSet(mappedFields, 'VEHICLE_REGISTRATION', optional(r, 'vehicleDetails.registrationNumber', null)),

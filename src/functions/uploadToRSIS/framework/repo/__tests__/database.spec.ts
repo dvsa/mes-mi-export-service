@@ -27,7 +27,11 @@ describe('createConnection', () => {
 
     const conn = await createConnection(useRSISConfig);
 
-    expect(oracledb.getConnection).toHaveBeenCalled();
+    expect(oracledb.getConnection).toHaveBeenCalledWith({
+      user: 'bbb',
+      password: 'ccc',
+      connectString: 'aaa',
+    });
   });
 
   it('Should propogate any exceptions', async () => {

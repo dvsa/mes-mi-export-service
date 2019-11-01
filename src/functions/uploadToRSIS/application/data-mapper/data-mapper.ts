@@ -4,7 +4,7 @@ import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
 import { debug, error } from '@dvsa/mes-microservice-common/application/utils/logger';
-import { ManoeuvreOutcome, TestData, QuestionOutcome } from '@dvsa/mes-test-schema/categories/B';
+import { ManoeuvreOutcome, TestData, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common/';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to

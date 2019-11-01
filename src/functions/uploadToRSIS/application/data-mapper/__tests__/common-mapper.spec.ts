@@ -10,6 +10,7 @@ import {
 } from '../../../domain/mi-export-data';
 import { InterfaceType, ResultUpload } from '../../result-client';
 import { mapCommonData } from '../common-mapper';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import moment = require('moment');
 
 describe('mapCommonData', () => {
@@ -73,9 +74,6 @@ describe('mapCommonData', () => {
         conductedLanguage: 'English',
       },
       testData: {
-        faultSummary: {
-          totalDrivingFaults: 10,
-        },
       },
       passCompletion: {
         provisionalLicenceProvided: true,
@@ -112,7 +110,7 @@ describe('mapCommonData', () => {
       { col: 'STAFF_NO', val: '12345678' },
       { col: 'KEYED_STAFF_NO', val: '12345670' },
       { col: 'TEST_RESULT', val: ResultIndicator.Pass },
-      { col: 'TOTAL_FAULTS', val: 10 },
+      { col: 'TOTAL_FAULTS', val: 0 },
       { col: 'ROUTE_NUMBER', val: 15 },
       { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
       { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },
@@ -147,6 +145,21 @@ describe('mapCommonData', () => {
   });
 
   it('Should map a fully populated regular test result (fail, automatic, welsh, rekey, ethnicity, write up)', () => {
+    const fullTestResult: CatBUniqueTypes.TestData = {
+      eco: {
+        completed: true,
+        adviceGivenControl: true,
+        adviceGivenPlanning: true,
+      },
+      ETA: {
+        physical: true,
+        verbal: true,
+      },
+      eyesightTest: {
+        complete: true,
+      },
+    };
+
     const input: ResultUpload = {
       uploadKey: {
         applicationReference: {
@@ -242,20 +255,7 @@ describe('mapCommonData', () => {
         instructorDetails: {
           registrationNumber: 555555,
         },
-        testData: {
-          eco: {
-            completed: true,
-            adviceGivenControl: true,
-            adviceGivenPlanning: true,
-          },
-          ETA: {
-            physical: true,
-            verbal: true,
-          },
-          faultSummary: {
-            totalDrivingFaults: 20,
-          },
-        },
+        testData: fullTestResult,
         testSummary: {
           routeNumber: 15,
           independentDriving: 'Sat nav',
@@ -293,7 +293,7 @@ describe('mapCommonData', () => {
       { col: 'STAFF_NO', val: '12345678' },
       { col: 'KEYED_STAFF_NO', val: '12345670' },
       { col: 'TEST_RESULT', val: ResultIndicator.Fail },
-      { col: 'TOTAL_FAULTS', val: 20 },
+      { col: 'TOTAL_FAULTS', val: 0 },
       { col: 'ROUTE_NUMBER', val: 15 },
       { col: 'EXAMINER_ACTION_VERBAL', val: 1 },
       { col: 'EXAMINER_ACTION_PHYSICAL', val: 1 },
@@ -337,6 +337,12 @@ describe('mapCommonData', () => {
   });
 
   it('Should map a terminated test result (with defaulted route number, english, vehicle type A, write up)', () => {
+    const terminatedTestResult: CatBUniqueTypes.TestData = {
+      eyesightTest: {
+        complete: true,
+      },
+    };
+
     const input: ResultUpload = {
       uploadKey: {
         applicationReference: {
@@ -431,14 +437,7 @@ describe('mapCommonData', () => {
         instructorDetails: {
           registrationNumber: 555555,
         },
-        testData: {
-          faultSummary: {
-            totalDrivingFaults: 0,
-          },
-          eyesightTest: {
-            complete: true,
-          },
-        },
+        testData: terminatedTestResult,
         testSummary: {
           independentDriving: 'Sat nav',
           debriefWitnessed: true,
@@ -559,7 +558,7 @@ describe('mapCommonData', () => {
       { col: 'STAFF_NO', val: '12345678' },
       { col: 'KEYED_STAFF_NO', val: '12345670' },
       { col: 'TEST_RESULT', val: ResultIndicator.Pass },
-      { col: 'TOTAL_FAULTS', val: 10 },
+      { col: 'TOTAL_FAULTS', val: 0 },
       { col: 'ROUTE_NUMBER', val: 15 },
       { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
       { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },

@@ -1,5 +1,6 @@
 import { info, error, debug } from '@dvsa/mes-microservice-common/application/utils/logger';
-import { StandardCarTestCATBSchema, ApplicationReference } from '@dvsa/mes-test-schema/categories/B';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import axios, { AxiosError } from 'axios';
 import * as zlib from 'zlib';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
@@ -30,7 +31,7 @@ export type UploadKey = {
 
 export type ResultUpload = {
   uploadKey: UploadKey,
-  testResult: StandardCarTestCATBSchema,
+  testResult: TestResultSchemasUnion,
   autosaved: BooleanAsNumber,
 };
 
@@ -71,7 +72,7 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
       const parseResult = response.data;
       parseResult.forEach((element: string) => {
         let uncompressedResult: string = '';
-        let test: StandardCarTestCATBSchema;
+        let test: TestResultSchemasUnion;
 
         try {
           uncompressedResult = zlib.gunzipSync(new Buffer(element, 'base64')).toString();
@@ -164,7 +165,7 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
   return new Error(err.message);
 };
 
-export const isRecordAutosaved = (test: StandardCarTestCATBSchema): BooleanAsNumber => {
+export const isRecordAutosaved = (test: TestResultSchemasUnion): BooleanAsNumber => {
   const testDate = moment(new Date(test.journalData.testSlotAttributes.start));
 
   // Two weeks or older is always flagged as autosave

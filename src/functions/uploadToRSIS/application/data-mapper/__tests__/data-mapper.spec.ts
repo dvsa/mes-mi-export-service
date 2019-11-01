@@ -11,7 +11,8 @@ import {
   getCompetencyComments,
 } from '../data-mapper';
 import { cloneDeep } from 'lodash';
-import { QuestionOutcome, VehicleChecks } from '@dvsa/mes-test-schema/categories/B';
+import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 
 describe('data mapper', () => {
 
@@ -153,7 +154,9 @@ describe('data mapper', () => {
                                      expected: BooleanAsNumber) => {
       const input = cloneDeep(minimalInput);
       if (showMeOutcome || tellMeOutcome) {
-        const vehicleChecks: VehicleChecks = {};
+        // TODO - when new categories are added this will need refactoring
+        //        to populate the different vehicle check types
+        const vehicleChecks: CatBUniqueTypes.VehicleChecks = {};
 
         if (showMeOutcome) {
           vehicleChecks.showMeQuestion = {
@@ -205,7 +208,9 @@ describe('data mapper', () => {
                                        expected: BooleanAsNumber) => {
       const input = cloneDeep(minimalInput);
       if (showMeOutcome || tellMeOutcome) {
-        const vehicleChecks: VehicleChecks = {};
+        // TODO - when new categories are added this will need refactoring
+        //        to populate the different vehicle check types
+        const vehicleChecks: CatBUniqueTypes.VehicleChecks = {};
 
         if (showMeOutcome) {
           vehicleChecks.showMeQuestion = {
@@ -257,7 +262,9 @@ describe('data mapper', () => {
                                          expected: BooleanAsNumber) => {
       const input = cloneDeep(minimalInput);
       if (showMeOutcome || tellMeOutcome) {
-        const vehicleChecks: VehicleChecks = {};
+        // TODO - when new categories are added this will need refactoring
+        //        to populate the different vehicle check types
+        const vehicleChecks: CatBUniqueTypes.VehicleChecks = {};
 
         if (showMeOutcome) {
           vehicleChecks.showMeQuestion = {

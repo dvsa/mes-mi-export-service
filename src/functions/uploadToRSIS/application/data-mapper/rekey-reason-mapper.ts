@@ -1,5 +1,5 @@
 import { isEmpty, get } from 'lodash';
-import { RekeyReason } from '@dvsa/mes-test-schema/categories/B';
+import { RekeyReason } from '@dvsa/mes-test-schema/categories/common';
 
 /**
  * Checks if there is a reason for rekey, and extracts the iPad issue

@@ -1,6 +1,6 @@
 
 import { formatIpadIssueReason, formatRekeyReason } from '../rekey-reason-mapper';
-import { RekeyReason } from '@dvsa/mes-test-schema/categories/B';
+import { RekeyReason } from '@dvsa/mes-test-schema/categories/common';
 
 describe('rekey reason mapper', () => {
   describe('formatIpadIssueReason', () => {

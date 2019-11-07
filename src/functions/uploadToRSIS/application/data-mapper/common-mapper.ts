@@ -144,11 +144,11 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   // add the optional fields, only if set
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result));
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
-  addIfSet(mappedFields, 'CANDIDATE_FORENAMES', optional(r, 'journalData.candidate.candidateName.firstName', null)),
-  addIfSet(mappedFields, 'CANDIDATE_TITLE', optional(r, 'journalData.candidate.candidateName.title', null)),
+  addIfSet(mappedFields, 'CANDIDATE_FORENAMES', optional(r, 'journalData.candidate.candidateName.firstName', null));
+  addIfSet(mappedFields, 'CANDIDATE_TITLE', optional(r, 'journalData.candidate.candidateName.title', null));
   addIfSet(mappedFields, 'ETHNICITY', optional(r, 'journalData.candidate.ethnicityCode', null));
   addIfSet(mappedFields, 'GENDER', optional(r, 'journalData.candidate.gender', null));
-  addIfSet(mappedFields, 'VEHICLE_REGISTRATION', optional(r, 'vehicleDetails.registrationNumber', null)),
+  addIfSet(mappedFields, 'VEHICLE_REGISTRATION', optional(r, 'vehicleDetails.registrationNumber', null));
   addIfSet(mappedFields, 'CANDIDATE_PHYSICAL_DESCRIPTION', optional(r, 'testSummary.candidateDescription', null));
   addIfSet(mappedFields, 'WEATHER_CONDITIONS', optional(r, 'testSummary.weatherConditions', []).join('|'));
   addIfSet(mappedFields, 'CANDIDATE_IDENTIFICATION', optional(r, 'testSummary.identification', null));

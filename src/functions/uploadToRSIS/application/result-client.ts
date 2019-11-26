@@ -75,7 +75,7 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
         let test: TestResultSchemasUnion;
 
         try {
-          uncompressedResult = zlib.gunzipSync(new Buffer(element, 'base64')).toString();
+          uncompressedResult = zlib.gunzipSync(Buffer.from(element, 'base64')).toString();
         } catch (e) {
           error(`failed decompressing test result: ${e}`);
           reject(new Error('failed decompressing test result'));

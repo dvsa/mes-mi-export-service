@@ -4,7 +4,6 @@ import { DataField } from '../../domain/mi-export-data';
 import { range } from 'lodash';
 import { Config } from '../config/config';
 import { info, error } from '@dvsa/mes-microservice-common/application/utils/logger';
-import { isUndefined } from 'util';
 
 /**
  * Saves a test result to the RSIS MI DB, by populating a staging table.
@@ -27,7 +26,7 @@ export const saveTestResult = async (
   const params = mappedFields.map(field => field.val);
 
   if (config.useRSIS) {
-    if (isUndefined(connection)) {
+    if (connection === undefined) {
       const message = 'Not in mock mode, but connection is undefined';
       error(message);
       throw new Error(message);

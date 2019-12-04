@@ -82,7 +82,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('DEBRIEF_WITNESSED', optionalBoolean(r, 'testSummary.debriefWitnessed')),
 
     // debrief is always given (even to explain why test is being terminated), unless candidate didn't turn up
-    field('DEBRIEF_GIVEN', r.category === '51' ? 0 : 1),
+    field('DEBRIEF_GIVEN', r.activityCode === '51' ? 0 : 1),
 
     field('ACTIVITY_CODE', Number(r.activityCode)),
     // PASS_CERTIFICATE is optional field set below

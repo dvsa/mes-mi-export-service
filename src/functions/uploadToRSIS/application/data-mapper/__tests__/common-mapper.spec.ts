@@ -12,6 +12,7 @@ import { InterfaceType, ResultUpload } from '../../result-client';
 import { mapCommonData } from '../common-mapper';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import moment = require('moment');
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 describe('mapCommonData', () => {
 
@@ -661,7 +662,7 @@ describe('mapCommonData', () => {
 
   it('Should reject a test result with invalid data (unsupported test category)', () => {
     const invalidResult = cloneDeep(minimalInput);
-    invalidResult.testResult.category = 'XYZ';
+    invalidResult.testResult.category = 'XYZ' as CategoryCode;
 
     expect(() => mapCommonData(invalidResult)).toThrow(new Error('Unsupported test category XYZ'));
   });

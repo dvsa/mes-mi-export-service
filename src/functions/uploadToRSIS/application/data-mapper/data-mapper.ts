@@ -4,7 +4,9 @@ import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
 import { debug, error } from '@dvsa/mes-microservice-common/application/utils/logger';
-import { ManoeuvreOutcome, TestData, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common/';
+import { ManoeuvreOutcome, TestData, QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common/';
+import { mapCatBEData } from './cat-be-mapper';
+import { TestCategory } from '@dvsa/mes-test-schema/categories/common/test-category';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -32,12 +34,20 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
 
   // then map the data fields relevant to the specific test category
   const category = result.testResult.category;
-  if (category === 'B') {
-    mappedDataFields = mappedDataFields.concat(mapCatBData(result));
-  } else {
-    const message = `Unsupported Category: ${category}`;
-    error(message);
-    throw new Error(message);
+
+  switch (category) {
+    case TestCategory.B:
+      mappedDataFields = mappedDataFields.concat(mapCatBData(result));
+      break;
+    case TestCategory.BE:
+      mappedDataFields = mappedDataFields.concat(mapCatBEData(result));
+      break;
+    default:
+      const message = `Unsupported Category: ${category}`;
+      error(message);
+      throw new Error(message);
+      break;
+
   }
 
   // purely as a check for human error when maintaining data mappers in the future, or adding new mappers for
@@ -157,6 +167,10 @@ export const formatQuestionFault = (testData: TestData | undefined): BooleanAsNu
   return 0;
 };
 
+export const formatQuestionFaultBE = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 5 ? 4 : totalFaults;
+};
 /**
  * Get whether there was a serious fault for the specified manoeuvre.
  *
@@ -187,6 +201,24 @@ export const formatQuestionSerious = (testData: TestData | undefined): BooleanAs
   return 0;
 };
 
+export const formatQuestionSeriousBE = (testData: TestData | undefined): BooleanAsNumber => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 5 ? 1 : 0;
+};
+
+export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : number => {
+  let totalFaults: number = 0;
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeFaults', null);
+
+  if (tellMeFaults) {
+    totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome === 'DF').length;
+  }
+  if (showMeFaults) {
+    totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome === 'DF').length;
+  }
+  return totalFaults;
+};
 /**
  * Get whether there was a dangerous fault for the specified manoeuvre.
  *
@@ -232,6 +264,20 @@ export const formatQuestionCompleted = (testData: TestData | undefined): Boolean
   return 0;
 };
 
+export const formatQuestionCompletedBE = (testData: TestData | undefined): BooleanAsNumber => {
+  let totalFaults: number = 0;
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeFaults', null);
+
+  if (tellMeFaults) {
+    totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome != null).length;
+  }
+  if (showMeFaults) {
+    totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome != null).length;
+  }
+
+  return totalFaults === 5 ? 1 : 0;
+};
 /**
  * Get the fault/serious/dangerous comments for a specific competency, if any.
  *

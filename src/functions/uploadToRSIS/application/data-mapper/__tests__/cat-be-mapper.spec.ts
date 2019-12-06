@@ -99,7 +99,6 @@ describe('mapCatBEData', () => {
         { col: 'EYESIGHT_SERIOUS', val: 0 },
         { col: 'REV_LEFT_TRAIL_CONT_SERIOUS', val: 0 },
         { col: 'REV_LEFT_TRAIL_OBSERV_SERIOUS', val: 0 },
-        { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
         { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
         { col: 'PRECAUTIONS_SERIOUS' , val: 0 },
         { col: 'CONTROL_ACC_SERIOUS', val: 0 },
@@ -182,7 +181,6 @@ describe('mapCatBEData', () => {
         { col: 'AWARENESS_PLAN_DANGEROUS', val: 0 },
         { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
         { col: 'EYESIGHT_COMPLETED', val: 0 },
-        { col: 'CONTROL_STOP_COMPLETED', val: 0 },
         { col: 'REV_LEFT_TRAIL_COMPLETED', val: 0 },
         { col: 'VEHICLE_CHECKS_COMPLETED', val: 0 },
         { col: 'NORMAL_STOP_1_COMPLETED', val: 0 },
@@ -192,13 +190,11 @@ describe('mapCatBEData', () => {
         { col: 'DOWN_HILL_START', val: 0 },
     ];
     const result = mapCatBEData(minimalInput);
-    // tslint:disable-next-line:no-console
-    console.log(JSON.stringify(result));
     // expect no faults, serious or dangerous...
     expect(result).toEqual(expected);
   });
 
-  it('Should map a fully populated regular test result (every possible driving fault)', () => {
+  fit('Should map a fully populated regular test result (every possible driving fault)', () => {
     const fullyPopulated: ResultUpload = {
       uploadKey: {
         applicationReference: {
@@ -245,55 +241,54 @@ describe('mapCatBEData', () => {
           testRequirements: {
             normalStart1: true,
             normalStart2: true,
-            angledStart: true,
-            hillStart: true,
+            angledStartControlledStop: true,
+            uphillStart: true,
+            downhillStart: true,
           },
           vehicleChecks: {
-            tellMeQuestion: {
-              code: 'T1',
-              description: 'First Tell Me Question',
-              outcome: 'DF',
-            },
-            showMeQuestion: {
-              code: 'S2',
-              description: 'Second Show Me Question',
-              outcome: 'DF',
-            },
+            tellMeQuestions: [
+              {
+                code: 'T1',
+                description: 'First Tell Me Question',
+                outcome: 'DF',
+              },
+              {
+                code: 'T2',
+                description: 'Second Tell Me Question',
+                outcome: 'P',
+              },
+            ],
+            showMeQuestions: [
+              {
+                code: 'S1',
+                description: 'First Show Me Question',
+                outcome: 'DF',
+              },
+              {
+                code: 'S2',
+                description: 'Second Show Me Question',
+                outcome: 'DF',
+              },
+              {
+                code: 'S3',
+                description: 'Third Show Me Question',
+                outcome: 'DF',
+              },
+            ],
             showMeTellMeComments: 'show me tell me fault',
           },
-          controlledStop: {
+          uncoupleRecouple: {
             selected: true,
             fault: 'DF',
-            faultComments: 'controlled stop',
+            faultComments: 'uncouple recouple',
           },
           manoeuvres: {
-            reverseRight: {
+            reverseLeft: {
               selected: true,
               controlFault: 'DF',
-              controlFaultComments: 'reverse right control',
+              controlFaultComments: 'reverse left control',
               observationFault: 'DF',
-              observationFaultComments: 'reverse right observation',
-            },
-            reverseParkCarpark: {
-              selected: true,
-              controlFault: 'DF',
-              controlFaultComments: 'reverse park car park control',
-              observationFault: 'DF',
-              observationFaultComments: 'reverse park car park observation',
-            },
-            reverseParkRoad: {
-              selected: true,
-              controlFault: 'DF',
-              controlFaultComments: 'reverse park road control',
-              observationFault: 'DF',
-              observationFaultComments: 'reverse park road observation',
-            },
-            forwardPark: {
-              selected: true,
-              controlFault: 'DF',
-              controlFaultComments: 'forward park control',
-              observationFault: 'DF',
-              observationFaultComments: 'forward park observation',
+              observationFaultComments: 'reverse left observation',
             },
           },
           drivingFaults: {
@@ -388,16 +383,11 @@ describe('mapCatBEData', () => {
     };
 
     const expected: DataField[] = [
-      { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 1 },
-      { col: 'REV_RIGHT_TRAIL_CONT_TOTAL', val: 1 },
-      { col: 'REV_RIGHT_TRAIL_OBSERV_TOTAL', val: 1 },
-      { col: 'REV_PARK_CPARK_CONTROL_TOTAL', val: 1 },
-      { col: 'REV_PARK_CPARK_OBSERVE_TOTAL', val: 1 },
-      { col: 'REV_PARK_ROAD_CONTROL_TOTAL', val: 1 },
-      { col: 'REV_PARK_ROAD_OBSERVE_TOTAL', val: 1 },
-      { col: 'VEHICLE_CHECKS_TOTAL', val: 1 },
-      { col: 'TAXI_MAN_CONTROL_TOTAL', val: 1 },
-      { col: 'TAXI_MAN_OBSERV_TOTAL', val: 1 },
+      { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
+      { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
+      { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
+      { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
+      { col: 'UNCOUPLE_RECOUPLE_TOTAL', val: 1 },
       { col: 'PRECAUTIONS_TOTAL', val: 2 },
       { col: 'CONTROL_ACC_TOTAL', val: 3 },
       { col: 'CONTROL_CLUTCH_TOTAL', val: 4 },
@@ -438,16 +428,9 @@ describe('mapCatBEData', () => {
       { col: 'AWARENESS_PLAN_TOTAL', val: 39 },
       { col: 'ANCILLARY_CONTROLS_TOTAL', val: 40 },
       { col: 'EYESIGHT_SERIOUS', val: 0 },
-      { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 0 },
-      { col: 'REV_RIGHT_TRAIL_CONT_SERIOUS', val: 0 },
-      { col: 'REV_RIGHT_TRAIL_OBSERV_SERIOUS', val: 0 },
-      { col: 'REV_PARK_CPARK_CONTROL_SERIOUS', val: 0 },
-      { col: 'REV_PARK_CPARK_OBSERVE_SERIOUS', val: 0 },
-      { col: 'REV_PARK_ROAD_CONTROL_SERIOUS', val: 0 },
-      { col: 'REV_PARK_ROAD_OBSERVE_SERIOUS', val: 0 },
-      { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
-      { col: 'TAXI_MAN_CONTROL_SERIOUS', val: 0 },
-      { col: 'TAXI_MAN_OBSERV_SERIOUS', val: 0 },
+      { col: 'REV_LEFT_TRAIL_CONT_SERIOUS', val: 0 },
+      { col: 'REV_LEFT_TRAIL_OBSERV_SERIOUS', val: 0 },
+      { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
       { col: 'PRECAUTIONS_SERIOUS', val: 0 },
       { col: 'CONTROL_ACC_SERIOUS', val: 0 },
       { col: 'CONTROL_CLUTCH_SERIOUS', val: 0 },
@@ -487,16 +470,15 @@ describe('mapCatBEData', () => {
       { col: 'POSTITION_STOPS_SERIOUS', val: 0 },
       { col: 'AWARENESS_PLAN_SERIOUS', val: 0 },
       { col: 'ANCILLARY_CONTROLS_SERIOUS', val: 0 },
-      { col: 'CONTROL_STOP_PROMPT_DANGEROUS', val: 0 },
-      { col: 'REV_RIGHT_TRAIL_CONT_DANGER', val: 0 },
-      { col: 'REV_RIGHT_TRAIL_OBSERV_DANGER', val: 0 },
-      { col: 'REV_PARK_CPARK_CONTROL_DANGER', val: 0 },
-      { col: 'REV_PARK_CPARK_OBSERVE_DANGER', val: 0 },
-      { col: 'REV_PARK_ROAD_CONTROL_DANGER', val: 0 },
-      { col: 'REV_PARK_ROAD_OBSERVE_DANGER', val: 0 },
+    //   { col: 'CONTROL_STOP_PROMPT_DANGEROUS', val: 0 },
+    //   { col: 'REV_RIGHT_TRAIL_CONT_DANGER', val: 0 },
+    //   { col: 'REV_RIGHT_TRAIL_OBSERV_DANGER', val: 0 },
+    //   { col: 'REV_PARK_CPARK_CONTROL_DANGER', val: 0 },
+    //   { col: 'REV_PARK_CPARK_OBSERVE_DANGER', val: 0 },
+    //   { col: 'REV_PARK_ROAD_CONTROL_DANGER', val: 0 },
+    //   { col: 'REV_PARK_ROAD_OBSERVE_DANGER', val: 0 },
       { col: 'VEHICLE_CHECKS_DANGEROUS', val: 0 },
-      { col: 'TAXI_MAN_CONTROL_DANGEROUS', val: 0 },
-      { col: 'TAXI_MAN_OBSERV_DANGEROUS', val: 0 },
+      { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
       { col: 'PRECAUTIONS_DANGEROUS', val: 0 },
       { col: 'CONTROL_ACC_DANGEROUS', val: 0 },
       { col: 'CONTROL_CLUTCH_DANGEROUS', val: 0 },
@@ -537,25 +519,13 @@ describe('mapCatBEData', () => {
       { col: 'AWARENESS_PLAN_DANGEROUS', val: 0 },
       { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
       { col: 'EYESIGHT_COMPLETED', val: 1 },
-      { col: 'CONTROL_STOP_COMPLETED', val: 1 },
-      { col: 'REV_RIGHT_TRAIL_COMPLETED', val: 1 },
-      { col: 'REVERSE_PARK_CARPARK', val: 1 },
-      { col: 'REVERSE_PARK_ROAD', val: 1 },
+      { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
       { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
-      { col: 'TAXI_MANOEUVRE_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
       { col: 'ANGLED_START_COMPLETED', val: 1 },
-      { col: 'HILL_START_COMPLETED', val: 1 },
-      { col: 'CONTROL_STOP_COMMENT', val: 'controlled stop' },
-      { col: 'REV_RIGHT_TRAIL_CONT_COMMENT', val: 'reverse right control' },
-      { col: 'REV_RIGHT_TRAIL_OBSERV_COMMENT', val: 'reverse right observation' },
-      { col: 'REV_PARK_CPARK_CONTROL_COMMENT', val: 'reverse park car park control' },
-      { col: 'REV_PARK_CPARK_OBSERVE_COMMENT', val: 'reverse park car park observation' },
-      { col: 'REV_PARK_ROAD_CONTROL_COMMENT', val: 'reverse park road control' },
-      { col: 'REV_PARK_ROAD_OBSERVE_COMMENT', val: 'reverse park road observation' },
-      { col: 'FORWARD_PARK_CONTROL_COMMENT', val: 'forward park control' },
-      { col: 'FORWARD_PARK_OBSERVE_COMMENT', val: 'forward park observation' },
+      { col: 'UPHILL_START', val: 1 },
+      { col: 'DOWN_HILL_START', val: 1 },
       { col: 'PRECAUTIONS_COMMENT', val: 'precautions fault' },
       { col: 'CONTROL_ACC_COMMENT', val: 'controls accelerator fault' },
       { col: 'CONTROL_CLUTCH_COMMENT', val: 'controls clutch fault' },
@@ -595,16 +565,17 @@ describe('mapCatBEData', () => {
       { col: 'POSITION_STOPS_COMMENT', val: 'position normal stops fault' },
       { col: 'AWARENESS_PLAN_COMMENT', val: 'awareness planning fault' },
       { col: 'ANCILLARY_CONTROLS_COMMENT', val: 'ancillary controls fault' },
-      { col: 'SHOW_ME_1_CODE', val: 'S2' },
-      { col: 'SHOW_ME_1_DESCRIPTION', val: 'Second Show Me Question' },
-      { col: 'TELL_ME_1_CODE', val: 'T1' },
-      { col: 'TELL_ME_1_DESCRIPTION', val: 'First Tell Me Question' },
+    //   { col: 'SHOW_ME_1_CODE', val: 'S2' },
+    //   { col: 'SHOW_ME_1_DESCRIPTION', val: 'Second Show Me Question' },
+    //   { col: 'TELL_ME_1_CODE', val: 'T1' },
+    //   { col: 'TELL_ME_1_DESCRIPTION', val: 'First Tell Me Question' },
       { col: 'VEHICLE_CHECKS_COMMENT', val: 'show me tell me fault' },
       { col: 'INDEPENDENT_DRIVING', val: 'Sat nav' },
     ];
 
     // expect the right number of faults, with no serious or dangerous
-    expect(mapCatBEData(fullyPopulated)).toEqual(expected);
+    const result = mapCatBEData(fullyPopulated);
+    expect(result).toEqual(expected);
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
@@ -654,7 +625,7 @@ describe('mapCatBEData', () => {
           testRequirements: {
             normalStart1: true,
             normalStart2: true,
-            angledStart: true,
+            angledStartControlledStop: true,
             hillStart: true,
           },
           vehicleChecks: {

@@ -102,7 +102,6 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     //  unused - REV_PARK_ROAD_OBSERVE_SERIOUS
     //  unused - TURN_IN_ROAD_CONT_SERIOUS
     //  unused - TURN_IN_ROAD_OBSERV_SERIOUS
-    field('VEHICLE_CHECKS_SERIOUS', formatQuestionSerious(t)),
     //  unused - TAXI_MAN_CONTROL_SERIOUS
     //  unused - TAXI_MAN_OBSERV_SERIOUS
     //  unused - TAXI_WHEELCHAIR_SERIOUS
@@ -222,7 +221,6 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     //  unused - SPARE4_DANGEROUS
     //  unused - SPARE5_DANGEROUS
     field('EYESIGHT_COMPLETED', optionalBoolean(t, 'eyesightTest.complete')),
-    field('CONTROL_STOP_COMPLETED', optionalBoolean(t, 'controlledStop.selected')),
     field('REV_LEFT_TRAIL_COMPLETED', optionalBoolean(t, 'manoeuvres.reverseLeft.selected')),
     //  unused - REV_RIGHT_TRAIL_COMPLETED
     //  unused - REVERSE_PARK_COMPLETED
@@ -270,7 +268,7 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     //  unused - SPARE6_TOTAL                                       NUMBER(2)
     field('NORMAL_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart1')),
     field('NORMAL_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart2')),
-    field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStart')),
+    field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStartControlledStop')),
     field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
       //  unused - HILL_START_COMPLETED

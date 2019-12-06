@@ -209,7 +209,7 @@ export const formatQuestionSeriousBE = (testData: TestData | undefined): Boolean
 export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
-  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeFaults', null);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
 
   if (tellMeFaults) {
     totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome === 'DF').length;
@@ -267,7 +267,7 @@ export const formatQuestionCompleted = (testData: TestData | undefined): Boolean
 export const formatQuestionCompletedBE = (testData: TestData | undefined): BooleanAsNumber => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
-  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeFaults', null);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
 
   if (tellMeFaults) {
     totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome != null).length;

@@ -271,7 +271,9 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     field('NORMAL_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart1')),
     field('NORMAL_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart2')),
     field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStart')),
-    //  unused - HILL_START_COMPLETED
+    field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
+    field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
+      //  unused - HILL_START_COMPLETED
   ];
 
   // add the optional fields, only if set
@@ -315,14 +317,12 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'POSITION_STOPS_COMMENT', getCompetencyComments(t, 'positionNormalStopsComments'));
   addIfSet(m, 'AWARENESS_PLAN_COMMENT', getCompetencyComments(t, 'awarenessPlanningComments'));
   addIfSet(m, 'ANCILLARY_CONTROLS_COMMENT', getCompetencyComments(t, 'ancillaryControlsComments'));
-  addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestion.code', null));
-  addIfSet(m, 'SHOW_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestion.description', null));
-  addIfSet(m, 'TELL_ME_1_CODE', optional(t, 'vehicleChecks.tellMeQuestion.code', null));
-  addIfSet(m, 'TELL_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.tellMeQuestion.description', null));
+  // addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestion.code', null));
+  // addIfSet(m, 'SHOW_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestion.description', null));
+  // addIfSet(m, 'TELL_ME_1_CODE', optional(t, 'vehicleChecks.tellMeQuestion.code', null));
+  // addIfSet(m, 'TELL_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.tellMeQuestion.description', null));
   addIfSet(m, 'VEHICLE_CHECKS_COMMENT', optional(t, 'vehicleChecks.showMeTellMeComments', null));
   addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
-  addIfSet(m, 'UPHILL _START', '');
-  addIfSet(m, 'DOWN_HILL_START', '');
 
   return m;
 };

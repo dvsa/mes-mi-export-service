@@ -315,10 +315,16 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'POSITION_STOPS_COMMENT', getCompetencyComments(t, 'positionNormalStopsComments'));
   addIfSet(m, 'AWARENESS_PLAN_COMMENT', getCompetencyComments(t, 'awarenessPlanningComments'));
   addIfSet(m, 'ANCILLARY_CONTROLS_COMMENT', getCompetencyComments(t, 'ancillaryControlsComments'));
-  // addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestion.code', null));
-  // addIfSet(m, 'SHOW_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestion.description', null));
-  // addIfSet(m, 'TELL_ME_1_CODE', optional(t, 'vehicleChecks.tellMeQuestion.code', null));
-  // addIfSet(m, 'TELL_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.tellMeQuestion.description', null));
+  addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestions[0].code', null));
+  addIfSet(m, 'SHOW_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestions[0].description', null));
+  addIfSet(m, 'SHOW_ME_2_CODE', optional(t, 'vehicleChecks.showMeQuestions[1].code', null));
+  addIfSet(m, 'SHOW_ME_2_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestions[1].description', null));
+  addIfSet(m, 'SHOW_ME_3_CODE', optional(t, 'vehicleChecks.showMeQuestions[2].code', null));
+  addIfSet(m, 'SHOW_ME_3_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestions[2].description', null));
+  addIfSet(m, 'TELL_ME_1_CODE', optional(t, 'vehicleChecks.tellMeQuestions[0].code', null));
+  addIfSet(m, 'TELL_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.tellMeQuestions[0].description', null));
+  addIfSet(m, 'TELL_ME_2_CODE', optional(t, 'vehicleChecks.tellMeQuestions[1].code', null));
+  addIfSet(m, 'TELL_ME_2_DESCRIPTION', optional(t, 'vehicleChecks.tellMeQuestions[1].description', null));
   addIfSet(m, 'VEHICLE_CHECKS_COMMENT', optional(t, 'vehicleChecks.showMeTellMeComments', null));
   addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
 

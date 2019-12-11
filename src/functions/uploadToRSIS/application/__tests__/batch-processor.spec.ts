@@ -19,6 +19,16 @@ describe('batch-processor', () => {
     staffNumber: '4321',
   };
 
+  const dummyKey2: resultClient.UploadKey = {
+    interfaceType: resultClient.InterfaceType.RSIS,
+    applicationReference: {
+      applicationId: 1234,
+      bookingSequence: 2,
+      checkDigit: 2,
+    },
+    staffNumber: '4321',
+  };
+
   const dummyResult1: resultClient.ResultUpload = {
     uploadKey: dummyKey1,
     testResult: {
@@ -53,6 +63,44 @@ describe('batch-processor', () => {
         },
       },
       activityCode: '1',
+    },
+    autosaved: 0, // false
+  };
+
+  const dummyResult2: resultClient.ResultUpload = {
+    uploadKey: dummyKey2,
+    testResult: {
+      version: '0.0.1',
+      category: 'B+E',
+      rekey: false,
+      changeMarker: false,
+      examinerBooked: 12345678,
+      examinerConducted: 12345678,
+      examinerKeyed: 12345678,
+      journalData: {
+        examiner: {
+          staffNumber: '001122',
+        },
+        testCentre: {
+          centreId: 1234,
+          costCode: 'CC1',
+        },
+        testSlotAttributes: {
+          slotId: 1234,
+          start: '2019-06-10T09:30:00',
+          vehicleTypeCode: 'C',
+          welshTest: false,
+          specialNeeds: false,
+          extendedTest: false,
+        },
+        candidate: { },
+        applicationReference: {
+          applicationId: 2222,
+          bookingSequence: 11,
+          checkDigit: 3,
+        },
+      },
+      activityCode: '22',
     },
     autosaved: 0, // false
   };
@@ -98,7 +146,7 @@ describe('batch-processor', () => {
     });
 
     it('Should process a successful batch of 3', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([dummyResult1, dummyResult1, dummyResult1]);
+      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([dummyResult1, dummyResult2, dummyResult1]);
       spyOn(database, 'createConnection').and.returnValue(moqConn);
       spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
       spyOn(repository, 'saveTestResult');

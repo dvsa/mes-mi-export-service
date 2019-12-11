@@ -230,7 +230,7 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompletedBE(t)),
     //  unused - TAXI_MANOEUVRE_COMPLETED
     //  unused - TAXI_WHEELCHAIR_COMPLETED
-    //  unused - UNCOUPLE_RECOUPLE_COMPLETED
+    field('UNCOUPLE_RECOUPLE_COMPLETED', optionalBoolean(t, 'uncoupleRecouple.selected')),
     //  unused - CATEGORY_5_REVERSE_ROAD
     //  unused - CATEGORY_5_REVERSE_CAR_PARK
     //  unused - MC_AVOIDANCE_DANGEROUS                             NUMBER(1)

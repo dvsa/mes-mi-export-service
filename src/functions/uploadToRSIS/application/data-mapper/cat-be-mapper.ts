@@ -156,8 +156,8 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     // unused - H_CODE_SAFETY_DANGEROUS
     // unused - CONTROL_STOP_PROMPT_DANGEROUS
     // unused - CONTROL_STOP_CONTROL_DANGEROUS
-    // unused - REV_LEFT_TRAIL_CONT_DANGEROUS
-    // unused - REV_LEFT_TRAIL_OBSER_DANGEROUS
+    field('REV_LEFT_TRAIL_CONT_DANGEROUS', formatManoeuvreFault(t, 'manoeuvres.reverseLeft.controlFault')),
+    field('REV_LEFT_TRAIL_OBSER_DANGEROUS', formatManoeuvreFault(t, 'manoeuvres.reverseLeft.observationFault')),
     // unused - REV_RIGHT_TRAIL_CONT_DANGER
     // unused - REV_RIGHT_TRAIL_OBSERV_DANGER
     // unused - REVERSE_PARK_CONTROL_DANGEROUS

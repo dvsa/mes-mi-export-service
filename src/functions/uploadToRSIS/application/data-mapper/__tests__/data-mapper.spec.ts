@@ -1,6 +1,7 @@
 import { ResultUpload, InterfaceType } from '../../../application/result-client';
 import * as commonMapper from '../common-mapper';
 import * as catBMapper from '../cat-b-mapper';
+import * as catBEMapper from '../cat-be-mapper';
 import { DataField, BooleanAsNumber } from '../../../domain/mi-export-data';
 import {
   formatQuestionFault,
@@ -63,6 +64,99 @@ describe('data mapper', () => {
     },
     autosaved: 0, //  false
   };
+
+  const minimalInputBE: ResultUpload = {
+    uploadKey: {
+      applicationReference: {
+        applicationId: 2222,
+        bookingSequence: 11,
+        checkDigit: 3,
+      },
+      staffNumber: '1122',
+      interfaceType: InterfaceType.RSIS,
+    },
+    testResult: {
+      version: '0.0.1',
+      category: 'B+E',
+      rekey: false,
+      changeMarker: false,
+      examinerBooked: 12345678,
+      examinerConducted: 12345678,
+      examinerKeyed: 12345678,
+      journalData: {
+        examiner: {
+          staffNumber: '001122',
+        },
+        testCentre: {
+          centreId: 1234,
+          costCode: 'CC1',
+        },
+        testSlotAttributes: {
+          slotId: 1234,
+          start: '2019-06-10T09:30:00',
+          vehicleTypeCode: 'C',
+          welshTest: false,
+          specialNeeds: false,
+          extendedTest: false,
+        },
+        candidate: {
+          candidateId: 1111,
+        },
+        applicationReference: {
+          applicationId: 2222,
+          bookingSequence: 11,
+          checkDigit: 3,
+        },
+      },
+      activityCode: '1',
+    },
+    autosaved: 0, //  false
+  };
+
+  describe('mapCorrectCategory', () => {
+
+    const dummyCommonMapping: DataField[] = [
+      { col: 'COMMON1', val: 1234 },
+    ];
+
+    const dummyCatBMapping: DataField[] = [
+      { col: 'CATB1', val: 'catb' },
+    ];
+
+    const dummyCatBEMapping: DataField[] = [
+      { col: 'CATB1', val: 'catbe' },
+    ];
+
+    it('Should invoke the cat B mapper', () => {
+
+      spyOn(commonMapper, 'mapCommonData').and.returnValue(dummyCommonMapping);
+      spyOn(catBMapper, 'mapCatBData').and.returnValue(dummyCatBMapping);
+      spyOn(catBEMapper, 'mapCatBEData').and.returnValue(dummyCatBEMapping);
+
+      const mapping = mapDataForMIExport(minimalInput);
+      const expected: DataField[] = [
+        { col: 'COMMON1', val: 1234 },
+        { col: 'CATB1', val: 'catb' },
+      ];
+
+      expect(mapping).toEqual(expected);
+    });
+
+    it('Should invoke the cat BE mapper', () => {
+
+      spyOn(commonMapper, 'mapCommonData').and.returnValue(dummyCommonMapping);
+      spyOn(catBMapper, 'mapCatBData').and.returnValue(dummyCatBMapping);
+      spyOn(catBEMapper, 'mapCatBEData').and.returnValue(dummyCatBEMapping);
+
+      const mapping = mapDataForMIExport(minimalInputBE);
+      const expected: DataField[] = [
+        { col: 'COMMON1', val: 1234 },
+        { col: 'CATB1', val: 'catbe' },
+      ];
+
+      expect(mapping).toEqual(expected);
+    });
+  });
 
   describe('mapDataForMIExport', () => {
 

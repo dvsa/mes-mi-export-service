@@ -1,37 +1,38 @@
 import { DataField } from '../../../domain/mi-export-data';
-import { mapCatBEData } from '../cat-be-mapper';
-import { getCatBEMinimalInput } from './helpers/cat-be/inputs/minimal-inputs';
-import { getCatBEMinimalDataFields } from './helpers/cat-be/data-fields/minimal-data-fields';
+import { mapCatC1EData } from '../cat-c1E-mapper';
+import { getMinimalInput } from './helpers/cat-ce/inputs/minimal-inputs';
+import { getCatCEMinimalDataFields } from './helpers/cat-ce/data-fields/minimal-data-fields';
 import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults,
-} from './helpers/cat-be/inputs/fully-populated-inputs';
+} from './helpers/cat-ce/inputs/fully-populated-inputs';
 import {
-  getCatBEFullyPopulatedSeriousDataFields,
-  getCatBEFullyPopulatedDangerousDataFields,
-} from './helpers/cat-be/data-fields/fully-populated-data-fields';
+  getCatCEFullyPopulatedSeriousDataFields,
+  getCatCEFullyPopulatedDangerousDataFields,
+} from './helpers/cat-ce/data-fields/fully-populated-data-fields';
+import { TestCategory } from '@dvsa/mes-test-schema/categories/common/test-category';
 
-describe('mapCatBEData', () => {
+describe('mapCatCEData', () => {
 
   it('Should map a minially populated test result (test terminated early as possible)', () => {
-    const minimalInput = getCatBEMinimalInput();
+    const minimalInput = getMinimalInput(TestCategory.CE);
 
-    const expected = getCatBEMinimalDataFields();
-    const result = mapCatBEData(minimalInput);
+    const expected = getCatCEMinimalDataFields();
+
+    const result = mapCatC1EData(minimalInput);
     // expect no faults, serious or dangerous...
     expect(result).toEqual(expected);
   });
 
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
-    const fullyPopulated = getFullyPopulatedDrivingFaults(getCatBEMinimalInput());
+    const fullyPopulated = getFullyPopulatedDrivingFaults(getMinimalInput(TestCategory.CE));
 
     const expected: DataField[] = [
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
       { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
       { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
-      { col: 'UNCOUPLE_RECOUPLE_TOTAL', val: 1 },
       { col: 'PRECAUTIONS_TOTAL', val: 2 },
       { col: 'CONTROL_ACC_TOTAL', val: 3 },
       { col: 'CONTROL_CLUTCH_TOTAL', val: 4 },
@@ -74,7 +75,6 @@ describe('mapCatBEData', () => {
       { col: 'EYESIGHT_SERIOUS', val: 0 },
       { col: 'REV_LEFT_TRAIL_CONT_SERIOUS', val: 0 },
       { col: 'REV_LEFT_TRAIL_OBSERV_SERIOUS', val: 0 },
-      { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
       { col: 'PRECAUTIONS_SERIOUS', val: 0 },
       { col: 'CONTROL_ACC_SERIOUS', val: 0 },
       { col: 'CONTROL_CLUTCH_SERIOUS', val: 0 },
@@ -117,7 +117,6 @@ describe('mapCatBEData', () => {
       { col: 'REV_LEFT_TRAIL_CONT_DANGEROUS', val: 0 },
       { col: 'REV_LEFT_TRAIL_OBSER_DANGEROUS', val: 0 },
       { col: 'VEHICLE_CHECKS_DANGEROUS', val: 0 },
-      { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
       { col: 'PRECAUTIONS_DANGEROUS', val: 0 },
       { col: 'CONTROL_ACC_DANGEROUS', val: 0 },
       { col: 'CONTROL_CLUTCH_DANGEROUS', val: 0 },
@@ -160,7 +159,6 @@ describe('mapCatBEData', () => {
       { col: 'EYESIGHT_COMPLETED', val: 1 },
       { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
       { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
-      { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
       { col: 'ANGLED_START_COMPLETED', val: 1 },
@@ -217,28 +215,32 @@ describe('mapCatBEData', () => {
       { col: 'TELL_ME_2_DESCRIPTION', val: 'Second Tell Me Question' },
     { col: 'VEHICLE_CHECKS_COMMENT', val: 'show me tell me fault' },
       { col: 'INDEPENDENT_DRIVING', val: 'Sat nav' },
+      { col: 'UNCOUPLE_RECOUPLE_TOTAL', val: 1 },
+      { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
+      { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
+      { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 1 },
     ];
 
     // expect the right number of faults, with no serious or dangerous
-    const result = mapCatBEData(fullyPopulated);
+    const result = mapCatC1EData(fullyPopulated);
     expect(result).toEqual(expected);
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
-    const fullyPopulated = getFullyPopulatedSeriousFaults(getCatBEMinimalInput());
+    const fullyPopulated = getFullyPopulatedSeriousFaults(getMinimalInput(TestCategory.CE));
 
-    const expected = getCatBEFullyPopulatedSeriousDataFields();
+    const expected = getCatCEFullyPopulatedSeriousDataFields();
 
     // expect all serious, no faults or dangerous
-    expect(mapCatBEData(fullyPopulated)).toEqual(expected);
+    expect(mapCatC1EData(fullyPopulated)).toEqual(expected);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
-    const fullyPopulated = getFullyPopulatedDangerousFaults(getCatBEMinimalInput());
+    const fullyPopulated = getFullyPopulatedDangerousFaults(getMinimalInput(TestCategory.CE));
 
-    const expected = getCatBEFullyPopulatedDangerousDataFields();
+    const expected = getCatCEFullyPopulatedDangerousDataFields();
 
     // expect all dangerous, no faults or serious
-    expect(mapCatBEData(fullyPopulated)).toEqual(expected);
+    expect(mapCatC1EData(fullyPopulated)).toEqual(expected);
   });
 });

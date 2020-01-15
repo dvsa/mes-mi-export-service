@@ -1,12 +1,12 @@
 import { DataField } from '../../../../../../domain/mi-export-data';
+import { TestCategory } from '@dvsa/mes-test-schema/categories/common/test-category';
 
-export function getCatBEFullyPopulatedSeriousDataFields(): DataField[] {
+export function getCatCFullyPopulatedSeriousDataFields(): DataField[] {
   return [
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
     { col: 'VEHICLE_CHECKS_SERIOUS', val: 1 },
-    { col: 'UNCOUPLE_RECOUPLE_TOTAL', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
     { col: 'CONTROL_ACC_TOTAL', val: 0 },
     { col: 'CONTROL_CLUTCH_TOTAL', val: 0 },
@@ -49,7 +49,6 @@ export function getCatBEFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'EYESIGHT_SERIOUS', val: 1 },
     { col: 'REV_LEFT_TRAIL_CONT_SERIOUS', val: 1 },
     { col: 'REV_LEFT_TRAIL_OBSERV_SERIOUS', val: 1 },
-    { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 1 },
     { col: 'PRECAUTIONS_SERIOUS', val: 1 },
     { col: 'CONTROL_ACC_SERIOUS', val: 1 },
     { col: 'CONTROL_CLUTCH_SERIOUS', val: 1 },
@@ -92,7 +91,6 @@ export function getCatBEFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'REV_LEFT_TRAIL_CONT_DANGEROUS', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSER_DANGEROUS', val: 0 },
     { col: 'VEHICLE_CHECKS_DANGEROUS', val: 0 },
-    { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
     { col: 'PRECAUTIONS_DANGEROUS', val: 0 },
     { col: 'CONTROL_ACC_DANGEROUS', val: 0 },
     { col: 'CONTROL_CLUTCH_DANGEROUS', val: 0 },
@@ -135,7 +133,6 @@ export function getCatBEFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'EYESIGHT_COMPLETED', val: 1 },
     { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
     { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
-    { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
     { col: 'ANGLED_START_COMPLETED', val: 1 },
@@ -196,13 +193,12 @@ export function getCatBEFullyPopulatedSeriousDataFields(): DataField[] {
   ];
 }
 
-export function getCatBEFullyPopulatedDangerousDataFields(): DataField[] {
+export function getCatCFullyPopulatedDangerousDataFields(): DataField[] {
   return [
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
     { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
-    { col: 'UNCOUPLE_RECOUPLE_TOTAL', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
     { col: 'CONTROL_ACC_TOTAL', val: 0 },
     { col: 'CONTROL_CLUTCH_TOTAL', val: 0 },
@@ -245,7 +241,6 @@ export function getCatBEFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'EYESIGHT_SERIOUS', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_SERIOUS', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_SERIOUS', val: 0 },
-    { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
     { col: 'PRECAUTIONS_SERIOUS', val: 0 },
     { col: 'CONTROL_ACC_SERIOUS', val: 0 },
     { col: 'CONTROL_CLUTCH_SERIOUS', val: 0 },
@@ -288,7 +283,6 @@ export function getCatBEFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'REV_LEFT_TRAIL_CONT_DANGEROUS', val: 1 },
     { col: 'REV_LEFT_TRAIL_OBSER_DANGEROUS', val: 1 },
     { col: 'VEHICLE_CHECKS_DANGEROUS', val: 0 },
-    { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 1 },
     { col: 'PRECAUTIONS_DANGEROUS', val: 1 },
     { col: 'CONTROL_ACC_DANGEROUS', val: 1 },
     { col: 'CONTROL_CLUTCH_DANGEROUS', val: 1 },
@@ -331,7 +325,6 @@ export function getCatBEFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'EYESIGHT_COMPLETED', val: 1 },
     { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
     { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
-    { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
     { col: 'ANGLED_START_COMPLETED', val: 1 },

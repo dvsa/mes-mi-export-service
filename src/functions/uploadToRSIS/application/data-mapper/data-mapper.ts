@@ -3,10 +3,14 @@ import { BooleanAsNumber, DataField, DataFieldValue } from '../../domain/mi-expo
 import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
+import { mapCatCData } from './cat-c-mapper';
 import { debug, error } from '@dvsa/mes-microservice-common/application/utils/logger';
 import { ManoeuvreOutcome, TestData, QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common/';
 import { mapCatBEData } from './cat-be-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/categories/common/test-category';
+import { mapCatC1Data } from './cat-c1-mapper';
+import { mapCatCEData } from './cat-ce-mapper';
+import { mapCatC1EData } from './cat-c1e-mapper';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -42,12 +46,23 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.BE:
       mappedDataFields = mappedDataFields.concat(mapCatBEData(result));
       break;
+    case TestCategory.C:
+      mappedDataFields = mappedDataFields.concat(mapCatCData(result));
+      break;
+    case TestCategory.C1:
+      mappedDataFields = mappedDataFields.concat(mapCatC1Data(result));
+      break;
+    case TestCategory.CE:
+      mappedDataFields = mappedDataFields.concat(mapCatCEData(result));
+      break;
+    case TestCategory.C1E:
+      mappedDataFields = mappedDataFields.concat(mapCatC1EData(result));
+      break;
     default:
       const message = `Unsupported Category: ${category}`;
       error(message);
       throw new Error(message);
       break;
-
   }
 
   // purely as a check for human error when maintaining data mappers in the future, or adding new mappers for

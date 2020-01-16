@@ -12,6 +12,7 @@ import {
   formatQuestionSeriousBE,
   formatManoeuvreDangerous,
   formatQuestionCompletedBE,
+  formatManoeuvreComment,
 } from './data-mapper';
 
 export const mapCatCData = (result: ResultUpload): DataField[] => {
@@ -311,6 +312,10 @@ export const mapCatCData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'POSITION_STOPS_COMMENT', getCompetencyComments(t, 'positionNormalStopsComments'));
   addIfSet(m, 'AWARENESS_PLAN_COMMENT', getCompetencyComments(t, 'awarenessPlanningComments'));
   addIfSet(m, 'ANCILLARY_CONTROLS_COMMENT', getCompetencyComments(t, 'ancillaryControlsComments'));
+  addIfSet(m, 'REV_LEFT_TRAIL_CONT_COMMENT',
+           formatManoeuvreComment(t, 'manoeuvres.reverseLeft.controlFaultComments'));
+  addIfSet(m, 'REV_LEFT_TRAIL_OBSERV_COMMENT',
+           formatManoeuvreComment(t, 'manoeuvres.reverseLeft.observationFaultComments'));
   addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestions[0].code', null));
   addIfSet(m, 'SHOW_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestions[0].description', null));
   addIfSet(m, 'SHOW_ME_2_CODE', optional(t, 'vehicleChecks.showMeQuestions[1].code', null));

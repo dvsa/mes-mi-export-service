@@ -4,7 +4,13 @@ import { ResultUpload } from '../../application/result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
 import { debug, error } from '@dvsa/mes-microservice-common/application/utils/logger';
-import { ManoeuvreOutcome, TestData, QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common/';
+import {
+  ManoeuvreOutcome,
+  TestData,
+  QuestionOutcome,
+  QuestionResult,
+  FaultComments,
+} from '@dvsa/mes-test-schema/categories/common/';
 import { mapCatBEData } from './cat-be-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/categories/common/test-category';
 
@@ -234,6 +240,10 @@ export const formatManoeuvreDangerous = (object: any, path: string): BooleanAsNu
   return 0;
 };
 
+export const formatManoeuvreComment = (object: any, path:string): string | null => {
+  const comment: FaultComments | null = get(object, path, null);
+  return comment;
+};
 /**
  * Get whether there was a dangerous fault for show me or tell me question.
  *

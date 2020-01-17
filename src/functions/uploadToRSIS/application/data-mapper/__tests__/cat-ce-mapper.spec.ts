@@ -1,5 +1,5 @@
 import { DataField } from '../../../domain/mi-export-data';
-import { mapCatC1EData } from '../cat-c1E-mapper';
+import { mapCatC1EData } from '../cat-c1e-mapper';
 import { getMinimalInput } from './helpers/cat-ce/inputs/minimal-inputs';
 import { getCatCEMinimalDataFields } from './helpers/cat-ce/data-fields/minimal-data-fields';
 import {

@@ -1,6 +1,6 @@
 import { ResultUpload } from '../result-client';
 import { DataField } from '../../domain/mi-export-data';
-import { mapCatCEData } from './cat-CE-mapper';
+import { mapCatCEData } from './cat-ce-mapper';
 
 export const mapCatC1EData = (result: ResultUpload): DataField[] => {
   // currently this is identical to Cat CE, have put in separate function

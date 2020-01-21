@@ -1,6 +1,6 @@
 import { DataField } from '../../../domain/mi-export-data';
 import { mapCatCData } from '../cat-c-mapper';
-import { getMinimalInput } from './helpers/cat-c/inputs/minimal-inputs';
+import { getMinimalInput, getMinimalInputWithPassCompletion } from './helpers/cat-c/inputs/minimal-inputs';
 import { getCatCMinimalDataFields } from './helpers/cat-c/data-fields/minimal-data-fields';
 import {
   getFullyPopulatedDrivingFaults,
@@ -11,7 +11,7 @@ import {
   getCatCFullyPopulatedSeriousDataFields,
   getCatCFullyPopulatedDangerousDataFields,
 } from './helpers/cat-c/data-fields/fully-populated-data-fields';
-import { TestCategory } from '@dvsa/mes-test-schema/categories/common/test-category';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 describe('mapCatCData', () => {
 
@@ -23,11 +23,23 @@ describe('mapCatCData', () => {
     // expect no faults, serious or dangerous...
     expect(result).toEqual(expected);
   });
+  it('Should map a minially populated test result with pass completion and override license type', () => {
+    const minimalInput = getMinimalInputWithPassCompletion(TestCategory.C);
+    const result = mapCatCData(minimalInput);
+    // expect licence type to be overriden to manual for CAT C, Automatic and Code78 false
+    const licenceType =  result.find(field => field.col === 'AUTOMATIC_TEST');
+    if (licenceType === undefined) {
+      fail();
+    } else {
+      expect(licenceType.val).toEqual(0);
+    }
+  });
 
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
     const fullyPopulated = getFullyPopulatedDrivingFaults(getMinimalInput(TestCategory.C));
 
     const expected: DataField[] = [
+      { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
       { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },

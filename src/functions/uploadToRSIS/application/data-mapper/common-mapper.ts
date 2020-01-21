@@ -43,7 +43,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
     field('TEST_CATEGORY_TYPE', r.category),
 
-    field('AUTOMATIC_TEST', formatGearboxCategory(result)),
+    // field('AUTOMATIC_TEST', formatGearboxCategory(result)),
     field('EXTENDED_TEST', optionalBoolean(r, 'journalData.testSlotAttributes.extendedTest')),
     field('TEST_TYPE', formatTestType(result)),
     // ADI_NUMBER is optional field set below
@@ -170,10 +170,10 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
  * @param result The MES test result
  * @returns ``1`` if automatic, ``0`` otherwise
  */
-const formatGearboxCategory = (result: ResultUpload): BooleanAsNumber => {
-  const gearboxCategory = get(result, 'testResult.vehicleDetails.gearboxCategory', 'Manual');
-  return gearboxCategory === 'Manual' ? 0 : 1;
-};
+// const formatGearboxCategory = (result: ResultUpload): BooleanAsNumber => {
+//   const gearboxCategory = get(result, 'testResult.vehicleDetails.gearboxCategory', 'Manual');
+//   return gearboxCategory === 'Manual' ? 0 : 1;
+// };
 
 /**
  * Formats the DL25 test type, calculated from the type of test (regular, CPC) and test category (B, C, D etc).

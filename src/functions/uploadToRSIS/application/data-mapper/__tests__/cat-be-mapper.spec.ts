@@ -27,6 +27,7 @@ describe('mapCatBEData', () => {
     const fullyPopulated = getFullyPopulatedDrivingFaults(getCatBEMinimalInput());
 
     const expected: DataField[] = [
+      { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
       { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },

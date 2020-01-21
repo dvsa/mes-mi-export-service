@@ -14,6 +14,7 @@ import {
   addIfSet,
   getCompetencyComments,
 } from './data-mapper';
+import { formatGearboxCategory } from '../helpers/shared-formatters';
 
 /**
  * Maps data specific to the ``B`` (Car) test category.
@@ -26,6 +27,7 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData;
 
   const m: DataField[] = [
+    field('AUTOMATIC_TEST', formatGearboxCategory(result)),
     //  unused - H_CODE_SAFETY_TOTAL
     field('CONTROL_STOP_PROMPT_TOTAL', formatManoeuvreFault(t, 'controlledStop.fault')),
     //  unused - CONTROL_STOP_CONTROL_TOTAL

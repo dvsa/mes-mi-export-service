@@ -2,6 +2,7 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 
 export function getCatCEFullyPopulatedSeriousDataFields(): DataField[] {
   return [
+    { col: 'AUTOMATIC_TEST', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
@@ -200,6 +201,7 @@ export function getCatCEFullyPopulatedSeriousDataFields(): DataField[] {
 
 export function getCatCEFullyPopulatedDangerousDataFields(): DataField[] {
   return[
+    { col: 'AUTOMATIC_TEST', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },

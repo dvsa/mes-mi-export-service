@@ -14,11 +14,13 @@ import {
   formatQuestionCompletedBE,
   formatManoeuvreComment,
 } from './data-mapper';
+import { formatGearboxCategory } from '../helpers/shared-formatters';
 
 export const mapCatBEData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData;
 
   const m: DataField[] = [
+    field('AUTOMATIC_TEST', formatGearboxCategory(result)),
     // unused - H_CODE_SAFETY_TOTAL
     // unused - CONTROL_STOP_PROMPT_TOTAL
     // unused - CONTROL_STOP_CONTROL_TOTAL

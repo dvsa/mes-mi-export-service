@@ -11,7 +11,7 @@ import {
   getCatCFullyPopulatedSeriousDataFields,
   getCatCFullyPopulatedDangerousDataFields,
 } from './helpers/cat-c/data-fields/fully-populated-data-fields';
-import { TestCategory } from '@dvsa/mes-test-schema/categories/common/test-category';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 describe('mapCatC1Data', () => {
 
@@ -28,6 +28,7 @@ describe('mapCatC1Data', () => {
     const fullyPopulated = getFullyPopulatedDrivingFaults(getMinimalInput(TestCategory.C1));
 
     const expected: DataField[] = [
+      { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
       { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },

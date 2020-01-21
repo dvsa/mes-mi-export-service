@@ -98,7 +98,7 @@ describe('mapCommonData', () => {
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
-      { col: 'AUTOMATIC_TEST', val: 0 },
+//      { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },
       { col: 'TEST_TYPE', val: 2 },
       { col: 'ACCOMPANIED_BY_DSA', val: 0 },
@@ -145,7 +145,7 @@ describe('mapCommonData', () => {
     expect(mapCommonData(minimalInput)).toEqual(expected);
   });
 
-  it('Should map a fully populated regular test result (fail, automatic, welsh, rekey, ethnicity, write up)', () => {
+  it('Should map a fully populated regular test result (fail, welsh, rekey, ethnicity, write up)', () => {
     const fullTestResult: CatBUniqueTypes.TestData = {
       eco: {
         completed: true,
@@ -281,7 +281,7 @@ describe('mapCommonData', () => {
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
-      { col: 'AUTOMATIC_TEST', val: 1 },
+      // { col: 'AUTOMATIC_TEST', val: 1 },
       { col: 'EXTENDED_TEST', val: 1 },
       { col: 'TEST_TYPE', val: 2 },
       { col: 'ACCOMPANIED_BY_DSA', val: 1 },
@@ -462,7 +462,7 @@ describe('mapCommonData', () => {
       { col: 'TIME', val: '1245' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
-      { col: 'AUTOMATIC_TEST', val: 0 },
+      // { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },
       { col: 'TEST_TYPE', val: 2 },
       { col: 'ACCOMPANIED_BY_DSA', val: 0 },
@@ -546,7 +546,7 @@ describe('mapCommonData', () => {
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
-      { col: 'AUTOMATIC_TEST', val: 0 },
+      // { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'EXTENDED_TEST', val: 0 },
       { col: 'TEST_TYPE', val: 2 },
       { col: 'ACCOMPANIED_BY_DSA', val: 0 },

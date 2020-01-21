@@ -43,7 +43,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
     field('TEST_CATEGORY_TYPE', r.category),
 
-    // field('AUTOMATIC_TEST', formatGearboxCategory(result)),
     field('EXTENDED_TEST', optionalBoolean(r, 'journalData.testSlotAttributes.extendedTest')),
     field('TEST_TYPE', formatTestType(result)),
     // ADI_NUMBER is optional field set below

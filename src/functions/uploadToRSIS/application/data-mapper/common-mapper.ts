@@ -164,17 +164,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 };
 
 /**
- * Converts from gearbox category (if any) to "is automatic" as a boolean (as a number).
- *
- * @param result The MES test result
- * @returns ``1`` if automatic, ``0`` otherwise
- */
-// const formatGearboxCategory = (result: ResultUpload): BooleanAsNumber => {
-//   const gearboxCategory = get(result, 'testResult.vehicleDetails.gearboxCategory', 'Manual');
-//   return gearboxCategory === 'Manual' ? 0 : 1;
-// };
-
-/**
  * Formats the DL25 test type, calculated from the type of test (regular, CPC) and test category (B, C, D etc).
  *
  * @param result The MES test result

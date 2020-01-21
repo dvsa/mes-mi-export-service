@@ -43,7 +43,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
     field('TEST_CATEGORY_TYPE', r.category),
 
-    field('AUTOMATIC_TEST', formatGearboxCategory(result)),
     field('EXTENDED_TEST', optionalBoolean(r, 'journalData.testSlotAttributes.extendedTest')),
     field('TEST_TYPE', formatTestType(result)),
     // ADI_NUMBER is optional field set below
@@ -162,17 +161,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'OTHER_REKEY_REASON', optional(r, 'rekeyReason.other.reason', null));
 
   return mappedFields;
-};
-
-/**
- * Converts from gearbox category (if any) to "is automatic" as a boolean (as a number).
- *
- * @param result The MES test result
- * @returns ``1`` if automatic, ``0`` otherwise
- */
-const formatGearboxCategory = (result: ResultUpload): BooleanAsNumber => {
-  const gearboxCategory = get(result, 'testResult.vehicleDetails.gearboxCategory', 'Manual');
-  return gearboxCategory === 'Manual' ? 0 : 1;
 };
 
 /**

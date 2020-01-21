@@ -14,11 +14,14 @@ import {
   formatQuestionCompletedBE,
   formatManoeuvreComment,
 } from './data-mapper';
+import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters';
 
 export const mapCatCData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData;
+  const category = result.testResult.category;
 
   const m: DataField[] = [
+    field('AUTOMATIC_TEST', formatGearboxCategoryWithOverride(category, result)),
     // unused - H_CODE_SAFETY_TOTAL
     // unused - CONTROL_STOP_PROMPT_TOTAL
     // unused - CONTROL_STOP_CONTROL_TOTAL

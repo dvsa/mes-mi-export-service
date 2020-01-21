@@ -2,6 +2,7 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 
 export function getMinimalDataField(): DataField[] {
   return [
+    { col: 'AUTOMATIC_TEST', val: 0 },
     { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 0 },
     { col: 'REV_RIGHT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_RIGHT_TRAIL_OBSERV_TOTAL', val: 0 },

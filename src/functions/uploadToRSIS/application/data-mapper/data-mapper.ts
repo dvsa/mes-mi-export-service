@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { BooleanAsNumber, DataField, DataFieldValue } from '../../domain/mi-export-data';
-import { ResultUpload } from '../../application/result-client';
+import { ResultUpload } from '../result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
 import { mapCatCData } from './cat-c-mapper';
@@ -16,6 +16,10 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { mapCatC1Data } from './cat-c1-mapper';
 import { mapCatCEData } from './cat-ce-mapper';
 import { mapCatC1EData } from './cat-c1e-mapper';
+import { mapCatDData } from './cat-d-mapper';
+import { mapCatD1Data } from './cat-d1-mapper';
+import { mapCatD1EData } from './cat-d1e-mapper';
+import { mapCatDEData } from './cat-de-mapper';
 import { mapCatAMod1Data } from './cat-a-mod1-mapper';
 import {
   TestData as CatAMod1TestData,
@@ -68,6 +72,18 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
       break;
     case TestCategory.C1E:
       mappedDataFields = mappedDataFields.concat(mapCatC1EData(result));
+      break;
+    case TestCategory.D:
+      mappedDataFields = mappedDataFields.concat(mapCatDData(result));
+      break;
+    case TestCategory.D1:
+      mappedDataFields = mappedDataFields.concat(mapCatD1Data(result));
+      break;
+    case TestCategory.DE:
+      mappedDataFields = mappedDataFields.concat(mapCatDEData(result));
+      break;
+    case TestCategory.D1E:
+      mappedDataFields = mappedDataFields.concat(mapCatD1EData(result));
       break;
     case TestCategory.EUA2M1:
     case TestCategory.EUA1M1:

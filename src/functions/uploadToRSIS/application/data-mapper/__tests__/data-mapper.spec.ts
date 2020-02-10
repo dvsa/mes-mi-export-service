@@ -61,7 +61,7 @@ describe('data mapper', () => {
       spyOn(commonMapper, 'mapCommonData').and.returnValue([] as DataField[]);
       spyOn(catBMapper, 'mapCatBData').and.returnValue([] as DataField[]);
 
-      expect(() => mapDataForMIExport(unsupportedInput)).toThrow(new Error('Unsupported Category: D'));
+      expect(() => mapDataForMIExport(unsupportedInput)).toThrow(new Error('Unsupported Category: G'));
     });
 
     it('Should propogate missing data errors', () => {

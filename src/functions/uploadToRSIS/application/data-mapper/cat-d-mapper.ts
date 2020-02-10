@@ -117,7 +117,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('CONTROL_STEERING_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsSteering')),
     //  unused - CONTROL_BALANCE_SERIOUS
     //  unused - CONTROL_LGV_PCV_GEAR_SERIOUS
-    field('CONTROL_PCV_DOOR_SERIOUS', optionalBoolean(t, 'seriousFaults.pcvDoorExercise')),
+    // field('CONTROL_PCV_DOOR_SERIOUS', optionalBoolean(t, 'seriousFaults.pcvDoorExercise')),
     field('MOVE_OFF_SAFETY_SERIOUS', optionalBoolean(t, 'seriousFaults.moveOffSafety')),
     field('MOVE_OFF_CONTROL_SERIOUS', optionalBoolean(t, 'seriousFaults.moveOffControl')),
     field('MIRRORS_MC_REAR_SIG_SERIOUS', optionalBoolean(t, 'seriousFaults.useOfMirrorsSignalling')),
@@ -183,7 +183,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('CONTROL_STEERING_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsSteering')),
     //  unused - CONTROL_BALANCE_DANGEROUS
     //  unused - CONTROL_LGV_PCV_GEAR_DANGEROUS
-    field('CONTROL_PCV_DOOR_DANGEROUS', optionalBoolean(t, 'dangerousFaults.pcvDoorExercise')),
+    // field('CONTROL_PCV_DOOR_DANGEROUS', optionalBoolean(t, 'dangerousFaults.pcvDoorExercise')),
     field('MOVE_OFF_SAFETY_DANGEROUS', optionalBoolean(t, 'dangerousFaults.moveOffSafety')),
     field('MOVE_OFF_CONTROL_DANGEROUS', optionalBoolean(t, 'dangerousFaults.moveOffControl')),
     field('MIRRORS_MC_REAR_SIG_DANGEROUS', optionalBoolean(t, 'dangerousFaults.useOfMirrorsSignalling')),
@@ -268,12 +268,15 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     //  unused - SPARE6_TOTAL                                       NUMBER(2)
     field('NORMAL_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart1')),
     field('NORMAL_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart2')),
-    field('POSITION_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.busStop1')),
-    field('POSITION_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.busStop2')),
+    // field('POSITION_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.busStop1')),
+    // field('POSITION_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.busStop2')),
     field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStartControlledStop')),
     field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
       //  unused - HILL_START_COMPLETED
+    field('SAFETY_QUESTIONS_FIRE_EXTINGUISHER', optionalBoolean(t, 'safetyQuestionResult.fireExtinguisher')),
+    field('SAFETY_QUESTIONS_EMERGENCY_EXIT', optionalBoolean(t, 'safetyQuestionResult.emergencyExit')),
+    field('SAFETY_QUESTIONS_FUEL_CUTOFF', optionalBoolean(t, 'safetyQuestionResult.fuelCutoff')),
   ];
 
   // add the optional fields, only if set
@@ -334,8 +337,5 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'VEHICLE_CHECKS_COMMENT', optional(t, 'vehicleChecks.showMeTellMeComments', null));
   addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
 
-  addIfSet(m, 'SAFETY_QUESTIONS_FIRE_EXTINGUISHER', optional(t, 'safetyQuestionResult.fireExtinguisher', null));
-  addIfSet(m, 'SAFETY_QUESTIONS_EMERGENCY_EXIT', optional(t, 'safetyQuestionResult.emergencyExit', null));
-  addIfSet(m, 'SAFETY_QUESTIONS_FUEL_CUTOFF', optional(t, 'safetyQuestionResult.fuelCutoff', null));
   return m;
 };

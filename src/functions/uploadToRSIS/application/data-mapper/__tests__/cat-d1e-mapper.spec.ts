@@ -28,7 +28,7 @@ describe('mapCatD1EData', () => {
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
     const fullyPopulated = getFullyPopulatedDrivingFaults(getMinimalInput(TestCategory.D1E));
 
-    const expected: DataField[] = [
+    const expected: DataField[] =  [
       { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
@@ -41,7 +41,7 @@ describe('mapCatD1EData', () => {
       { col: 'CONTROL_FOOTBRAKE_TOTAL', val: 6 },
       { col: 'CONTROL_PARK_TOTAL', val: 7 },
       { col: 'CONTROL_STEERING_TOTAL', val: 8 },
-      { col: 'CONTROL_PCV_DOOR_TOTAL', val: 0 },
+      { col: 'CONTROL_PCV_DOOR_TOTAL', val: 41 },
       { col: 'MOVE_OFF_SAFETY_TOTAL', val: 9 },
       { col: 'MOVE_OFF_CONTROL_TOTAL', val: 10 },
       { col: 'MIRRORS_MC_REAR_SIG_TOTAL', val: 11 },
@@ -84,6 +84,7 @@ describe('mapCatD1EData', () => {
       { col: 'CONTROL_FOOTBRAKE_SERIOUS', val: 0 },
       { col: 'CONTROL_PARK_SERIOUS', val: 0 },
       { col: 'CONTROL_STEERING_SERIOUS', val: 0 },
+      { col: 'CONTROL_PCV_DOOR_SERIOUS', val: 0 },
       { col: 'MOVE_OFF_SAFETY_SERIOUS', val: 0 },
       { col: 'MOVE_OFF_CONTROL_SERIOUS', val: 0 },
       { col: 'MIRRORS_MC_REAR_SIG_SERIOUS', val: 0 },
@@ -126,6 +127,7 @@ describe('mapCatD1EData', () => {
       { col: 'CONTROL_FOOTBRAKE_DANGEROUS', val: 0 },
       { col: 'CONTROL_PARK_DANGEROUS', val: 0 },
       { col: 'CONTROL_STEERING_DANGEROUS', val: 0 },
+      { col: 'CONTROL_PCV_DOOR_DANGEROUS', val: 0 },
       { col: 'MOVE_OFF_SAFETY_DANGEROUS', val: 0 },
       { col: 'MOVE_OFF_CONTROL_DANGEROUS', val: 0 },
       { col: 'MIRRORS_MC_REAR_SIG_DANGEROUS', val: 0 },
@@ -176,6 +178,7 @@ describe('mapCatD1EData', () => {
       { col: 'CONTROL_FOOTBRAKE_COMMENT', val: 'controls footbrake fault' },
       { col: 'CONTROL_PARK_COMMENT', val: 'controls parking brake fault' },
       { col: 'CONTROL_STEERING_COMMENT', val: 'controls steering fault' },
+      { col: 'CONTROL_PCV_DOOR_COMMENT', val: 'pcv door exercise fault' },
       { col: 'MOVE_OFF_SAFETY_COMMENT', val: 'move off safety fault' },
       { col: 'MOVE_OFF_CONTROL_COMMENT', val: 'move off control fault' },
       { col: 'MIRRORS_MC_REAR_SIG_COMMENT', val: 'use of mirrors signalling fault' },

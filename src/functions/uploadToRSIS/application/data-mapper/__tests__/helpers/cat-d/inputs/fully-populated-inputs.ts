@@ -104,7 +104,7 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
           ancillaryControls: 40,
           ancillaryControlsComments: 'ancillary controls fault',
           pcvDoorExercise: 41,
-          // pcvDoorExerciseComments: 'pcv door exercise fault',
+          pcvDoorExerciseComments: 'pcv door exercise fault',
         },
         eyesightTest: {
           complete: true,

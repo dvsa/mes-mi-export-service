@@ -117,7 +117,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('CONTROL_STEERING_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsSteering')),
     //  unused - CONTROL_BALANCE_SERIOUS
     //  unused - CONTROL_LGV_PCV_GEAR_SERIOUS
-    // field('CONTROL_PCV_DOOR_SERIOUS', optionalBoolean(t, 'seriousFaults.pcvDoorExercise')),
+    field('CONTROL_PCV_DOOR_SERIOUS', optionalBoolean(t, 'seriousFaults.pcvDoorExercise')),
     field('MOVE_OFF_SAFETY_SERIOUS', optionalBoolean(t, 'seriousFaults.moveOffSafety')),
     field('MOVE_OFF_CONTROL_SERIOUS', optionalBoolean(t, 'seriousFaults.moveOffControl')),
     field('MIRRORS_MC_REAR_SIG_SERIOUS', optionalBoolean(t, 'seriousFaults.useOfMirrorsSignalling')),
@@ -183,7 +183,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('CONTROL_STEERING_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsSteering')),
     //  unused - CONTROL_BALANCE_DANGEROUS
     //  unused - CONTROL_LGV_PCV_GEAR_DANGEROUS
-    // field('CONTROL_PCV_DOOR_DANGEROUS', optionalBoolean(t, 'dangerousFaults.pcvDoorExercise')),
+    field('CONTROL_PCV_DOOR_DANGEROUS', optionalBoolean(t, 'dangerousFaults.pcvDoorExercise')),
     field('MOVE_OFF_SAFETY_DANGEROUS', optionalBoolean(t, 'dangerousFaults.moveOffSafety')),
     field('MOVE_OFF_CONTROL_DANGEROUS', optionalBoolean(t, 'dangerousFaults.moveOffControl')),
     field('MIRRORS_MC_REAR_SIG_DANGEROUS', optionalBoolean(t, 'dangerousFaults.useOfMirrorsSignalling')),
@@ -288,6 +288,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'CONTROL_FOOTBRAKE_COMMENT', getCompetencyComments(t, 'controlsFootbrakeComments'));
   addIfSet(m, 'CONTROL_PARK_COMMENT', getCompetencyComments(t, 'controlsParkingBrakeComments'));
   addIfSet(m, 'CONTROL_STEERING_COMMENT', getCompetencyComments(t, 'controlsSteeringComments'));
+  addIfSet(m, 'CONTROL_PCV_DOOR_COMMENT', getCompetencyComments(t, 'pcvDoorExerciseComments'));
   addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', getCompetencyComments(t, 'moveOffSafetyComments'));
   addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', getCompetencyComments(t, 'moveOffControlComments'));
   addIfSet(m, 'MIRRORS_MC_REAR_SIG_COMMENT', getCompetencyComments(t, 'useOfMirrorsSignallingComments'));

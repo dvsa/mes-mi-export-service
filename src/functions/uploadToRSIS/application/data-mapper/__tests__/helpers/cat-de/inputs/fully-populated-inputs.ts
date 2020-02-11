@@ -103,6 +103,8 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
           awarenessPlanningComments: 'awareness planning fault',
           ancillaryControls: 40,
           ancillaryControlsComments: 'ancillary controls fault',
+          pcvDoorExercise: 41,
+          pcvDoorExerciseComments: 'pcv door exercise fault',
         },
         eyesightTest: {
           complete: true,
@@ -310,6 +312,8 @@ export function getFaultsByOutcomeSeverity(severityText: String) {
     awarenessPlanningComments: `awareness planning ${severityText}`,
     ancillaryControls: true,
     ancillaryControlsComments: `ancillary controls ${severityText}`,
+    pcvDoorExercise: true,
+    pcvDoorExerciseComments: `psv door exercise controls ${severityText}`,
   };
 }
 

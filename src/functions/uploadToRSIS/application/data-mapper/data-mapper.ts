@@ -16,6 +16,12 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { mapCatC1Data } from './cat-c1-mapper';
 import { mapCatCEData } from './cat-ce-mapper';
 import { mapCatC1EData } from './cat-c1e-mapper';
+import { mapCatAMod1Data } from './cat-a-mod1-mapper';
+import {
+  TestData as CatAMod1TestData,
+  SingleFaultCompetencyOutcome,
+  TestResultCatAM1Schema,
+} from '@dvsa/mes-test-schema/categories/AM1';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -62,6 +68,12 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
       break;
     case TestCategory.C1E:
       mappedDataFields = mappedDataFields.concat(mapCatC1EData(result));
+      break;
+    case TestCategory.EUA2M1:
+    case TestCategory.EUA1M1:
+    case TestCategory.EUAM1:
+    case TestCategory.EUAMM1:
+      mappedDataFields = mappedDataFields.concat(mapCatAMod1Data(result));
       break;
     default:
       const message = `Unsupported Category: ${category}`;
@@ -330,4 +342,20 @@ export const getCompetencyComments = (testData: TestData | undefined, path: stri
   }
 
   return null;
+};
+
+export const formatSingleFaultOutcomeBySeverity =
+  (testData: CatAMod1TestData, path: string, severity: SingleFaultCompetencyOutcome): BooleanAsNumber => {
+    const singleFaultCompetencyOutcome = get(testData, path, null);
+    return singleFaultCompetencyOutcome === severity ? 1 : 0;
+  };
+
+export const optionalIsLeftBoolean = (testResult: TestResultCatAM1Schema): BooleanAsNumber => {
+  const direction = get(testResult, 'testSummary.circuit', '');
+  return direction.toUpperCase() === 'LEFT' ? 1 : 0;
+};
+
+export const optionalIsRightBoolean = (testResult: TestResultCatAM1Schema): BooleanAsNumber => {
+  const direction = get(testResult, 'testSummary.circuit', '');
+  return direction.toUpperCase() === 'RIGHT' ? 1 : 0;
 };

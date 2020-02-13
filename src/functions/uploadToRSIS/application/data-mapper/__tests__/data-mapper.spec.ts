@@ -8,16 +8,27 @@ import {
   mapDataForMIExport,
   MissingTestResultDataError,
   formatQuestionDangerous,
-  getCompetencyComments,
+  getCompetencyComments, formatSingleFaultOutcomeBySeverity, optionalIsRightBoolean, optionalIsLeftBoolean,
 } from '../data-mapper';
 import { cloneDeep } from 'lodash';
 import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { getCatBMinimalInput } from './helpers/cat-b/inputs/minimal-inputs';
+import { getCatAM1MinimalInput } from './helpers/cat-a-mod1/inputs/minimal-inputs';
+import { getCatAM1FullyPopulatedSingleFaultCompetencies } from './helpers/cat-a-mod1/inputs/fully-populated-inputs';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  TestData as CatAMod1TestData,
+  TestResultCatAM1Schema,
+} from '@dvsa/mes-test-schema/categories/AM1';
 
 describe('data mapper', () => {
 
   const minimalInput = getCatBMinimalInput();
+
+  const catAM1MinimalInput = getCatAM1MinimalInput(TestCategory.EUAMM1);
+  const catAM1InputWithSingleFaultOutcomes =
+    getCatAM1FullyPopulatedSingleFaultCompetencies(catAM1MinimalInput);
 
   describe('mapDataForMIExport', () => {
 
@@ -296,4 +307,55 @@ describe('data mapper', () => {
       expect(getCompetencyComments(input.testResult.testData, 'precautionsComments')).toBeNull();
     });
   });
+  describe('formatSingleFaultOutcomeBySeverity', () => {
+    it('should return 1 if outcome is of specified severity', () => {
+      const catAM1InputWithSingleFaultOutcomes =
+        getCatAM1FullyPopulatedSingleFaultCompetencies(catAM1MinimalInput);
+      const input: CatAMod1TestData =
+        cloneDeep(catAM1InputWithSingleFaultOutcomes.testResult.testData) as CatAMod1TestData;
+      if (input.singleFaultCompetencies) {
+        input.singleFaultCompetencies.useOfStand = 'D';
+      }
+      expect(formatSingleFaultOutcomeBySeverity(input, 'singleFaultCompetencies.useOfStand', 'D')).toEqual(1);
+    });
+    it('should return 0 if outcome is NOT of specified severity', () => {
+      const input: CatAMod1TestData =
+        cloneDeep(catAM1InputWithSingleFaultOutcomes.testResult.testData) as CatAMod1TestData;
+      if (input.singleFaultCompetencies) {
+        input.singleFaultCompetencies.useOfStand = 'DF';
+      }
+      expect(formatSingleFaultOutcomeBySeverity(input, 'singleFaultCompetencies.useOfStand', 'D')).toEqual(0);
+    });
+  });
+  describe('optionalIsLeftBoolean', () => {
+    const input: TestResultCatAM1Schema =
+      cloneDeep(catAM1InputWithSingleFaultOutcomes.testResult) as TestResultCatAM1Schema;
+    it('should return 1 if value is left', () => {
+      if (input.testSummary) {
+        input.testSummary.circuit = 'Left';
+      }
+      expect(optionalIsLeftBoolean(input)).toEqual(1);
+    });
+    it('should return 0 if value is NOT left', () => {
+      if (input.testSummary) {
+        input.testSummary.circuit = 'Right';
+      }
+      expect(optionalIsLeftBoolean(input)).toEqual(0);
+    });
+  });
+  describe('optionalIsRightBoolean', () => {
+    const input: TestResultCatAM1Schema =
+      cloneDeep(catAM1InputWithSingleFaultOutcomes.testResult) as TestResultCatAM1Schema;
+    it('should return 1 if value is right', () => {
+      if (input.testSummary) {
+        input.testSummary.circuit = 'Right';
+      }
+      expect(optionalIsRightBoolean(input)).toEqual(1);
+    });
+    it('should return 0 if value is NOT right', () => {
+      input.testSummary = {};
+      expect(optionalIsRightBoolean(input)).toEqual(0);
+    });
+  });
+
 });

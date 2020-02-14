@@ -4,7 +4,7 @@ import {
   addIfSet,
   field,
   formatManoeuvreFault,
-  formatManoeuvreSerious,  formatQuestionDangerous,
+  formatManoeuvreSerious, formatQuestionDangerous,
   getCompetencyComments,
   optional,
   optionalBoolean,
@@ -15,9 +15,12 @@ import {
   formatManoeuvreComment,
 } from './data-mapper';
 import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { get } from 'lodash';
+import TestData = CatDUniqueTypes.TestData;
 
 export const mapCatDData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData;
+  const t = result.testResult.testData as CatDUniqueTypes.TestData;
   const category = result.testResult.category;
 
   const m: DataField[] = [
@@ -51,7 +54,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('CONTROL_STEERING_TOTAL', optional(t, 'drivingFaults.controlsSteering', 0)),
     //  unused - CONTROL_BALANCE_TOTAL
     //  unused - CONTROL_LGV_PCV_GEAR_TOTAL
-    field('CONTROL_PCV_DOOR_TOTAL', optional(t, 'drivingFaults.pcvDoorExercise', 0)),
+    field('CONTROL_PCV_DOOR_TOTAL', optional(t, 'pcvDoorExercise.drivingFault', 0)),
     field('MOVE_OFF_SAFETY_TOTAL', optional(t, 'drivingFaults.moveOffSafety', 0)),
     field('MOVE_OFF_CONTROL_TOTAL', optional(t, 'drivingFaults.moveOffControl', 0)),
     field('MIRRORS_MC_REAR_SIG_TOTAL', optional(t, 'drivingFaults.useOfMirrorsSignalling', 0)),
@@ -117,7 +120,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('CONTROL_STEERING_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsSteering')),
     //  unused - CONTROL_BALANCE_SERIOUS
     //  unused - CONTROL_LGV_PCV_GEAR_SERIOUS
-    field('CONTROL_PCV_DOOR_SERIOUS', optionalBoolean(t, 'seriousFaults.pcvDoorExercise')),
+    field('CONTROL_PCV_DOOR_SERIOUS', optionalBoolean(t, 'pcvDoorExercise.seriousFault')),
     field('MOVE_OFF_SAFETY_SERIOUS', optionalBoolean(t, 'seriousFaults.moveOffSafety')),
     field('MOVE_OFF_CONTROL_SERIOUS', optionalBoolean(t, 'seriousFaults.moveOffControl')),
     field('MIRRORS_MC_REAR_SIG_SERIOUS', optionalBoolean(t, 'seriousFaults.useOfMirrorsSignalling')),
@@ -183,7 +186,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('CONTROL_STEERING_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsSteering')),
     //  unused - CONTROL_BALANCE_DANGEROUS
     //  unused - CONTROL_LGV_PCV_GEAR_DANGEROUS
-    field('CONTROL_PCV_DOOR_DANGEROUS', optionalBoolean(t, 'dangerousFaults.pcvDoorExercise')),
+    field('CONTROL_PCV_DOOR_DANGEROUS', optionalBoolean(t, 'pcvDoorExercise.dangerousFault')),
     field('MOVE_OFF_SAFETY_DANGEROUS', optionalBoolean(t, 'dangerousFaults.moveOffSafety')),
     field('MOVE_OFF_CONTROL_DANGEROUS', optionalBoolean(t, 'dangerousFaults.moveOffControl')),
     field('MIRRORS_MC_REAR_SIG_DANGEROUS', optionalBoolean(t, 'dangerousFaults.useOfMirrorsSignalling')),
@@ -273,7 +276,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStartControlledStop')),
     field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
-      //  unused - HILL_START_COMPLETED
+    //  unused - HILL_START_COMPLETED
     field('SAFETY_QUESTIONS_FIRE_EXTINGUISHER', optionalBoolean(t, 'safetyQuestionResult.fireExtinguisher')),
     field('SAFETY_QUESTIONS_EMERGENCY_EXIT', optionalBoolean(t, 'safetyQuestionResult.emergencyExit')),
     field('SAFETY_QUESTIONS_FUEL_CUTOFF', optionalBoolean(t, 'safetyQuestionResult.fuelCutoff')),
@@ -288,7 +291,9 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'CONTROL_FOOTBRAKE_COMMENT', getCompetencyComments(t, 'controlsFootbrakeComments'));
   addIfSet(m, 'CONTROL_PARK_COMMENT', getCompetencyComments(t, 'controlsParkingBrakeComments'));
   addIfSet(m, 'CONTROL_STEERING_COMMENT', getCompetencyComments(t, 'controlsSteeringComments'));
-  addIfSet(m, 'CONTROL_PCV_DOOR_COMMENT', getCompetencyComments(t, 'pcvDoorExerciseComments'));
+
+  addIfSet(m, 'CONTROL_PCV_DOOR_COMMENT', getPcvDoorExerciseCompetencyComments(t, 'pcvDoorExercise'));
+
   addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', getCompetencyComments(t, 'moveOffSafetyComments'));
   addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', getCompetencyComments(t, 'moveOffControlComments'));
   addIfSet(m, 'MIRRORS_MC_REAR_SIG_COMMENT', getCompetencyComments(t, 'useOfMirrorsSignallingComments'));
@@ -340,3 +345,28 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
 
   return m;
 };
+
+/**
+ *
+ * @param testData
+ * @param path
+ */
+const getPcvDoorExerciseCompetencyComments =
+  (testData: CatDUniqueTypes.TestData |  undefined, path: string): string | null => {
+    const dangerousComments = get(testData, `${path}.dangerousFaultComments`, null);
+    if (dangerousComments) {
+      return dangerousComments;
+    }
+
+    const seriousComments = get(testData, `${path}.seriousFaultComments`, null);
+    if (seriousComments) {
+      return seriousComments;
+    }
+
+    const faultComments = get(testData, `${path}.drivingFaultComments`, null);
+    if (faultComments) {
+      return faultComments;
+    }
+
+    return null;
+  };

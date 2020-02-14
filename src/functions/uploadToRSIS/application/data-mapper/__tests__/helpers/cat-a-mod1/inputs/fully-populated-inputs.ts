@@ -4,12 +4,18 @@ export function getCatAM1FullyPopulatedDrivingFaults(result: any): ResultUpload 
   return {
     ...result,
     testResult: {
+      preTestDeclarations: {
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+        preTestSignature: '**DUMMY**',
+        DL196CBTCertNumber: '123456',
+      },
       testData: {
         singleFaultCompetencies: {},
         drivingFaults: {
-          precautions: 1,
-          moveOffSafety: 1,
-          moveOffControl: 1,
+          precautions: 5,
+          moveOffSafety: 3,
+          moveOffControl: 2,
         },
         dangerousFaults: {},
         seriousFaults: {},
@@ -34,6 +40,12 @@ export function getCatAM1FullyPopulatedSeriousFaults(result: any): ResultUpload 
   return {
     ...result,
     testResult: {
+      preTestDeclarations: {
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+        preTestSignature: '**DUMMY**',
+        DL196CBTCertNumber: '123456',
+      },
       testData: {
         singleFaultCompetencies: {},
         drivingFaults: {},
@@ -64,6 +76,12 @@ export function getCatAM1FullyPopulatedDangerousFaults(result: any): ResultUploa
   return {
     ...result,
     testResult: {
+      preTestDeclarations: {
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+        preTestSignature: '**DUMMY**',
+        DL196CBTCertNumber: '123456',
+      },
       testData: {
         singleFaultCompetencies: {},
         drivingFaults: {},
@@ -94,6 +112,12 @@ export function getCatAM1FullyPopulatedSingleFaultCompetencies(result: any): Res
   return {
     ...result,
     testResult: {
+      preTestDeclarations: {
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+        preTestSignature: '**DUMMY**',
+        DL196CBTCertNumber: '123456',
+      },
       testData: {
         singleFaultCompetencies: {
           useOfStand: 'D',
@@ -121,33 +145,5 @@ export function getCatAM1FullyPopulatedSingleFaultCompetencies(result: any): Res
         circuit: 'Left',
       },
     },
-  };
-}
-
-export function getManoeuvresByOutcomeSeverity(severityShortCode: String) {
-  return {
-    reverseLeft: {
-      selected: true,
-      controlFault: severityShortCode,
-      controlFaultComments: 'reverse left control',
-      observationFault: severityShortCode,
-      observationFaultComments: 'reverse left observation',
-    },
-  };
-}
-
-export function getUncoupleRecouple(severityShortCode: String) {
-  return {
-    selected: true,
-    fault: severityShortCode,
-    faultComments: 'uncouple recouple',
-  };
-}
-
-export function getEyesightTestBySeverityOutcome(isComplete: boolean, isSerious: boolean, severityText: String = '') {
-  return {
-    complete: isComplete,
-    seriousFault: isSerious,
-    faultComments: isSerious ? `eyesight ${severityText}` : undefined,
   };
 }

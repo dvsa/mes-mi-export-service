@@ -1,6 +1,6 @@
 import { DataField } from '../../../../../../domain/mi-export-data';
 
-export function getCatAMod1MinimalDataFields(): DataField[] {
+export function getCatAMod1FullyPopulatedDFaultDataFields(): DataField[] {
   return [
     { col: 'MC_USE_OF_STAND_DANGEROUS', val: 0 },
     { col: 'MC_USE_OF_STAND_SERIOUS', val: 0 },
@@ -28,17 +28,20 @@ export function getCatAMod1MinimalDataFields(): DataField[] {
     { col: 'MC_AVOIDANCE_TOTAL', val: 0 },
     { col: 'PRECAUTIONS_DANGEROUS', val: 0 },
     { col: 'PRECAUTIONS_SERIOUS', val: 0 },
-    { col: 'PRECAUTIONS_TOTAL', val: 0 },
+    { col: 'PRECAUTIONS_TOTAL', val: 5 },
     { col: 'MOVE_OFF_SAFETY_DANGEROUS', val: 0 },
     { col: 'MOVE_OFF_SAFETY_SERIOUS', val: 0 },
-    { col: 'MOVE_OFF_SAFETY_TOTAL', val: 0 },
+    { col: 'MOVE_OFF_SAFETY_TOTAL', val: 3 },
     { col: 'MOVE_OFF_CONTROL_DANGEROUS', val: 0 },
     { col: 'MOVE_OFF_CONTROL_SERIOUS', val: 0 },
-    { col: 'MOVE_OFF_CONTROL_TOTAL', val: 0 },
+    { col: 'MOVE_OFF_CONTROL_TOTAL', val: 2 },
     { col: 'MC_AVOIDANCE_SPEED_NOT_MET', val: 0 },
     { col: 'MC_EMER_STOP_SPEED_NOT_MET', val: 0 },
     { col: 'MC_DL196_CBT_CERT_NO', val: '123456' },
     { col: 'MC_AVOIDANCE_L', val: 0 },
     { col: 'MC_AVOIDANCE_R', val: 0 },
+    { col: 'MC_AVOIDANCE_SPEED_FIRST', val: 50 },
+    { col: 'MC_EMERGENCY_STOP_SPEED_FIRST', val: 50 },
+
   ];
 }

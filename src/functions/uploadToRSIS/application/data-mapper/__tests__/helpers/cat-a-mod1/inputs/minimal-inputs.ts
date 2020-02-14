@@ -20,6 +20,12 @@ export function getCatAM1MinimalInput(subCategory: TestCategory): ResultUpload {
       examinerBooked: 12345678,
       examinerConducted: 12345678,
       examinerKeyed: 12345678,
+      preTestDeclarations: {
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+        preTestSignature: '**DUMMY**',
+        DL196CBTCertNumber: '123456',
+      },
       journalData: {
         examiner: {
           staffNumber: '001122',

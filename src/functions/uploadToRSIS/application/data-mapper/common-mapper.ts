@@ -31,7 +31,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     //  unused - REC_TYPE
     //  unused - REC_NO
     field('FORM_TYPE', FormType.MES),
-    field('DRIVING_SCHOOL_CANDIDATE', formatDrivingSchoolCanidate(result)),
+    field('DRIVING_SCHOOL_CANDIDATE', formatDrivingSchoolCandidate(result)),
     field('SPECIAL_NEEDS', optionalBoolean(r, 'testSummary.D255')),
     field('APP_REF_NO', formatApplicationReference(r.journalData.applicationReference)),
     // unused - DRIVER_NO_DOB
@@ -279,8 +279,8 @@ const formatRekeyDateTime = (result: ResultUpload): Date|null => {
   return null;
 };
 
-const formatDrivingSchoolCanidate = (result: ResultUpload): BooleanAsNumber => {
-  const isDrivingSchoolBike = get(result, 'testResult.vehicleDetails.schoolCar', false);
+export const formatDrivingSchoolCandidate = (result: ResultUpload): BooleanAsNumber => {
+  const isDrivingSchoolBike = get(result, 'testResult.vehicleDetails.schoolBike', false);
   const isDrivingSchoolCar = get(result, 'testResult.vehicleDetails.schoolCar', false);
   return (isDrivingSchoolBike) || isDrivingSchoolCar ? 1 : 0;
 };

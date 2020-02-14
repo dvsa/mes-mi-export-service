@@ -1,13 +1,58 @@
 import { getCatAM1MinimalInput } from './helpers/cat-a-mod1/inputs/minimal-inputs';
 import { getCatAMod1MinimalDataFields } from './helpers/cat-a-mod1/data-fields/minimal-data-fields';
+import {
+  getCatAMod1FullyPopulatedDFaultDataFields,
+} from './helpers/cat-a-mod1/data-fields/fully-populated-driving-faults';
 import { mapCatAMod1Data } from '../cat-a-mod1-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  getCatAM1FullyPopulatedDangerousFaults,
+  getCatAM1FullyPopulatedDrivingFaults, getCatAM1FullyPopulatedSeriousFaults,
+  getCatAM1FullyPopulatedSingleFaultCompetencies,
+} from './helpers/cat-a-mod1/inputs/fully-populated-inputs';
+import {
+  getCatAMod1FullyPopulatedSingleFaultDataFields,
+} from './helpers/cat-a-mod1/data-fields/fully-populated-single-fault-competencies';
+import {
+  getCatAMod1FullyPopulatedSeriousFaultDataFields,
+} from './helpers/cat-a-mod1/data-fields/fully-populated-serious-faults';
+import {
+  getCatAMod1FullyPopulatedDangerousFaultDataFields,
+} from './helpers/cat-a-mod1/data-fields/fully-populated-dangerous-faults';
 
 describe('mapCatAMod1Data', () => {
   it('Should map a minimally populated test result', () => {
     const minimalInput = getCatAM1MinimalInput(TestCategory.EUAMM1);
     const expected = getCatAMod1MinimalDataFields();
     const result = mapCatAMod1Data(minimalInput);
+    expect(result).toEqual(expected);
+  });
+  it('should map a fully populated regular test with every possible driving fault', () => {
+    const fullyPopulatedWithDrivingFaults
+      = getCatAM1FullyPopulatedDrivingFaults(getCatAM1MinimalInput(TestCategory.EUAMM1));
+    const expected = getCatAMod1FullyPopulatedDFaultDataFields();
+    const result = mapCatAMod1Data(fullyPopulatedWithDrivingFaults);
+    expect(result).toEqual(expected);
+  });
+  it('should map a fully populated regular test with every possible serious fault', () => {
+    const fullyPopulatedWithSeriousFaults
+      = getCatAM1FullyPopulatedSeriousFaults(getCatAM1MinimalInput(TestCategory.EUAMM1));
+    const expected = getCatAMod1FullyPopulatedSeriousFaultDataFields();
+    const result = mapCatAMod1Data(fullyPopulatedWithSeriousFaults);
+    expect(result).toEqual(expected);
+  });
+  it('should map a fully populated regular test with every possible dangerous fault', () => {
+    const fullyPopulatedWithDangerousFaults
+      = getCatAM1FullyPopulatedDangerousFaults(getCatAM1MinimalInput(TestCategory.EUAMM1));
+    const expected = getCatAMod1FullyPopulatedDangerousFaultDataFields();
+    const result = mapCatAMod1Data(fullyPopulatedWithDangerousFaults);
+    expect(result).toEqual(expected);
+  });
+  it('should correctly map single fault competencies', () => {
+    const fullyPopulatedWithSingleFaultCompetencies
+      = getCatAM1FullyPopulatedSingleFaultCompetencies(getCatAM1MinimalInput(TestCategory.EUAMM1));
+    const expected = getCatAMod1FullyPopulatedSingleFaultDataFields();
+    const result = mapCatAMod1Data(fullyPopulatedWithSingleFaultCompetencies);
     expect(result).toEqual(expected);
   });
 });

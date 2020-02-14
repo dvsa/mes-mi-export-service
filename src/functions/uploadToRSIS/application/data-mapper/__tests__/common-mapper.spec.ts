@@ -666,9 +666,6 @@ describe('mapCommonData', () => {
     const input: ResultUpload = {
       ...minimalInput,
       testResult: {
-        vehicleDetails: {
-          schoolBike: true,
-        },
         ...minimalInput.testResult,
         rekeyDate: '2019-10-02T11:50:57',
         rekeyReason: {
@@ -685,10 +682,13 @@ describe('mapCommonData', () => {
     };
 
     it('should return 1 if schoolCar or schoolBike', () => {
+      input.testResult.vehicleDetails = {
+        schoolCar: true,
+      };
       let result = formatDrivingSchoolCandidate(input);
       expect(result).toEqual(1);
       input.testResult.vehicleDetails = {
-        schoolCar: true,
+        schoolBike: true,
       };
       result = formatDrivingSchoolCandidate(input);
       expect(result).toEqual(1);
@@ -696,6 +696,7 @@ describe('mapCommonData', () => {
     it('should return 0 if NOT schoolCar or schoolBike', () => {
       input.testResult.vehicleDetails = {};
       const result = formatDrivingSchoolCandidate(input);
+      expect(result).toEqual(0);
     });
   });
 });

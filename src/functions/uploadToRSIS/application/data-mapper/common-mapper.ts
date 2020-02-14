@@ -282,5 +282,5 @@ const formatRekeyDateTime = (result: ResultUpload): Date|null => {
 export const formatDrivingSchoolCandidate = (result: ResultUpload): BooleanAsNumber => {
   const isDrivingSchoolBike = get(result, 'testResult.vehicleDetails.schoolBike', false);
   const isDrivingSchoolCar = get(result, 'testResult.vehicleDetails.schoolCar', false);
-  return (isDrivingSchoolBike) || isDrivingSchoolCar ? 1 : 0;
+  return (isDrivingSchoolBike || isDrivingSchoolCar) ? 1 : 0;
 };

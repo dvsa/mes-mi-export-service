@@ -81,5 +81,12 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'MC_AVOIDANCE_SPEED_SECOND', optional(t, 'avoidance.secondAttempt', null));
   addIfSet(m, 'MC_EMERGENCY_STOP_SPEED_FIRST', optional(t, 'emergencyStop.firstAttempt', null));
   addIfSet(m, 'MC_EMERGENCY_STOP_SPEED_SECOND', optional(t, 'emergencyStop.secondAttempt', null));
+
+  // Comments
+  addIfSet(m, 'CONTROL_STOP_COMMENT', optional(t, 'controlledStop.faultComments', null));
+  addIfSet(m, 'PRECAUTIONS_COMMENT', optional(t, 'precautionsComments', null));
+  addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', optional(t, 'moveOffSafetyComments', null));
+  addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', optional(t, 'moveOffControlComments', null));
+
   return m;
 };

@@ -11,6 +11,7 @@ import {
   FormType,
 } from '../../domain/mi-export-data';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import { trimTestCategoryPrefix } from '@dvsa/mes-microservice-common/domain/trim-test-category-prefix';
 import { formatRekeyReason, formatIpadIssueReason } from './rekey-reason-mapper';
 
 /**
@@ -41,7 +42,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
-    field('TEST_CATEGORY_TYPE', r.category),
+    field('TEST_CATEGORY_TYPE', trimTestCategoryPrefix(r.category)),
 
     field('EXTENDED_TEST', optionalBoolean(r, 'journalData.testSlotAttributes.extendedTest')),
     field('TEST_TYPE', formatTestType(result)),

@@ -9,6 +9,8 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
         testRequirements: {
           normalStart1: true,
           normalStart2: true,
+          busStop1: true,
+          busStop2: true,
           angledStartControlledStop: true,
           uphillStart: true,
           downhillStart: true,
@@ -103,8 +105,9 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
           awarenessPlanningComments: 'awareness planning fault',
           ancillaryControls: 40,
           ancillaryControlsComments: 'ancillary controls fault',
-          pcvDoorExercise: 41,
-          pcvDoorExerciseComments: 'pcv door exercise fault',
+        },
+        pcvDoorExercise: {
+          drivingFaultComments: 'pcv door exercise controls fault',
         },
         eyesightTest: {
           complete: true,
@@ -123,6 +126,8 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
         testRequirements: {
           normalStart1: true,
           normalStart2: true,
+          busStop1: true,
+          busStop2: true,
           angledStartControlledStop: true,
           uphillStart: true,
           downhillStart: true,
@@ -141,6 +146,9 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
         manoeuvres: getManoeuvresByOutcomeSeverity(SeverityShortCodes.SeriousFault),
         seriousFaults: getFaultsByOutcomeSeverity(SeverityText.Serious),
         eyesightTest: getEyesightTestBySeverityOutcome(true, true, SeverityText.Serious),
+        pcvDoorExercise: {
+          seriousFaultComments: 'pcv door exercise controls serious',
+        },
       },
       testSummary: getTestSummary(IndependentDrivingText.TrafficSigns),
     },
@@ -155,6 +163,8 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
         testRequirements: {
           normalStart1: true,
           normalStart2: true,
+          busStop1: true,
+          busStop2: true,
           angledStartControlledStop: true,
           uphillStart: true,
           downhillStart: true,
@@ -168,6 +178,9 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
         manoeuvres: getManoeuvresByOutcomeSeverity(SeverityShortCodes.DangerousFault),
         dangerousFaults: getFaultsByOutcomeSeverity(SeverityText.Dangerous),
         eyesightTest: getEyesightTestBySeverityOutcome(true, false),
+        pcvDoorExercise: {
+          dangerousFaultComments: 'pcv door exercise controls dangerous',
+        },
       },
       testSummary: getTestSummary(IndependentDrivingText.NotApplicable),
     },

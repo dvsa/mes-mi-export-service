@@ -17,7 +17,6 @@ import {
 import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { get } from 'lodash';
-import TestData = CatDUniqueTypes.TestData;
 
 export const mapCatDData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData as CatDUniqueTypes.TestData;
@@ -271,8 +270,8 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     //  unused - SPARE6_TOTAL                                       NUMBER(2)
     field('NORMAL_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart1')),
     field('NORMAL_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart2')),
-    // field('POSITION_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.busStop1')),
-    // field('POSITION_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.busStop2')),
+    field('BUS_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.busStop1')),
+    field('BUS_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.busStop2')),
     field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStartControlledStop')),
     field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
@@ -346,11 +345,6 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
   return m;
 };
 
-/**
- *
- * @param testData
- * @param path
- */
 const getPcvDoorExerciseCompetencyComments =
   (testData: CatDUniqueTypes.TestData |  undefined, path: string): string | null => {
     const dangerousComments = get(testData, `${path}.dangerousFaultComments`, null);

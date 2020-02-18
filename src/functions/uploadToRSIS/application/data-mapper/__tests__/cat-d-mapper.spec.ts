@@ -13,6 +13,21 @@ import {
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getCatDMinimalDataFields } from './helpers/cat-d/data-fields/minimal-data-fields';
 
+// tslint:disable-next-line:prefer-array-literal
+export const getArrayDiffByKey = (original: Array<any>, checkAgainst: Array<any>, key: string) => {
+
+  // tslint:disable-next-line:prefer-array-literal
+  const difference: Array<any> = original.filter(o => !checkAgainst.some(v => v[key] === o[key]));
+
+  if (Array.isArray(difference) && difference.length > 0) {
+    return { difference, from: 'original to check against' };
+  }
+  return {
+    difference: checkAgainst.filter(o => !original.some(v => v[key] === o[key])),
+    from: 'check against to original',
+  };
+};
+
 describe('mapCatDData', () => {
 
   it('Should map a minimally populated test result (test terminated early as possible)', () => {
@@ -23,6 +38,7 @@ describe('mapCatDData', () => {
     // expect no faults, serious or dangerous...
     expect(result).toEqual(expected);
   });
+
   it('Should map a minimally populated test result with pass completion and override license type', () => {
     const minimalInput = getMinimalInputWithPassCompletion(TestCategory.D);
     const result = mapCatDData(minimalInput);
@@ -51,7 +67,7 @@ describe('mapCatDData', () => {
       { col: 'CONTROL_FOOTBRAKE_TOTAL', val: 6 },
       { col: 'CONTROL_PARK_TOTAL', val: 7 },
       { col: 'CONTROL_STEERING_TOTAL', val: 8 },
-      { col: 'CONTROL_PCV_DOOR_TOTAL', val: 41 },
+      { col: 'CONTROL_PCV_DOOR_TOTAL', val: 0 },
       { col: 'MOVE_OFF_SAFETY_TOTAL', val: 9 },
       { col: 'MOVE_OFF_CONTROL_TOTAL', val: 10 },
       { col: 'MIRRORS_MC_REAR_SIG_TOTAL', val: 11 },
@@ -175,6 +191,8 @@ describe('mapCatDData', () => {
       { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
+      { col: 'BUS_STOP_1_COMPLETED', val: 1 },
+      { col: 'BUS_STOP_2_COMPLETED', val: 1 },
       { col: 'ANGLED_START_COMPLETED', val: 1 },
       { col: 'UPHILL_START', val: 1 },
       { col: 'DOWN_HILL_START', val: 1 },
@@ -188,7 +206,7 @@ describe('mapCatDData', () => {
       { col: 'CONTROL_FOOTBRAKE_COMMENT', val: 'controls footbrake fault' },
       { col: 'CONTROL_PARK_COMMENT', val: 'controls parking brake fault' },
       { col: 'CONTROL_STEERING_COMMENT', val: 'controls steering fault' },
-      { col: 'CONTROL_PCV_DOOR_COMMENT', val: 'pcv door exercise fault' },
+      { col: 'CONTROL_PCV_DOOR_COMMENT', val: 'pcv door exercise controls fault' },
       { col: 'MOVE_OFF_SAFETY_COMMENT', val: 'move off safety fault' },
       { col: 'MOVE_OFF_CONTROL_COMMENT', val: 'move off control fault' },
       { col: 'MIRRORS_MC_REAR_SIG_COMMENT', val: 'use of mirrors signalling fault' },

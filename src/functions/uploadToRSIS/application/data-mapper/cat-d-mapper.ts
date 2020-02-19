@@ -345,7 +345,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
   return m;
 };
 
-const getPcvDoorExerciseCompetencyComments =
+export const getPcvDoorExerciseCompetencyComments =
   (testData: CatDUniqueTypes.TestData |  undefined, path: string): string | null => {
     const dangerousComments = get(testData, `${path}.dangerousFaultComments`, null);
     if (dangerousComments) {

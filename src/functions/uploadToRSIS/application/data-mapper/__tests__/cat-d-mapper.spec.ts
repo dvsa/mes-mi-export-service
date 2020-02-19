@@ -1,5 +1,5 @@
 import { DataField } from '../../../domain/mi-export-data';
-import { mapCatDData } from '../cat-d-mapper';
+import { getPcvDoorExerciseCompetencyComments, mapCatDData } from '../cat-d-mapper';
 import { getMinimalInput, getMinimalInputWithPassCompletion } from './helpers/cat-d/inputs/minimal-inputs';
 import {
   getFullyPopulatedDrivingFaults,
@@ -11,22 +11,8 @@ import {
   getCatDFullyPopulatedDangerousDataFields,
 } from './helpers/cat-d/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { getCatDMinimalDataFields } from './helpers/cat-d/data-fields/minimal-data-fields';
-
-// tslint:disable-next-line:prefer-array-literal
-export const getArrayDiffByKey = (original: Array<any>, checkAgainst: Array<any>, key: string) => {
-
-  // tslint:disable-next-line:prefer-array-literal
-  const difference: Array<any> = original.filter(o => !checkAgainst.some(v => v[key] === o[key]));
-
-  if (Array.isArray(difference) && difference.length > 0) {
-    return { difference, from: 'original to check against' };
-  }
-  return {
-    difference: checkAgainst.filter(o => !original.some(v => v[key] === o[key])),
-    from: 'check against to original',
-  };
-};
 
 describe('mapCatDData', () => {
 
@@ -271,5 +257,46 @@ describe('mapCatDData', () => {
     const expected = getCatDFullyPopulatedDangerousDataFields();
     // expect all dangerous, no faults or serious
     expect(mapCatDData(fullyPopulated)).toEqual(expected);
+  });
+});
+
+describe('getPcvDoorExerciseCompetencyComments', () => {
+  it('should return the dangerous comment as priority if found', () => {
+    const td: CatDUniqueTypes.TestData = {
+      pcvDoorExercise: {
+        dangerousFaultComments: 'some dangerous comment',
+        seriousFaultComments: 'some serious comment',
+        drivingFaultComments: 'some driving comment',
+      },
+    };
+    const comment = getPcvDoorExerciseCompetencyComments(td, 'pcvDoorExercise');
+    expect(comment).toEqual('some dangerous comment');
+  });
+
+  it('should return the serious comment as priority as no dangerous was found', () => {
+    const td: CatDUniqueTypes.TestData = {
+      pcvDoorExercise: {
+        seriousFaultComments: 'some serious comment',
+        drivingFaultComments: 'some driving comment',
+      },
+    };
+    const comment = getPcvDoorExerciseCompetencyComments(td, 'pcvDoorExercise');
+    expect(comment).toEqual('some serious comment');
+  });
+
+  it('should return the driving comment as neither a dangerous or serious was found', () => {
+    const td: CatDUniqueTypes.TestData = {
+      pcvDoorExercise: {
+        drivingFaultComments: 'some driving comment',
+      },
+    };
+    const comment = getPcvDoorExerciseCompetencyComments(td, 'pcvDoorExercise');
+    expect(comment).toEqual('some driving comment');
+  });
+
+  it('should return null as there were no comments in the pcvDoorExercise object', () => {
+    const td: CatDUniqueTypes.TestData = {};
+    const comment = getPcvDoorExerciseCompetencyComments(td, 'pcvDoorExercise');
+    expect(comment).toEqual(null);
   });
 });

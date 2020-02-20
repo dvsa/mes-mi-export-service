@@ -12,13 +12,19 @@ export const createConnection = async (config: Config): Promise<Connection | und
   if (config.useRSIS) {
     const connectionString = config.rsisDatabaseConnectString;
     info('Opening database connection to ', connectionString);
-
-    const connection = await getConnection({
-      user: config.rsisDatabaseUsername,
-      password: config.rsisDatabasePassword,
-      connectString: connectionString,
-    });
-    info(`Connection successfully created`);
+    let connection;
+    try {
+      connection = await getConnection({
+        user: config.rsisDatabaseUsername,
+        password: config.rsisDatabasePassword,
+        connectString: connectionString,
+      });
+      info(`Connection successfully created`);
+    } catch (err) {
+      // tslint:disable-next-line:no-console
+      error(`Failed to connect to RSIS DB using connection string ${connectionString} with error: `, err);
+      throw err;
+    }
     return connection;
   }
   debug('In mock mode');
@@ -33,17 +39,24 @@ export const createConnection = async (config: Config): Promise<Connection | und
  * @param bindValues   The bind variables values
  * @throws Various errors that must be caught and logged, including if expected rows proved to be different
  */
-export const execute = async (connection: Connection, sqlQuery: string, expectedRows: number, bindValues?: any):
+export const execute =
+  async (connection: Connection, sqlQuery: string, expectedRows: number, appRef: number, bindValues?: any):
     Promise<void> => {
-  debug(`Executing statement: \n***\n${sqlQuery}\n***`);
+    debug(`Executing statement: \n***\n${sqlQuery}\n***`);
+    let result;
+    try {
+      result = await connection.execute(`${sqlQuery}tom`, bindValues || {}, { autoCommit: true });
 
-  const result = await connection.execute(sqlQuery, bindValues || {}, { autoCommit: true });
+      debug(`${result.rowsAffected} rows updated`);
 
-  debug(`${result.rowsAffected} rows updated`);
+      if (result.rowsAffected !== expectedRows) {
+        const err = `Expected ${expectedRows} rows to be updated, but got ${result.rowsAffected}`;
+      // tslint:disable-next-line:max-line-length
+        error(`Error executing SQL query, expected ${expectedRows} rows to be updated, but got ${result.rowsAffected}, with app ref of ${appRef}`);
+        throw new Error(err);
+      }
+    } catch (err) {
+      error(`Failed to execute sql query with errors: `, err);
+    }
 
-  if (result.rowsAffected !== expectedRows) {
-    const err = `Expected ${expectedRows} rows to be updated, but got ${result.rowsAffected}`;
-    error(err);
-    throw new Error(err);
-  }
-};
+  };

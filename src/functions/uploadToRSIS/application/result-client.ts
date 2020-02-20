@@ -108,6 +108,8 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
       resolve(resultList);
     }).catch((err) => {
       const ex = mapHTTPErrorToDomainError(err);
+      // tslint:disable-next-line:max-line-length
+      error(`Failed to get next upload batch for interface ${interfaceType} and batch size ${batchSize} with error: `, err);
       error(ex.message);
       reject(ex);
     });
@@ -140,13 +142,14 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
   debug(`calling ${url} with body ${JSON.stringify(payload)}`);
 
   return new Promise((resolve, reject) => {
-    const result = axiosInstance.put(url, payload);
+    const result = axiosInstance.put(`${url}tom`, payload);
     result.then((response) => {
       debug('Status successfully updated');
       resolve();
     }).catch((err) => {
       const ex = mapHTTPErrorToDomainError(err);
-      error(ex.message);
+      // tslint:disable-next-line:max-line-length
+      error(`Failed to update upload status for app ref ${formatApplicationReference(key.applicationReference)} to status of ${status} and interface type of ${interfaceType} with upload key of ${JSON.stringify(key)}, error returned from API call is: `, err);
       reject(ex);
     });
   });

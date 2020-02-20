@@ -142,7 +142,7 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
   debug(`calling ${url} with body ${JSON.stringify(payload)}`);
 
   return new Promise((resolve, reject) => {
-    const result = axiosInstance.put(`${url}tom`, payload);
+    const result = axiosInstance.put(url, payload);
     result.then((response) => {
       debug('Status successfully updated');
       resolve();

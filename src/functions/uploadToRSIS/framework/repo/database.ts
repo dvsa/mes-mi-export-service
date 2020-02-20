@@ -45,7 +45,7 @@ export const execute =
     debug(`Executing statement: \n***\n${sqlQuery}\n***`);
     let result;
     try {
-      result = await connection.execute(`${sqlQuery}tom`, bindValues || {}, { autoCommit: true });
+      result = await connection.execute(sqlQuery, bindValues || {}, { autoCommit: true });
 
       debug(`${result.rowsAffected} rows updated`);
 

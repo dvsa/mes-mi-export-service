@@ -49,8 +49,8 @@ export const execute =
       debug(`${result.rowsAffected} rows updated`);
 
       if (result.rowsAffected !== expectedRows) {
-        // tslint:disable-next-line:max-line-length
-        const err = `Error executing SQL query, expected ${expectedRows} rows to be updated, but got ${result.rowsAffected}, with app ref of ${appRef}`;
+        const err = `Error executing SQL query, expected ${expectedRows} rows ` +
+        `to be updated, but got ${result.rowsAffected}, with app ref of ${appRef}`;
         throw new Error(err);
       }
     } catch (err) {

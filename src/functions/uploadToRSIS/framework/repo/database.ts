@@ -21,7 +21,6 @@ export const createConnection = async (config: Config): Promise<Connection | und
       });
       info(`Connection successfully created`);
     } catch (err) {
-      // tslint:disable-next-line:no-console
       error(`Failed to connect to RSIS DB using connection string ${connectionString} with error: `, err);
       throw err;
     }
@@ -50,9 +49,8 @@ export const execute =
       debug(`${result.rowsAffected} rows updated`);
 
       if (result.rowsAffected !== expectedRows) {
-        const err = `Expected ${expectedRows} rows to be updated, but got ${result.rowsAffected}`;
-      // tslint:disable-next-line:max-line-length
-        error(`Error executing SQL query, expected ${expectedRows} rows to be updated, but got ${result.rowsAffected}, with app ref of ${appRef}`);
+        // tslint:disable-next-line:max-line-length
+        const err = `Error executing SQL query, expected ${expectedRows} rows to be updated, but got ${result.rowsAffected}, with app ref of ${appRef}`;
         throw new Error(err);
       }
     } catch (err) {

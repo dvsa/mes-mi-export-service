@@ -15,6 +15,8 @@ describe('saveTestResult', () => {
     { col: 'TEST3', val: inputDate },
   ];
 
+  const appRef = 1234;
+
   const noRSISConfig: Config = {
     batchSize: 10,
     rsisDatabaseConnectString: 'aaa',
@@ -42,11 +44,11 @@ describe('saveTestResult', () => {
     ) values (
       :0,:1,:2
     )`;
-    const expectedValues = ['dummy', 1234, inputDate];
+    const expectedValues = ['dummy', appRef, inputDate];
 
-    await saveTestResult(moqConn.object, useRSISConfig, input, 1234);
+    await saveTestResult(moqConn.object, useRSISConfig, input, appRef);
 
-    expect(database.execute).toHaveBeenCalledWith(moqConn.object, expectedSql, 1, 1234, expectedValues);
+    expect(database.execute).toHaveBeenCalledWith(moqConn.object, expectedSql, 1, appRef, expectedValues);
   });
 
   it('Should propogate any exceptions', async () => {
@@ -54,7 +56,7 @@ describe('saveTestResult', () => {
     spyOn(database, 'execute').and.callFake(() => { throw new Error('Oops'); });
 
     try {
-      await saveTestResult(moqConn.object, useRSISConfig, input, 1234);
+      await saveTestResult(moqConn.object, useRSISConfig, input, appRef);
       fail('Should have propogated the exception');
     } catch (err) {
       // expected
@@ -66,7 +68,7 @@ describe('saveTestResult', () => {
     spyOn(database, 'execute');
 
     try {
-      await saveTestResult(undefined, useRSISConfig, input, 1234);
+      await saveTestResult(undefined, useRSISConfig, input, appRef);
       fail('Should have propogated the exception');
     } catch (err) {
       // expected
@@ -80,7 +82,7 @@ describe('saveTestResult', () => {
     spyOn(database, 'execute');
     spyOn(logger, 'info');
 
-    await saveTestResult(moqConn.object, noRSISConfig, input, 1234);
+    await saveTestResult(moqConn.object, noRSISConfig, input, appRef);
 
     expect(database.execute).toHaveBeenCalledTimes(0);
     expect(logger.info).toHaveBeenCalledWith(

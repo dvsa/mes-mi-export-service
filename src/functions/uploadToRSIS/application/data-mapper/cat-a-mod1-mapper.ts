@@ -87,6 +87,15 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'PRECAUTIONS_COMMENT', optional(t, 'precautionsComments', null));
   addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', optional(t, 'moveOffSafetyComments', null));
   addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', optional(t, 'moveOffControlComments', null));
+  addIfSet(m, 'MC_AVOIDANCE_COMMENT', optional(t, 'moveOffControlComments', null));
+  addIfSet(m, 'MC_AVOIDANCE_SPEED_N_M_COMMENT', optional(t, 'avoidance.comments', null));
+  addIfSet(m, 'MC_EMER_STOP_SPEED_N_M_COMMENT', optional(t, 'emergencyStop.comments', null));
+  addIfSet(m, 'CONTROL_STOP_PROMPT_COMMENT', optional(t, 'controlledStopComments', null));
+  addIfSet(m, 'MC_MANUAL_HANDLING_COMMENT', optional(t, 'manualHandlingComments', null));
+  addIfSet(m, 'MC_SLALOM_COMMENT', optional(t, 'slalomComments', null));
+  addIfSet(m, 'MC_SLOW_CONTROL_COMMENT', optional(t, 'slowControlComments', null));
+  addIfSet(m, 'MC_USE_OF_STAND_COMMENT', optional(t, 'useOfStandComments', null));
+  addIfSet(m, 'MC_UTURN_COMMENT', optional(t, 'uTurnComments', null));
 
   return m;
 };

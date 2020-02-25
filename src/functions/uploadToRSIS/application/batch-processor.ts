@@ -12,6 +12,7 @@ import { Config } from '../framework/config/config';
 import { createConnection } from '../framework/repo/database';
 import { Connection } from 'oracledb';
 import { saveTestResult } from '../framework/repo/rsis-repository';
+import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 
 /**
  * Upload a batch of test results to RSIS MI.
@@ -29,15 +30,12 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
       try {
         connection = await createConnection(config);
       } catch (err) {
-        error(err);
-
         // error after reading the batch, so set all results in the batch to failed
         for (const resultUpload of batch) {
           const errorMessage = `Unable to connect to RSIS MI DB: ${JSON.stringify(err)}`;
           const completed = await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.FAILED, errorMessage);
           if (!completed) {
             // abort setting the rest of failed
-            error('error processing, so aborting the batch');
             return false;
           }
         }
@@ -48,7 +46,6 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
         const completed = await processResult(config, connection, resultUpload);
         if (!completed) {
           // abort the rest of the batch
-          error('error processing, so aborting the batch');
           return false;
         }
       }
@@ -88,8 +85,10 @@ export async function processResult(config: Config, connection: Connection | und
 
     info(`Mapped to ${miData.length} columns, saving to DB...`);
 
+    resultUpload.testResult.journalData.applicationReference;
+    const appRef = formatApplicationReference(resultUpload.testResult.journalData.applicationReference);
     // insert into staging table and commit
-    await saveTestResult(connection, config, miData);
+    await saveTestResult(connection, config, miData, appRef);
 
     info(`Save successful, setting to Accepted...`);
 
@@ -107,8 +106,6 @@ export async function processResult(config: Config, connection: Connection | und
     }
     error(errorMessage);
 
-    // mapping or upload error, so update test result as failed
-    info(`Save error, setting to Failed...`);
     return await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.FAILED, errorMessage);
   }
 }
@@ -129,7 +126,6 @@ async function updateStatus(config: Config, uploadKey: UploadKey, status: Proces
     return true;
 
   } catch (err) {
-    error(`Error updating status to ${status} for result `, uploadKey);
     return false;
   }
 }

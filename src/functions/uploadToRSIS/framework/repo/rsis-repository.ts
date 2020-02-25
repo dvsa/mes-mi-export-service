@@ -15,7 +15,8 @@ import { info, error } from '@dvsa/mes-microservice-common/application/utils/log
 export const saveTestResult = async (
     connection: Connection | undefined,
     config: Config,
-    mappedFields: DataField[]): Promise<void> => {
+    mappedFields: DataField[],
+    appRef: number): Promise<void> => {
 
   const insertSql = `insert into dl25mes_holding (
       ${mappedFields.map(field => field.col).join(',')}
@@ -32,7 +33,7 @@ export const saveTestResult = async (
       throw new Error(message);
     }
     // issue the SQL insert statement
-    await execute(connection, insertSql, 1, params);
+    await execute(connection, insertSql, 1, appRef, params);
 
   } else {
     // simply log what would have happened

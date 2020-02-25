@@ -108,7 +108,9 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
       resolve(resultList);
     }).catch((err) => {
       const ex = mapHTTPErrorToDomainError(err);
-      error(ex.message);
+      const errorMessage = `Failed to get next upload batch for interface ${interfaceType} ` +
+        `and batch size ${batchSize} with error: `;
+      error(errorMessage, err);
       reject(ex);
     });
   });
@@ -146,7 +148,11 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
       resolve();
     }).catch((err) => {
       const ex = mapHTTPErrorToDomainError(err);
-      error(ex.message);
+      const errorMessage = `Failed to update upload status for app ` +
+      `ref ${formatApplicationReference(key.applicationReference)} to` +
+      ` status of ${status} and interface type of ${interfaceType} with upload key of ` +
+      `${JSON.stringify(key)}, error returned from API call is:`;
+      error(errorMessage, err);
       reject(ex);
     });
   });

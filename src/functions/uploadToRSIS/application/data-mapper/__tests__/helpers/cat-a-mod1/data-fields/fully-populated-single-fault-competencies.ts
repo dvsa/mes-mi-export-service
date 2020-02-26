@@ -22,7 +22,7 @@ export function getCatAMod1FullyPopulatedSingleFaultDataFields(): DataField[] {
     { col: 'SPARE1_TOTAL', val: 0 },
     { col: 'CONTROL_STOP_PROMPT_DANGEROUS', val: 0 },
     { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 0 },
-    { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 1 },
+    { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 0 },
     { col: 'MC_AVOIDANCE_DANGEROUS', val: 0 },
     { col: 'MC_AVOIDANCE_SERIOUS', val: 0 },
     { col: 'MC_AVOIDANCE_TOTAL', val: 1 },

@@ -46,9 +46,12 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
     field('SPARE1_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.controlledStop', 'S')),
     field('SPARE1_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.controlledStop', 'DF')),
     // emergencyStop
-    field('CONTROL_STOP_PROMPT_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'emergencyStop.outcome', 'D')),
-    field('CONTROL_STOP_PROMPT_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'emergencyStop.outcome', 'S')),
-    field('CONTROL_STOP_PROMPT_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'emergencyStop.outcome', 'DF')),
+    // tslint:disable-next-line:max-line-length
+    field('CONTROL_STOP_PROMPT_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'D')),
+    // tslint:disable-next-line:max-line-length
+    field('CONTROL_STOP_PROMPT_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'S')),
+    // tslint:disable-next-line:max-line-length
+    field('CONTROL_STOP_PROMPT_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'DF')),
     // avoidance
     field('MC_AVOIDANCE_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'avoidance.outcome', 'D')),
     field('MC_AVOIDANCE_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'avoidance.outcome', 'S')),
@@ -67,8 +70,8 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
     field('MOVE_OFF_CONTROL_SERIOUS', optionalBoolean(t, 'seriousFaults.moveOffControl')),
     field('MOVE_OFF_CONTROL_TOTAL', optional(t, 'drivingFaults.moveOffControl', 0)),
     // SPEED ATTEMPTS
-    field('MC_AVOIDANCE_SPEED_NOT_MET', optionalBoolean(t, 'avoidance.speedNotMetSeriousFault')),
-    field('MC_EMER_STOP_SPEED_NOT_MET', optionalBoolean(t, 'emergencyStop.speedNotMetSeriousFault')),
+    field('MC_AVOIDANCE_SPEED_NOT_MET', formatSingleFaultOutcomeBySeverity(t, 'avoidance.outcome', 'S')),
+    field('MC_EMER_STOP_SPEED_NOT_MET', formatSingleFaultOutcomeBySeverity(t, 'emergencyStop.outcome', 'S')),
     // DL196 CERTIFICATE NO
     field('MC_DL196_CBT_CERT_NO', optional(result.testResult, 'preTestDeclarations.DL196CBTCertNumber', '')),
     // Circuit
@@ -83,19 +86,19 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'MC_EMERGENCY_STOP_SPEED_SECOND', optional(t, 'emergencyStop.secondAttempt', null));
 
   // Comments
-  addIfSet(m, 'CONTROL_STOP_COMMENT', optional(t, 'controlledStop.faultComments', null));
+  addIfSet(m, 'CONTROL_STOP_COMMENT', optional(t, 'singleFaultCompetencies.controlledStopComments', null));
   addIfSet(m, 'PRECAUTIONS_COMMENT', optional(t, 'precautionsComments', null));
   addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', optional(t, 'moveOffSafetyComments', null));
   addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', optional(t, 'moveOffControlComments', null));
-  addIfSet(m, 'MC_AVOIDANCE_COMMENT', optional(t, 'moveOffControlComments', null));
+  addIfSet(m, 'MC_AVOIDANCE_COMMENT', optional(t, 'singleFaultCompetencies.avoidanceComments', null));
   addIfSet(m, 'MC_AVOIDANCE_SPEED_N_M_COMMENT', optional(t, 'avoidance.comments', null));
   addIfSet(m, 'MC_EMER_STOP_SPEED_N_M_COMMENT', optional(t, 'emergencyStop.comments', null));
-  addIfSet(m, 'CONTROL_STOP_PROMPT_COMMENT', optional(t, 'controlledStopComments', null));
-  addIfSet(m, 'MC_MANUAL_HANDLING_COMMENT', optional(t, 'manualHandlingComments', null));
-  addIfSet(m, 'MC_SLALOM_COMMENT', optional(t, 'slalomComments', null));
-  addIfSet(m, 'MC_SLOW_CONTROL_COMMENT', optional(t, 'slowControlComments', null));
-  addIfSet(m, 'MC_USE_OF_STAND_COMMENT', optional(t, 'useOfStandComments', null));
-  addIfSet(m, 'MC_UTURN_COMMENT', optional(t, 'uTurnComments', null));
+  addIfSet(m, 'CONTROL_STOP_PROMPT_COMMENT', optional(t, 'singleFaultCompetencies.emergencyStopComments', null));
+  addIfSet(m, 'MC_MANUAL_HANDLING_COMMENT', optional(t, 'singleFaultCompetencies.manualHandlingComments', null));
+  addIfSet(m, 'MC_SLALOM_COMMENT', optional(t, 'singleFaultCompetencies.slalomComments', null));
+  addIfSet(m, 'MC_SLOW_CONTROL_COMMENT', optional(t, 'singleFaultCompetencies.slowControlComments', null));
+  addIfSet(m, 'MC_USE_OF_STAND_COMMENT', optional(t, 'singleFaultCompetencies.useOfStandComments', null));
+  addIfSet(m, 'MC_UTURN_COMMENT', optional(t, 'singleFaultCompetencies.uTurnComments', null));
 
   return m;
 };

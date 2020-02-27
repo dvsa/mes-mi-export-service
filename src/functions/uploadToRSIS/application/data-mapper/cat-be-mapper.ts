@@ -322,6 +322,7 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
            formatManoeuvreComment(t, 'manoeuvres.reverseLeft.controlFaultComments'));
   addIfSet(m, 'REV_LEFT_TRAIL_OBSERV_COMMENT',
            formatManoeuvreComment(t, 'manoeuvres.reverseLeft.observationFaultComments'));
+  addIfSet(m, 'UNCOUPLE_RECOUPLE_COMMENT', optional(t, 'uncoupleRecouple.faultComments', null));
   addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestions[0].code', null));
   addIfSet(m, 'SHOW_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestions[0].description', null));
   addIfSet(m, 'SHOW_ME_2_CODE', optional(t, 'vehicleChecks.showMeQuestions[1].code', null));

@@ -4,22 +4,21 @@ import {
   addIfSet,
   field,
   formatManoeuvreFault,
-  formatManoeuvreSerious, formatQuestionCompleted, formatQuestionDangerous,
-  formatQuestionSerious, getCompetencyComments,
+  formatManoeuvreSerious,  formatQuestionDangerous,
+  getCompetencyComments,
   optional,
   optionalBoolean,
-  formatQuestionFaultBE,
-  formatQuestionSeriousBE,
   formatManoeuvreDangerous,
   formatManoeuvreComment,
 } from './data-mapper';
-import { formatGearboxCategory } from '../helpers/shared-formatters';
+import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters';
 
-export const mapCatBEData = (result: ResultUpload): DataField[] => {
+export const mapCommonCatCData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData;
+  const category = result.testResult.category;
 
   const m: DataField[] = [
-    field('AUTOMATIC_TEST', formatGearboxCategory(result)),
+    field('AUTOMATIC_TEST', formatGearboxCategoryWithOverride(category, result)),
     // unused - H_CODE_SAFETY_TOTAL
     // unused - CONTROL_STOP_PROMPT_TOTAL
     // unused - CONTROL_STOP_CONTROL_TOTAL
@@ -35,12 +34,9 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     // unused - REV_PARK_ROAD_OBSERVE_TOTAL
     // unused - TURN_IN_ROAD_CONT_TOTAL
     // unused - TURN_IN_ROAD_OBSERV_TOTAL
-    field('VEHICLE_CHECKS_TOTAL', formatQuestionFaultBE(t)),
-    field('VEHICLE_CHECKS_SERIOUS', formatQuestionSeriousBE(t)),
     // unused - TAXI_MAN_CONTROL_TOTAL
     // unused - TAXI_MAN_OBSERV_TOTAL
     // unused - TAXI_WHEELCHAIR_TOTAL
-    field('UNCOUPLE_RECOUPLE_TOTAL', formatManoeuvreFault(t, 'uncoupleRecouple.fault')),
     field('PRECAUTIONS_TOTAL', optional(t, 'drivingFaults.precautions', 0)),
     field('CONTROL_ACC_TOTAL', optional(t, 'drivingFaults.controlsAccelerator', 0)),
     field('CONTROL_CLUTCH_TOTAL', optional(t, 'drivingFaults.controlsClutch', 0)),
@@ -107,7 +103,6 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     //  unused - TAXI_MAN_CONTROL_SERIOUS
     //  unused - TAXI_MAN_OBSERV_SERIOUS
     //  unused - TAXI_WHEELCHAIR_SERIOUS
-    field('UNCOUPLE_RECOUPLE_SERIOUS', formatManoeuvreSerious(t, 'uncoupleRecouple.fault')),
     field('PRECAUTIONS_SERIOUS', optionalBoolean(t, 'seriousFaults.precautions')),
     field('CONTROL_ACC_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsAccelerator')),
     field('CONTROL_CLUTCH_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsClutch')),
@@ -174,7 +169,6 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     //  unused - TAXI_MAN_CONTROL_DANGEROUS
     //  unused - TAXI_MAN_OBSERV_DANGEROUS
     //  unused - TAXI_WHEELCHAIR_DANGEROUS
-    field('UNCOUPLE_RECOUPLE_DANGEROUS', formatManoeuvreDangerous(t, 'uncoupleRecouple.fault')),
     field('PRECAUTIONS_DANGEROUS', optionalBoolean(t, 'dangerousFaults.precautions')),
     field('CONTROL_ACC_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsAccelerator')),
     field('CONTROL_CLUTCH_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsClutch')),
@@ -229,10 +223,8 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     //  unused - REVERSE_PARK_CARPARK
     //  unused - REVERSE_PARK_ROAD
     //  unused - TURN_IN_ROAD_COMPLETED
-    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 5)),
     //  unused - TAXI_MANOEUVRE_COMPLETED
     //  unused - TAXI_WHEELCHAIR_COMPLETED
-    field('UNCOUPLE_RECOUPLE_COMPLETED', optionalBoolean(t, 'uncoupleRecouple.selected')),
     //  unused - CATEGORY_5_REVERSE_ROAD
     //  unused - CATEGORY_5_REVERSE_CAR_PARK
     //  unused - MC_AVOIDANCE_DANGEROUS                             NUMBER(1)
@@ -321,7 +313,6 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
            formatManoeuvreComment(t, 'manoeuvres.reverseLeft.controlFaultComments'));
   addIfSet(m, 'REV_LEFT_TRAIL_OBSERV_COMMENT',
            formatManoeuvreComment(t, 'manoeuvres.reverseLeft.observationFaultComments'));
-  addIfSet(m, 'UNCOUPLE_RECOUPLE_COMMENT', optional(t, 'uncoupleRecouple.faultComments', null));
   addIfSet(m, 'SHOW_ME_1_CODE', optional(t, 'vehicleChecks.showMeQuestions[0].code', null));
   addIfSet(m, 'SHOW_ME_1_DESCRIPTION', optional(t, 'vehicleChecks.showMeQuestions[0].description', null));
   addIfSet(m, 'SHOW_ME_2_CODE', optional(t, 'vehicleChecks.showMeQuestions[1].code', null));

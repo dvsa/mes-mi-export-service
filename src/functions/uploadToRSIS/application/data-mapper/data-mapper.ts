@@ -196,6 +196,29 @@ export const formatQuestionFaultBE = (testData: TestData | undefined): number =>
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
   return totalFaults === 5 ? 4 : totalFaults;
 };
+
+/**
+ * Gets the number of faults for show me tell me questions for category C and C1
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionFaultC = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 5 ? 4 : totalFaults;
+};
+
+/**
+ * Gets the number of faults for show me tell me questions for category CE and C1E
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionFaultCE = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 2 ? 1 : totalFaults;
+};
+
 /**
  * Get whether there was a serious fault for the specified manoeuvre.
  *
@@ -231,6 +254,28 @@ export const formatQuestionSeriousBE = (testData: TestData | undefined): Boolean
   return totalFaults === 5 ? 1 : 0;
 };
 
+/**
+ * Gets the number of serious faults for show me tell me questions for category C and C1
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionSeriousC = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 5 ? 1 : 0;
+};
+
+/**
+ * Gets the number of serious faults for show me tell me questions for category CE and C1E
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionSeriousCE = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 2 ? 1 : 0;
+};
+
 export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
@@ -244,6 +289,7 @@ export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : nu
   }
   return totalFaults;
 };
+
 /**
  * Get whether there was a dangerous fault for the specified manoeuvre.
  *
@@ -280,7 +326,7 @@ export const formatQuestionDangerous = (testData: TestData | undefined): Boolean
  * @param object The MES test result
  * @returns The boolean value (as a number)
  */
-export const formatQuestionCompleted = (testData: TestData | undefined): BooleanAsNumber => {
+export const formatQuestionCompletedB = (testData: TestData | undefined): BooleanAsNumber => {
   const tellMeCode = get(testData, 'vehicleChecks.tellMeQuestion.code', null);
   const showMeCode = get(testData, 'vehicleChecks.showMeQuestion.code', null);
   if (tellMeCode && showMeCode) {
@@ -289,7 +335,7 @@ export const formatQuestionCompleted = (testData: TestData | undefined): Boolean
   return 0;
 };
 
-export const formatQuestionCompletedBE = (testData: TestData | undefined): BooleanAsNumber => {
+export const formatQuestionCompleted = (testData: TestData | undefined, questionCount: number): BooleanAsNumber => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
@@ -301,7 +347,7 @@ export const formatQuestionCompletedBE = (testData: TestData | undefined): Boole
     totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome != null).length;
   }
 
-  return totalFaults === 5 ? 1 : 0;
+  return totalFaults === questionCount ? 1 : 0;
 };
 /**
  * Get the fault/serious/dangerous comments for a specific competency, if any.

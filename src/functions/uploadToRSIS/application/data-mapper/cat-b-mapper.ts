@@ -10,7 +10,7 @@ import {
   optionalBoolean,
   formatManoeuvreDangerous,
   formatQuestionDangerous,
-  formatQuestionCompleted,
+  formatQuestionCompletedB,
   addIfSet,
   getCompetencyComments,
 } from './data-mapper';
@@ -240,7 +240,7 @@ export const mapCatBData = (result: ResultUpload): DataField[] => {
     field('REVERSE_PARK_CARPARK', optionalBoolean(t, 'manoeuvres.reverseParkCarpark.selected')),
     field('REVERSE_PARK_ROAD', optionalBoolean(t, 'manoeuvres.reverseParkRoad.selected')),
     //  unused - TURN_IN_ROAD_COMPLETED
-    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t)),
+    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompletedB(t)),
     field('TAXI_MANOEUVRE_COMPLETED', optionalBoolean(t, 'manoeuvres.forwardPark.selected')),
     //  unused - TAXI_WHEELCHAIR_COMPLETED
     //  unused - UNCOUPLE_RECOUPLE_COMPLETED

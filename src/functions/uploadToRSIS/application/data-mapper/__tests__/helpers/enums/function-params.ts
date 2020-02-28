@@ -1,4 +1,5 @@
 export enum SeverityShortCodes {
+  Pass = 'P',
   DrivingFault = 'DF',
   SeriousFault = 'S',
   DangerousFault = 'D',

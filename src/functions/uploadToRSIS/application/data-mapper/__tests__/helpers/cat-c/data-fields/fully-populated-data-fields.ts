@@ -5,8 +5,6 @@ export function getCatCFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'AUTOMATIC_TEST', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
-    { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
-    { col: 'VEHICLE_CHECKS_SERIOUS', val: 1 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
     { col: 'CONTROL_ACC_TOTAL', val: 0 },
     { col: 'CONTROL_CLUTCH_TOTAL', val: 0 },
@@ -132,7 +130,6 @@ export function getCatCFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
     { col: 'EYESIGHT_COMPLETED', val: 1 },
     { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
-    { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
     { col: 'ANGLED_START_COMPLETED', val: 1 },
@@ -192,6 +189,9 @@ export function getCatCFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'TELL_ME_2_DESCRIPTION', val: 'Second Tell Me Question' },
     { col: 'VEHICLE_CHECKS_COMMENT', val: 'show me tell me serious' },
     { col: 'INDEPENDENT_DRIVING', val: 'Traffic signs' },
+    { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
+    { col: 'VEHICLE_CHECKS_SERIOUS', val: 1 },
   ];
 }
 
@@ -200,8 +200,6 @@ export function getCatCFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'AUTOMATIC_TEST', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
-    { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
-    { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
     { col: 'CONTROL_ACC_TOTAL', val: 0 },
     { col: 'CONTROL_CLUTCH_TOTAL', val: 0 },
@@ -327,7 +325,6 @@ export function getCatCFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 1 },
     { col: 'EYESIGHT_COMPLETED', val: 1 },
     { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
-    { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
     { col: 'ANGLED_START_COMPLETED', val: 1 },
@@ -385,5 +382,8 @@ export function getCatCFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'TELL_ME_2_CODE', val: 'T2' },
     { col: 'TELL_ME_2_DESCRIPTION', val: 'Second Tell Me Question' },
     { col: 'INDEPENDENT_DRIVING', val: 'N/A' },
+    { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
+    { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
   ];
 }

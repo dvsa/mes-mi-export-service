@@ -31,8 +31,6 @@ describe('mapCatC1Data', () => {
       { col: 'AUTOMATIC_TEST', val: 0 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
-      { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
-      { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
       { col: 'PRECAUTIONS_TOTAL', val: 2 },
       { col: 'CONTROL_ACC_TOTAL', val: 3 },
       { col: 'CONTROL_CLUTCH_TOTAL', val: 4 },
@@ -158,7 +156,6 @@ describe('mapCatC1Data', () => {
       { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
       { col: 'EYESIGHT_COMPLETED', val: 1 },
       { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
-      { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
       { col: 'ANGLED_START_COMPLETED', val: 1 },
@@ -215,8 +212,11 @@ describe('mapCatC1Data', () => {
       { col: 'TELL_ME_1_DESCRIPTION', val: 'First Tell Me Question' },
       { col: 'TELL_ME_2_CODE', val: 'T2' },
       { col: 'TELL_ME_2_DESCRIPTION', val: 'Second Tell Me Question' },
-    { col: 'VEHICLE_CHECKS_COMMENT', val: 'show me tell me fault' },
+      { col: 'VEHICLE_CHECKS_COMMENT', val: 'show me tell me fault' },
       { col: 'INDEPENDENT_DRIVING', val: 'Sat nav' },
+      { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
+      { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
+      { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
     ];
 
     // expect the right number of faults, with no serious or dangerous

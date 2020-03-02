@@ -17,6 +17,9 @@ import {
 import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { get } from 'lodash';
+import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/D/partial';
+
+type FaultSeverity = 'DF';
 
 export const mapCatDData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData as CatDUniqueTypes.TestData;
@@ -24,6 +27,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategoryWithOverride(category, result)),
+    field('H_CODE_SAFETY_TOTAL', getSafetyQuestionFaultCount(t, 'DF')),
     // unused - H_CODE_SAFETY_TOTAL
     // unused - CONTROL_STOP_PROMPT_TOTAL
     // unused - CONTROL_STOP_CONTROL_TOTAL
@@ -92,7 +96,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     // unused - SPARE4_TOTAL
     // unused - SPARE5_TOTAL
     field('EYESIGHT_SERIOUS', optionalBoolean(t, 'eyesightTest.seriousFault')),
-    // unused - H_CODE_SAFETY_SERIOUS
+    // field('H_CODE_SAFETY_SERIOUS', getSafetyQuestionFaultCount(t, 'S')),
     // unused - CONTROL_STOP_PROMPT_SERIOUS
     // unused - CONTROL_STOP_CONTROL_SERIOUS
     field('REV_LEFT_TRAIL_CONT_SERIOUS', formatManoeuvreSerious(t, 'manoeuvres.reverseLeft.controlFault')),
@@ -157,6 +161,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     // unused - SPARE3_SERIOUS
     // unused - SPARE4_SERIOUS
     // unused - SPARE5_SERIOUS
+    // field('H_CODE_SAFETY_DANGEROUS', getSafetyQuestionFaultCount(t, 'D')),
     // unused - H_CODE_SAFETY_DANGEROUS
     // unused - CONTROL_STOP_PROMPT_DANGEROUS
     // unused - CONTROL_STOP_CONTROL_DANGEROUS
@@ -276,9 +281,9 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
     field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
     //  unused - HILL_START_COMPLETED
-    field('SAFETY_QUESTIONS_FIRE_EXTINGUISHER', optionalBoolean(t, 'safetyQuestionResult.fireExtinguisher')),
-    field('SAFETY_QUESTIONS_EMERGENCY_EXIT', optionalBoolean(t, 'safetyQuestionResult.emergencyExit')),
-    field('SAFETY_QUESTIONS_FUEL_CUTOFF', optionalBoolean(t, 'safetyQuestionResult.fuelCutoff')),
+    // field('SAFETY_QUESTIONS_FIRE_EXTINGUISHER', optionalBoolean(t, 'safetyQuestionResult.fireExtinguisher')),
+    // field('SAFETY_QUESTIONS_EMERGENCY_EXIT', optionalBoolean(t, 'safetyQuestionResult.emergencyExit')),
+    // field('SAFETY_QUESTIONS_FUEL_CUTOFF', optionalBoolean(t, 'safetyQuestionResult.fuelCutoff')),
   ];
 
   // add the optional fields, only if set
@@ -290,9 +295,8 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'CONTROL_FOOTBRAKE_COMMENT', getCompetencyComments(t, 'controlsFootbrakeComments'));
   addIfSet(m, 'CONTROL_PARK_COMMENT', getCompetencyComments(t, 'controlsParkingBrakeComments'));
   addIfSet(m, 'CONTROL_STEERING_COMMENT', getCompetencyComments(t, 'controlsSteeringComments'));
-
   addIfSet(m, 'CONTROL_PCV_DOOR_COMMENT', getPcvDoorExerciseCompetencyComments(t, 'pcvDoorExercise'));
-
+  addIfSet(m, 'H_CODE_SAFETY_COMMENT', getSafetyQuestionFaultComment(t));
   addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', getCompetencyComments(t, 'moveOffSafetyComments'));
   addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', getCompetencyComments(t, 'moveOffControlComments'));
   addIfSet(m, 'MIRRORS_MC_REAR_SIG_COMMENT', getCompetencyComments(t, 'useOfMirrorsSignallingComments'));
@@ -346,7 +350,7 @@ export const mapCatDData = (result: ResultUpload): DataField[] => {
 };
 
 export const getPcvDoorExerciseCompetencyComments =
-  (testData: CatDUniqueTypes.TestData |  undefined, path: string): string | null => {
+  (testData: CatDUniqueTypes.TestData | undefined, path: string): string | null => {
     const dangerousComments = get(testData, `${path}.dangerousFaultComments`, null);
     if (dangerousComments) {
       return dangerousComments;
@@ -364,3 +368,20 @@ export const getPcvDoorExerciseCompetencyComments =
 
     return null;
   };
+
+export const getSafetyQuestionFaultCount =
+  (testData: CatDUniqueTypes.TestData | undefined, faultSeverity: FaultSeverity): number => {
+
+    const safetyQuestions: SafetyQuestionResult[] = get(testData, 'safetyQuestions.questions', []);
+    const faults: boolean[] =
+      safetyQuestions.map((questionResult: SafetyQuestionResult) => questionResult.outcome === faultSeverity);
+
+    if (faults) {
+      return faults.length;
+    }
+    return 0;
+  };
+
+export const getSafetyQuestionFaultComment = (testData: CatDUniqueTypes.TestData | undefined): number => {
+  return get(testData, 'safetyQuestions.faultComments', null);
+};

@@ -11,6 +11,7 @@ import {
   FormType,
 } from '../../domain/mi-export-data';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import { trimTestCategoryPrefix } from '@dvsa/mes-microservice-common/domain/trim-test-category-prefix';
 import { formatRekeyReason, formatIpadIssueReason } from './rekey-reason-mapper';
 
 /**
@@ -31,7 +32,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     //  unused - REC_TYPE
     //  unused - REC_NO
     field('FORM_TYPE', FormType.MES),
-    field('DRIVING_SCHOOL_CANDIDATE', optionalBoolean(r, 'vehicleDetails.schoolCar')),
+    field('DRIVING_SCHOOL_CANDIDATE', formatDrivingSchoolCandidate(result)),
     field('SPECIAL_NEEDS', optionalBoolean(r, 'testSummary.D255')),
     field('APP_REF_NO', formatApplicationReference(r.journalData.applicationReference)),
     // unused - DRIVER_NO_DOB
@@ -41,7 +42,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
-    field('TEST_CATEGORY_TYPE', r.category),
+    field('TEST_CATEGORY_TYPE', trimTestCategoryPrefix(r.category)),
 
     field('EXTENDED_TEST', optionalBoolean(r, 'journalData.testSlotAttributes.extendedTest')),
     field('TEST_TYPE', formatTestType(result)),
@@ -186,10 +187,10 @@ const formatTestType = (result: ResultUpload): number => {
     // Note that some extra data will be needed in MES to indentify CPC tests, if MES adds support for them...
     // LGV (Lorry) CPC (all C Categories) => 44
     // PCV (Bus) CPC (all D Categories) => 44
-    ['A1M1', 16], ['A1M2', 1],
-    ['A2M1', 16], ['A2M2', 1],
-    ['AM1', 16], ['AM2', 1],
-    ['AMM1', 17], ['AMM2', 9],
+    ['EUA1M1', 16], ['EUA1M2', 1],
+    ['EUA2M1', 16], ['EUA2M2', 1],
+    ['EUAM1', 16], ['EUAM2', 1],
+    ['EUAMM1', 17], ['EUAMM2', 9],
   ]);
 
   const vehicleCategory = result.testResult.category;
@@ -277,4 +278,10 @@ const formatRekeyDateTime = (result: ResultUpload): Date|null => {
     return  moment(rekeyDateText, 'YYYY-MM-DDTHH:mm:ss').toDate();
   }
   return null;
+};
+
+export const formatDrivingSchoolCandidate = (result: ResultUpload): BooleanAsNumber => {
+  const isDrivingSchoolBike = get(result, 'testResult.vehicleDetails.schoolBike', false);
+  const isDrivingSchoolCar = get(result, 'testResult.vehicleDetails.schoolCar', false);
+  return (isDrivingSchoolBike || isDrivingSchoolCar) ? 1 : 0;
 };

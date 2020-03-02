@@ -9,7 +9,7 @@ import {
   ResultIndicator,
 } from '../../../domain/mi-export-data';
 import { InterfaceType, ResultUpload } from '../../result-client';
-import { mapCommonData } from '../common-mapper';
+import { mapCommonData, formatDrivingSchoolCandidate } from '../common-mapper';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import moment = require('moment');
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -661,5 +661,42 @@ describe('mapCommonData', () => {
     invalidResult.testResult.category = 'XYZ' as CategoryCode;
 
     expect(() => mapCommonData(invalidResult)).toThrow(new Error('Unsupported test category XYZ'));
+  });
+  describe('formatDrivingSchoolCandidate', () => {
+    const input: ResultUpload = {
+      ...minimalInput,
+      testResult: {
+        ...minimalInput.testResult,
+        rekeyDate: '2019-10-02T11:50:57',
+        rekeyReason: {
+          other: {
+            selected: true,
+            reason: 'other reason',
+          },
+          ipadIssue: {
+            selected: true,
+            stolen: true,
+          },
+        },
+      },
+    };
+
+    it('should return 1 if schoolCar or schoolBike', () => {
+      input.testResult.vehicleDetails = {
+        schoolCar: true,
+      };
+      let result = formatDrivingSchoolCandidate(input);
+      expect(result).toEqual(1);
+      input.testResult.vehicleDetails = {
+        schoolBike: true,
+      };
+      result = formatDrivingSchoolCandidate(input);
+      expect(result).toEqual(1);
+    });
+    it('should return 0 if NOT schoolCar or schoolBike', () => {
+      input.testResult.vehicleDetails = {};
+      const result = formatDrivingSchoolCandidate(input);
+      expect(result).toEqual(0);
+    });
   });
 });

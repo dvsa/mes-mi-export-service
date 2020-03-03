@@ -1,5 +1,6 @@
 import { DataField } from '../../../domain/mi-export-data';
-import { getPcvDoorExerciseCompetencyComments, mapCatDData } from '../cat-d-mapper';
+import { mapCatDData } from '../cat-d-mapper';
+import { getPcvDoorExerciseCompetencyComments } from '../cat-d-common-mapper';
 import { getMinimalInput, getMinimalInputWithPassCompletion } from './helpers/cat-d/inputs/minimal-inputs';
 import {
   getFullyPopulatedDrivingFaults,
@@ -42,10 +43,9 @@ describe('mapCatDData', () => {
 
     const expected: DataField[] = [
       { col: 'AUTOMATIC_TEST', val: 0 },
+      { col: 'H_CODE_SAFETY_TOTAL', val: 3 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
-      { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
-      { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
       { col: 'PRECAUTIONS_TOTAL', val: 2 },
       { col: 'CONTROL_ACC_TOTAL', val: 3 },
       { col: 'CONTROL_CLUTCH_TOTAL', val: 4 },
@@ -174,7 +174,6 @@ describe('mapCatDData', () => {
       { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
       { col: 'EYESIGHT_COMPLETED', val: 1 },
       { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
-      { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
       { col: 'BUS_STOP_1_COMPLETED', val: 1 },
@@ -182,9 +181,6 @@ describe('mapCatDData', () => {
       { col: 'ANGLED_START_COMPLETED', val: 1 },
       { col: 'UPHILL_START', val: 1 },
       { col: 'DOWN_HILL_START', val: 1 },
-      { col: 'SAFETY_QUESTIONS_FIRE_EXTINGUISHER', val: 1 },
-      { col: 'SAFETY_QUESTIONS_EMERGENCY_EXIT', val: 1 },
-      { col: 'SAFETY_QUESTIONS_FUEL_CUTOFF', val: 1 },
       { col: 'PRECAUTIONS_COMMENT', val: 'precautions fault' },
       { col: 'CONTROL_ACC_COMMENT', val: 'controls accelerator fault' },
       { col: 'CONTROL_CLUTCH_COMMENT', val: 'controls clutch fault' },
@@ -193,6 +189,7 @@ describe('mapCatDData', () => {
       { col: 'CONTROL_PARK_COMMENT', val: 'controls parking brake fault' },
       { col: 'CONTROL_STEERING_COMMENT', val: 'controls steering fault' },
       { col: 'CONTROL_PCV_DOOR_COMMENT', val: 'pcv door exercise controls fault' },
+      { col: 'H_CODE_SAFETY_COMMENT', val: 'some comment regarding a fault' },
       { col: 'MOVE_OFF_SAFETY_COMMENT', val: 'move off safety fault' },
       { col: 'MOVE_OFF_CONTROL_COMMENT', val: 'move off control fault' },
       { col: 'MIRRORS_MC_REAR_SIG_COMMENT', val: 'use of mirrors signalling fault' },
@@ -239,6 +236,9 @@ describe('mapCatDData', () => {
       { col: 'TELL_ME_2_DESCRIPTION', val: 'Second Tell Me Question' },
       { col: 'VEHICLE_CHECKS_COMMENT', val: 'show me tell me fault' },
       { col: 'INDEPENDENT_DRIVING', val: 'Sat nav' },
+      { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
+      { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
+      { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
     ];
     // expect the right number of faults, with no serious or dangerous
     const result = mapCatDData(fullyPopulated);

@@ -174,7 +174,7 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
           emergencyExit: true,
           fuelCutoff: true,
         },
-        vehicleChecks: getVehicleChecksByOutcomeSeverity(SeverityShortCodes.DrivingFault, false),
+        vehicleChecks: getVehicleChecksByOutcomeSeverity(SeverityShortCodes.Pass, false),
         manoeuvres: getManoeuvresByOutcomeSeverity(SeverityShortCodes.DangerousFault),
         dangerousFaults: getFaultsByOutcomeSeverity(SeverityText.Dangerous),
         eyesightTest: getEyesightTestBySeverityOutcome(true, false),
@@ -200,26 +200,11 @@ export function getVehicleChecksByOutcomeSeverity(
         description: 'First Tell Me Question',
         outcome: severityShortCode,
       },
-      {
-        code: 'T2',
-        description: 'Second Tell Me Question',
-        outcome: isSerious ? severityShortCode : 'P',
-      },
     ],
     showMeQuestions: [
       {
         code: 'S1',
         description: 'First Show Me Question',
-        outcome: severityShortCode,
-      },
-      {
-        code: 'S2',
-        description: 'Second Show Me Question',
-        outcome: severityShortCode,
-      },
-      {
-        code: 'S3',
-        description: 'Third Show Me Question',
         outcome: severityShortCode,
       },
     ],

@@ -3,10 +3,9 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 export function getCatDFullyPopulatedSeriousDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
+    { col: 'H_CODE_SAFETY_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
-    { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
-    { col: 'VEHICLE_CHECKS_SERIOUS', val: 1 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
     { col: 'CONTROL_ACC_TOTAL', val: 0 },
     { col: 'CONTROL_CLUTCH_TOTAL', val: 0 },
@@ -135,7 +134,6 @@ export function getCatDFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
     { col: 'EYESIGHT_COMPLETED', val: 1 },
     { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
-    { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
     { col: 'BUS_STOP_1_COMPLETED', val: 1 },
@@ -143,9 +141,6 @@ export function getCatDFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'ANGLED_START_COMPLETED', val: 1 },
     { col: 'UPHILL_START', val: 1 },
     { col: 'DOWN_HILL_START', val: 1 },
-    { col: 'SAFETY_QUESTIONS_FIRE_EXTINGUISHER', val: 1 },
-    { col: 'SAFETY_QUESTIONS_EMERGENCY_EXIT', val: 1 },
-    { col: 'SAFETY_QUESTIONS_FUEL_CUTOFF', val: 1 },
     { col: 'EYESIGHT_COMMENT', val: 'eyesight serious' },
     { col: 'PRECAUTIONS_COMMENT', val: 'precautions serious' },
     { col: 'CONTROL_ACC_COMMENT', val: 'controls accelerator serious' },
@@ -201,16 +196,18 @@ export function getCatDFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'TELL_ME_2_DESCRIPTION', val: 'Second Tell Me Question' },
     { col: 'VEHICLE_CHECKS_COMMENT', val: 'show me tell me serious' },
     { col: 'INDEPENDENT_DRIVING', val: 'Traffic signs' },
+    { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
+    { col: 'VEHICLE_CHECKS_SERIOUS', val: 1 },
   ];
 }
 
 export function getCatDFullyPopulatedDangerousDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
+    { col: 'H_CODE_SAFETY_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
-    { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
-    { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
     { col: 'CONTROL_ACC_TOTAL', val: 0 },
     { col: 'CONTROL_CLUTCH_TOTAL', val: 0 },
@@ -339,7 +336,6 @@ export function getCatDFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 1 },
     { col: 'EYESIGHT_COMPLETED', val: 1 },
     { col: 'REV_LEFT_TRAIL_COMPLETED', val: 1 },
-    { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
     { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
     { col: 'BUS_STOP_1_COMPLETED', val: 1 },
@@ -347,9 +343,6 @@ export function getCatDFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'ANGLED_START_COMPLETED', val: 1 },
     { col: 'UPHILL_START', val: 1 },
     { col: 'DOWN_HILL_START', val: 1 },
-    { col: 'SAFETY_QUESTIONS_FIRE_EXTINGUISHER', val: 1 },
-    { col: 'SAFETY_QUESTIONS_EMERGENCY_EXIT', val: 1 },
-    { col: 'SAFETY_QUESTIONS_FUEL_CUTOFF', val: 1 },
     { col: 'PRECAUTIONS_COMMENT', val: 'precautions dangerous' },
     { col: 'CONTROL_ACC_COMMENT', val: 'controls accelerator dangerous' },
     { col: 'CONTROL_CLUTCH_COMMENT', val: 'controls clutch dangerous' },
@@ -403,5 +396,8 @@ export function getCatDFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'TELL_ME_2_CODE', val: 'T2' },
     { col: 'TELL_ME_2_DESCRIPTION', val: 'Second Tell Me Question' },
     { col: 'INDEPENDENT_DRIVING', val: 'N/A' },
+    { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
+    { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
   ];
 }

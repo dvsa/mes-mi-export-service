@@ -3,10 +3,9 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 export function getCatDMinimalDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
+    { col: 'H_CODE_SAFETY_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
-    { col: 'VEHICLE_CHECKS_TOTAL', val: 0 },
-    { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
     { col: 'CONTROL_ACC_TOTAL', val: 0 },
     { col: 'CONTROL_CLUTCH_TOTAL', val: 0 },
@@ -135,7 +134,6 @@ export function getCatDMinimalDataFields(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
     { col: 'EYESIGHT_COMPLETED', val: 0 },
     { col: 'REV_LEFT_TRAIL_COMPLETED', val: 0 },
-    { col: 'VEHICLE_CHECKS_COMPLETED', val: 0 },
     { col: 'NORMAL_STOP_1_COMPLETED', val: 0 },
     { col: 'NORMAL_STOP_2_COMPLETED', val: 0 },
     { col: 'BUS_STOP_1_COMPLETED', val: 0 },
@@ -143,8 +141,8 @@ export function getCatDMinimalDataFields(): DataField[] {
     { col: 'ANGLED_START_COMPLETED', val: 0 },
     { col: 'UPHILL_START', val: 0 },
     { col: 'DOWN_HILL_START', val: 0 },
-    { col: 'SAFETY_QUESTIONS_FIRE_EXTINGUISHER', val: 0 },
-    { col: 'SAFETY_QUESTIONS_EMERGENCY_EXIT', val: 0 },
-    { col: 'SAFETY_QUESTIONS_FUEL_CUTOFF', val: 0 },
+    { col: 'VEHICLE_CHECKS_COMPLETED', val: 0 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 0 },
+    { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
   ];
 }

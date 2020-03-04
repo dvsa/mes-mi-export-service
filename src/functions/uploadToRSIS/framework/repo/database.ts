@@ -55,6 +55,7 @@ export const execute =
       }
     } catch (err) {
       error(`Failed to execute sql query with errors: `, err);
+      throw(err);
     }
 
   };

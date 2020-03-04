@@ -1,5 +1,5 @@
 import { DataField } from '../../../domain/mi-export-data';
-import { mapCatD1EData } from '../cat-d1e-mapper';
+import { mapCatDEData } from '../cat-de-mapper';
 import { getMinimalInput, getMinimalInputWithPassCompletion } from './helpers/cat-de/inputs/minimal-inputs';
 import { getCatDEMinimalDataFields } from './helpers/cat-de/data-fields/minimal-data-fields';
 import {
@@ -18,14 +18,14 @@ describe('mapCatDEData', () => {
   it('Should map a minimally populated test result (test terminated early as possible)', () => {
     const minimalInput = getMinimalInput(TestCategory.DE);
     const expected = getCatDEMinimalDataFields();
-    const result = mapCatD1EData(minimalInput);
+    const result = mapCatDEData(minimalInput);
     // expect no faults, serious or dangerous...
     expect(result).toEqual(expected);
   });
 
   it('Should map a minimally populated test result with pass completion and override license type', () => {
     const minimalInput = getMinimalInputWithPassCompletion(TestCategory.DE);
-    const result = mapCatD1EData(minimalInput);
+    const result = mapCatDEData(minimalInput);
     // expect licence type to be overriden to manual for CAT DE, Automatic and Code78 false
     const licenceType =  result.find(field => field.col === 'AUTOMATIC_TEST');
     if (licenceType === undefined) {
@@ -234,19 +234,19 @@ describe('mapCatDEData', () => {
       { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
       { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 0 },
     ];
-    const result = mapCatD1EData(fullyPopulated);
+    const result = mapCatDEData(fullyPopulated);
     expect(result).toEqual(expected);
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
     const fullyPopulated = getFullyPopulatedSeriousFaults(getMinimalInput(TestCategory.DE));
     const expected = getCatDEFullyPopulatedSeriousDataFields();
-    expect(mapCatD1EData(fullyPopulated)).toEqual(expected);
+    expect(mapCatDEData(fullyPopulated)).toEqual(expected);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
     const fullyPopulated = getFullyPopulatedDangerousFaults(getMinimalInput(TestCategory.DE));
     const expected = getCatDEFullyPopulatedDangerousDataFields();
-    expect(mapCatD1EData(fullyPopulated)).toEqual(expected);
+    expect(mapCatDEData(fullyPopulated)).toEqual(expected);
   });
 });

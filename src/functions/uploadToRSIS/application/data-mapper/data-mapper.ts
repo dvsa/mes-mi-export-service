@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { BooleanAsNumber, DataField, DataFieldValue } from '../../domain/mi-export-data';
-import { ResultUpload } from '../../application/result-client';
+import { ResultUpload } from '../result-client';
 import { mapCommonData } from './common-mapper';
 import { mapCatBData } from './cat-b-mapper';
 import { mapCatCData } from './cat-c-mapper';
@@ -16,6 +16,10 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { mapCatC1Data } from './cat-c1-mapper';
 import { mapCatCEData } from './cat-ce-mapper';
 import { mapCatC1EData } from './cat-c1e-mapper';
+import { mapCatDData } from './cat-d-mapper';
+import { mapCatD1Data } from './cat-d1-mapper';
+import { mapCatD1EData } from './cat-d1e-mapper';
+import { mapCatDEData } from './cat-de-mapper';
 import { mapCatAMod1Data } from './cat-a-mod1-mapper';
 import {
   TestData as CatAMod1TestData,
@@ -68,6 +72,18 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
       break;
     case TestCategory.C1E:
       mappedDataFields = mappedDataFields.concat(mapCatC1EData(result));
+      break;
+    case TestCategory.D:
+      mappedDataFields = mappedDataFields.concat(mapCatDData(result));
+      break;
+    case TestCategory.D1:
+      mappedDataFields = mappedDataFields.concat(mapCatD1Data(result));
+      break;
+    case TestCategory.DE:
+      mappedDataFields = mappedDataFields.concat(mapCatDEData(result));
+      break;
+    case TestCategory.D1E:
+      mappedDataFields = mappedDataFields.concat(mapCatD1EData(result));
       break;
     case TestCategory.EUA2M1:
     case TestCategory.EUA1M1:
@@ -229,6 +245,50 @@ export const formatQuestionFaultC = (testData: TestData | undefined): number => 
 export const formatQuestionFaultCE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
   return totalFaults === 2 ? 1 : totalFaults;
+};
+
+/**
+ * Gets the number of faults for show me tell me questions for category D and D1
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionFaultD = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 5 ? 4 : totalFaults;
+};
+
+/**
+ * Gets the number of faults for show me tell me questions for category DE and D1E
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionFaultDE = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 2 ? 1 : totalFaults;
+};
+
+/**
+ * Gets the number of serious faults for show me tell me questions for category D and D1
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionSeriousD = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 5 ? 1 : 0;
+};
+
+/**
+ * Gets the number of serious faults for show me tell me questions for category DE and D1E
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionSeriousDE = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountBE(testData);
+  return totalFaults === 2 ? 1 : 0;
 };
 
 /**

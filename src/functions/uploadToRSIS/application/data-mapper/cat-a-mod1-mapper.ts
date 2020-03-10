@@ -6,7 +6,7 @@ import {
   formatSingleFaultOutcomeBySeverity,
   optional,
   optionalBoolean,
-  optionalIsLeftBoolean, optionalIsRightBoolean,
+  optionalIsLeftBoolean, optionalIsRightBoolean, getCompetencyComments,
 } from './data-mapper';
 import { TestData, TestResultCatAM1Schema } from '@dvsa/mes-test-schema/categories/AM1';
 
@@ -87,9 +87,9 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
 
   // Comments
   addIfSet(m, 'CONTROL_STOP_COMMENT', optional(t, 'singleFaultCompetencies.controlledStopComments', null));
-  addIfSet(m, 'PRECAUTIONS_COMMENT', optional(t, 'precautionsComments', null));
-  addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', optional(t, 'moveOffSafetyComments', null));
-  addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', optional(t, 'moveOffControlComments', null));
+  addIfSet(m, 'PRECAUTIONS_COMMENT', getCompetencyComments(t, 'precautionsComments'));
+  addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', getCompetencyComments(t, 'moveOffSafetyComments'));
+  addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', getCompetencyComments(t, 'moveOffControlComments'));
   addIfSet(m, 'MC_AVOIDANCE_COMMENT', optional(t, 'singleFaultCompetencies.avoidanceComments', null));
   addIfSet(m, 'MC_AVOIDANCE_SPEED_N_M_COMMENT', optional(t, 'avoidance.comments', null));
   addIfSet(m, 'MC_EMER_STOP_SPEED_N_M_COMMENT', optional(t, 'emergencyStop.comments', null));

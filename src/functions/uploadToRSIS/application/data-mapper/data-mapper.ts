@@ -21,6 +21,7 @@ import { mapCatD1Data } from './cat-d1-mapper';
 import { mapCatD1EData } from './cat-d1e-mapper';
 import { mapCatDEData } from './cat-de-mapper';
 import { mapCatAMod1Data } from './cat-a-mod1-mapper';
+import { mapCatAMod2Data } from './cat-a-mod2-mapper';
 import {
   TestData as CatAMod1TestData,
   SingleFaultCompetencyOutcome,
@@ -106,6 +107,12 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.EUAM1:
     case TestCategory.EUAMM1:
       mappedDataFields = mappedDataFields.concat(mapCatAMod1Data(result));
+      break;
+    case TestCategory.EUA1M2:
+    case TestCategory.EUA2M2:
+    case TestCategory.EUAM2:
+    case TestCategory.EUAMM2:
+      mappedDataFields = mappedDataFields.concat(mapCatAMod2Data(result));
       break;
     default:
       const message = `Unsupported Category: ${category}`;

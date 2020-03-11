@@ -41,7 +41,7 @@ export type BooleanAsNumber = 0 | 1;
 /**
  * All staging table columns are VARCHAR2, NUMBER, DATE.
  */
-export type DataFieldValue = string | number | Date;
+export type DataFieldValue = string | number | Date | Boolean;
 
 export type DataField = {
   col: string,

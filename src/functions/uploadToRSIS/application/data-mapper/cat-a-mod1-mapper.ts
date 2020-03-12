@@ -50,7 +50,7 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
     field('CONTROL_STOP_PROMPT_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'D')),
     // tslint:disable-next-line:max-line-length
     field('CONTROL_STOP_PROMPT_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'S')),
-    // tslint:disable-next-line:max-line-length gtt
+    // tslint:disable-next-line:max-line-length
     field('CONTROL_STOP_PROMPT_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'DF')),
     // avoidance
     field('MC_AVOIDANCE_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.avoidance', 'D')),

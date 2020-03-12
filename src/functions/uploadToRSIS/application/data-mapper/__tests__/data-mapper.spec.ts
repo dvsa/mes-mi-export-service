@@ -56,12 +56,12 @@ describe('data mapper', () => {
     it('Should reject unsupported categories', () => {
       // Note: update this test as we deliver support for more test categories!
       const unsupportedInput = cloneDeep(minimalInput);
-      unsupportedInput.testResult.category = 'G';
+      unsupportedInput.testResult.category = 'CCPC';
 
       spyOn(commonMapper, 'mapCommonData').and.returnValue([] as DataField[]);
       spyOn(catBMapper, 'mapCatBData').and.returnValue([] as DataField[]);
 
-      expect(() => mapDataForMIExport(unsupportedInput)).toThrow(new Error('Unsupported Category: G'));
+      expect(() => mapDataForMIExport(unsupportedInput)).toThrow(new Error('Unsupported Category: CCPC'));
     });
 
     it('Should propogate missing data errors', () => {

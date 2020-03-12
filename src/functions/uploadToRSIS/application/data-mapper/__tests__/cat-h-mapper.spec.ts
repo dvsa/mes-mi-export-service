@@ -1,47 +1,37 @@
 import { DataField } from '../../../domain/mi-export-data';
-import { mapCatCData } from '../cat-c-mapper';
-import { getMinimalInput, getMinimalInputWithPassCompletion } from './helpers/cat-c/inputs/minimal-inputs';
-import { getCatCMinimalDataFields } from './helpers/cat-c/data-fields/minimal-data-fields';
+import { mapCatHData } from '../cat-h-mapper';
+import { getMinimalInput } from './helpers/cat-home-tests/inputs/minimal-inputs';
 import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults,
-} from './helpers/cat-c/inputs/fully-populated-inputs';
+} from './helpers/cat-home-tests/inputs/fully-populated-inputs';
 import {
-  getCatCFullyPopulatedSeriousDataFields,
-  getCatCFullyPopulatedDangerousDataFields,
-} from './helpers/cat-c/data-fields/fully-populated-data-fields';
+  getCatHomeTestsFullyPopulatedSeriousDataFields,
+  getCatHomeTestsFullyPopulatedDangerousDataFields,
+} from './helpers/cat-home-tests/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { getCatHomeTestsMinimalDataFields } from './helpers/cat-home-tests/data-fields/minimal-data-fields';
 import { doesResultMatchExpectations } from './helpers/result-comparer';
 
-describe('mapCatCData', () => {
+describe('mapCatFData', () => {
 
-  it('Should map a minially populated test result (test terminated early as possible)', () => {
-    const minimalInput = getMinimalInput(TestCategory.C);
+  it('Should map a minimally populated test result (test terminated early as possible)', () => {
+    const minimalInput = getMinimalInput(TestCategory.H);
 
-    const expected = getCatCMinimalDataFields();
-    const result = mapCatCData(minimalInput);
+    const expected = getCatHomeTestsMinimalDataFields();
+    const result = mapCatHData(minimalInput);
     // expect no faults, serious or dangerous...
-    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    const arraysMatched:boolean = doesResultMatchExpectations(result, expected);
     expect(arraysMatched).toEqual(true);
-  });
-  it('Should map a minially populated test result with pass completion and override license type', () => {
-    const minimalInput = getMinimalInputWithPassCompletion(TestCategory.C);
-    const result = mapCatCData(minimalInput);
-    // expect licence type to be overriden to manual for CAT C, Automatic and Code78 false
-    const licenceType =  result.find(field => field.col === 'AUTOMATIC_TEST');
-    if (licenceType === undefined) {
-      fail();
-    } else {
-      expect(licenceType.val).toEqual(0);
-    }
   });
 
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
-    const fullyPopulated = getFullyPopulatedDrivingFaults(getMinimalInput(TestCategory.C));
-
+    const fullyPopulated = getFullyPopulatedDrivingFaults(getMinimalInput(TestCategory.H));
     const expected: DataField[] = [
       { col: 'AUTOMATIC_TEST', val: 0 },
+      { col: 'H_CODE_SAFETY_TOTAL', val: 1 },
+      { col: 'H_CODE_SAFETY_SERIOUS', val: 0 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
       { col: 'PRECAUTIONS_TOTAL', val: 2 },
@@ -127,7 +117,6 @@ describe('mapCatCData', () => {
       { col: 'ANCILLARY_CONTROLS_SERIOUS', val: 0 },
       { col: 'REV_LEFT_TRAIL_CONT_DANGEROUS', val: 0 },
       { col: 'REV_LEFT_TRAIL_OBSER_DANGEROUS', val: 0 },
-      { col: 'VEHICLE_CHECKS_DANGEROUS', val: 0 },
       { col: 'PRECAUTIONS_DANGEROUS', val: 0 },
       { col: 'CONTROL_ACC_DANGEROUS', val: 0 },
       { col: 'CONTROL_CLUTCH_DANGEROUS', val: 0 },
@@ -181,6 +170,7 @@ describe('mapCatCData', () => {
       { col: 'CONTROL_FOOTBRAKE_COMMENT', val: 'controls footbrake fault' },
       { col: 'CONTROL_PARK_COMMENT', val: 'controls parking brake fault' },
       { col: 'CONTROL_STEERING_COMMENT', val: 'controls steering fault' },
+      { col: 'H_CODE_SAFETY_COMMENT', val: 'highwaycode safety DF' },
       { col: 'MOVE_OFF_SAFETY_COMMENT', val: 'move off safety fault' },
       { col: 'MOVE_OFF_CONTROL_COMMENT', val: 'move off control fault' },
       { col: 'MIRRORS_MC_REAR_SIG_COMMENT', val: 'use of mirrors signalling fault' },
@@ -217,44 +207,36 @@ describe('mapCatCData', () => {
       { col: 'REV_LEFT_TRAIL_OBSERV_COMMENT', val: 'reverse left observation' },
       { col: 'SHOW_ME_1_CODE', val: 'S1' },
       { col: 'SHOW_ME_1_DESCRIPTION', val: 'First Show Me Question' },
-      { col: 'SHOW_ME_2_CODE', val: 'S2' },
-      { col: 'SHOW_ME_2_DESCRIPTION', val: 'Second Show Me Question' },
-      { col: 'SHOW_ME_3_CODE', val: 'S3' },
-      { col: 'SHOW_ME_3_DESCRIPTION', val: 'Third Show Me Question' },
       { col: 'TELL_ME_1_CODE', val: 'T1' },
       { col: 'TELL_ME_1_DESCRIPTION', val: 'First Tell Me Question' },
-      { col: 'TELL_ME_2_CODE', val: 'T2' },
-      { col: 'TELL_ME_2_DESCRIPTION', val: 'Second Tell Me Question' },
       { col: 'VEHICLE_CHECKS_COMMENT', val: 'show me tell me fault' },
       { col: 'INDEPENDENT_DRIVING', val: 'Sat nav' },
       { col: 'VEHICLE_CHECKS_COMPLETED', val: 1 },
-      { col: 'VEHICLE_CHECKS_TOTAL', val: 4 },
-      { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
+      { col: 'VEHICLE_CHECKS_TOTAL', val: 1 },
+      { col: 'CONTROL_STOP_PROMPT_TOTAL', val: 1 },
+      { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 0 },
+      { col: 'CONTROL_STOP_PROMPT_DANGEROUS', val: 0 },
+      { col: 'CONTROL_STOP_COMPLETED', val: 1 },
     ];
-
     // expect the right number of faults, with no serious or dangerous
-    const result = mapCatCData(fullyPopulated);
-    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    const result = mapCatHData(fullyPopulated);
+    const arraysMatched:boolean = doesResultMatchExpectations(result, expected);
     expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
-    const fullyPopulated = getFullyPopulatedSeriousFaults(getMinimalInput(TestCategory.C));
-
-    const expected = getCatCFullyPopulatedSeriousDataFields();
-
+    const fullyPopulated = getFullyPopulatedSeriousFaults(getMinimalInput(TestCategory.H));
+    const expected = getCatHomeTestsFullyPopulatedSeriousDataFields();
     // expect all serious, no faults or dangerous
-    const arraysMatched: boolean = doesResultMatchExpectations(mapCatCData(fullyPopulated), expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatHData(fullyPopulated), expected);
     expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
-    const fullyPopulated = getFullyPopulatedDangerousFaults(getMinimalInput(TestCategory.C));
-
-    const expected = getCatCFullyPopulatedDangerousDataFields();
-
+    const fullyPopulated = getFullyPopulatedDangerousFaults(getMinimalInput(TestCategory.H));
+    const expected = getCatHomeTestsFullyPopulatedDangerousDataFields();
     // expect all dangerous, no faults or serious
-    const arraysMatched: boolean = doesResultMatchExpectations(mapCatCData(fullyPopulated), expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatHData(fullyPopulated), expected);
     expect(arraysMatched).toEqual(true);
   });
 });

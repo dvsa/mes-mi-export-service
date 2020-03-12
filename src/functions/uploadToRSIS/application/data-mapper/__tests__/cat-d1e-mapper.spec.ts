@@ -12,6 +12,7 @@ import {
 } from './helpers/cat-de/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getMinimalInput } from './helpers/cat-de/inputs/minimal-inputs';
+import { doesResultMatchExpectations } from './helpers/result-comparer';
 
 describe('mapCatD1EData', () => {
 
@@ -22,7 +23,8 @@ describe('mapCatD1EData', () => {
 
     const result = mapCatD1EData(minimalInput);
     // expect no faults, serious or dangerous...
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
@@ -225,20 +227,23 @@ describe('mapCatD1EData', () => {
       { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 0 },
     ];
     const result = mapCatD1EData(fullyPopulated);
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
     const fullyPopulated = getFullyPopulatedSeriousFaults(getMinimalInput(TestCategory.D1E));
     const expected = getCatDEFullyPopulatedSeriousDataFields();
     // expect all serious, no faults or dangerous
-    expect(mapCatD1EData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatD1EData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
     const fullyPopulated = getFullyPopulatedDangerousFaults(getMinimalInput(TestCategory.D1E));
     const expected = getCatDEFullyPopulatedDangerousDataFields();
     // expect all dangerous, no faults or serious
-    expect(mapCatD1EData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatD1EData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 });

@@ -11,6 +11,7 @@ import {
   getCatBEFullyPopulatedSeriousDataFields,
   getCatBEFullyPopulatedDangerousDataFields,
 } from './helpers/cat-be/data-fields/fully-populated-data-fields';
+import { doesResultMatchExpectations } from './helpers/result-comparer';
 
 describe('mapCatBEData', () => {
 
@@ -20,7 +21,8 @@ describe('mapCatBEData', () => {
     const expected = getCatBEMinimalDataFields();
     const result = mapCatBEData(minimalInput);
     // expect no faults, serious or dangerous...
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
@@ -225,7 +227,8 @@ describe('mapCatBEData', () => {
 
     // expect the right number of faults, with no serious or dangerous
     const result = mapCatBEData(fullyPopulated);
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
@@ -234,7 +237,8 @@ describe('mapCatBEData', () => {
     const expected = getCatBEFullyPopulatedSeriousDataFields();
 
     // expect all serious, no faults or dangerous
-    expect(mapCatBEData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatBEData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
@@ -243,6 +247,7 @@ describe('mapCatBEData', () => {
     const expected = getCatBEFullyPopulatedDangerousDataFields();
 
     // expect all dangerous, no faults or serious
-    expect(mapCatBEData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatBEData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 });

@@ -12,6 +12,7 @@ import {
   getCatDEFullyPopulatedDangerousDataFields,
 } from './helpers/cat-de/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { doesResultMatchExpectations } from './helpers/result-comparer';
 
 describe('mapCatDEData', () => {
 
@@ -20,7 +21,8 @@ describe('mapCatDEData', () => {
     const expected = getCatDEMinimalDataFields();
     const result = mapCatDEData(minimalInput);
     // expect no faults, serious or dangerous...
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a minimally populated test result with pass completion and override license type', () => {
@@ -236,17 +238,23 @@ describe('mapCatDEData', () => {
     ];
     const result = mapCatDEData(fullyPopulated);
     expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
+
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
     const fullyPopulated = getFullyPopulatedSeriousFaults(getMinimalInput(TestCategory.DE));
     const expected = getCatDEFullyPopulatedSeriousDataFields();
-    expect(mapCatDEData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatDEData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
     const fullyPopulated = getFullyPopulatedDangerousFaults(getMinimalInput(TestCategory.DE));
     const expected = getCatDEFullyPopulatedDangerousDataFields();
-    expect(mapCatDEData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatDEData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
+
   });
 });

@@ -19,40 +19,46 @@ import {
 import {
   getCatAMod1FullyPopulatedDangerousFaultDataFields,
 } from './helpers/cat-a-mod1/data-fields/fully-populated-dangerous-faults';
+import { doesResultMatchExpectations } from './helpers/result-comparer';
 
 describe('mapCatAMod1Data', () => {
   it('Should map a minimally populated test result', () => {
     const minimalInput = getCatAM1MinimalInput(TestCategory.EUAMM1);
     const expected = getCatAMod1MinimalDataFields();
     const result = mapCatAMod1Data(minimalInput);
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
   it('should map a fully populated regular test with every possible driving fault', () => {
     const fullyPopulatedWithDrivingFaults
       = getCatAM1FullyPopulatedDrivingFaults(getCatAM1MinimalInput(TestCategory.EUAMM1));
     const expected = getCatAMod1FullyPopulatedDFaultDataFields();
     const result = mapCatAMod1Data(fullyPopulatedWithDrivingFaults);
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
   it('should map a fully populated regular test with every possible serious fault', () => {
     const fullyPopulatedWithSeriousFaults
       = getCatAM1FullyPopulatedSeriousFaults(getCatAM1MinimalInput(TestCategory.EUAMM1));
     const expected = getCatAMod1FullyPopulatedSeriousFaultDataFields();
     const result = mapCatAMod1Data(fullyPopulatedWithSeriousFaults);
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
   it('should map a fully populated regular test with every possible dangerous fault', () => {
     const fullyPopulatedWithDangerousFaults
       = getCatAM1FullyPopulatedDangerousFaults(getCatAM1MinimalInput(TestCategory.EUAMM1));
     const expected = getCatAMod1FullyPopulatedDangerousFaultDataFields();
     const result = mapCatAMod1Data(fullyPopulatedWithDangerousFaults);
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
   it('should correctly map single fault competencies', () => {
     const fullyPopulatedWithSingleFaultCompetencies
       = getCatAM1FullyPopulatedSingleFaultCompetencies(getCatAM1MinimalInput(TestCategory.EUAMM1));
     const expected = getCatAMod1FullyPopulatedSingleFaultDataFields();
     const result = mapCatAMod1Data(fullyPopulatedWithSingleFaultCompetencies);
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
 });

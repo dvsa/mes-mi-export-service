@@ -163,6 +163,7 @@ describe('mapCatFData', () => {
       { col: 'ANGLED_START_COMPLETED', val: 1 },
       { col: 'UPHILL_START', val: 1 },
       { col: 'DOWN_HILL_START', val: 1 },
+      { col: 'HILL_START_COMPLETED', val: 1 },
       { col: 'PRECAUTIONS_COMMENT', val: 'precautions fault' },
       { col: 'CONTROL_ACC_COMMENT', val: 'controls accelerator fault' },
       { col: 'CONTROL_CLUTCH_COMMENT', val: 'controls clutch fault' },

@@ -12,6 +12,7 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
           angledStartControlledStop: true,
           uphillStart: true,
           downhillStart: true,
+          hillStart: true,
         },
         highwayCodeSafety: getHighwayCodeSafetyQuestion(SeverityShortCodes.DrivingFault),
         safetyQuestions: {
@@ -140,6 +141,7 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
           angledStartControlledStop: true,
           uphillStart: true,
           downhillStart: true,
+          hillStart: true,
         },
         safetyQuestionResult: {
           fireExtinguisher: true,
@@ -174,6 +176,7 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
           angledStartControlledStop: true,
           uphillStart: true,
           downhillStart: true,
+          hillStart: true,
         },
         safetyQuestionResult: {
           fireExtinguisher: true,

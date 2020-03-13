@@ -161,6 +161,7 @@ describe('mapCatGData', () => {
       { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
       { col: 'ANGLED_START_COMPLETED', val: 1 },
+      { col: 'HILL_START_COMPLETED', val: 1 },
       { col: 'UPHILL_START', val: 1 },
       { col: 'DOWN_HILL_START', val: 1 },
       { col: 'PRECAUTIONS_COMMENT', val: 'precautions fault' },

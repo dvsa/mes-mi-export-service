@@ -14,7 +14,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { getCatHomeTestsMinimalDataFields } from './helpers/cat-home-tests/data-fields/minimal-data-fields';
 import { doesResultMatchExpectations } from './helpers/result-comparer';
 
-describe('mapCatFData', () => {
+describe('mapCatHData', () => {
 
   it('Should map a minimally populated test result (test terminated early as possible)', () => {
     const minimalInput = getMinimalInput(TestCategory.H);
@@ -161,6 +161,7 @@ describe('mapCatFData', () => {
       { col: 'NORMAL_STOP_1_COMPLETED', val: 1 },
       { col: 'NORMAL_STOP_2_COMPLETED', val: 1 },
       { col: 'ANGLED_START_COMPLETED', val: 1 },
+      { col: 'HILL_START_COMPLETED', val: 1 },
       { col: 'UPHILL_START', val: 1 },
       { col: 'DOWN_HILL_START', val: 1 },
       { col: 'PRECAUTIONS_COMMENT', val: 'precautions fault' },

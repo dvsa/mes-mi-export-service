@@ -134,6 +134,7 @@ export function getCatHomeTestsMinimalDataFields(): DataField[] {
     { col: 'NORMAL_STOP_1_COMPLETED', val: 0 },
     { col: 'NORMAL_STOP_2_COMPLETED', val: 0 },
     { col: 'ANGLED_START_COMPLETED', val: 0 },
+    { col: 'HILL_START_COMPLETED', val: 0 },
     { col: 'UPHILL_START', val: 0 },
     { col: 'DOWN_HILL_START', val: 0 },
     { col: 'VEHICLE_CHECKS_COMPLETED', val: 0 },

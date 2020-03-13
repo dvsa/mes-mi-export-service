@@ -2,6 +2,7 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 
 export function getCatAMod1FullyPopulatedSeriousFaultDataFields(): DataField[] {
   return [
+    { col: 'AUTOMATIC_TEST', val: 1 },
     { col: 'MC_USE_OF_STAND_DANGEROUS', val: 0 },
     { col: 'MC_USE_OF_STAND_SERIOUS', val: 0 },
     { col: 'MC_USE_OF_STAND_TOTAL', val: 0 },

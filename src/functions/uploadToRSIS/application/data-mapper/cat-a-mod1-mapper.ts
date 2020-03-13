@@ -9,12 +9,14 @@ import {
   optionalIsLeftBoolean, optionalIsRightBoolean,
 } from './data-mapper';
 import { TestData, TestResultCatAM1Schema } from '@dvsa/mes-test-schema/categories/AM1';
+import { formatGearboxCategory } from '../helpers/shared-formatters';
 
 export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
   const testResult: TestResultCatAM1Schema = result.testResult;
   const t: TestData = result.testResult.testData as TestData;
 
   const m: DataField[] = [
+    field('AUTOMATIC_TEST', formatGearboxCategory(result)),
     // RIDING FAULTS - SINGLE FAULT COMPETENCY
     // useOfStand
     // tslint:disable-next-line:max-line-length

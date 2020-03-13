@@ -50,6 +50,9 @@ export function getCatAM1MinimalInput(subCategory: TestCategory): ResultUpload {
         },
       },
       activityCode: '22',
+      vehicleDetails: {
+        gearboxCategory: 'Automatic',
+      },
     },
     autosaved: 0, // false
   };

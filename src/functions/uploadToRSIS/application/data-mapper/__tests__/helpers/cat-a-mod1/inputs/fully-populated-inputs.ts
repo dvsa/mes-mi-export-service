@@ -32,6 +32,9 @@ export function getCatAM1FullyPopulatedDrivingFaults(result: any): ResultUpload 
       testSummary: {
         routeNumber: 88,
       },
+      vehicleDetails: {
+        gearboxCategory: 'Automatic',
+      },
     },
   };
 }
@@ -68,6 +71,9 @@ export function getCatAM1FullyPopulatedSeriousFaults(result: any): ResultUpload 
       testSummary: {
         routeNumber: 88,
       },
+      vehicleDetails: {
+        gearboxCategory: 'Automatic',
+      },
     },
   };
 }
@@ -103,6 +109,9 @@ export function getCatAM1FullyPopulatedDangerousFaults(result: any): ResultUploa
       },
       testSummary: {
         routeNumber: 88,
+      },
+      vehicleDetails: {
+        gearboxCategory: 'Automatic',
       },
     },
   };
@@ -150,6 +159,9 @@ export function getCatAM1FullyPopulatedSingleFaultCompetencies(result: any): Res
       testSummary: {
         routeNumber: 88,
         circuit: 'Left',
+      },
+      vehicleDetails: {
+        gearboxCategory: 'Automatic',
       },
     },
   };

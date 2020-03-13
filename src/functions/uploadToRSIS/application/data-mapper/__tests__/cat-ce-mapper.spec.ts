@@ -12,6 +12,7 @@ import {
   getCatCEFullyPopulatedDangerousDataFields,
 } from './helpers/cat-ce/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { doesResultMatchExpectations } from './helpers/result-comparer';
 
 describe('mapCatCEData', () => {
 
@@ -22,7 +23,8 @@ describe('mapCatCEData', () => {
 
     const result = mapCatC1EData(minimalInput);
     // expect no faults, serious or dangerous...
-    expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a minially populated test result with pass completion and override license type', () => {
@@ -234,6 +236,8 @@ describe('mapCatCEData', () => {
     // expect the right number of faults, with no serious or dangerous
     const result = mapCatC1EData(fullyPopulated);
     expect(result).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
@@ -242,7 +246,8 @@ describe('mapCatCEData', () => {
     const expected = getCatCEFullyPopulatedSeriousDataFields();
 
     // expect all serious, no faults or dangerous
-    expect(mapCatC1EData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatC1EData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
@@ -251,6 +256,7 @@ describe('mapCatCEData', () => {
     const expected = getCatCEFullyPopulatedDangerousDataFields();
 
     // expect all dangerous, no faults or serious
-    expect(mapCatC1EData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatC1EData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 });

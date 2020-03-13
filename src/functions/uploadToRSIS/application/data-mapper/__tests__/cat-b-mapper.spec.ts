@@ -11,6 +11,7 @@ import {
   getFullyPopulatedSeriousDataFields,
   getFullyPopulatedDangerousDataFields,
 } from './helpers/cat-b/data-fields/fully-populated-data-fields';
+import { doesResultMatchExpectations } from './helpers/result-comparer';
 
 describe('mapCatBData', () => {
 
@@ -21,6 +22,8 @@ describe('mapCatBData', () => {
 
     // expect no faults, serious or dangerous...
     expect(mapCatBData(minimalInput)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatBData(minimalInput), expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
@@ -29,7 +32,8 @@ describe('mapCatBData', () => {
     const expected = getFullyPopulatedFaultDataFields();
 
     // expect the right number of faults, with no serious or dangerous
-    expect(mapCatBData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatBData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
@@ -38,7 +42,8 @@ describe('mapCatBData', () => {
     const expected = getFullyPopulatedSeriousDataFields();
 
     // expect all serious, no faults or dangerous
-    expect(mapCatBData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatBData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
@@ -47,6 +52,7 @@ describe('mapCatBData', () => {
     const expected = getFullyPopulatedDangerousDataFields();
 
     // expect all dangerous, no faults or serious
-    expect(mapCatBData(fullyPopulated)).toEqual(expected);
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatBData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
   });
 });

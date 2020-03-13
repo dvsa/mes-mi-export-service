@@ -26,6 +26,10 @@ import {
   SingleFaultCompetencyOutcome,
   TestResultCatAM1Schema,
 } from '@dvsa/mes-test-schema/categories/AM1';
+import { mapCatFData } from './cat-f-mapper';
+import { mapCatKData } from './cat-k-mapper';
+import { mapCatHData } from './cat-h-mapper';
+import { mapCatGData } from './cat-g-mapper';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -84,6 +88,18 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
       break;
     case TestCategory.D1E:
       mappedDataFields = mappedDataFields.concat(mapCatD1EData(result));
+      break;
+    case TestCategory.F:
+      mappedDataFields = mappedDataFields.concat(mapCatFData(result));
+      break;
+    case TestCategory.G:
+      mappedDataFields = mappedDataFields.concat(mapCatGData(result));
+      break;
+    case TestCategory.H:
+      mappedDataFields = mappedDataFields.concat(mapCatHData(result));
+      break;
+    case TestCategory.K:
+      mappedDataFields = mappedDataFields.concat(mapCatKData(result));
       break;
     case TestCategory.EUA2M1:
     case TestCategory.EUA1M1:
@@ -259,6 +275,17 @@ export const formatQuestionFaultD = (testData: TestData | undefined): number => 
 };
 
 /**
+ * Gets the number of faults for show me tell me questions for category F, G, H  and K
+ *
+ * @param object The MES test result
+ * @returns The boolean value (as a number)
+ */
+export const formatQuestionFaultF = (testData: TestData | undefined): number => {
+  const totalFaults: number = getVehicleChecksFaultCountF(testData);
+  return totalFaults === 2 ? 1 : totalFaults;
+};
+
+/**
  * Gets the number of faults for show me tell me questions for category DE and D1E
  *
  * @param object The MES test result
@@ -349,6 +376,20 @@ export const formatQuestionSeriousCE = (testData: TestData | undefined): number 
 };
 
 export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : number => {
+  let totalFaults: number = 0;
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
+
+  if (tellMeFaults) {
+    totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome === 'DF').length;
+  }
+  if (showMeFaults) {
+    totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome === 'DF').length;
+  }
+  return totalFaults;
+};
+
+export const getVehicleChecksFaultCountF = (testData: TestData| undefined) : number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);

@@ -27,6 +27,7 @@ import {
   SingleFaultCompetencyOutcome,
   TestResultCatAM1Schema,
 } from '@dvsa/mes-test-schema/categories/AM1';
+import { SafetyAndBalanceQuestions, TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import { mapCatFData } from './cat-f-mapper';
 import { mapCatKData } from './cat-k-mapper';
 import { mapCatHData } from './cat-h-mapper';
@@ -242,6 +243,17 @@ export const formatQuestionFault = (testData: TestData | undefined): BooleanAsNu
   }
   return 0;
 };
+
+export const getCatAM2SafetyAndBalanceFaultCount =
+  (safetyAndBalanceQuestions: SafetyAndBalanceQuestions | undefined): number => {
+    const safetyQuestionOneOutcome = get(
+      safetyAndBalanceQuestions, 'safetyQuestions[0].outcome') === 'DF' ? 1 : 0;
+    const safetyQuestionTwoOutcome = get(
+      safetyAndBalanceQuestions, 'safetyQuestions[1].outcome') === 'DF' ? 1 : 0;
+    const balanceQuestionOneOutcome = get(
+      safetyAndBalanceQuestions, 'balanceQuestions[0].outcome') === 'DF' ? 1 : 0;
+    return safetyQuestionOneOutcome + safetyQuestionTwoOutcome + balanceQuestionOneOutcome;
+  };
 
 export const formatQuestionFaultBE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);

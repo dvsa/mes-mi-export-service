@@ -121,5 +121,6 @@ export function getMinimalDataField(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
     { col: 'EYESIGHT_SERIOUS', val: 0 },
     { col: 'EYESIGHT_COMPLETED', val: 0 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 0 },
   ];
 }

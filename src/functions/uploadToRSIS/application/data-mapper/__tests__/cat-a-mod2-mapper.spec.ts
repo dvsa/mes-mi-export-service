@@ -14,7 +14,7 @@ import {
 
 describe('mapCatAMod2Data', () => {
 
-  it('Should map a minially populated test result (test terminated early as possible)', () => {
+  it('Should map a minimally populated test result (test terminated early as possible)', () => {
     const minimalInput = getCatAMod2MinimalInput();
 
     const expected = getMinimalDataField();
@@ -25,9 +25,7 @@ describe('mapCatAMod2Data', () => {
 
   it('Should map a fully populated regular test result (every possible driving fault)', () => {
     const fullyPopulated = getFullyPopulatedDrivingFaults(getCatAMod2MinimalInput());
-
     const expected = getFullyPopulatedFaultDataFields();
-
     // expect the right number of faults, with no serious or dangerous
     expect(mapCatAMod2Data(fullyPopulated)).toEqual(expected);
   });

@@ -121,6 +121,8 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
     { col: 'EYESIGHT_SERIOUS', val: 0 },
     { col: 'EYESIGHT_COMPLETED', val: 1 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 2 },
+    { col: 'VEHICLE_CHECKS_COMMENT', val: 'candidate fell off the bike' },
     { col: 'PRECAUTIONS_COMMENT', val: 'precautionsComments' },
     { col: 'CONTROL_ACC_COMMENT', val: 'controlsThrottleComments' },
     { col: 'CONTROL_CLUTCH_COMMENT', val: 'controlsClutchComments' },
@@ -159,6 +161,12 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     { col: 'AWARENESS_PLAN_COMMENT', val: 'awarenessPlanningComments' },
     { col: 'ANCILLARY_CONTROLS_COMMENT', val: 'ancillaryControlsComments' },
     { col: 'INDEPENDENT_DRIVING', val: 'Sat nav' },
+    { col: 'SAFETY_1_CODE', val: 'SQ4' },
+    { col: 'SAFETY_1_DESCRIPTION', val: 'Lights' },
+    { col: 'SAFETY_2_CODE', val: 'SQ10' },
+    { col: 'SAFETY_2_DESCRIPTION', val: 'Brakes' },
+    { col: 'BALANCE_1_CODE', val: 'BQ3' },
+    { col: 'BALANCE_1_DESCRIPTION', val: 'Balance with passenger' },
   ];
 }
 
@@ -283,6 +291,8 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 0 },
     { col: 'EYESIGHT_SERIOUS', val: 1 },
     { col: 'EYESIGHT_COMPLETED', val: 1 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 2 },
+    { col: 'VEHICLE_CHECKS_COMMENT', val: 'candidate fell off the bike' },
     { col: 'EYESIGHT_COMMENT', val: 'eyesight serious' },
     { col: 'PRECAUTIONS_COMMENT', val: 'precautions serious' },
     { col: 'CONTROL_ACC_COMMENT', val: 'controlsThrottle serious' },
@@ -322,6 +332,12 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'AWARENESS_PLAN_COMMENT', val: 'awarenessPlanning serious' },
     { col: 'ANCILLARY_CONTROLS_COMMENT', val: 'ancillaryControls serious' },
     { col: 'INDEPENDENT_DRIVING', val: 'Traffic signs' },
+    { col: 'SAFETY_1_CODE', val: 'SQ4' },
+    { col: 'SAFETY_1_DESCRIPTION', val: 'Lights' },
+    { col: 'SAFETY_2_CODE', val: 'SQ10' },
+    { col: 'SAFETY_2_DESCRIPTION', val: 'Brakes' },
+    { col: 'BALANCE_1_CODE', val: 'BQ3' },
+    { col: 'BALANCE_1_DESCRIPTION', val: 'Balance with passenger' },
   ];
 }
 
@@ -446,6 +462,8 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'ANCILLARY_CONTROLS_DANGEROUS', val: 1 },
     { col: 'EYESIGHT_SERIOUS', val: 0 },
     { col: 'EYESIGHT_COMPLETED', val: 0 },
+    { col: 'VEHICLE_CHECKS_TOTAL', val: 2 },
+    { col: 'VEHICLE_CHECKS_COMMENT', val: 'candidate fell off the bike' },
     { col: 'PRECAUTIONS_COMMENT', val: 'precautions dangerous' },
     { col: 'CONTROL_ACC_COMMENT', val: 'controlsThrottle dangerous' },
     { col: 'CONTROL_CLUTCH_COMMENT', val: 'controlsClutch dangerous' },
@@ -484,5 +502,11 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'AWARENESS_PLAN_COMMENT', val: 'awarenessPlanning dangerous' },
     { col: 'ANCILLARY_CONTROLS_COMMENT', val: 'ancillaryControls dangerous' },
     { col: 'INDEPENDENT_DRIVING', val: 'N/A' },
+    { col: 'SAFETY_1_CODE', val: 'SQ4' },
+    { col: 'SAFETY_1_DESCRIPTION', val: 'Lights' },
+    { col: 'SAFETY_2_CODE', val: 'SQ10' },
+    { col: 'SAFETY_2_DESCRIPTION', val: 'Brakes' },
+    { col: 'BALANCE_1_CODE', val: 'BQ3' },
+    { col: 'BALANCE_1_DESCRIPTION', val: 'Balance with passenger' },
   ];
 }

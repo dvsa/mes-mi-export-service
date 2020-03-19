@@ -1,8 +1,9 @@
 import { ResultUpload } from '../result-client';
 import { DataField } from '../../domain/mi-export-data';
+import { TestData as CatAM2TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import {
   addIfSet,
-  field,
+  field, getCatAM2SafetyAndBalanceFaultCount,
   getCompetencyComments,
   optional,
   optionalBoolean,
@@ -10,6 +11,7 @@ import {
 
 export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData;
+  const r = result.testResult as CatAM2TestData;
 
   const m: DataField[] = [
     field('CONTROL_ACC_TOTAL', optional(t, 'drivingFaults.controlsThrottle', 0)),
@@ -131,8 +133,11 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
     field('ANCILLARY_CONTROLS_DANGEROUS', optional(t, 'dangerousFaults.ancillaryControls', 0)),
     field('EYESIGHT_SERIOUS', optionalBoolean(t, 'eyesightTest.seriousFault')),
     field('EYESIGHT_COMPLETED', optionalBoolean(t, 'eyesightTest.complete')),
+    // SAFETY AND BALANCE FAULTS
+    field('VEHICLE_CHECKS_TOTAL', getCatAM2SafetyAndBalanceFaultCount(r.safetyAndBalanceQuestions)),
   ];
-
+  addIfSet(m, 'VEHICLE_CHECKS_COMMENT', optional(
+    result.testResult, 'safetyAndBalanceQuestions.safetyAndBalanceComments', null));
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'PRECAUTIONS_COMMENT', getCompetencyComments(t, 'precautionsComments'));
   addIfSet(m, 'CONTROL_ACC_COMMENT', getCompetencyComments(t, 'controlsThrottleComments'));
@@ -174,6 +179,17 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'AWARENESS_PLAN_COMMENT', getCompetencyComments(t, 'awarenessPlanningComments'));
   addIfSet(m, 'ANCILLARY_CONTROLS_COMMENT', getCompetencyComments(t, 'ancillaryControlsComments'));
   addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
-
+  addIfSet(m, 'SAFETY_1_CODE', optional(
+    result.testResult, 'safetyAndBalanceQuestions.safetyQuestions[0].code', null));
+  addIfSet(m, 'SAFETY_1_DESCRIPTION', optional(
+    result.testResult, 'safetyAndBalanceQuestions.safetyQuestions[0].description', null));
+  addIfSet(m, 'SAFETY_2_CODE', optional(
+    result.testResult, 'safetyAndBalanceQuestions.safetyQuestions[1].code', null));
+  addIfSet(m, 'SAFETY_2_DESCRIPTION', optional(
+    result.testResult, 'safetyAndBalanceQuestions.safetyQuestions[1].description', null));
+  addIfSet(m, 'BALANCE_1_CODE', optional(
+    result.testResult, 'safetyAndBalanceQuestions.balanceQuestions[0].code', null));
+  addIfSet(m, 'BALANCE_1_DESCRIPTION', optional(
+    result.testResult, 'safetyAndBalanceQuestions.balanceQuestions[0].description', null));
   return m;
 };

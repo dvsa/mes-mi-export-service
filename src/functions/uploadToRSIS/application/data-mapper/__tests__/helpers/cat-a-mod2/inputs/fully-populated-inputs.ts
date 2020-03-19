@@ -100,6 +100,28 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
           complete: true,
         },
       },
+      safetyAndBalanceQuestions: {
+        safetyQuestions: [
+          {
+            code: 'SQ4',
+            description: 'Lights',
+            outcome: 'DF',
+          },
+          {
+            code: 'SQ10',
+            description: 'Brakes',
+            outcome: 'P',
+          },
+        ],
+        balanceQuestions: [
+          {
+            code: 'BQ3',
+            description: 'Balance with passenger',
+            outcome: 'DF',
+          },
+        ],
+        safetyAndBalanceComments: 'candidate fell off the bike',
+      },
       testSummary: getTestSummary(IndependentDrivingText.SatNav),
     },
   };
@@ -119,6 +141,28 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
         seriousFaults: getFaultsByOutcomeSeverity(SeverityText.Serious),
         eyesightTest: getEyesightTestBySeverityOutcome(true, true, SeverityText.Serious),
       },
+      safetyAndBalanceQuestions: {
+        safetyQuestions: [
+          {
+            code: 'SQ4',
+            description: 'Lights',
+            outcome: 'DF',
+          },
+          {
+            code: 'SQ10',
+            description: 'Brakes',
+            outcome: 'P',
+          },
+        ],
+        balanceQuestions: [
+          {
+            code: 'BQ3',
+            description: 'Balance with passenger',
+            outcome: 'DF',
+          },
+        ],
+        safetyAndBalanceComments: 'candidate fell off the bike',
+      },
       testSummary: getTestSummary(IndependentDrivingText.TrafficSigns),
     },
   };
@@ -137,6 +181,28 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
         },
         dangerousFaults: getFaultsByOutcomeSeverity(SeverityText.Dangerous),
         eyesightTest: getEyesightTestBySeverityOutcome(false, false),
+      },
+      safetyAndBalanceQuestions: {
+        safetyQuestions: [
+          {
+            code: 'SQ4',
+            description: 'Lights',
+            outcome: 'DF',
+          },
+          {
+            code: 'SQ10',
+            description: 'Brakes',
+            outcome: 'P',
+          },
+        ],
+        balanceQuestions: [
+          {
+            code: 'BQ3',
+            description: 'Balance with passenger',
+            outcome: 'DF',
+          },
+        ],
+        safetyAndBalanceComments: 'candidate fell off the bike',
       },
       testSummary: getTestSummary(IndependentDrivingText.NotApplicable),
     },

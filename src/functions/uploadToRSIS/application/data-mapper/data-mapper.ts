@@ -245,13 +245,13 @@ export const formatQuestionFault = (testData: TestData | undefined): BooleanAsNu
 };
 
 export const getCatAM2SafetyAndBalanceFaultCount =
-  (safetyAndBalanceQuestions: SafetyAndBalanceQuestions | undefined): number => {
+  (testData: CatAMod2TestData | undefined): number => {
     const safetyQuestionOneOutcome = get(
-      safetyAndBalanceQuestions, 'safetyQuestions[0].outcome') === 'DF' ? 1 : 0;
+      testData, 'safetyAndBalanceQuestions.safetyQuestions[0].outcome') === 'DF' ? 1 : 0;
     const safetyQuestionTwoOutcome = get(
-      safetyAndBalanceQuestions, 'safetyQuestions[1].outcome') === 'DF' ? 1 : 0;
+      testData, 'safetyAndBalanceQuestions.safetyQuestions[1].outcome') === 'DF' ? 1 : 0;
     const balanceQuestionOneOutcome = get(
-      safetyAndBalanceQuestions, 'balanceQuestions[0].outcome') === 'DF' ? 1 : 0;
+      testData, 'safetyAndBalanceQuestions.balanceQuestions[0].outcome') === 'DF' ? 1 : 0;
     return safetyQuestionOneOutcome + safetyQuestionTwoOutcome + balanceQuestionOneOutcome;
   };
 

@@ -5,6 +5,12 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
   return {
     ...result,
     testResult: {
+      preTestDeclarations: {
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+        preTestSignature: '**DUMMY**',
+        DL196CBTCertNumber: '123456',
+      },
       testData: {
         testRequirements: {
           normalStart1: true,
@@ -96,31 +102,31 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
           bends: 41,
           bendsComments: 'bendsComments',
         },
+        safetyAndBalanceQuestions: {
+          safetyQuestions: [
+            {
+              code: 'SQ4',
+              description: 'Lights',
+              outcome: 'DF',
+            },
+            {
+              code: 'SQ10',
+              description: 'Brakes',
+              outcome: 'P',
+            },
+          ],
+          balanceQuestions: [
+            {
+              code: 'BQ3',
+              description: 'Balance with passenger',
+              outcome: 'DF',
+            },
+          ],
+          safetyAndBalanceComments: 'candidate fell off the bike',
+        },
         eyesightTest: {
           complete: true,
         },
-      },
-      safetyAndBalanceQuestions: {
-        safetyQuestions: [
-          {
-            code: 'SQ4',
-            description: 'Lights',
-            outcome: 'DF',
-          },
-          {
-            code: 'SQ10',
-            description: 'Brakes',
-            outcome: 'P',
-          },
-        ],
-        balanceQuestions: [
-          {
-            code: 'BQ3',
-            description: 'Balance with passenger',
-            outcome: 'DF',
-          },
-        ],
-        safetyAndBalanceComments: 'candidate fell off the bike',
       },
       testSummary: getTestSummary(IndependentDrivingText.SatNav),
     },
@@ -131,6 +137,12 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
   return {
     ...result,
     testResult: {
+      preTestDeclarations: {
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+        preTestSignature: '**DUMMY**',
+        DL196CBTCertNumber: '123456',
+      },
       testData: {
         testRequirements: {
           normalStart1: true,
@@ -139,29 +151,29 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
           hillStart: true,
         },
         seriousFaults: getFaultsByOutcomeSeverity(SeverityText.Serious),
+        safetyAndBalanceQuestions: {
+          safetyQuestions: [
+            {
+              code: 'SQ4',
+              description: 'Lights',
+              outcome: 'DF',
+            },
+            {
+              code: 'SQ10',
+              description: 'Brakes',
+              outcome: 'P',
+            },
+          ],
+          balanceQuestions: [
+            {
+              code: 'BQ3',
+              description: 'Balance with passenger',
+              outcome: 'DF',
+            },
+          ],
+          safetyAndBalanceComments: 'candidate fell off the bike',
+        },
         eyesightTest: getEyesightTestBySeverityOutcome(true, true, SeverityText.Serious),
-      },
-      safetyAndBalanceQuestions: {
-        safetyQuestions: [
-          {
-            code: 'SQ4',
-            description: 'Lights',
-            outcome: 'DF',
-          },
-          {
-            code: 'SQ10',
-            description: 'Brakes',
-            outcome: 'P',
-          },
-        ],
-        balanceQuestions: [
-          {
-            code: 'BQ3',
-            description: 'Balance with passenger',
-            outcome: 'DF',
-          },
-        ],
-        safetyAndBalanceComments: 'candidate fell off the bike',
       },
       testSummary: getTestSummary(IndependentDrivingText.TrafficSigns),
     },
@@ -172,6 +184,12 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
   return {
     ...result,
     testResult: {
+      preTestDeclarations: {
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+        preTestSignature: '**DUMMY**',
+        DL196CBTCertNumber: '123456',
+      },
       testData: {
         testRequirements: {
           normalStart1: true,
@@ -180,29 +198,29 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
           hillStart: true,
         },
         dangerousFaults: getFaultsByOutcomeSeverity(SeverityText.Dangerous),
+        safetyAndBalanceQuestions: {
+          safetyQuestions: [
+            {
+              code: 'SQ4',
+              description: 'Lights',
+              outcome: 'DF',
+            },
+            {
+              code: 'SQ10',
+              description: 'Brakes',
+              outcome: 'P',
+            },
+          ],
+          balanceQuestions: [
+            {
+              code: 'BQ3',
+              description: 'Balance with passenger',
+              outcome: 'DF',
+            },
+          ],
+          safetyAndBalanceComments: 'candidate fell off the bike',
+        },
         eyesightTest: getEyesightTestBySeverityOutcome(false, false),
-      },
-      safetyAndBalanceQuestions: {
-        safetyQuestions: [
-          {
-            code: 'SQ4',
-            description: 'Lights',
-            outcome: 'DF',
-          },
-          {
-            code: 'SQ10',
-            description: 'Brakes',
-            outcome: 'P',
-          },
-        ],
-        balanceQuestions: [
-          {
-            code: 'BQ3',
-            description: 'Balance with passenger',
-            outcome: 'DF',
-          },
-        ],
-        safetyAndBalanceComments: 'candidate fell off the bike',
       },
       testSummary: getTestSummary(IndependentDrivingText.NotApplicable),
     },

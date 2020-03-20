@@ -32,18 +32,14 @@ describe('mapCatAMod2Data', () => {
 
   it('Should map a fully populated regular test result (every possible serious fault)', () => {
     const fullyPopulated = getFullyPopulatedSeriousFaults(getCatAMod2MinimalInput());
-
     const expected = getFullyPopulatedSeriousDataFields();
-
     // expect all serious, no faults or dangerous
     expect(mapCatAMod2Data(fullyPopulated)).toEqual(expected);
   });
 
   it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
     const fullyPopulated = getFullyPopulatedDangerousFaults(getCatAMod2MinimalInput());
-
     const expected = getFullyPopulatedDangerousDataFields();
-
     // expect all dangerous, no faults or serious
     expect(mapCatAMod2Data(fullyPopulated)).toEqual(expected);
   });

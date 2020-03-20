@@ -24,7 +24,8 @@ import {
   TestData as CatAMod1TestData,
   TestResultCatAM1Schema,
 } from '@dvsa/mes-test-schema/categories/AM1';
-import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
+import { getFullyPopulatedDrivingFaults } from './helpers/cat-a-mod2/inputs/fully-populated-inputs';
+import { getCatAMod2MinimalInput } from './helpers/cat-a-mod2/inputs/minimal-inputs';
 
 describe('data mapper', () => {
 
@@ -150,21 +151,8 @@ describe('data mapper', () => {
 
   describe('getCatAM2SafetyAndBalanceFaultCount', () => {
     it('should return the total number of safety and balance questions marked as riding fauls', () => {
-      const questions: SafetyAndBalanceQuestions = {
-        safetyQuestions: [
-          {
-            code: 'SQ1',
-            outcome: 'DF',
-          },
-        ],
-        balanceQuestions: [
-          {
-            code: 'BQ1',
-            outcome: 'DF',
-          },
-        ],
-      };
-      expect(getCatAM2SafetyAndBalanceFaultCount(questions)).toEqual(2);
+      const testData = getFullyPopulatedDrivingFaults(getCatAMod2MinimalInput()).testResult.testData;
+      expect(getCatAM2SafetyAndBalanceFaultCount(testData)).toEqual(2);
     });
   });
 

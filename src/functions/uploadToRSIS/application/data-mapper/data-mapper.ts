@@ -21,11 +21,13 @@ import { mapCatD1Data } from './cat-d1-mapper';
 import { mapCatD1EData } from './cat-d1e-mapper';
 import { mapCatDEData } from './cat-de-mapper';
 import { mapCatAMod1Data } from './cat-a-mod1-mapper';
+import { mapCatAMod2Data } from './cat-a-mod2-mapper';
 import {
   TestData as CatAMod1TestData,
   SingleFaultCompetencyOutcome,
   TestResultCatAM1Schema,
 } from '@dvsa/mes-test-schema/categories/AM1';
+import { SafetyAndBalanceQuestions, TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import { mapCatFData } from './cat-f-mapper';
 import { mapCatKData } from './cat-k-mapper';
 import { mapCatHData } from './cat-h-mapper';
@@ -106,6 +108,12 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.EUAM1:
     case TestCategory.EUAMM1:
       mappedDataFields = mappedDataFields.concat(mapCatAMod1Data(result));
+      break;
+    case TestCategory.EUA1M2:
+    case TestCategory.EUA2M2:
+    case TestCategory.EUAM2:
+    case TestCategory.EUAMM2:
+      mappedDataFields = mappedDataFields.concat(mapCatAMod2Data(result));
       break;
     default:
       const message = `Unsupported Category: ${category}`;
@@ -235,6 +243,17 @@ export const formatQuestionFault = (testData: TestData | undefined): BooleanAsNu
   }
   return 0;
 };
+
+export const getCatAM2SafetyAndBalanceFaultCount =
+  (testData: CatAMod2TestData | undefined): number => {
+    const safetyQuestionOneOutcome = get(
+      testData, 'safetyAndBalanceQuestions.safetyQuestions[0].outcome') === 'DF' ? 1 : 0;
+    const safetyQuestionTwoOutcome = get(
+      testData, 'safetyAndBalanceQuestions.safetyQuestions[1].outcome') === 'DF' ? 1 : 0;
+    const balanceQuestionOneOutcome = get(
+      testData, 'safetyAndBalanceQuestions.balanceQuestions[0].outcome') === 'DF' ? 1 : 0;
+    return safetyQuestionOneOutcome + safetyQuestionTwoOutcome + balanceQuestionOneOutcome;
+  };
 
 export const formatQuestionFaultBE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);

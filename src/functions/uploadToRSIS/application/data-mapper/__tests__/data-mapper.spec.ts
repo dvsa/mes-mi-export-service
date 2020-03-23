@@ -1,4 +1,3 @@
-import { ResultUpload, InterfaceType } from '../../../application/result-client';
 import * as commonMapper from '../common-mapper';
 import * as catBMapper from '../cat-b-mapper';
 import { DataField, BooleanAsNumber } from '../../../domain/mi-export-data';
@@ -8,7 +7,11 @@ import {
   mapDataForMIExport,
   MissingTestResultDataError,
   formatQuestionDangerous,
-  getCompetencyComments, formatSingleFaultOutcomeBySeverity, optionalIsRightBoolean, optionalIsLeftBoolean,
+  getCompetencyComments,
+  formatSingleFaultOutcomeBySeverity,
+  optionalIsRightBoolean,
+  optionalIsLeftBoolean,
+  getCatAM2SafetyAndBalanceFaultCount,
 } from '../data-mapper';
 import { cloneDeep } from 'lodash';
 import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
@@ -21,6 +24,8 @@ import {
   TestData as CatAMod1TestData,
   TestResultCatAM1Schema,
 } from '@dvsa/mes-test-schema/categories/AM1';
+import { getFullyPopulatedDrivingFaults } from './helpers/cat-a-mod2/inputs/fully-populated-inputs';
+import { getCatAMod2MinimalInput } from './helpers/cat-a-mod2/inputs/minimal-inputs';
 
 describe('data mapper', () => {
 
@@ -142,6 +147,13 @@ describe('data mapper', () => {
 
       expect(formatQuestionFault(input.testResult.testData)).toEqual(expected);
     };
+  });
+
+  describe('getCatAM2SafetyAndBalanceFaultCount', () => {
+    it('should return the total number of safety and balance questions marked as riding fauls', () => {
+      const testData = getFullyPopulatedDrivingFaults(getCatAMod2MinimalInput()).testResult.testData;
+      expect(getCatAM2SafetyAndBalanceFaultCount(testData)).toEqual(2);
+    });
   });
 
   describe('formatQuestionSerious', () => {

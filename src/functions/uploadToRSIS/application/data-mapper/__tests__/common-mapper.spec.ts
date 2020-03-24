@@ -119,9 +119,7 @@ describe('mapCommonData', () => {
       { col: 'DEBRIEF_GIVEN', val: 1 },
       { col: 'ACTIVITY_CODE', val: 1 },
       { col: 'LICENCE_RECEIVED', val: 1 },
-      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
-      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
@@ -137,6 +135,8 @@ describe('mapCommonData', () => {
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'NO_WRITE_UP', val: 0 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
+      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
+      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'COMMUNICATION_METHOD', val: 'Email' },
       { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
     ];
@@ -301,9 +301,7 @@ describe('mapCommonData', () => {
       { col: 'DEBRIEF_GIVEN', val: 1 },
       { col: 'ACTIVITY_CODE', val: 2 },
       { col: 'LICENCE_RECEIVED', val: 0 },
-      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
-      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
@@ -320,6 +318,8 @@ describe('mapCommonData', () => {
       { col: 'NO_WRITE_UP', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
+      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
+      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_TITLE', val: 'Mr' },
       { col: 'ETHNICITY', val: 'A' },
       { col: 'GENDER', val: Gender.Female },
@@ -481,9 +481,7 @@ describe('mapCommonData', () => {
       { col: 'DEBRIEF_GIVEN', val: 1 },
       { col: 'ACTIVITY_CODE', val: 22 },
       { col: 'LICENCE_RECEIVED', val: 0 },
-      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
-      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
@@ -500,6 +498,8 @@ describe('mapCommonData', () => {
       { col: 'NO_WRITE_UP', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
+      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
+      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_TITLE', val: 'Mr' },
       { col: 'GENDER', val: Gender.Male },
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
@@ -564,9 +564,7 @@ describe('mapCommonData', () => {
       { col: 'DEBRIEF_GIVEN', val: 1 },
       { col: 'ACTIVITY_CODE', val: 1 },
       { col: 'LICENCE_RECEIVED', val: 1 },
-      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'CANDIDATE_INDIVIDUAL_ID', val: 1111 },
-      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'CANDIDATE_SURNAME', val: 'AAAAAA' },
       { col: 'DRIVER_NUMBER', val: 'AAAAA111111BB9CC' },
       { col: 'TEST_CATEGORY_REF', val: 'B' },
@@ -582,6 +580,8 @@ describe('mapCommonData', () => {
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'NO_WRITE_UP', val: 0 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
+      { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
+      { col: 'DOB', val: new Date('2000-01-31') },
       { col: 'COMMUNICATION_METHOD', val: 'Email' },
       { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
       { col: 'REKEY_TIMESTAMP', val: moment('2019-10-02T11:50:57', 'YYYY-MM-DDTHH:mm:ss').toDate() },
@@ -591,16 +591,6 @@ describe('mapCommonData', () => {
     ];
 
     expect(mapCommonData(input)).toEqual(expected);
-  });
-
-  it('Should reject a test result with missing mandatory data (candidate date of birth)', () => {
-    const missingMandatory = cloneDeep(minimalInput);
-    if (missingMandatory.testResult.journalData.candidate.dateOfBirth) {
-      delete missingMandatory.testResult.journalData.candidate.dateOfBirth;
-    }
-
-    expect(() => mapCommonData(missingMandatory))
-      .toThrow(new MissingTestResultDataError('testResult.journalData.candidate.dateOfBirth'));
   });
 
   it('Should reject a test result with missing mandatory data (driver number)', () => {

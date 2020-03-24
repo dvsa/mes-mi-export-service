@@ -87,10 +87,10 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('ACTIVITY_CODE', Number(r.activityCode)),
     // PASS_CERTIFICATE is optional field set below
     field('LICENCE_RECEIVED', optionalBoolean(r, 'passCompletion.provisionalLicenceProvided')),
-    field('DOB', formatDateOfBirth(result)),
+    // DOB is optional field set below as found not to always be populated in TARS live
     // CANDIDATE_FORENAMES is optional field set below (not populated if DVLA data bad in TARS)
     field('CANDIDATE_INDIVIDUAL_ID', mandatory(r, 'journalData.candidate.candidateId')),
-    field('CANDIDATE_POST_CODE', mandatory(r, 'journalData.candidate.candidateAddress.postcode')),
+    // CANDIDATE_POST_CODE is optional field set below as found not to always be populated in TARS live
     field('CANDIDATE_SURNAME', mandatory(r, 'journalData.candidate.candidateName.lastName')),
     // CANDIDATE_TITLE is optional field set below (not populated if DVLA data bad in TARS)
     field('DRIVER_NUMBER', mandatory(r, 'journalData.candidate.driverNumber')),
@@ -145,6 +145,8 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result));
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
   addIfSet(mappedFields, 'CANDIDATE_FORENAMES', optional(r, 'journalData.candidate.candidateName.firstName', null));
+  addIfSet(mappedFields, 'CANDIDATE_POST_CODE', optional(r, 'journalData.candidate.candidateAddress.postcode', null));
+  addIfSet(mappedFields, 'DOB', formatDateOfBirth(result));
   addIfSet(mappedFields, 'CANDIDATE_TITLE', optional(r, 'journalData.candidate.candidateName.title', null));
   addIfSet(mappedFields, 'ETHNICITY', optional(r, 'journalData.candidate.ethnicityCode', null));
   addIfSet(mappedFields, 'GENDER', optional(r, 'journalData.candidate.gender', null));
@@ -260,10 +262,7 @@ const formatLanguage = (result: ResultUpload): Language => {
  */
 const formatDateOfBirth = (result: ResultUpload): Date => {
   const dob = get(result, 'testResult.journalData.candidate.dateOfBirth', null);
-  if (dob) {
-    return moment(dob, 'YYYY-MM-DD').toDate();
-  }
-  throw new MissingTestResultDataError('testResult.journalData.candidate.dateOfBirth');
+  return dob ? moment(dob, 'YYYY-MM-DD').toDate() : dob;
 };
 
 /**

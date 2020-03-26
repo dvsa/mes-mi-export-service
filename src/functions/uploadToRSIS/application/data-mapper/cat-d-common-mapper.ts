@@ -365,8 +365,8 @@ export const getSafetyQuestionFaultCount =
   (testData: CatDUniqueTypes.TestData | undefined, faultSeverity: FaultSeverity): number => {
 
     const safetyQuestions: SafetyQuestionResult[] = get(testData, 'safetyQuestions.questions', []);
-    const faults: boolean[] =
-      safetyQuestions.map((questionResult: SafetyQuestionResult) => questionResult.outcome === faultSeverity);
+    const faults: SafetyQuestionResult[] =
+      safetyQuestions.filter((questionResult: SafetyQuestionResult) => questionResult.outcome === faultSeverity);
 
     if (faults && faults.length > 0) {
       return 1;

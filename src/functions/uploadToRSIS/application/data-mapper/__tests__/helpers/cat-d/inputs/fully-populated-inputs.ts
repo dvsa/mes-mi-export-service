@@ -147,10 +147,22 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
           uphillStart: true,
           downhillStart: true,
         },
-        safetyQuestionResult: {
-          fireExtinguisher: true,
-          emergencyExit: true,
-          fuelCutoff: true,
+        safetyQuestions: {
+          questions: [
+            {
+              outcome: 'DF',
+              description: 'Fire Extinguisher',
+            },
+            {
+              outcome: 'DF',
+              description: 'Emergency exit',
+            },
+            {
+              outcome: 'P',
+              description: 'Fuel cutoff',
+            },
+          ],
+          faultComments: '',
         },
         vehicleChecks: getVehicleChecksByOutcomeSeverity(
           SeverityShortCodes.DrivingFault,

@@ -117,13 +117,12 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
           awarenessPlanningComments: 'awareness planning fault',
           ancillaryControls: 40,
           ancillaryControlsComments: 'ancillary controls fault',
-          pcvDoorExercise: 41,
-          pcvDoorExerciseComments: 'pcv door exercise fault',
           positionBusStops: 42,
           positionBusStopsComments:  'position bus stops fault',
         },
         pcvDoorExercise: {
           drivingFaultComments: 'pcv door exercise controls fault',
+          drivingFault: true,
         },
         eyesightTest: {
           complete: true,

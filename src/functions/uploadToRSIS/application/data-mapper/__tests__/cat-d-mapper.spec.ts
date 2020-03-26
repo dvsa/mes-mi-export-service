@@ -45,7 +45,7 @@ describe('mapCatDData', () => {
 
     const expected: DataField[] = [
       { col: 'AUTOMATIC_TEST', val: 0 },
-      { col: 'H_CODE_SAFETY_TOTAL', val: 3 },
+      { col: 'H_CODE_SAFETY_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
       { col: 'PRECAUTIONS_TOTAL', val: 2 },

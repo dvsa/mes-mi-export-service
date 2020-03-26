@@ -55,7 +55,7 @@ export const mapCommonCatDData = (result: ResultUpload): DataField[] => {
     field('CONTROL_STEERING_TOTAL', optional(t, 'drivingFaults.controlsSteering', 0)),
     //  unused - CONTROL_BALANCE_TOTAL
     //  unused - CONTROL_LGV_PCV_GEAR_TOTAL
-    field('CONTROL_PCV_DOOR_TOTAL', optional(t, 'pcvDoorExercise.drivingFault', 0)),
+    field('CONTROL_PCV_DOOR_TOTAL', optionalBoolean(t, 'pcvDoorExercise.drivingFault')),
     field('MOVE_OFF_SAFETY_TOTAL', optional(t, 'drivingFaults.moveOffSafety', 0)),
     field('MOVE_OFF_CONTROL_TOTAL', optional(t, 'drivingFaults.moveOffControl', 0)),
     field('MIRRORS_MC_REAR_SIG_TOTAL', optional(t, 'drivingFaults.useOfMirrorsSignalling', 0)),

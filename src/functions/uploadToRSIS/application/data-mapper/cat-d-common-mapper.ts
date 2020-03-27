@@ -368,8 +368,8 @@ export const getSafetyQuestionFaultCount =
     const faults: boolean[] =
       safetyQuestions.map((questionResult: SafetyQuestionResult) => questionResult.outcome === faultSeverity);
 
-    if (faults) {
-      return faults.length;
+    if (faults && faults.length > 0) {
+      return 1;
     }
     return 0;
   };

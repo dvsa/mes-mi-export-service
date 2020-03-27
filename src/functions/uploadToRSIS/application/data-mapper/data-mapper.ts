@@ -11,6 +11,7 @@ import {
   QuestionOutcome,
   QuestionResult,
   FaultComments } from '@dvsa/mes-test-schema/categories/common/';
+import { mapCatADI2Data } from './cat-adi2-mapper';
 import { mapCatBEData } from './cat-be-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { mapCatC1Data } from './cat-c1-mapper';
@@ -61,6 +62,9 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
   const category = result.testResult.category;
 
   switch (category) {
+    case TestCategory.ADI2:
+      mappedDataFields = mappedDataFields.concat(mapCatADI2Data(result));
+      break;
     case TestCategory.B:
       mappedDataFields = mappedDataFields.concat(mapCatBData(result));
       break;
@@ -91,18 +95,6 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.D1E:
       mappedDataFields = mappedDataFields.concat(mapCatD1EData(result));
       break;
-    case TestCategory.F:
-      mappedDataFields = mappedDataFields.concat(mapCatFData(result));
-      break;
-    case TestCategory.G:
-      mappedDataFields = mappedDataFields.concat(mapCatGData(result));
-      break;
-    case TestCategory.H:
-      mappedDataFields = mappedDataFields.concat(mapCatHData(result));
-      break;
-    case TestCategory.K:
-      mappedDataFields = mappedDataFields.concat(mapCatKData(result));
-      break;
     case TestCategory.EUA2M1:
     case TestCategory.EUA1M1:
     case TestCategory.EUAM1:
@@ -114,6 +106,18 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.EUAM2:
     case TestCategory.EUAMM2:
       mappedDataFields = mappedDataFields.concat(mapCatAMod2Data(result));
+      break;
+    case TestCategory.F:
+      mappedDataFields = mappedDataFields.concat(mapCatFData(result));
+      break;
+    case TestCategory.G:
+      mappedDataFields = mappedDataFields.concat(mapCatGData(result));
+      break;
+    case TestCategory.H:
+      mappedDataFields = mappedDataFields.concat(mapCatHData(result));
+      break;
+    case TestCategory.K:
+      mappedDataFields = mappedDataFields.concat(mapCatKData(result));
       break;
     default:
       const message = `Unsupported Category: ${category}`;
@@ -219,6 +223,27 @@ export const mandatory = (object: any, path: string): any => {
 export const formatManoeuvreFault = (object: any, path: string): BooleanAsNumber => {
   const outcome: ManoeuvreOutcome | null = get(object, path, null);
   if (outcome && outcome === 'DF') {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Determine if theres a DF outcome when multiple manoeuvres exist
+ *
+ * @param object: The MES test result
+ * @param path: The path within the manoeuvre object
+ * @param desiredOutcome: the ManoeuvreOutcome to match
+ * @returns 1 if found and outcome matches desiredOutcome else 0
+ */
+export const formatMultipleManoeuvreFaults = (object: TestData,
+                                              path: string,
+                                              desiredOutcome: ManoeuvreOutcome): BooleanAsNumber => {
+  const firstManoeuvre = get(object, `manoeuvres[0].${path}`, null);
+  const secondManoeuvre = get(object, `manoeuvres[1].${path}`, null);
+  const manoeuvre: ManoeuvreOutcome | null = firstManoeuvre ? firstManoeuvre : secondManoeuvre;
+
+  if (manoeuvre && manoeuvre === desiredOutcome) {
     return 1;
   }
   return 0;

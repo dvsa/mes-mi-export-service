@@ -12,6 +12,7 @@ import {
   optionalIsRightBoolean,
   optionalIsLeftBoolean,
   getCatAM2SafetyAndBalanceFaultCount,
+  formatMultipleManoeuvreFaults,
 } from '../data-mapper';
 import { cloneDeep } from 'lodash';
 import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
@@ -26,6 +27,14 @@ import {
 } from '@dvsa/mes-test-schema/categories/AM1';
 import { getFullyPopulatedDrivingFaults } from './helpers/cat-a-mod2/inputs/fully-populated-inputs';
 import { getCatAMod2MinimalInput } from './helpers/cat-a-mod2/inputs/minimal-inputs';
+import { getCatADI2MinimalInput } from './helpers/cat-adi2/inputs/minimal-inputs';
+import {
+  getADI2FullyPopulatedDrivingFaults,
+  getADI2FullyPopulatedSeriousFaults,
+  getADIFullyPopulatedDangerousFaults,
+} from './helpers/cat-adi2/inputs/fully-populated-inputs';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import TestData = CatADI2UniqueTypes.TestData;
 
 describe('data mapper', () => {
 
@@ -34,6 +43,14 @@ describe('data mapper', () => {
   const catAM1MinimalInput = getCatAM1MinimalInput(TestCategory.EUAMM1);
   const catAM1InputWithSingleFaultOutcomes =
     getCatAM1FullyPopulatedSingleFaultCompetencies(catAM1MinimalInput);
+
+  const catADI2MinimalInput = getCatADI2MinimalInput();
+  const catADI2InputWithSingleFaultOutcomes =
+    getADI2FullyPopulatedDrivingFaults(catADI2MinimalInput);
+  const catADI2InputWithSeriousOutcomes =
+    getADI2FullyPopulatedSeriousFaults(catADI2MinimalInput);
+  const catADI2InputWithDangerousOutcomes =
+    getADIFullyPopulatedDangerousFaults(catADI2MinimalInput);
 
   describe('mapDataForMIExport', () => {
 
@@ -71,7 +88,9 @@ describe('data mapper', () => {
 
     it('Should propogate missing data errors', () => {
       spyOn(commonMapper, 'mapCommonData').and.returnValue([] as DataField[]);
-      spyOn(catBMapper, 'mapCatBData').and.callFake(() => { throw new MissingTestResultDataError('dummy'); });
+      spyOn(catBMapper, 'mapCatBData').and.callFake(() => {
+        throw new MissingTestResultDataError('dummy');
+      });
 
       expect(() => mapDataForMIExport(minimalInput)).toThrow(new MissingTestResultDataError('dummy'));
     });
@@ -92,6 +111,58 @@ describe('data mapper', () => {
       spyOn(catBMapper, 'mapCatBData').and.returnValue(dummyCatBMapping);
 
       expect(() => mapDataForMIExport(minimalInput)).toThrow(new Error('Duplicate columns mapped: COL1, COL2'));
+    });
+  });
+
+  describe('formatMultipleManoeuvreFaults', () => {
+
+    it('Should return 0 if no manoeuvres of specified type for DF', () => {
+      const output = formatMultipleManoeuvreFaults(catADI2InputWithSingleFaultOutcomes.testResult.testData as TestData,
+                                                   'reverseParkRoad.controlFault',
+                                                   'DF');
+      expect(output).toEqual(0);
+    });
+
+    it('Should return 1 if first manoeuvre of specified type for DF', () => {
+      const output = formatMultipleManoeuvreFaults(catADI2InputWithSingleFaultOutcomes.testResult.testData as TestData,
+                                                   'reverseLeft.controlFault',
+                                                   'DF');
+      expect(output).toEqual(1);
+    });
+
+    it('Should return 1 if second manoeuvre of specified type for DF', () => {
+      const output = formatMultipleManoeuvreFaults(catADI2InputWithSingleFaultOutcomes.testResult.testData as TestData,
+                                                   'reverseParkCarpark.controlFault',
+                                                   'DF');
+      expect(output).toEqual(1);
+    });
+
+    it('Should return 0 if no manoeuvres of specified type for S', () => {
+      const output = formatMultipleManoeuvreFaults(catADI2InputWithSeriousOutcomes.testResult.testData as TestData,
+                                                   'reverseParkRoad.controlFault',
+                                                   'S');
+      expect(output).toEqual(0);
+    });
+
+    it('Should return 1 if a manoeuvre exists of specified type for S', () => {
+      const output = formatMultipleManoeuvreFaults(catADI2InputWithSeriousOutcomes.testResult.testData as TestData,
+                                                   'reverseParkCarpark.controlFault',
+                                                   'S');
+      expect(output).toEqual(1);
+    });
+
+    it('Should return 0 if no manoeuvres of specified type for D', () => {
+      const output = formatMultipleManoeuvreFaults(catADI2InputWithDangerousOutcomes.testResult.testData as TestData,
+                                                   'reverseLeft.controlFault',
+                                                   'D');
+      expect(output).toEqual(0);
+    });
+
+    it('Should return 1 if a manoeuvre exists of specified type for D', () => {
+      const output = formatMultipleManoeuvreFaults(catADI2InputWithDangerousOutcomes.testResult.testData as TestData,
+                                                   'reverseParkCarpark.controlFault',
+                                                   'D');
+      expect(output).toEqual(1);
     });
   });
 
@@ -314,7 +385,7 @@ describe('data mapper', () => {
 
     it('Should return null if nothing set', () => {
       const input = cloneDeep(minimalInput);
-      input.testResult.testData = { }; // no fault, serious or dangerous comment
+      input.testResult.testData = {}; // no fault, serious or dangerous comment
 
       expect(getCompetencyComments(input.testResult.testData, 'precautionsComments')).toBeNull();
     });

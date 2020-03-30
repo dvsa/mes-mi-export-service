@@ -368,8 +368,8 @@ export const getSafetyQuestionFaultCount =
     const faults: SafetyQuestionResult[] =
       safetyQuestions.filter((questionResult: SafetyQuestionResult) => questionResult.outcome === faultSeverity);
 
-    if (faults) {
-      return faults.length;
+    if (faults && faults.length > 0) {
+      return 1;
     }
     return 0;
   };

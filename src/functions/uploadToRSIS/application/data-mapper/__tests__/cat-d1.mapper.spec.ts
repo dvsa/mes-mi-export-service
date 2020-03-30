@@ -31,7 +31,7 @@ describe('mapCatD1Data', () => {
 
     const expected: DataField[] = [
       { col: 'AUTOMATIC_TEST', val: 0 },
-      { col: 'H_CODE_SAFETY_TOTAL', val: 3 },
+      { col: 'H_CODE_SAFETY_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
       { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
       { col: 'PRECAUTIONS_TOTAL', val: 2 },
@@ -41,7 +41,7 @@ describe('mapCatD1Data', () => {
       { col: 'CONTROL_FOOTBRAKE_TOTAL', val: 6 },
       { col: 'CONTROL_PARK_TOTAL', val: 7 },
       { col: 'CONTROL_STEERING_TOTAL', val: 8 },
-      { col: 'CONTROL_PCV_DOOR_TOTAL', val: 0 },
+      { col: 'CONTROL_PCV_DOOR_TOTAL', val: 1 },
       { col: 'MOVE_OFF_SAFETY_TOTAL', val: 9 },
       { col: 'MOVE_OFF_CONTROL_TOTAL', val: 10 },
       { col: 'MIRRORS_MC_REAR_SIG_TOTAL', val: 11 },

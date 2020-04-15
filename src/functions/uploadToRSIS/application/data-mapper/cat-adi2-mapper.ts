@@ -6,7 +6,6 @@ import {
   formatMultipleManoeuvreFaults,
   formatManoeuvreSerious,
   optional,
-  formatQuestionSerious,
   optionalBoolean,
   formatManoeuvreDangerous,
   addIfSet,
@@ -125,7 +124,7 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
           formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.observationFault', 'S')),
     //  unused - TURN_IN_ROAD_CONT_SERIOUS
     //  unused - TURN_IN_ROAD_OBSERV_SERIOUS
-    field('VEHICLE_CHECKS_SERIOUS', formatQuestionSerious(t)),
+    field('VEHICLE_CHECKS_SERIOUS', optionalBoolean(t, 'vehicleChecks.seriousFault')),
     field('TAXI_MAN_CONTROL_SERIOUS', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.controlFault', 'S')),
     field('TAXI_MAN_OBSERV_SERIOUS', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.observationFault', 'S')),
     //  unused - TAXI_WHEELCHAIR_SERIOUS

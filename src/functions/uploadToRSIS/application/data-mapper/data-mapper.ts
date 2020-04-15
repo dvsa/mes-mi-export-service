@@ -286,6 +286,15 @@ export const formatQuestionFaultBE = (testData: TestData | undefined): number =>
 };
 
 /**
+ * Gets the number of faults for show me and tell me questions for category ADI2
+ * @param testData
+ * @returns count of DF's for showme tellme questions
+ */
+export const formatQuestionFaultADI2 = (testData: TestData | undefined): number => {
+  return getVehicleChecksFaultCountShowMeTellMe(testData);
+};
+
+/**
  * Gets the number of faults for show me tell me questions for category C and C1
  *
  * @param object The MES test result
@@ -434,6 +443,25 @@ export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : nu
 };
 
 export const getVehicleChecksFaultCountF = (testData: TestData| undefined) : number => {
+  let totalFaults: number = 0;
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
+
+  if (tellMeFaults) {
+    totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome === 'DF').length;
+  }
+  if (showMeFaults) {
+    totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome === 'DF').length;
+  }
+  return totalFaults;
+};
+
+/**
+ * Generic category function to count the number of DFs when multiple Show Me
+ * Tell me questions are recorded
+ * @param testData
+ */
+export const getVehicleChecksFaultCountShowMeTellMe = (testData: TestData| undefined) : number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);

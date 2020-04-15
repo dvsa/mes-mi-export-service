@@ -13,7 +13,7 @@ import {
   formatQuestionDangerous,
   formatQuestionCompletedB,
   addIfSet,
-  getCompetencyComments,
+  getCompetencyComments, formatQuestionFaultADI2, formatQuestionCompleted,
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -33,7 +33,7 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),
     //  unused - H_CODE_SAFETY_TOTAL
     field('CONTROL_STOP_PROMPT_TOTAL', formatManoeuvreFault(t, 'controlledStop.fault')),
-    field('VEHICLE_CHECKS_TOTAL', formatQuestionFault(t)),
+    field('VEHICLE_CHECKS_TOTAL', formatQuestionFaultADI2(t)),
     //  unused - CONTROL_STOP_CONTROL_TOTAL
     //  unused - REV_LEFT_TRAIL_CONT_TOTAL
     //  unused - REV_LEFT_TRAIL_OBSERV_TOTAL
@@ -126,7 +126,7 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
           formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.observationFault', 'S')),
     //  unused - TURN_IN_ROAD_CONT_SERIOUS
     //  unused - TURN_IN_ROAD_OBSERV_SERIOUS
-    field('VEHICLE_CHECKS_SERIOUS', formatQuestionSerious(t)),
+    field('VEHICLE_CHECKS_SERIOUS', optionalBoolean(t, 'vehicleChecks.seriousFaults')),
     field('TAXI_MAN_CONTROL_SERIOUS', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.controlFault', 'S')),
     field('TAXI_MAN_OBSERV_SERIOUS', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.observationFault', 'S')),
     //  unused - TAXI_WHEELCHAIR_SERIOUS
@@ -199,7 +199,7 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
           formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.observationFault', 'D')),
     //  unused - TURN_IN_ROAD_CONT_DANGEROUS
     //  unused - TURN_IN_ROAD_OBSERV_DANGEROUS
-    field('VEHICLE_CHECKS_DANGEROUS', formatQuestionDangerous(t)),
+    field('VEHICLE_CHECKS_DANGEROUS', optionalBoolean(t, 'vehicleChecks.dangerousFault')),
     field('TAXI_MAN_CONTROL_DANGEROUS',
           formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.controlFault', 'D')),
     field('TAXI_MAN_OBSERV_DANGEROUS',
@@ -261,7 +261,7 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
     field('REVERSE_PARK_CARPARK', optionalBoolean(t, 'manoeuvres.reverseParkCarpark.selected')),
     field('REVERSE_PARK_ROAD', optionalBoolean(t, 'manoeuvres.reverseParkRoad.selected')),
     //  unused - TURN_IN_ROAD_COMPLETED
-    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompletedB(t)),
+    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 5)),
     field('TAXI_MANOEUVRE_COMPLETED', optionalBoolean(t, 'manoeuvres.forwardPark.selected')),
     //  unused - TAXI_WHEELCHAIR_COMPLETED
     //  unused - UNCOUPLE_RECOUPLE_COMPLETED

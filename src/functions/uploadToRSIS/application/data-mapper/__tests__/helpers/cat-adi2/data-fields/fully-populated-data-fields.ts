@@ -12,7 +12,7 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col:'VEHICLE_CHECKS_TOTAL',
-      val:0,
+      val:1,
     },
     {
       col:'REV_RIGHT_TRAIL_CONT_TOTAL',

@@ -15,7 +15,6 @@ import {
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import TestData = CatADI2UniqueTypes.TestData;
 
 /**
  * Maps data specific to the ``ADI2`` test category.
@@ -25,7 +24,7 @@ import TestData = CatADI2UniqueTypes.TestData;
  * @throws MissingTestResultDataError If mandatory data missing from MES test result
  */
 export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as TestData;
+  const t = result.testResult.testData as CatADI2UniqueTypes.TestData;
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),

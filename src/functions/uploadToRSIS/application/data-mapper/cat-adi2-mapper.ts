@@ -25,7 +25,7 @@ import TestData = CatADI2UniqueTypes.TestData;
  * @throws MissingTestResultDataError If mandatory data missing from MES test result
  */
 export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData;
+  const t = result.testResult.testData as TestData;
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),
@@ -40,19 +40,19 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
     //  unused - TURN_IN_ROAD_CONT_TOTAL
     //  unused - TURN_IN_ROAD_OBSERV_TOTAL
     field('REV_RIGHT_TRAIL_CONT_TOTAL',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseRight.controlFault', 'DF')),
+          formatMultipleManoeuvreFaults(t, 'reverseRight.controlFault', 'DF')),
     field('REV_RIGHT_TRAIL_OBSERV_TOTAL',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseRight.observationFault', 'DF')),
+          formatMultipleManoeuvreFaults(t, 'reverseRight.observationFault', 'DF')),
     field('REV_PARK_CPARK_CONTROL_TOTAL',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkCarpark.controlFault', 'DF')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkCarpark.controlFault', 'DF')),
     field('REV_PARK_CPARK_OBSERVE_TOTAL',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkCarpark.observationFault', 'DF')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkCarpark.observationFault', 'DF')),
     field('REV_PARK_ROAD_CONTROL_TOTAL',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.controlFault', 'DF')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkRoad.controlFault', 'DF')),
     field('REV_PARK_ROAD_OBSERVE_TOTAL',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.observationFault', 'DF')),
-    field('TAXI_MAN_CONTROL_TOTAL', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.controlFault', 'DF')),
-    field('TAXI_MAN_OBSERV_TOTAL', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.observationFault', 'DF')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkRoad.observationFault', 'DF')),
+    field('TAXI_MAN_CONTROL_TOTAL', formatMultipleManoeuvreFaults(t, 'forwardPark.controlFault', 'DF')),
+    field('TAXI_MAN_OBSERV_TOTAL', formatMultipleManoeuvreFaults(t, 'forwardPark.observationFault', 'DF')),
     //  unused - TAXI_WHEELCHAIR_TOTAL
     //  unused - UNCOUPLE_RECOUPLE_TOTAL
     field('PRECAUTIONS_TOTAL', optional(t, 'drivingFaults.precautions', 0)),
@@ -109,24 +109,24 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
     //  unused - REV_LEFT_TRAIL_CONT_SERIOUS
     //  unused - REV_LEFT_TRAIL_OBSERV_SERIOUS
     field('REV_RIGHT_TRAIL_CONT_SERIOUS',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseRight.controlFault', 'S')),
+          formatMultipleManoeuvreFaults(t, 'reverseRight.controlFault', 'S')),
     field('REV_RIGHT_TRAIL_OBSERV_SERIOUS',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseRight.observationFault', 'S')),
+          formatMultipleManoeuvreFaults(t, 'reverseRight.observationFault', 'S')),
     //  unused - REVERSE_PARK_CONT_SERIOUS
     //  unused - REVERSE_PARK_OBSERV_SERIOUS
     field('REV_PARK_CPARK_CONTROL_SERIOUS',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkCarpark.controlFault', 'S')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkCarpark.controlFault', 'S')),
     field('REV_PARK_CPARK_OBSERVE_SERIOUS',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkCarpark.observationFault', 'S')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkCarpark.observationFault', 'S')),
     field('REV_PARK_ROAD_CONTROL_SERIOUS',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.controlFault', 'S')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkRoad.controlFault', 'S')),
     field('REV_PARK_ROAD_OBSERVE_SERIOUS',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.observationFault', 'S')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkRoad.observationFault', 'S')),
     //  unused - TURN_IN_ROAD_CONT_SERIOUS
     //  unused - TURN_IN_ROAD_OBSERV_SERIOUS
     field('VEHICLE_CHECKS_SERIOUS', optionalBoolean(t, 'vehicleChecks.seriousFault')),
-    field('TAXI_MAN_CONTROL_SERIOUS', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.controlFault', 'S')),
-    field('TAXI_MAN_OBSERV_SERIOUS', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.observationFault', 'S')),
+    field('TAXI_MAN_CONTROL_SERIOUS', formatMultipleManoeuvreFaults(t, 'forwardPark.controlFault', 'S')),
+    field('TAXI_MAN_OBSERV_SERIOUS', formatMultipleManoeuvreFaults(t, 'forwardPark.observationFault', 'S')),
     //  unused - TAXI_WHEELCHAIR_SERIOUS
     //  unused - UNCOUPLE_RECOUPLE_SERIOUS
     field('PRECAUTIONS_SERIOUS', optionalBoolean(t, 'seriousFaults.precautions')),
@@ -182,26 +182,26 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
     //  unused - REV_LEFT_TRAIL_CONT_DANGEROUS
     //  unused - REV_LEFT_TRAIL_OBSER_DANGEROUS
     field('REV_RIGHT_TRAIL_CONT_DANGER',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseRight.controlFault', 'D')),
+          formatMultipleManoeuvreFaults(t, 'reverseRight.controlFault', 'D')),
     field('REV_RIGHT_TRAIL_OBSERV_DANGER',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseRight.observationFault', 'D')),
+          formatMultipleManoeuvreFaults(t, 'reverseRight.observationFault', 'D')),
     //  unused - REVERSE_PARK_CONTROL_DANGEROUS
     //  unused - REVERSE_PARK_OBSERV_DANGEROUS
     field('REV_PARK_CPARK_CONTROL_DANGER',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkCarpark.controlFault', 'D')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkCarpark.controlFault', 'D')),
     field('REV_PARK_CPARK_OBSERVE_DANGER',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkCarpark.observationFault', 'D')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkCarpark.observationFault', 'D')),
     field('REV_PARK_ROAD_CONTROL_DANGER',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.controlFault', 'D')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkRoad.controlFault', 'D')),
     field('REV_PARK_ROAD_OBSERVE_DANGER',
-          formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.observationFault', 'D')),
+          formatMultipleManoeuvreFaults(t, 'reverseParkRoad.observationFault', 'D')),
     //  unused - TURN_IN_ROAD_CONT_DANGEROUS
     //  unused - TURN_IN_ROAD_OBSERV_DANGEROUS
     field('VEHICLE_CHECKS_DANGEROUS', optionalBoolean(t, 'vehicleChecks.dangerousFault')),
     field('TAXI_MAN_CONTROL_DANGEROUS',
-          formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.controlFault', 'D')),
+          formatMultipleManoeuvreFaults(t, 'forwardPark.controlFault', 'D')),
     field('TAXI_MAN_OBSERV_DANGEROUS',
-          formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.observationFault', 'D')),
+          formatMultipleManoeuvreFaults(t, 'forwardPark.observationFault', 'D')),
     //  unused - TAXI_WHEELCHAIR_DANGEROUS
     //  unused - UNCOUPLE_RECOUPLE_DANGEROUS
     field('PRECAUTIONS_DANGEROUS', optionalBoolean(t, 'dangerousFaults.precautions')),

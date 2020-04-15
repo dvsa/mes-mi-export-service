@@ -4,16 +4,15 @@ import {
   field,
   formatManoeuvreFault,
   formatMultipleManoeuvreFaults,
-  formatQuestionFault,
   formatManoeuvreSerious,
   optional,
   formatQuestionSerious,
   optionalBoolean,
   formatManoeuvreDangerous,
-  formatQuestionDangerous,
-  formatQuestionCompletedB,
   addIfSet,
-  getCompetencyComments, formatQuestionFaultADI2, formatQuestionCompleted,
+  getCompetencyComments,
+  formatQuestionFaultADI2,
+  formatQuestionCompleted,
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -126,7 +125,7 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
           formatMultipleManoeuvreFaults(t as TestData, 'reverseParkRoad.observationFault', 'S')),
     //  unused - TURN_IN_ROAD_CONT_SERIOUS
     //  unused - TURN_IN_ROAD_OBSERV_SERIOUS
-    field('VEHICLE_CHECKS_SERIOUS', optionalBoolean(t, 'vehicleChecks.seriousFaults')),
+    field('VEHICLE_CHECKS_SERIOUS', formatQuestionSerious(t)),
     field('TAXI_MAN_CONTROL_SERIOUS', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.controlFault', 'S')),
     field('TAXI_MAN_OBSERV_SERIOUS', formatMultipleManoeuvreFaults(t as TestData, 'forwardPark.observationFault', 'S')),
     //  unused - TAXI_WHEELCHAIR_SERIOUS

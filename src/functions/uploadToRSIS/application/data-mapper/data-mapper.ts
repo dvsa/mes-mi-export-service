@@ -28,7 +28,7 @@ import {
   SingleFaultCompetencyOutcome,
   TestResultCatAM1Schema,
 } from '@dvsa/mes-test-schema/categories/AM1';
-import { SafetyAndBalanceQuestions, TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/AM2';
+import { TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import { mapCatFData } from './cat-f-mapper';
 import { mapCatKData } from './cat-k-mapper';
 import { mapCatHData } from './cat-h-mapper';

@@ -194,6 +194,8 @@ export function getVehicleChecksByOutcomeSeverity(
       },
     ],
     showMeTellMeComments: `show me tell me ${severityText}`,
+    seriousFault: false,
+    dangerousFault: false,
   };
 }
 export function getControlledStopByOutcomeSeverity(severityShortCode: String) {

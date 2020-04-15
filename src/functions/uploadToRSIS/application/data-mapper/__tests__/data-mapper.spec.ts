@@ -34,7 +34,6 @@ import {
   getADIFullyPopulatedDangerousFaults,
 } from './helpers/cat-adi2/inputs/fully-populated-inputs';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import TestData = CatADI2UniqueTypes.TestData;
 
 describe('data mapper', () => {
 
@@ -116,50 +115,54 @@ describe('data mapper', () => {
 
   describe('formatMultipleManoeuvreFaults', () => {
 
+    const singleFault = catADI2InputWithSingleFaultOutcomes.testResult.testData as CatADI2UniqueTypes.TestData;
+    const seriousFault = catADI2InputWithSeriousOutcomes.testResult.testData as CatADI2UniqueTypes.TestData;
+    const dangerousFault = catADI2InputWithDangerousOutcomes.testResult.testData as CatADI2UniqueTypes.TestData;
+
     it('Should return 0 if no manoeuvres of specified type for DF', () => {
-      const output = formatMultipleManoeuvreFaults(catADI2InputWithSingleFaultOutcomes.testResult.testData as TestData,
+      const output = formatMultipleManoeuvreFaults(singleFault,
                                                    'reverseParkRoad.controlFault',
                                                    'DF');
       expect(output).toEqual(0);
     });
 
     it('Should return 1 if first manoeuvre of specified type for DF', () => {
-      const output = formatMultipleManoeuvreFaults(catADI2InputWithSingleFaultOutcomes.testResult.testData as TestData,
+      const output = formatMultipleManoeuvreFaults(singleFault,
                                                    'reverseLeft.controlFault',
                                                    'DF');
       expect(output).toEqual(1);
     });
 
     it('Should return 1 if second manoeuvre of specified type for DF', () => {
-      const output = formatMultipleManoeuvreFaults(catADI2InputWithSingleFaultOutcomes.testResult.testData as TestData,
+      const output = formatMultipleManoeuvreFaults(singleFault,
                                                    'reverseParkCarpark.controlFault',
                                                    'DF');
       expect(output).toEqual(1);
     });
 
     it('Should return 0 if no manoeuvres of specified type for S', () => {
-      const output = formatMultipleManoeuvreFaults(catADI2InputWithSeriousOutcomes.testResult.testData as TestData,
+      const output = formatMultipleManoeuvreFaults(seriousFault,
                                                    'reverseParkRoad.controlFault',
                                                    'S');
       expect(output).toEqual(0);
     });
 
     it('Should return 1 if a manoeuvre exists of specified type for S', () => {
-      const output = formatMultipleManoeuvreFaults(catADI2InputWithSeriousOutcomes.testResult.testData as TestData,
+      const output = formatMultipleManoeuvreFaults(seriousFault,
                                                    'reverseParkCarpark.controlFault',
                                                    'S');
       expect(output).toEqual(1);
     });
 
     it('Should return 0 if no manoeuvres of specified type for D', () => {
-      const output = formatMultipleManoeuvreFaults(catADI2InputWithDangerousOutcomes.testResult.testData as TestData,
+      const output = formatMultipleManoeuvreFaults(dangerousFault,
                                                    'reverseLeft.controlFault',
                                                    'D');
       expect(output).toEqual(0);
     });
 
     it('Should return 1 if a manoeuvre exists of specified type for D', () => {
-      const output = formatMultipleManoeuvreFaults(catADI2InputWithDangerousOutcomes.testResult.testData as TestData,
+      const output = formatMultipleManoeuvreFaults(dangerousFault,
                                                    'reverseParkCarpark.controlFault',
                                                    'D');
       expect(output).toEqual(1);

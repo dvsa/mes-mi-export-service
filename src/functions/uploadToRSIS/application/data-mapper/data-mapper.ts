@@ -11,6 +11,7 @@ import {
   QuestionOutcome,
   QuestionResult,
   FaultComments } from '@dvsa/mes-test-schema/categories/common/';
+import { mapCatADI2Data } from './cat-adi2-mapper';
 import { mapCatBEData } from './cat-be-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { mapCatC1Data } from './cat-c1-mapper';
@@ -27,7 +28,7 @@ import {
   SingleFaultCompetencyOutcome,
   TestResultCatAM1Schema,
 } from '@dvsa/mes-test-schema/categories/AM1';
-import { SafetyAndBalanceQuestions, TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/AM2';
+import { TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import { mapCatFData } from './cat-f-mapper';
 import { mapCatKData } from './cat-k-mapper';
 import { mapCatHData } from './cat-h-mapper';
@@ -61,6 +62,9 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
   const category = result.testResult.category;
 
   switch (category) {
+    case TestCategory.ADI2:
+      mappedDataFields = mappedDataFields.concat(mapCatADI2Data(result));
+      break;
     case TestCategory.B:
       mappedDataFields = mappedDataFields.concat(mapCatBData(result));
       break;
@@ -91,18 +95,6 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.D1E:
       mappedDataFields = mappedDataFields.concat(mapCatD1EData(result));
       break;
-    case TestCategory.F:
-      mappedDataFields = mappedDataFields.concat(mapCatFData(result));
-      break;
-    case TestCategory.G:
-      mappedDataFields = mappedDataFields.concat(mapCatGData(result));
-      break;
-    case TestCategory.H:
-      mappedDataFields = mappedDataFields.concat(mapCatHData(result));
-      break;
-    case TestCategory.K:
-      mappedDataFields = mappedDataFields.concat(mapCatKData(result));
-      break;
     case TestCategory.EUA2M1:
     case TestCategory.EUA1M1:
     case TestCategory.EUAM1:
@@ -114,6 +106,18 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.EUAM2:
     case TestCategory.EUAMM2:
       mappedDataFields = mappedDataFields.concat(mapCatAMod2Data(result));
+      break;
+    case TestCategory.F:
+      mappedDataFields = mappedDataFields.concat(mapCatFData(result));
+      break;
+    case TestCategory.G:
+      mappedDataFields = mappedDataFields.concat(mapCatGData(result));
+      break;
+    case TestCategory.H:
+      mappedDataFields = mappedDataFields.concat(mapCatHData(result));
+      break;
+    case TestCategory.K:
+      mappedDataFields = mappedDataFields.concat(mapCatKData(result));
       break;
     default:
       const message = `Unsupported Category: ${category}`;
@@ -224,6 +228,27 @@ export const formatManoeuvreFault = (object: any, path: string): BooleanAsNumber
   return 0;
 };
 
+/**
+ * Determine if theres a DF outcome when multiple manoeuvres exist
+ *
+ * @param object: The MES test result
+ * @param path: The path within the manoeuvre object
+ * @param desiredOutcome: the ManoeuvreOutcome to match
+ * @returns 1 if found and outcome matches desiredOutcome else 0
+ */
+export const formatMultipleManoeuvreFaults = (object: TestData,
+                                              path: string,
+                                              desiredOutcome: ManoeuvreOutcome): BooleanAsNumber => {
+  const firstManoeuvre = get(object, `manoeuvres[0].${path}`, null);
+  const secondManoeuvre = get(object, `manoeuvres[1].${path}`, null);
+  const manoeuvre: ManoeuvreOutcome | null = firstManoeuvre ? firstManoeuvre : secondManoeuvre;
+
+  if (manoeuvre && manoeuvre === desiredOutcome) {
+    return 1;
+  }
+  return 0;
+};
+
 export const formatManoeuvreComment = (object: any, path:string): string | null => {
   const comment: FaultComments | null = get(object, path, null);
   return comment;
@@ -258,6 +283,15 @@ export const getCatAM2SafetyAndBalanceFaultCount =
 export const formatQuestionFaultBE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
   return totalFaults === 5 ? 4 : totalFaults;
+};
+
+/**
+ * Gets the number of faults for show me and tell me questions for category ADI2
+ * @param testData
+ * @returns count of DF's for showme tellme questions
+ */
+export const formatQuestionFaultADI2 = (testData: TestData | undefined): number => {
+  return getVehicleChecksFaultCountShowMeTellMe(testData);
 };
 
 /**
@@ -409,6 +443,25 @@ export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : nu
 };
 
 export const getVehicleChecksFaultCountF = (testData: TestData| undefined) : number => {
+  let totalFaults: number = 0;
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
+
+  if (tellMeFaults) {
+    totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome === 'DF').length;
+  }
+  if (showMeFaults) {
+    totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome === 'DF').length;
+  }
+  return totalFaults;
+};
+
+/**
+ * Generic category function to count the number of DFs when multiple Show Me
+ * Tell me questions are recorded
+ * @param testData
+ */
+export const getVehicleChecksFaultCountShowMeTellMe = (testData: TestData| undefined) : number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);

@@ -431,15 +431,15 @@ export function getMinimalDataField(): DataField[] {
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_TOTAL',
+      col: 'CONTROL_BALANCE_TOTAL',
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_SERIOUS',
+      col: 'CONTROL_BALANCE_SERIOUS',
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_DANGEROUS',
+      col: 'CONTROL_BALANCE_DANGEROUS',
       val: 0,
     },
     {

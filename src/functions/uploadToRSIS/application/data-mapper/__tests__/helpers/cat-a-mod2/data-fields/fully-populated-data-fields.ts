@@ -431,15 +431,15 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_TOTAL',
+      col: 'CONTROL_BALANCE_TOTAL',
       val: 7,
     },
     {
-      col: 'MC_SLOW_CONTROL_SERIOUS',
+      col: 'CONTROL_BALANCE_SERIOUS',
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_DANGEROUS',
+      col: 'CONTROL_BALANCE_DANGEROUS',
       val: 0,
     },
     {
@@ -661,6 +661,10 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     {
       col: 'POSITIONING_LANE_COMMENT',
       val: 'positioningLaneDisciplineComments',
+    },
+    {
+      col: 'CONTROL_BALANCE_COMMENT',
+      val: 'controlsBalanceSlowControlComments',
     },
     {
       col: 'RESPONSE_ROAD_MARK_COMMENT',
@@ -1152,15 +1156,15 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_TOTAL',
+      col: 'CONTROL_BALANCE_TOTAL',
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_SERIOUS',
+      col: 'CONTROL_BALANCE_SERIOUS',
       val: 1,
     },
     {
-      col: 'MC_SLOW_CONTROL_DANGEROUS',
+      col: 'CONTROL_BALANCE_DANGEROUS',
       val: 0,
     },
     {
@@ -1382,6 +1386,10 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     {
       col: 'POSITIONING_LANE_COMMENT',
       val: 'positioningLaneDiscipline serious',
+    },
+    {
+      col: 'CONTROL_BALANCE_COMMENT',
+      val: 'controlsBalanceSlowControl serious',
     },
     {
       col: 'RESPONSE_ROAD_MARK_COMMENT',
@@ -1877,15 +1885,15 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
       val: 1,
     },
     {
-      col: 'MC_SLOW_CONTROL_TOTAL',
+      col: 'CONTROL_BALANCE_TOTAL',
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_SERIOUS',
+      col: 'CONTROL_BALANCE_SERIOUS',
       val: 0,
     },
     {
-      col: 'MC_SLOW_CONTROL_DANGEROUS',
+      col: 'CONTROL_BALANCE_DANGEROUS',
       val: 1,
     },
     {
@@ -2107,6 +2115,10 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     {
       col: 'POSITIONING_LANE_COMMENT',
       val: 'positioningLaneDiscipline dangerous',
+    },
+    {
+      col: 'CONTROL_BALANCE_COMMENT',
+      val: 'controlsBalanceSlowControl dangerous',
     },
     {
       col: 'RESPONSE_ROAD_MARK_COMMENT',

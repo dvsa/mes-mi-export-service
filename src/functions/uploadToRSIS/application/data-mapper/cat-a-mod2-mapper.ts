@@ -156,9 +156,9 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
     field('POSITIONING_LANE_SERIOUS', optionalBoolean(t, 'seriousFaults.positioningLaneDiscipline')),
     field('POSITIONING_LANE_DANGEROUS', optionalBoolean(t, 'dangerousFaults.positioningLaneDiscipline')),
     // controlsBalanceSlowControl
-    field('MC_SLOW_CONTROL_TOTAL', optional(t, 'drivingFaults.controlsBalanceSlowControl', 0)),
-    field('MC_SLOW_CONTROL_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsBalanceSlowControl')),
-    field('MC_SLOW_CONTROL_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsBalanceSlowControl')),
+    field('CONTROL_BALANCE_TOTAL', optional(t, 'drivingFaults.controlsBalanceSlowControl', 0)),
+    field('CONTROL_BALANCE_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsBalanceSlowControl')),
+    field('CONTROL_BALANCE_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsBalanceSlowControl')),
     // responseToSignsRoadMarkings
     field('RESPONSE_ROAD_MARK_TOTAL', optional(t, 'drivingFaults.responseToSignsRoadMarkings', 0)),
     field('RESPONSE_ROAD_MARK_SERIOUS', optionalBoolean(t, 'seriousFaults.responseToSignsRoadMarkings')),
@@ -225,8 +225,7 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'POSITIONING_NORMAL_COMMENT', getCompetencyComments(t, 'positioningNormalDrivingComments'));
   addIfSet(m, 'MAINTAIN_PROG_SPEED_COMMENT', getCompetencyComments(t, 'progressAppropriateSpeedComments'));
   addIfSet(m, 'POSITIONING_LANE_COMMENT', getCompetencyComments(t, 'positioningLaneDisciplineComments'));
-  // @TODO no mapping provided for this
-  // addIfSet(m, '', getCompetencyComments(t, 'controlsBalanceSlowControlComments'));
+  addIfSet(m, 'CONTROL_BALANCE_COMMENT', getCompetencyComments(t, 'controlsBalanceSlowControlComments'));
   addIfSet(m, 'RESPONSE_ROAD_MARK_COMMENT', getCompetencyComments(t, 'responseToSignsRoadMarkingsComments'));
   addIfSet(m, 'RESPONSE_TRAF_SIGNS_COMMENT', getCompetencyComments(t, 'responseToSignsTrafficSignsComments'));
   addIfSet(m, 'MIRRORS_MC_REAR_DIR_COMMENT', getCompetencyComments(t, 'useOfMirrorsChangeDirectionComments'));

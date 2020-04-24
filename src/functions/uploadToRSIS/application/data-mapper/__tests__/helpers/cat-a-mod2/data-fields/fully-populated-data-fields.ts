@@ -527,6 +527,10 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
       val: 2,
     },
     {
+      col: 'SURVEY_E_IND',
+      val: 1,
+    },
+    {
       col: 'MC_DL196_CBT_CERT_NO',
       val: '123456',
     },
@@ -837,6 +841,10 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'MOVE_OFF_CONTROL_SERIOUS',
+      val: 1,
+    },
+    {
+      col: 'SURVEY_F_IND',
       val: 1,
     },
     {

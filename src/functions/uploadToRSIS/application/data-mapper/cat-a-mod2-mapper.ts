@@ -1,6 +1,7 @@
 import { ResultUpload } from '../result-client';
-import { DataField } from '../../domain/mi-export-data';
+import { BooleanAsNumber, DataField } from '../../domain/mi-export-data';
 import { TestData as CatAM2TestData } from '@dvsa/mes-test-schema/categories/AM2';
+import { get } from 'lodash';
 import {
   addIfSet,
   field, getCatAM2SafetyAndBalanceFaultCount,
@@ -9,6 +10,11 @@ import {
   optionalBoolean,
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
+
+enum ModeOfTransport {
+  BikeToBike = 'Bike to bike',
+  CarToBike = 'Car to bike',
+}
 
 export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData as CatAM2TestData;
@@ -236,6 +242,9 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
     t, 'safetyAndBalanceQuestions.safetyAndBalanceComments', null));
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
+  // mode of transport
+  addIfSet(m, 'SURVEY_E_IND', getModeOfTransport(result, ModeOfTransport.BikeToBike));
+  addIfSet(m, 'SURVEY_F_IND', getModeOfTransport(result, ModeOfTransport.CarToBike));
   // Safety and balance questions
   addIfSet(m, 'SAFETY_1_CODE', optional(
     t, 'safetyAndBalanceQuestions.safetyQuestions[0].code', null));
@@ -250,4 +259,13 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'BALANCE_1_DESCRIPTION', optional(
     t, 'safetyAndBalanceQuestions.balanceQuestions[0].description', null));
   return m;
+};
+
+const getModeOfTransport = (result: ResultUpload, mode: ModeOfTransport): BooleanAsNumber => {
+  const modeOfTransport = get(result, 'testResult.testSummary.modeOfTransport', null);
+
+  if (mode === modeOfTransport) {
+    return 1;
+  }
+  return 0;
 };

@@ -604,7 +604,7 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
-      val: 'judgementOvertakingComments',
+      val: 'judgementOvertakingFilteringComments',
     },
     {
       col: 'PEDESTRIAN_CROSSING_COMMENT',
@@ -632,7 +632,7 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_SIG_COMMENT',
-      val: 'useOfMirrorsSignallingComments',
+      val: 'rearObservationSignallingComments',
     },
     {
       col: 'CLEARANCE_OBSTRUCT_COMMENT',
@@ -648,11 +648,11 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_SPE_COMMENT',
-      val: 'useOfMirrorsChangeSpeedComments',
+      val: 'rearObservationChangeSpeedComments',
     },
     {
       col: 'POSITIONING_NORMAL_COMMENT',
-      val: 'positioningNormalDrivingComments',
+      val: 'positionNormalRidingComments',
     },
     {
       col: 'MAINTAIN_PROG_SPEED_COMMENT',
@@ -676,7 +676,7 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_DIR_COMMENT',
-      val: 'useOfMirrorsChangeDirectionComments',
+      val: 'rearObservationChangeDirectionComments',
     },
     {
       col: 'RESPONSE_TRAF_LIGHT_COMMENT',
@@ -1329,7 +1329,7 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
-      val: 'judgementOvertaking serious',
+      val: 'judgementOvertakingFiltering serious',
     },
     {
       col: 'PEDESTRIAN_CROSSING_COMMENT',
@@ -1357,7 +1357,7 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_SIG_COMMENT',
-      val: 'useOfMirrorsSignalling serious',
+      val: 'rearObservationSignalling serious',
     },
     {
       col: 'CLEARANCE_OBSTRUCT_COMMENT',
@@ -1373,11 +1373,11 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_SPE_COMMENT',
-      val: 'useOfMirrorsChangeSpeed serious',
+      val: 'rearObservationChangeSpeed serious',
     },
     {
       col: 'POSITIONING_NORMAL_COMMENT',
-      val: 'positioningNormalDriving serious',
+      val: 'positionNormalRiding serious',
     },
     {
       col: 'MAINTAIN_PROG_SPEED_COMMENT',
@@ -1401,7 +1401,7 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_DIR_COMMENT',
-      val: 'useOfMirrorsChangeDirection serious',
+      val: 'rearObservationChangeDirection serious',
     },
     {
       col: 'RESPONSE_TRAF_LIGHT_COMMENT',
@@ -2058,7 +2058,7 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
-      val: 'judgementOvertaking dangerous',
+      val: 'judgementOvertakingFiltering dangerous',
     },
     {
       col: 'PEDESTRIAN_CROSSING_COMMENT',
@@ -2086,7 +2086,7 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_SIG_COMMENT',
-      val: 'useOfMirrorsSignalling dangerous',
+      val: 'rearObservationSignalling dangerous',
     },
     {
       col: 'CLEARANCE_OBSTRUCT_COMMENT',
@@ -2102,11 +2102,11 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_SPE_COMMENT',
-      val: 'useOfMirrorsChangeSpeed dangerous',
+      val: 'rearObservationChangeSpeed dangerous',
     },
     {
       col: 'POSITIONING_NORMAL_COMMENT',
-      val: 'positioningNormalDriving dangerous',
+      val: 'positionNormalRiding dangerous',
     },
     {
       col: 'MAINTAIN_PROG_SPEED_COMMENT',
@@ -2130,7 +2130,7 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'MIRRORS_MC_REAR_DIR_COMMENT',
-      val: 'useOfMirrorsChangeDirection dangerous',
+      val: 'rearObservationChangeDirection dangerous',
     },
     {
       col: 'RESPONSE_TRAF_LIGHT_COMMENT',

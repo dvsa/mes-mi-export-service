@@ -128,7 +128,7 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
           complete: true,
         },
       },
-      testSummary: getTestSummary(IndependentDrivingText.SatNav),
+      testSummary: getTestSummary(IndependentDrivingText.SatNav, 'Bike to bike'),
     },
   };
 }
@@ -175,7 +175,7 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
         },
         eyesightTest: getEyesightTestBySeverityOutcome(true, true, SeverityText.Serious),
       },
-      testSummary: getTestSummary(IndependentDrivingText.TrafficSigns),
+      testSummary: getTestSummary(IndependentDrivingText.TrafficSigns, 'Car to bike'),
     },
   };
 }
@@ -222,7 +222,7 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
         },
         eyesightTest: getEyesightTestBySeverityOutcome(false, false),
       },
-      testSummary: getTestSummary(IndependentDrivingText.NotApplicable),
+      testSummary: getTestSummary(IndependentDrivingText.NotApplicable, 'N/A'),
     },
   };
 }
@@ -322,8 +322,9 @@ export function getEyesightTestBySeverityOutcome(isComplete: boolean, isSerious:
   };
 }
 
-export function getTestSummary(independentDrivingText: String) {
+export function getTestSummary(independentDrivingText: string, modeOfTransportText: string) {
   return {
     independentDriving: `${independentDrivingText}`,
+    modeOfTransport: `${modeOfTransportText}`,
   };
 }

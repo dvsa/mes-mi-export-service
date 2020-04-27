@@ -1,7 +1,7 @@
 import { ResultUpload } from '../result-client';
 import { get } from 'lodash';
 import { BooleanAsNumber, DataField } from '../../domain/mi-export-data';
-import { TestData as CatAM2TestData } from '@dvsa/mes-test-schema/categories/AM2';
+import { QuestionResult, TestData as CatAM2TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import {
   addIfSet,
   field, getCatAM2SafetyAndBalanceFaultCount,
@@ -194,6 +194,7 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
     field('EYESIGHT_COMPLETED', optionalBoolean(t, 'eyesightTest.complete')),
     // safety and balance fault total
     field('VEHICLE_CHECKS_TOTAL', getCatAM2SafetyAndBalanceFaultCount(t)),
+    field('VEHICLE_CHECKS_COMPLETED', safetyAndBalanceQuestionsCompleted(t)),
     field('MC_DL196_CBT_CERT_NO', optional(result.testResult, 'preTestDeclarations.DL196CBTCertNumber', '')),
   ];
 
@@ -268,4 +269,19 @@ const getModeOfTransport = (result: ResultUpload, mode: ModeOfTransport): Boolea
     return 1;
   }
   return 0;
+};
+
+const safetyAndBalanceQuestionsCompleted = (testData: CatAM2TestData | undefined): BooleanAsNumber => {
+  let questionsCompletedCount: number = 0;
+  const safetyQuestions: QuestionResult[] = get(testData, 'safetyAndBalanceQuestions.safetyQuestions', []);
+  const balanceQuestions: QuestionResult[] = get(testData, 'safetyAndBalanceQuestions.balanceQuestions', []);
+  const numberOfQuestionsPopulated: number = (safetyQuestions.length + balanceQuestions.length);
+
+  if (safetyQuestions.length > 0) {
+    questionsCompletedCount = questionsCompletedCount + safetyQuestions.filter(fault => fault.outcome != null).length;
+  }
+  if (balanceQuestions.length > 0) {
+    questionsCompletedCount = questionsCompletedCount + balanceQuestions.filter(fault => fault.outcome != null).length;
+  }
+  return ((questionsCompletedCount === numberOfQuestionsPopulated) && (numberOfQuestionsPopulated > 0)) ? 1 : 0;
 };

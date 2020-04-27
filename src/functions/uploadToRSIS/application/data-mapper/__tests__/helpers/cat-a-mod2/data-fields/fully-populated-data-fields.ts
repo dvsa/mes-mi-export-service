@@ -527,6 +527,10 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
       val: 2,
     },
     {
+      col: 'SURVEY_E_IND',
+      val: 1,
+    },
+    {
       col: 'MC_DL196_CBT_CERT_NO',
       val: '123456',
     },
@@ -998,6 +1002,10 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     {
       col: 'PEDESTRIAN_CROSSING_DANGEROUS',
       val: 0,
+    },
+    {
+      col: 'SURVEY_F_IND',
+      val: 1,
     },
     {
       col: 'POSTITION_STOPS_TOTAL',

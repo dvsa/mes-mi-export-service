@@ -135,6 +135,10 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
       val: 1,
     },
     {
+      col: 'VEHICLE_CHECKS_COMPLETED',
+      val: 1,
+    },
+    {
       col: 'CONTROL_ACC_SERIOUS',
       val: 0,
     },
@@ -1012,6 +1016,10 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
       val: 0,
     },
     {
+      col: 'VEHICLE_CHECKS_COMPLETED',
+      val: 1,
+    },
+    {
       col: 'POSTITION_STOPS_SERIOUS',
       val: 1,
     },
@@ -1638,6 +1646,10 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'SIGNALS_NECESSARY_DANGEROUS',
+      val: 1,
+    },
+    {
+      col: 'VEHICLE_CHECKS_COMPLETED',
       val: 1,
     },
     {

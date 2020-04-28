@@ -259,6 +259,10 @@ export function getMinimalDataField(): DataField[] {
       val: 0,
     },
     {
+      col: 'VEHICLE_CHECKS_COMPLETED',
+      val: 0,
+    },
+    {
       col: 'JUDGEMENT_OVER_DANGEROUS',
       val: 0,
     },

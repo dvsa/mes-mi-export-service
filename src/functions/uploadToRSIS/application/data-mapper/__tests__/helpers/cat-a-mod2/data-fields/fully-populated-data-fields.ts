@@ -528,7 +528,7 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'VEHICLE_CHECKS_TOTAL',
-      val: 2,
+      val: 1,
     },
     {
       col: 'SURVEY_E_IND',
@@ -1265,7 +1265,7 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'VEHICLE_CHECKS_TOTAL',
-      val: 2,
+      val: 1,
     },
     {
       col: 'MC_DL196_CBT_CERT_NO',
@@ -1998,7 +1998,7 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'VEHICLE_CHECKS_TOTAL',
-      val: 2,
+      val: 1,
     },
     {
       col: 'MC_DL196_CBT_CERT_NO',

@@ -277,7 +277,7 @@ export const getCatAM2SafetyAndBalanceFaultCount =
       testData, 'safetyAndBalanceQuestions.safetyQuestions[1].outcome') === 'DF' ? 1 : 0;
     const balanceQuestionOneOutcome = get(
       testData, 'safetyAndBalanceQuestions.balanceQuestions[0].outcome') === 'DF' ? 1 : 0;
-    return safetyQuestionOneOutcome + safetyQuestionTwoOutcome + balanceQuestionOneOutcome;
+    return (safetyQuestionOneOutcome + safetyQuestionTwoOutcome + balanceQuestionOneOutcome) > 0 ? 1 : 0;
   };
 
 export const formatQuestionFaultBE = (testData: TestData | undefined): number => {

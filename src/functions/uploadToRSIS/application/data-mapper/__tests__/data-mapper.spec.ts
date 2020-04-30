@@ -226,7 +226,7 @@ describe('data mapper', () => {
   describe('getCatAM2SafetyAndBalanceFaultCount', () => {
     it('should return the total number of safety and balance questions marked as riding fauls', () => {
       const testData = getFullyPopulatedDrivingFaults(getCatAMod2MinimalInput()).testResult.testData;
-      expect(getCatAM2SafetyAndBalanceFaultCount(testData)).toEqual(2);
+      expect(getCatAM2SafetyAndBalanceFaultCount(testData)).toEqual(1);
     });
   });
 

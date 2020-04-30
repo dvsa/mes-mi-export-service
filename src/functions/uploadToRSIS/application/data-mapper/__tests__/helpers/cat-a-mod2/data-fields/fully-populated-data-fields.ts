@@ -703,6 +703,10 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
       val: 'candidate fell off the bike',
     },
     {
+      col: 'MC_BENDS_COMMENT',
+      val: 'bendsComments',
+    },
+    {
       col: 'INDEPENDENT_DRIVING',
       val: 'Sat nav',
     },
@@ -1436,6 +1440,10 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
       val: 'candidate fell off the bike',
     },
     {
+      col: 'MC_BENDS_COMMENT',
+      val: 'bends serious',
+    },
+    {
       col: 'EYESIGHT_COMMENT',
       val: 'eyesight serious',
     },
@@ -2167,6 +2175,10 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     {
       col: 'VEHICLE_CHECKS_COMMENT',
       val: 'candidate fell off the bike',
+    },
+    {
+      col: 'MC_BENDS_COMMENT',
+      val: 'bends dangerous',
     },
     {
       col: 'INDEPENDENT_DRIVING',

@@ -241,6 +241,7 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'RESPONSE_TRAF_CONT_COMMENT', getCompetencyComments(t, 'responseToSignsTrafficControllersComments'));
   addIfSet(m, 'VEHICLE_CHECKS_COMMENT', optional(
     t, 'safetyAndBalanceQuestions.safetyAndBalanceComments', null));
+  addIfSet(m, 'MC_BENDS_COMMENT', getCompetencyComments(t, 'bendsComments'));
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
   // mode of transport

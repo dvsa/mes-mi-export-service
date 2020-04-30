@@ -208,7 +208,7 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'CONTROL_FOOTBRAKE_TOTAL',
-      val: 5,
+      val: 4,
     },
     {
       col: 'CONTROL_FOOTBRAKE_SERIOUS',
@@ -244,7 +244,7 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'CONTROL_PARK_TOTAL',
-      val: 4,
+      val: 5,
     },
     {
       col: 'CONTROL_PARK_SERIOUS',
@@ -596,7 +596,7 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'CONTROL_FOOTBRAKE_COMMENT',
-      val: 'controlsRearBrakeComments',
+      val: 'controlsFrontBrakeComments',
     },
     {
       col: 'FOLLOWING_DISTANCE_COMMENT',
@@ -608,7 +608,7 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'CONTROL_PARK_COMMENT',
-      val: 'controlsFrontBrakeComments',
+      val: 'controlsRearBrakeComments',
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
@@ -701,6 +701,10 @@ export function getFullyPopulatedFaultDataFields(): DataField[] {
     {
       col: 'VEHICLE_CHECKS_COMMENT',
       val: 'candidate fell off the bike',
+    },
+    {
+      col: 'MC_BENDS_COMMENT',
+      val: 'bendsComments',
     },
     {
       col: 'INDEPENDENT_DRIVING',
@@ -1329,7 +1333,7 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'CONTROL_FOOTBRAKE_COMMENT',
-      val: 'controlsRearBrake serious',
+      val: 'controlsFrontBrake serious',
     },
     {
       col: 'FOLLOWING_DISTANCE_COMMENT',
@@ -1341,7 +1345,7 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'CONTROL_PARK_COMMENT',
-      val: 'controlsFrontBrake serious',
+      val: 'controlsRearBrake serious',
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
@@ -1434,6 +1438,10 @@ export function getFullyPopulatedSeriousDataFields(): DataField[] {
     {
       col: 'VEHICLE_CHECKS_COMMENT',
       val: 'candidate fell off the bike',
+    },
+    {
+      col: 'MC_BENDS_COMMENT',
+      val: 'bends serious',
     },
     {
       col: 'EYESIGHT_COMMENT',
@@ -2062,7 +2070,7 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'CONTROL_FOOTBRAKE_COMMENT',
-      val: 'controlsRearBrake dangerous',
+      val: 'controlsFrontBrake dangerous',
     },
     {
       col: 'FOLLOWING_DISTANCE_COMMENT',
@@ -2074,7 +2082,7 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'CONTROL_PARK_COMMENT',
-      val: 'controlsFrontBrake dangerous',
+      val: 'controlsRearBrake dangerous',
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
@@ -2167,6 +2175,10 @@ export function getFullyPopulatedDangerousDataFields(): DataField[] {
     {
       col: 'VEHICLE_CHECKS_COMMENT',
       val: 'candidate fell off the bike',
+    },
+    {
+      col: 'MC_BENDS_COMMENT',
+      val: 'bends dangerous',
     },
     {
       col: 'INDEPENDENT_DRIVING',

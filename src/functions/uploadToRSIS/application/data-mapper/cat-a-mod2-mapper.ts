@@ -85,10 +85,10 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
     field('AWARENESS_PLAN_TOTAL', optional(t, 'drivingFaults.awarenessPlanning', 0)),
     field('AWARENESS_PLAN_SERIOUS', optionalBoolean(t, 'seriousFaults.awarenessPlanning')),
     field('AWARENESS_PLAN_DANGEROUS', optionalBoolean(t, 'dangerousFaults.awarenessPlanning')),
-    // controlsRearBrake
-    field('CONTROL_FOOTBRAKE_TOTAL', optional(t, 'drivingFaults.controlsRearBrake', 0)),
-    field('CONTROL_FOOTBRAKE_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsRearBrake')),
-    field('CONTROL_FOOTBRAKE_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsRearBrake')),
+    // controlsFrontBrake
+    field('CONTROL_FOOTBRAKE_TOTAL', optional(t, 'drivingFaults.controlsFrontBrake', 0)),
+    field('CONTROL_FOOTBRAKE_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsFrontBrake')),
+    field('CONTROL_FOOTBRAKE_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsFrontBrake')),
     // followingDistance
     field('FOLLOWING_DISTANCE_TOTAL', optional(t, 'drivingFaults.followingDistance', 0)),
     field('FOLLOWING_DISTANCE_SERIOUS', optionalBoolean(t, 'seriousFaults.followingDistance')),
@@ -97,10 +97,10 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
     field('JUDGEMENT_CROSS_TOTAL', optional(t, 'drivingFaults.judgementCrossing', 0)),
     field('JUDGEMENT_CROSS_SERIOUS', optionalBoolean(t, 'seriousFaults.judgementCrossing')),
     field('JUDGEMENT_CROSS_DANGEROUS', optionalBoolean(t, 'dangerousFaults.judgementCrossing')),
-    // controlsFrontBrake
-    field('CONTROL_PARK_TOTAL', optional(t, 'drivingFaults.controlsFrontBrake', 0)),
-    field('CONTROL_PARK_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsFrontBrake')),
-    field('CONTROL_PARK_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsFrontBrake')),
+    // controlsRearBrake
+    field('CONTROL_PARK_TOTAL', optional(t, 'drivingFaults.controlsRearBrake', 0)),
+    field('CONTROL_PARK_SERIOUS', optionalBoolean(t, 'seriousFaults.controlsRearBrake')),
+    field('CONTROL_PARK_DANGEROUS', optionalBoolean(t, 'dangerousFaults.controlsRearBrake')),
     // judgementOvertakingFiltering
     field('JUDGEMENT_OVER_TOTAL', optional(t, 'drivingFaults.judgementOvertakingFiltering', 0)),
     field('JUDGEMENT_OVER_SERIOUS', optionalBoolean(t, 'seriousFaults.judgementOvertakingFiltering')),
@@ -213,10 +213,10 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'SIGNALS_NECESSARY_COMMENT', getCompetencyComments(t, 'signalsNecessaryComments'));
   addIfSet(m, 'ANCILLARY_CONTROLS_COMMENT', getCompetencyComments(t, 'ancillaryControlsComments'));
   addIfSet(m, 'AWARENESS_PLAN_COMMENT', getCompetencyComments(t, 'awarenessPlanningComments'));
-  addIfSet(m, 'CONTROL_FOOTBRAKE_COMMENT', getCompetencyComments(t, 'controlsRearBrakeComments'));
+  addIfSet(m, 'CONTROL_FOOTBRAKE_COMMENT', getCompetencyComments(t, 'controlsFrontBrakeComments'));
   addIfSet(m, 'FOLLOWING_DISTANCE_COMMENT', getCompetencyComments(t, 'followingDistanceComments'));
   addIfSet(m, 'JUDGEMENT_CROSS_COMMENT', getCompetencyComments(t, 'judgementCrossingComments'));
-  addIfSet(m, 'CONTROL_PARK_COMMENT', getCompetencyComments(t, 'controlsFrontBrakeComments'));
+  addIfSet(m, 'CONTROL_PARK_COMMENT', getCompetencyComments(t, 'controlsRearBrakeComments'));
   addIfSet(m, 'JUDGEMENT_OVER_COMMENT', getCompetencyComments(t, 'judgementOvertakingFilteringComments'));
   addIfSet(m, 'PEDESTRIAN_CROSSING_COMMENT', getCompetencyComments(t, 'pedestrianCrossingsComments'));
   addIfSet(m, 'POSITION_STOPS_COMMENT', getCompetencyComments(t, 'positionNormalStopsComments'));
@@ -241,6 +241,7 @@ export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'RESPONSE_TRAF_CONT_COMMENT', getCompetencyComments(t, 'responseToSignsTrafficControllersComments'));
   addIfSet(m, 'VEHICLE_CHECKS_COMMENT', optional(
     t, 'safetyAndBalanceQuestions.safetyAndBalanceComments', null));
+  addIfSet(m, 'MC_BENDS_COMMENT', getCompetencyComments(t, 'bendsComments'));
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
   // mode of transport

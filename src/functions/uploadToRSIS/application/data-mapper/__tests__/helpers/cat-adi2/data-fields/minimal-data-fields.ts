@@ -1,4 +1,4 @@
-import { DataField } from '../../../../../../domain/mi-export-data';
+import { DataField, DataFieldValue } from '../../../../../../domain/mi-export-data';
 
 export function getADI2MinimalDataField(): DataField[] {
   return [
@@ -33,6 +33,14 @@ export function getADI2MinimalDataField(): DataField[] {
     {
       col:'REV_PARK_ROAD_CONTROL_TOTAL',
       val:0,
+    },
+    {
+      col: 'TRAINING_RECS_AVAIL',
+      val: null as unknown as DataFieldValue,
+    },
+    {
+      col: 'ORDIT_TRAINED',
+      val: null as unknown as DataFieldValue,
     },
     {
       col:'REV_PARK_ROAD_OBSERVE_TOTAL',

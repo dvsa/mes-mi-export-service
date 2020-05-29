@@ -272,8 +272,8 @@ export const mapCommonCatHomeTestsData = (result: ResultUpload): DataField[] => 
     field('NORMAL_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.normalStart2')),
     // field('BUS_STOP_1_COMPLETED', optionalBoolean(t, 'testRequirements.busStop1')),
     // field('BUS_STOP_2_COMPLETED', optionalBoolean(t, 'testRequirements.busStop2')),
-    field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStartControlledStop')),
-    field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
+    field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStart')),
+    field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStartDesignatedStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
     field('HILL_START_COMPLETED', optionalBoolean(t, 'testRequirements.hillStart')),
   ];

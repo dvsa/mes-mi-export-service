@@ -9,8 +9,8 @@ export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
         testRequirements: {
           normalStart1: true,
           normalStart2: true,
-          angledStartControlledStop: true,
-          uphillStart: true,
+          angledStart: true,
+          uphillStartDesignatedStart: true,
           downhillStart: true,
           hillStart: true,
         },
@@ -138,8 +138,8 @@ export function getFullyPopulatedSeriousFaults(result: any): ResultUpload {
         testRequirements: {
           normalStart1: true,
           normalStart2: true,
-          angledStartControlledStop: true,
-          uphillStart: true,
+          angledStart: true,
+          uphillStartDesignatedStart: true,
           downhillStart: true,
           hillStart: true,
         },
@@ -173,8 +173,8 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
         testRequirements: {
           normalStart1: true,
           normalStart2: true,
-          angledStartControlledStop: true,
-          uphillStart: true,
+          angledStart: true,
+          uphillStartDesignatedStart: true,
           downhillStart: true,
           hillStart: true,
         },

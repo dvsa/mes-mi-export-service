@@ -1,5 +1,6 @@
 import { ResultUpload } from '../../../../../result-client';
 import { SeverityShortCodes, SeverityText, IndependentDrivingText } from '../../enums/function-params';
+import { HighwayCodeSafety } from '@dvsa/mes-test-schema/categories/K/partial';
 
 export function getFullyPopulatedDrivingFaults(result: any): ResultUpload {
   return {
@@ -240,11 +241,12 @@ export function getControlledStopByOutcomeSeverity(severityShortCode: string) {
   };
 }
 
-export function getHighwayCodeSafetyQuestion(severityShortCode: string) {
+export function getHighwayCodeSafetyQuestion(severityShortCode: string): HighwayCodeSafety {
   return {
     drivingFault: severityShortCode === SeverityShortCodes.DrivingFault,
     seriousFault: severityShortCode === SeverityShortCodes.SeriousFault,
     faultComments: `highwaycode safety ${severityShortCode}`,
+    selected: true,
   };
 }
 

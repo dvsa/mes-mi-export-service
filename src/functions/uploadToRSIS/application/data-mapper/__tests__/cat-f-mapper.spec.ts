@@ -218,6 +218,7 @@ describe('mapCatFData', () => {
       { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 0 },
       { col: 'CONTROL_STOP_PROMPT_DANGEROUS', val: 0 },
       { col: 'CONTROL_STOP_COMPLETED', val: 1 },
+      { col: 'H_CODE_SAFETY_COMPLETED', val: 1 },
     ];
     // expect the right number of faults, with no serious or dangerous
     const result = mapCatFData(fullyPopulated);

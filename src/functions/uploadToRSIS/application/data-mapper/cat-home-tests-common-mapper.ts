@@ -276,6 +276,7 @@ export const mapCommonCatHomeTestsData = (result: ResultUpload): DataField[] => 
     field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStartDesignatedStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
     field('HILL_START_COMPLETED', optionalBoolean(t, 'testRequirements.hillStart')),
+    field('H_CODE_SAFETY_COMPLETED', optionalBoolean(t, 'highwayCodeSafety.selected')),
   ];
 
   // add the optional fields, only if set

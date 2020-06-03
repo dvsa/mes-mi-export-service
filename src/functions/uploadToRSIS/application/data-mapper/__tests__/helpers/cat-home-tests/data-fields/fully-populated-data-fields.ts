@@ -192,7 +192,7 @@ export function getCatHomeTestsFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 1 },
     { col: 'CONTROL_STOP_PROMPT_DANGEROUS', val: 0 },
     { col: 'CONTROL_STOP_COMPLETED', val: 1 },
-
+    { col: 'H_CODE_SAFETY_COMPLETED', val: 1 },
   ];
 }
 
@@ -386,5 +386,6 @@ export function getCatHomeTestsFullyPopulatedDangerousDataFields(): DataField[] 
     { col: 'CONTROL_STOP_PROMPT_SERIOUS', val: 0 },
     { col: 'CONTROL_STOP_PROMPT_DANGEROUS', val: 1 },
     { col: 'CONTROL_STOP_COMPLETED', val: 1 },
+    { col: 'H_CODE_SAFETY_COMPLETED', val: 1 },
   ];
 }

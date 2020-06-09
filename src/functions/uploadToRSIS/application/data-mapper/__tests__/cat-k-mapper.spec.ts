@@ -172,6 +172,7 @@ describe('mapCatKData', () => {
       { col: 'CONTROL_PARK_COMMENT', val: 'controls parking brake fault' },
       { col: 'CONTROL_STEERING_COMMENT', val: 'controls steering fault' },
       { col: 'H_CODE_SAFETY_COMMENT', val: 'highwaycode safety DF' },
+      { col: 'CONTROL_STOP_PROMPT_COMMENT', val: 'controlled stop DF' },
       { col: 'MOVE_OFF_SAFETY_COMMENT', val: 'move off safety fault' },
       { col: 'MOVE_OFF_CONTROL_COMMENT', val: 'move off control fault' },
       { col: 'MIRRORS_MC_REAR_SIG_COMMENT', val: 'use of mirrors signalling fault' },

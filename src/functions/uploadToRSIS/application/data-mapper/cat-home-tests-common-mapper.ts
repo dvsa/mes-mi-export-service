@@ -290,6 +290,7 @@ export const mapCommonCatHomeTestsData = (result: ResultUpload): DataField[] => 
   addIfSet(m, 'CONTROL_STEERING_COMMENT', getCompetencyComments(t, 'controlsSteeringComments'));
 //  unused - CONTROL_PCV_DOOR_COMMENT
   addIfSet(m, 'H_CODE_SAFETY_COMMENT', getSafetyQuestionFaultComment(t));
+  addIfSet(m, 'CONTROL_STOP_PROMPT_COMMENT', optional(t, 'controlledStop.faultComments', null));
   addIfSet(m, 'MOVE_OFF_SAFETY_COMMENT', getCompetencyComments(t, 'moveOffSafetyComments'));
   addIfSet(m, 'MOVE_OFF_CONTROL_COMMENT', getCompetencyComments(t, 'moveOffControlComments'));
   addIfSet(m, 'MIRRORS_MC_REAR_SIG_COMMENT', getCompetencyComments(t, 'useOfMirrorsSignallingComments'));

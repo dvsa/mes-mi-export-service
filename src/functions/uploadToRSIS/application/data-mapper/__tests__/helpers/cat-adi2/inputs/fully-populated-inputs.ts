@@ -103,6 +103,11 @@ export function getADI2FullyPopulatedDrivingFaults(result: any): ResultUpload {
           complete: true,
         },
       },
+      trainerDetails: {
+        orditTrainedCandidate: true,
+        trainingRecords: true,
+        trainerRegistrationNumber: 23434,
+      },
       testSummary: getTestSummary(IndependentDrivingText.SatNav),
     },
   };
@@ -128,6 +133,11 @@ export function getADI2FullyPopulatedSeriousFaults(result: any): ResultUpload {
         seriousFaults: getFaultsByOutcomeSeverity(SeverityText.Serious),
         eyesightTest: getEyesightTestBySeverityOutcome(true, true, SeverityText.Serious),
       },
+      trainerDetails: {
+        orditTrainedCandidate: true,
+        trainingRecords: true,
+        trainerRegistrationNumber: 12345567,
+      },
       testSummary: getTestSummary(IndependentDrivingText.TrafficSigns),
     },
   };
@@ -152,6 +162,10 @@ export function getADIFullyPopulatedDangerousFaults(result: any): ResultUpload {
         ],
         dangerousFaults: getFaultsByOutcomeSeverity(SeverityText.Dangerous),
         eyesightTest: getEyesightTestBySeverityOutcome(false, false),
+      },
+      trainerDetails: {
+        orditTrainedCandidate: true,
+        trainingRecords: false,
       },
       testSummary: getTestSummary(IndependentDrivingText.NotApplicable),
     },

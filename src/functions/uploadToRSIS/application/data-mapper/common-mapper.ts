@@ -2,6 +2,9 @@ import { ResultUpload } from '../result-client';
 import { field, optionalBoolean, optional, mandatory, MissingTestResultDataError, addIfSet } from './data-mapper';
 import moment = require('moment');
 import { get } from 'lodash';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+
 import {
   DataField,
   ChannelIndicator,
@@ -13,6 +16,7 @@ import {
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 import { trimTestCategoryPrefix } from '@dvsa/mes-microservice-common/domain/trim-test-category-prefix';
 import { formatRekeyReason, formatIpadIssueReason } from './rekey-reason-mapper';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 /**
  * Maps data common to all test categories.
@@ -23,7 +27,8 @@ import { formatRekeyReason, formatIpadIssueReason } from './rekey-reason-mapper'
  */
 export const mapCommonData = (result: ResultUpload): DataField[] => {
 
-  const r = result.testResult;
+  const r: TestResultSchemasUnion = result.testResult;
+  const category: CategoryCode = r.category;
 
   // test slot start date time from TARS is in local timezone, not UTC
   const testDateTime = moment(r.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
@@ -142,7 +147,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
-  addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result));
+  addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result, category));
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
   addIfSet(mappedFields, 'CANDIDATE_FORENAMES', optional(r, 'journalData.candidate.candidateName.firstName', null));
   addIfSet(mappedFields, 'CANDIDATE_POST_CODE', optional(r, 'journalData.candidate.candidateAddress.postcode', null));
@@ -208,10 +213,19 @@ const formatTestType = (result: ResultUpload): number => {
  * Formats optional instructor PRN as a string.
  *
  * @param result The MES test result
+ * @param {CategoryCode} category
  * @returns The PRN (as a string), or ``null``
  */
-const formatInstructorPRN = (result: ResultUpload): string | null => {
-  const prn: number | null = get(result, 'testResult.instructorDetails.registrationNumber', null);
+const formatInstructorPRN = (result: ResultUpload, category: CategoryCode): string | null => {
+  let path: string = '';
+
+  if (category === TestCategory.ADI2) {
+    path = 'testResult.trainerDetails.trainerRegistrationNumber';
+  } else {
+    path = 'testResult.instructorDetails.registrationNumber';
+  }
+
+  const prn: number | null = get(result, path, null);
   if (prn) {
     return prn.toString();
   }

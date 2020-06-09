@@ -1,5 +1,5 @@
 import { ResultUpload } from '../result-client';
-import { DataField } from '../../domain/mi-export-data';
+import { BooleanAsNumber, DataField, DataFieldValue } from '../../domain/mi-export-data';
 import {
   field,
   formatManoeuvreFault,
@@ -14,6 +14,7 @@ import {
   formatQuestionCompleted,
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
+import { get } from 'lodash';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
 /**
@@ -304,6 +305,9 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
     field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
     //  unused - HILL_START_COMPLETED
+
+    field('ORDIT_TRAINED', getOrditTrained(result) as DataFieldValue),
+    field('TRAINING_RECS_AVAIL', getTrainingRecords(result) as DataFieldValue),
   ];
 
   // add the optional fields, only if set
@@ -373,4 +377,28 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'INDEPENDENT_DRIVING', optional(result, 'testResult.testSummary.independentDriving', null));
 
   return m;
+};
+
+const getOrditTrained = (result: ResultUpload): BooleanAsNumber | null => {
+  const orditTrained: boolean = get(result, 'testResult.trainerDetails.orditTrainedCandidate');
+
+  if (typeof orditTrained === 'undefined') {
+    return null;
+  }
+  if (orditTrained) {
+    return 1;
+  }
+  return 0;
+};
+
+const getTrainingRecords = (result: ResultUpload): BooleanAsNumber | null => {
+  const trainingRecords: boolean = get(result, 'testResult.trainerDetails.trainingRecords');
+
+  if (typeof trainingRecords === 'undefined') {
+    return null;
+  }
+  if (trainingRecords) {
+    return 1;
+  }
+  return 0;
 };

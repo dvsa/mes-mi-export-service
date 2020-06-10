@@ -12,7 +12,7 @@ import { TestData, TestResultCatAM1Schema } from '@dvsa/mes-test-schema/categori
 import { formatGearboxCategory } from '../helpers/shared-formatters';
 
 export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
-  const testResult: TestResultCatAM1Schema = result.testResult;
+  const testResult = result.testResult as TestResultCatAM1Schema;
   const t: TestData = result.testResult.testData as TestData;
 
   const m: DataField[] = [

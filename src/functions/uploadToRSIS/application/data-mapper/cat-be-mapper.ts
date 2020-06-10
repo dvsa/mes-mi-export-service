@@ -1,11 +1,14 @@
+import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { ResultUpload } from '../result-client';
 import { DataField } from '../../domain/mi-export-data';
 import {
   addIfSet,
   field,
   formatManoeuvreFault,
-  formatManoeuvreSerious, formatQuestionCompleted, formatQuestionDangerous,
-  formatQuestionSerious, getCompetencyComments,
+  formatManoeuvreSerious,
+  formatQuestionCompleted,
+  formatQuestionDangerous,
+  getCompetencyComments,
   optional,
   optionalBoolean,
   formatQuestionFaultBE,
@@ -16,7 +19,7 @@ import {
 import { formatGearboxCategory } from '../helpers/shared-formatters';
 
 export const mapCatBEData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData;
+  const t = result.testResult.testData as CatBEUniqueTypes.TestData;
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),

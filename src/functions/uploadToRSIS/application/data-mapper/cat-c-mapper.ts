@@ -2,9 +2,10 @@ import { ResultUpload } from '../result-client';
 import { DataField } from '../../domain/mi-export-data';
 import { field, formatQuestionFaultC, formatQuestionSeriousC, formatQuestionCompleted } from './data-mapper';
 import { mapCommonCatCData } from './cat-c-common-mapper';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 
 export const mapCatCData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData;
+  const t = result.testResult.testData as CatCUniqueTypes.TestData;
   const category = result.testResult.category;
 
   return [

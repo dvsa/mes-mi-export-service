@@ -1,3 +1,4 @@
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { ResultUpload } from '../result-client';
 import { DataField } from '../../domain/mi-export-data';
 import {
@@ -24,7 +25,7 @@ import { formatGearboxCategory } from '../helpers/shared-formatters';
  * @throws MissingTestResultDataError If mandatory data missing from MES test result
  */
 export const mapCatBData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData;
+  const t = result.testResult.testData as CatBUniqueTypes.TestData;
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),

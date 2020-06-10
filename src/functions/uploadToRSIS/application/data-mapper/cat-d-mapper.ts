@@ -7,9 +7,10 @@ import {
   formatQuestionSeriousD,
 } from './data-mapper';
 import { mapCommonCatDData } from './cat-d-common-mapper';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 
 export const mapCatDData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData;
+  const t = result.testResult.testData as CatDUniqueTypes.TestData;
 
   return [
     ...mapCommonCatDData(result),

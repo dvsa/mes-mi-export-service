@@ -15,7 +15,7 @@ import {
   formatMultipleManoeuvreFaults,
 } from '../data-mapper';
 import { cloneDeep } from 'lodash';
-import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionOutcome, TestData } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { getCatBMinimalInput } from './helpers/cat-b/inputs/minimal-inputs';
 import { getCatAM1MinimalInput } from './helpers/cat-a-mod1/inputs/minimal-inputs';
@@ -219,14 +219,14 @@ describe('data mapper', () => {
         };
       }
 
-      expect(formatQuestionFault(input.testResult.testData)).toEqual(expected);
+      expect(formatQuestionFault(input.testResult.testData as TestData)).toEqual(expected);
     };
   });
 
   describe('getCatAM2SafetyAndBalanceFaultCount', () => {
     it('should return the total number of safety and balance questions marked as riding fauls', () => {
       const testData = getFullyPopulatedDrivingFaults(getCatAMod2MinimalInput()).testResult.testData;
-      expect(getCatAM2SafetyAndBalanceFaultCount(testData)).toEqual(1);
+      expect(getCatAM2SafetyAndBalanceFaultCount(testData as TestData)).toEqual(1);
     });
   });
 
@@ -280,7 +280,7 @@ describe('data mapper', () => {
         };
       }
 
-      expect(formatQuestionSerious(input.testResult.testData)).toEqual(expected);
+      expect(formatQuestionSerious(input.testResult.testData as TestData)).toEqual(expected);
     };
   });
 
@@ -334,7 +334,7 @@ describe('data mapper', () => {
         };
       }
 
-      expect(formatQuestionDangerous(input.testResult.testData)).toEqual(expected);
+      expect(formatQuestionDangerous(input.testResult.testData as TestData)).toEqual(expected);
     };
   });
 

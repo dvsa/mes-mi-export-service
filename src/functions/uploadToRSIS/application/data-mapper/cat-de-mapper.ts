@@ -1,3 +1,4 @@
+import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { ResultUpload } from '../result-client';
 import { DataField } from '../../domain/mi-export-data';
 import {
@@ -15,7 +16,7 @@ import {
 import { mapCommonCatDData } from './cat-d-common-mapper';
 
 export const mapCatDEData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData;
+  const t = result.testResult.testData as CatDEUniqueTypes.TestData;
 
   const catCDataFields: DataField[] = mapCommonCatDData(result);
 

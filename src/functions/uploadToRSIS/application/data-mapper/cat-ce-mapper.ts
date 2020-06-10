@@ -13,9 +13,10 @@ import {
   formatQuestionCompleted,
 } from './data-mapper';
 import { mapCommonCatCData } from './cat-c-common-mapper';
+import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 
 export const mapCatCEData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData;
+  const t = result.testResult.testData as CatCEUniqueTypes.TestData;
 
   const catCDataFields: DataField[] = mapCommonCatCData(result);
 

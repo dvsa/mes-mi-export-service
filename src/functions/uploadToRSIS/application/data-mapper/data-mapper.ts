@@ -10,7 +10,8 @@ import {
   TestData,
   QuestionOutcome,
   QuestionResult,
-  FaultComments } from '@dvsa/mes-test-schema/categories/common/';
+  FaultComments,
+} from '@dvsa/mes-test-schema/categories/common/';
 import { mapCatADI2Data } from './cat-adi2-mapper';
 import { mapCatBEData } from './cat-be-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -34,6 +35,8 @@ import { mapCatKData } from './cat-k-mapper';
 import { mapCatHData } from './cat-h-mapper';
 import { mapCatGData } from './cat-g-mapper';
 import { mapCatCPCData } from './cat-cpc-mapper';
+
+type FaultSeverity = 'Driving' | 'Serious' | 'Dangerous';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -125,7 +128,7 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
       mappedDataFields = mapCatCPCData(result);
       break;
     default:
-      const message = `Unsupported Category: ${category}`;
+      const message = `Unsupported Category: ${ category }`;
       error(message);
       throw new Error(message);
       break;
@@ -136,20 +139,22 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
   // (i.e. a developer mistake, but easily done given these are long lists of database column mappings)
   const duplicatedFields: Set<string> = new Set();
   mappedDataFields.forEach((fieldToCheck) => {
-    if (mappedDataFields.filter((field) => { return field.col === fieldToCheck.col; }).length > 1) {
+    if (mappedDataFields.filter((field) => {
+      return field.col === fieldToCheck.col;
+    }).length > 1) {
       duplicatedFields.add(fieldToCheck.col);
     }
   });
   if (duplicatedFields.size > 0) {
-    const message = `Duplicate columns mapped: ${Array.from(duplicatedFields).join(', ')}`;
+    const message = `Duplicate columns mapped: ${ Array.from(duplicatedFields).join(', ') }`;
     error(message);
     throw new Error(message);
   }
 
   const mappingSummary = mappedDataFields.map((field, index) => {
-    return `Field: ${index}\tColumn: ${field.col}\tValue: '${field.val}'`;
+    return `Field: ${ index }\tColumn: ${ field.col }\tValue: '${ field.val }'`;
   }).join('\n');
-  debug(`Mapped result ${JSON.stringify(result.uploadKey)} to ${mappedDataFields.length} fields:\n${mappingSummary}`);
+  debug(`Mapped result ${ JSON.stringify(result.uploadKey) } to ${ mappedDataFields.length } fields:\n${ mappingSummary }`);
 
   return mappedDataFields;
 };
@@ -244,8 +249,8 @@ export const formatManoeuvreFault = (object: any, path: string): BooleanAsNumber
 export const formatMultipleManoeuvreFaults = (object: TestData,
                                               path: string,
                                               desiredOutcome: ManoeuvreOutcome): BooleanAsNumber => {
-  const firstManoeuvre = get(object, `manoeuvres[0].${path}`, null);
-  const secondManoeuvre = get(object, `manoeuvres[1].${path}`, null);
+  const firstManoeuvre = get(object, `manoeuvres[0].${ path }`, null);
+  const secondManoeuvre = get(object, `manoeuvres[1].${ path }`, null);
   const manoeuvre: ManoeuvreOutcome | null = firstManoeuvre ? firstManoeuvre : secondManoeuvre;
 
   if (manoeuvre && manoeuvre === desiredOutcome) {
@@ -254,7 +259,7 @@ export const formatMultipleManoeuvreFaults = (object: TestData,
   return 0;
 };
 
-export const formatManoeuvreComment = (object: any, path:string): string | null => {
+export const formatManoeuvreComment = (object: any, path: string): string | null => {
   const comment: FaultComments | null = get(object, path, null);
   return comment;
 };
@@ -433,7 +438,7 @@ export const formatQuestionSeriousCE = (testData: TestData | undefined): number 
   return totalFaults === 2 ? 1 : 0;
 };
 
-export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : number => {
+export const getVehicleChecksFaultCountBE = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
@@ -447,7 +452,7 @@ export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : nu
   return totalFaults;
 };
 
-export const getVehicleChecksFaultCountF = (testData: TestData| undefined) : number => {
+export const getVehicleChecksFaultCountF = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
@@ -466,7 +471,7 @@ export const getVehicleChecksFaultCountF = (testData: TestData| undefined) : num
  * Tell me questions are recorded
  * @param testData
  */
-export const getVehicleChecksFaultCountShowMeTellMe = (testData: TestData| undefined) : number => {
+export const getVehicleChecksFaultCountShowMeTellMe = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
@@ -549,23 +554,44 @@ export const formatQuestionCompleted = (testData: TestData | undefined, question
  * @param path The JSON attribute, below ``drivingFaults``, ``seriousFaults`` and ``dangerousFaults``
  * @returns The value, or ``null``
  */
+// export const getCompetencyComments = (testData: TestData | undefined, path: string): string | null => {
+//   const dangerousComments = get(testData, `dangerousFaults.${ path }`, null);
+//   if (dangerousComments) {
+//     return dangerousComments;
+//   }
+//
+//   const seriousComments = get(testData, `seriousFaults.${ path }`, null);
+//   if (seriousComments) {
+//     return seriousComments;
+//   }
+//
+//   const faultComments = get(testData, `drivingFaults.${ path }`, null);
+//   if (faultComments) {
+//     return faultComments;
+//   }
+//
+//   return null;
+// };
+
 export const getCompetencyComments = (testData: TestData | undefined, path: string): string | null => {
-  const dangerousComments = get(testData, `dangerousFaults.${path}`, null);
-  if (dangerousComments) {
-    return dangerousComments;
-  }
+  const dangerousFaultComment: string = get(testData, `dangerousFaults.${path}`, null);
+  const seriousFaultComment: string = get(testData, `seriousFaults.${path}`, null);
+  const drivingFaultComment: string = get(testData, `drivingFaults.${path}`, null);
+  const comments: string[] = [];
 
-  const seriousComments = get(testData, `seriousFaults.${path}`, null);
-  if (seriousComments) {
-    return seriousComments;
+  if (dangerousFaultComment) {
+    comments.push(`Dangerous fault comment: ${dangerousFaultComment}`);
   }
-
-  const faultComments = get(testData, `drivingFaults.${path}`, null);
-  if (faultComments) {
-    return faultComments;
+  if (seriousFaultComment) {
+    comments.push(`Serious fault comment: ${seriousFaultComment}`);
   }
-
-  return null;
+  if (drivingFaultComment) {
+    comments.push(`Driving fault comment: ${drivingFaultComment}`);
+  }
+  if (comments.length === 0) {
+    return null;
+  }
+  return comments.join(', ');
 };
 
 export const formatSingleFaultOutcomeBySeverity =
@@ -582,4 +608,18 @@ export const optionalIsLeftBoolean = (testResult: TestResultCatAM1Schema): Boole
 export const optionalIsRightBoolean = (testResult: TestResultCatAM1Schema): BooleanAsNumber => {
   const direction = get(testResult, 'testSummary.circuit', '');
   return direction.toUpperCase() === 'RIGHT' ? 1 : 0;
+};
+
+export const prependFaultCommentMessage = (
+  dataFields: DataField[],
+  faultSeverity: FaultSeverity): DataField[] => {
+  return dataFields.map((dataField: DataField) => {
+    const dataValue = dataField.val;
+
+    return {
+      ...dataField,
+      val: (typeof dataValue === 'string' && dataValue.includes('fault comment')) ?
+        `${faultSeverity} fault comment: ${dataField.val}` : dataField.val,
+    };
+  });
 };

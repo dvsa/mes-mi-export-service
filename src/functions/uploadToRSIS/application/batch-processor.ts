@@ -87,8 +87,9 @@ export async function processResult(config: Config, connection: Connection | und
 
     resultUpload.testResult.journalData.applicationReference;
     const appRef = formatApplicationReference(resultUpload.testResult.journalData.applicationReference);
+    const category = resultUpload.testResult.category;
     // insert into staging table and commit
-    await saveTestResult(connection, config, miData, appRef);
+    await saveTestResult(connection, config, miData, appRef, category);
 
     info(`Save successful, setting to Accepted...`);
 

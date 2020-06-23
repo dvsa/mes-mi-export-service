@@ -4,6 +4,8 @@ import { DataField } from '../../domain/mi-export-data';
 import { range } from 'lodash';
 import { Config } from '../config/config';
 import { info, error } from '@dvsa/mes-microservice-common/application/utils/logger';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 /**
  * Saves a test result to the RSIS MI DB, by populating a staging table.
@@ -16,9 +18,12 @@ export const saveTestResult = async (
     connection: Connection | undefined,
     config: Config,
     mappedFields: DataField[],
-    appRef: number): Promise<void> => {
+    appRef: number,
+    testCategory: CategoryCode): Promise<void> => {
 
-  const insertSql = `insert into dl25mes_holding (
+  const table = getTableNameByTestCategory(testCategory);
+
+  const insertSql = `insert into ${table} (
       ${mappedFields.map(field => field.col).join(',')}
     ) values (
       ${range(0, mappedFields.length).map(index => `:${index}`).join(',')}
@@ -39,4 +44,9 @@ export const saveTestResult = async (
     // simply log what would have happened
     info(`This is where we would be issuing the following SQL statement:\n${insertSql}\nUsing params:\n${params}`);
   }
+};
+
+export const getTableNameByTestCategory = (testCategory: CategoryCode): string => {
+  const category = testCategory as TestCategory;
+  return ([TestCategory.CCPC, TestCategory.DCPC].indexOf(category) >= 0 ? 'cpc4_holding' : 'dl25mes_holding');
 };

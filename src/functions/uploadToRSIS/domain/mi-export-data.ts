@@ -13,6 +13,7 @@ export enum FormType {
   // Current Paper DL25 = 1,
   // Current Paper CPC4 = 2,
   // Current Paper Dl25MC = 3,
+  CPC = 2,
   MES = 4,
 }
 

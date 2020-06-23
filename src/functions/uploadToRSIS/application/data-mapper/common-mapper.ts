@@ -192,6 +192,7 @@ const formatTestType = (result: ResultUpload): number => {
     ['H', 7],
     ['K', 8],
     // Note that some extra data will be needed in MES to indentify CPC tests, if MES adds support for them...
+    ['CCPC', 44], ['DCPC', 44],
     // LGV (Lorry) CPC (all C Categories) => 44
     // PCV (Bus) CPC (all D Categories) => 44
     ['EUA1M1', 16], ['EUA1M2', 1],
@@ -238,7 +239,7 @@ const formatInstructorPRN = (result: ResultUpload, category: CategoryCode): stri
  * @param result The MES test result
  * @returns The result (pass/fail/none)
  */
-const formatResult = (result: ResultUpload): ResultIndicator => {
+export const formatResult = (result: ResultUpload): ResultIndicator => {
   const activityCode = Number(result.testResult.activityCode);
   if (activityCode === 1) {
     return ResultIndicator.Pass;
@@ -257,7 +258,7 @@ const formatResult = (result: ResultUpload): ResultIndicator => {
  * @param result The MES test result
  * @returns The language indicator
  */
-const formatLanguage = (result: ResultUpload): Language => {
+export const formatLanguage = (result: ResultUpload): Language => {
   const language = get(result, 'testResult.communicationPreferences.conductedLanguage', null);
   if (language) {
     if (language === 'English') {
@@ -274,7 +275,7 @@ const formatLanguage = (result: ResultUpload): Language => {
  * @param result The MES test result
  * @returns The language indicator
  */
-const formatDateOfBirth = (result: ResultUpload): Date => {
+export const formatDateOfBirth = (result: ResultUpload): Date => {
   const dob = get(result, 'testResult.journalData.candidate.dateOfBirth', null);
   return dob ? moment(dob, 'YYYY-MM-DD').toDate() : dob;
 };

@@ -86,7 +86,7 @@ export function getTerminatedCatCPCTest() {
           examinerVisiting: false,
           specialNeedsCode: 'NONE',
           specialNeedsArray: [
-            'None'
+            'None',
           ],
           previousCancellation: [
             'Act of nature',

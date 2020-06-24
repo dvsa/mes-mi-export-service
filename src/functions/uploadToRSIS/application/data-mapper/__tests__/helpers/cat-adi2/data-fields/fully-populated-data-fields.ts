@@ -3,6 +3,14 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
   return [
     {
+      col: 'REV_PARK_CPARK_CONTROL_COMMENT',
+      val: 'reverseParkCarpark control',
+    },
+    {
+      col: 'REV_PARK_CPARK_OBSERVE_COMMENT',
+      val: 'reverseParkCarpark  observation',
+    },
+    {
       col: 'AUTOMATIC_TEST',
       val: 0,
     },
@@ -859,6 +867,14 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
 
 export function getADIFullyPopulatedSeriousDataFields(): DataField[] {
   return [
+    {
+      col: 'REV_PARK_CPARK_CONTROL_COMMENT',
+      val: 'reverseParkCarpark control',
+    },
+    {
+      col: 'REV_PARK_CPARK_OBSERVE_COMMENT',
+      val: 'reverseParkCarpark  observation',
+    },
     {
       col: 'AUTOMATIC_TEST',
       val: 0,
@@ -1720,6 +1736,22 @@ export function getADIFullyPopulatedSeriousDataFields(): DataField[] {
 
 export function getADIFullyPopulatedDangerousDataFields(): DataField[] {
   return [
+    {
+      col: 'REV_PARK_ROAD_CONTROL_COMMENT',
+      val: 'reverseParkRoad control',
+    },
+    {
+      col: 'REV_PARK_ROAD_OBSERVE_COMMENT',
+      val: 'reverseParkRoad  observation',
+    },
+    {
+      col: 'REV_PARK_CPARK_CONTROL_COMMENT',
+      val: 'reverseParkCarpark control',
+    },
+    {
+      col: 'REV_PARK_CPARK_OBSERVE_COMMENT',
+      val: 'reverseParkCarpark  observation',
+    },
     {
       col: 'AUTOMATIC_TEST',
       val: 0,

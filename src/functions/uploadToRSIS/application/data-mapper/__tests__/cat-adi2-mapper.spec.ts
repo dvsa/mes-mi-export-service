@@ -1,6 +1,6 @@
 import { doesResultMatchExpectations } from './helpers/result-comparer';
 import { getCatADI2MinimalInput } from './helpers/cat-adi2/inputs/minimal-inputs';
-import { mapCatADI2Data } from '../cat-adi2-mapper';
+import { isManoeuvreCompleted, mapCatADI2Data } from '../cat-adi2-mapper';
 import { getADI2MinimalDataField } from './helpers/cat-adi2/data-fields/minimal-data-fields';
 import {
   getADI2FullyPopulatedDrivingFaults,
@@ -14,12 +14,11 @@ import {
 
 describe('mapCatADI2Data', () => {
 
-  it('Should map a minially populated test result (test terminated early as possible)', () => {
+  it('Should map a minimally populated test result (test terminated early as possible)', () => {
     const minimalInput = getCatADI2MinimalInput();
 
     const expected = getADI2MinimalDataField();
     const result = mapCatADI2Data(minimalInput);
-
     // expect no faults, serious or dangerous...
     const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
     expect(arraysMatched).toEqual(true);
@@ -50,5 +49,37 @@ describe('mapCatADI2Data', () => {
     // expect all dangerous, no faults or serious
     const arraysMatched: boolean = doesResultMatchExpectations(mapCatADI2Data(fullyPopulated), expected);
     expect(arraysMatched).toEqual(true);
+  });
+
+});
+
+describe('isManoeuvreCompleted', () => {
+  it('should return true if manoeuvre selected', () => {
+    const testData = {
+      manoeuvres: [{
+        forwardPark: {
+          controlFault: undefined,
+          controlFaultComments: '',
+          observationFault: undefined,
+          observationFaultComments: '',
+          selected: true,
+        },
+      }],
+    };
+    expect(isManoeuvreCompleted(testData, 'forwardPark')).toEqual(1);
+  });
+  it('should return false if manoeuvre NOT selected', () => {
+    const testData = {
+      manoeuvres: [{
+        forwardPark: {
+          controlFault: undefined,
+          controlFaultComments: '',
+          observationFault: undefined,
+          observationFaultComments: '',
+          selected: false,
+        },
+      }],
+    };
+    expect(isManoeuvreCompleted(testData, 'forwardPark')).toEqual(0);
   });
 });

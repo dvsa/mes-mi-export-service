@@ -620,7 +620,7 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'REVERSE_PARK_CARPARK',
-      val: 0,
+      val: 1,
     },
     {
       col: 'REVERSE_PARK_ROAD',
@@ -1469,7 +1469,7 @@ export function getADIFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'REVERSE_PARK_CARPARK',
-      val: 0,
+      val: 1,
     },
     {
       col: 'REVERSE_PARK_ROAD',
@@ -2338,11 +2338,11 @@ export function getADIFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'REVERSE_PARK_CARPARK',
-      val: 0,
+      val: 1,
     },
     {
       col: 'REVERSE_PARK_ROAD',
-      val: 0,
+      val: 1,
     },
     {
       col: 'VEHICLE_CHECKS_COMPLETED',

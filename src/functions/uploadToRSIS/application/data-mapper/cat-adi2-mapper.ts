@@ -254,13 +254,13 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
     field('EYESIGHT_COMPLETED', optionalBoolean(t, 'eyesightTest.complete')),
     field('CONTROL_STOP_COMPLETED', optionalBoolean(t, 'controlledStop.selected')),
     //  unused - REV_LEFT_TRAIL_COMPLETED
-    field('REV_RIGHT_TRAIL_COMPLETED', optionalBoolean(t, 'manoeuvres.reverseRight.selected')),
+    field('REV_RIGHT_TRAIL_COMPLETED', isManoeuvreCompleted(t, 'reverseRight')),
     //  unused - REVERSE_PARK_COMPLETED
-    field('REVERSE_PARK_CARPARK', optionalBoolean(t, 'manoeuvres.reverseParkCarpark.selected')),
-    field('REVERSE_PARK_ROAD', optionalBoolean(t, 'manoeuvres.reverseParkRoad.selected')),
+    field('REVERSE_PARK_CARPARK', isManoeuvreCompleted(t, 'reverseParkCarpark')),
+    field('REVERSE_PARK_ROAD', isManoeuvreCompleted(t, 'reverseParkRoad')),
     //  unused - TURN_IN_ROAD_COMPLETED
     field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 5)),
-    field('TAXI_MANOEUVRE_COMPLETED', optionalBoolean(t, 'manoeuvres.forwardPark.selected')),
+    field('TAXI_MANOEUVRE_COMPLETED', isManoeuvreCompleted(t, 'forwardPark')),
     //  unused - TAXI_WHEELCHAIR_COMPLETED
     //  unused - UNCOUPLE_RECOUPLE_COMPLETED
     //  unused - CATEGORY_5_REVERSE_ROAD
@@ -401,4 +401,10 @@ const getTrainingRecords = (result: ResultUpload): BooleanAsNumber | null => {
     return 1;
   }
   return 0;
+};
+
+export const isManoeuvreCompleted = (testData: CatADI2UniqueTypes.TestData, manoeuvreName: string): any => {
+  const isManoeuvreOneSelected = get(testData, `manoeuvres[0].${manoeuvreName}.selected`, false);
+  const isManoeuvreTwoSelected = get(testData, `manoeuvres[1].${manoeuvreName}.selected`, false);
+  return isManoeuvreOneSelected || isManoeuvreTwoSelected ? 1 : 0;
 };

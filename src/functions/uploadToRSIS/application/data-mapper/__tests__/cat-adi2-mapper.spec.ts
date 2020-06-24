@@ -1,6 +1,6 @@
 import { doesResultMatchExpectations } from './helpers/result-comparer';
 import { getCatADI2MinimalInput } from './helpers/cat-adi2/inputs/minimal-inputs';
-import { isManoeuvreCompleted, mapCatADI2Data } from '../cat-adi2-mapper';
+import { getManoeuvreCommentByType, isManoeuvreCompleted, mapCatADI2Data } from '../cat-adi2-mapper';
 import { getADI2MinimalDataField } from './helpers/cat-adi2/data-fields/minimal-data-fields';
 import {
   getADI2FullyPopulatedDrivingFaults,
@@ -81,5 +81,36 @@ describe('isManoeuvreCompleted', () => {
       }],
     };
     expect(isManoeuvreCompleted(testData, 'forwardPark')).toEqual(0);
+  });
+});
+
+describe('getManoeuvreCommentByType', () => {
+  const testData = {
+    manoeuvres: [{
+      forwardPark: {
+        controlFault: undefined,
+        controlFaultComments: 'bad control forward park',
+        observationFault: undefined,
+        observationFaultComments: '',
+        selected: true,
+      },
+    },
+      {
+        reverseParkCarpark: {
+          controlFault: undefined,
+          controlFaultComments: 'bad control reverse park car park',
+          observationFault: undefined,
+          observationFaultComments: '',
+          selected: true,
+        },
+      }],
+  };
+  it('should return the requested comment where found', () => {
+    const comment = getManoeuvreCommentByType(testData, 'reverseParkCarpark', 'controlFaultComments');
+    expect(comment).toEqual('bad control reverse park car park');
+  });
+  it('should return NULL where not found', () => {
+    const comment = getManoeuvreCommentByType(testData, 'reverseRight', 'controlFaultComments');
+    expect(comment).toEqual(null);
   });
 });

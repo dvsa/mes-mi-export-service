@@ -313,17 +313,18 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
   // add the optional fields, only if set
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'CONTROL_STOP_COMMENT', optional(t, 'controlledStop.faultComments', null));
-  addIfSet(m, 'REV_RIGHT_TRAIL_CONT_COMMENT', optional(t, 'manoeuvres.reverseRight.controlFaultComments', null));
-  addIfSet(m, 'REV_RIGHT_TRAIL_OBSERV_COMMENT', optional(t, 'manoeuvres.reverseRight.observationFaultComments', null));
-  addIfSet(m, 'REV_PARK_CPARK_CONTROL_COMMENT',
-           optional(t, 'manoeuvres.reverseParkCarpark.controlFaultComments', null));
-  addIfSet(m, 'REV_PARK_CPARK_OBSERVE_COMMENT',
-           optional(t, 'manoeuvres.reverseParkCarpark.observationFaultComments', null));
-  addIfSet(m, 'REV_PARK_ROAD_CONTROL_COMMENT', optional(t, 'manoeuvres.reverseParkRoad.controlFaultComments', null));
-  addIfSet(m, 'REV_PARK_ROAD_OBSERVE_COMMENT',
-           optional(t, 'manoeuvres.reverseParkRoad.observationFaultComments', null));
-  addIfSet(m, 'FORWARD_PARK_CONTROL_COMMENT', optional(t, 'manoeuvres.forwardPark.controlFaultComments', null));
-  addIfSet(m, 'FORWARD_PARK_OBSERVE_COMMENT', optional(t, 'manoeuvres.forwardPark.observationFaultComments', null));
+  addIfSet(m, 'REV_RIGHT_TRAIL_CONT_COMMENT', getManoeuvreCommentByType(t, 'reverseRight', 'controlFaultComments'));
+  addIfSet(
+    m, 'REV_RIGHT_TRAIL_OBSERV_COMMENT', getManoeuvreCommentByType(t, 'reverseRight', 'observationFaultComments'));
+  addIfSet(
+    m, 'REV_PARK_CPARK_CONTROL_COMMENT', getManoeuvreCommentByType(t, 'reverseParkCarpark', 'controlFaultComments'));
+  addIfSet(m, 'REV_PARK_CPARK_OBSERVE_COMMENT', getManoeuvreCommentByType(
+    t, 'reverseParkCarpark', 'observationFaultComments'));
+  addIfSet(m, 'REV_PARK_ROAD_CONTROL_COMMENT', getManoeuvreCommentByType(t, 'reverseParkRoad', 'controlFaultComments'));
+  addIfSet(
+    m, 'REV_PARK_ROAD_OBSERVE_COMMENT', getManoeuvreCommentByType(t, 'reverseParkRoad', 'observationFaultComments'));
+  addIfSet(m, 'FORWARD_PARK_CONTROL_COMMENT', getManoeuvreCommentByType(t, 'forwardPark', 'controlFaultComments'));
+  addIfSet(m, 'FORWARD_PARK_OBSERVE_COMMENT', getManoeuvreCommentByType(t, 'forwardPark', 'observationFaultComments'));
   addIfSet(m, 'PRECAUTIONS_COMMENT', getCompetencyComments(t, 'precautionsComments'));
   addIfSet(m, 'CONTROL_ACC_COMMENT', getCompetencyComments(t, 'controlsAcceleratorComments'));
   addIfSet(m, 'CONTROL_CLUTCH_COMMENT', getCompetencyComments(t, 'controlsClutchComments'));
@@ -403,8 +404,15 @@ const getTrainingRecords = (result: ResultUpload): BooleanAsNumber | null => {
   return 0;
 };
 
-export const isManoeuvreCompleted = (testData: CatADI2UniqueTypes.TestData, manoeuvreName: string): any => {
+export const isManoeuvreCompleted = (testData: CatADI2UniqueTypes.TestData, manoeuvreName: string): BooleanAsNumber => {
   const isManoeuvreOneSelected = get(testData, `manoeuvres[0].${manoeuvreName}.selected`, false);
   const isManoeuvreTwoSelected = get(testData, `manoeuvres[1].${manoeuvreName}.selected`, false);
   return isManoeuvreOneSelected || isManoeuvreTwoSelected ? 1 : 0;
+};
+
+export const getManoeuvreCommentByType = (
+  testData: CatADI2UniqueTypes.TestData, manoeuvreName: string, commentType: string): string | null => {
+  const commentOne: string = get(testData, `manoeuvres[0].${manoeuvreName}.${commentType}`, null);
+  const commentTwo: string = get(testData, `manoeuvres[1].${manoeuvreName}.${commentType}`, null);
+  return commentOne || commentTwo;
 };

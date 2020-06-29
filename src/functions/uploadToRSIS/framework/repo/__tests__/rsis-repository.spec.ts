@@ -1,4 +1,4 @@
-import { saveTestResult } from '../rsis-repository';
+import {getTableNameByTestCategory, saveTestResult} from '../rsis-repository';
 import * as database from '../database';
 import * as logger from '@dvsa/mes-microservice-common/application/utils/logger';
 import { Mock } from 'typemoq';
@@ -89,5 +89,20 @@ describe('saveTestResult', () => {
     expect(database.execute).toHaveBeenCalledTimes(0);
     expect(logger.info).toHaveBeenCalledWith(
       jasmine.stringMatching(/^This is where we would be issuing the following SQL statement:*/));
+  });
+});
+
+describe('getTableNameByTestCategory', () => {
+  it('should return the correct table for a CCPC test', () => {
+    const table = getTableNameByTestCategory('CCPC');
+    expect(table).toEqual('cpc4_holding');
+  });
+  it('should return the correct table for a DCPC test', () => {
+    const table = getTableNameByTestCategory('DCPC');
+    expect(table).toEqual('cpc4_holding');
+  });
+  it('should return the correct table for other tests', () => {
+    const table = getTableNameByTestCategory('B');
+    expect(table).toEqual('dl25mes_holding');
   });
 });

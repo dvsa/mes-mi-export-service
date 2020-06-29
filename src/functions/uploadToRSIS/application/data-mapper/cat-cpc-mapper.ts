@@ -10,17 +10,16 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult as TestResultCatCPCSchema;
   const t: TestData = result.testResult.testData as TestData;
   const testDateTime = moment(testResult.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
+  const candidateDOB = moment(formatDateOfBirth(result)).format('YYMMDD');
 
   const m: DataField[] = [
     field('ACTIVITY_CODE', Number(testResult.activityCode)),
-    // @TODO - do not beleive this field is required
-    // field('ADI_PRN', optional(result, 'testResult.journalData.candidate.prn', null)),
+    // unused - ADI_PRN
     field('APP_REF_NO', formatApplicationReference(testResult.journalData.applicationReference)),
     field('C', optionalBoolean(testResult, 'changeMarker')),
     field('CANDIDATE_SURNAME', mandatory(testResult, 'journalData.candidate.candidateName.lastName')),
     field('CAT_TYPE', formatCPCTestCategory(testResult)),
-    // COMBINATION
-    // @TODO - confirm how we load (spreadsheet says num?)
+    // field('COMBINATION', formatCPCCombinationCode(t)),
     // unused - DATA_VALIDATION_FLAGS
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('DEBRIEF_GIVEN', testResult.activityCode === '51' ? 0 : 1),
@@ -30,8 +29,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('EXAMINER_PERSON_ID', testResult.journalData.examiner.staffNumber),
     // unused - EXAMINER_SURNAME
     field('FORM_TYPE', FormType.CPC),
-    // IMAGE_REFERENCE
-    // @TODO - confirm we want to send signature (don't for other cats)
+    // unused - IMAGE_REFERENCE
     // unused - INSTRUCTOR_CERT
     field('INT', optionalBoolean(testResult, 'accompaniment.interpreter')),
     // unused - REC_NO
@@ -78,7 +76,6 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('SEC5_MARK10', optionalBoolean(t, 'question5.answer10.selected')),
     field('SEC5_PERCENT_SCORE', optional(t, 'question5.score', 0)),
     field('SEC5_Q_NO', optional(t, 'question5.questionCode', '')),
-    // @TODO - STAFF_NO appears to be mapped twice?
     field('STAFF_NO', testResult.journalData.examiner.staffNumber),
     // SUP
     field('SUP', optionalBoolean(testResult, 'accompaniment.supervisor')),
@@ -99,14 +96,19 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
 
   // add the optional fields, only if set
   addIfSet(m, 'CANDIDATE_FORENAMES', optional(testResult, 'journalData.candidate.candidateName.firstName', null));
-  addIfSet(m, 'DOB', formatDateOfBirth(result));
+  addIfSet(m, 'DRIVER_NO_DOB', candidateDOB);
   addIfSet(m, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));
   addIfSet(m, 'PASS_CERTIFICATE', optional(testResult, 'passCompletion.passCertificateNumber', null));
   addIfSet(m, 'VEHICLE_REGISTRATION', optional(testResult, 'vehicleDetails.registrationNumber', null));
+  addIfSet(m, 'COMBINATION', formatCPCCombinationCode(t));
 
   return m;
 };
 
 export const formatCPCTestCategory = (result: TestResultCatCPCSchema): string => {
   return result.category.substring(0, 1);
+};
+
+const formatCPCCombinationCode = (testData: TestData): string | null =>  {
+  return testData.combination ? testData.combination.replace(/[^0-9]/g, '') : null;
 };

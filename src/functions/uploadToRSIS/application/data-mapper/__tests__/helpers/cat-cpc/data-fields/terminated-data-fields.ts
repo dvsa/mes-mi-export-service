@@ -59,7 +59,7 @@ export function getCatCPCTerminatedDataFields(): DataField[] {
     { col: 'TOTAL_PERCENT', val: 0 },
     { col: 'WELSH_FORM_IND', val: 'E' },
     { col: 'CANDIDATE_FORENAMES', val: 'Jennifer' },
-    { col: 'DOB', val: new Date('1989-01-01') },
+    { col: 'DRIVER_NO_DOB', val: '890101' },
     { col: 'ETHNICITY', val: 'D' },
   ];
 

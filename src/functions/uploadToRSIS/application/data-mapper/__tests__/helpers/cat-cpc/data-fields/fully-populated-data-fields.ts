@@ -6,11 +6,6 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
       col: 'ACTIVITY_CODE',
       val: 1,
     },
-    // @TODO - do not believe this is required
-    // {
-    //   col: 'ADI_PRN',
-    //   val: null,
-    // },
     {
       col: 'APP_REF_NO',
       val: 22123470019,
@@ -236,8 +231,8 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
       val: 'Ken',
     },
     {
-      col: 'DOB',
-      val: new Date('1989-01-01'),
+      col: 'DRIVER_NO_DOB',
+      val: '890101',
     },
     {
       col: 'ETHNICITY',
@@ -250,6 +245,10 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
     {
       col: 'VEHICLE_REGISTRATION',
       val: 'A1',
+    },
+    {
+      col: 'COMBINATION',
+      val: '4',
     },
   ];
 }

@@ -195,7 +195,7 @@ export function getVehicleChecksByOutcomeSeverity(
         outcome: isSerious ? severityShortCode : 'P',
       },
     ],
-    showMeQuestion: [
+    showMeQuestions: [
       {
         code: 'S1',
         description: 'First Show Me Question',

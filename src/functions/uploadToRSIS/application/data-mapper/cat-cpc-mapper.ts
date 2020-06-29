@@ -19,7 +19,6 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('C', optionalBoolean(testResult, 'changeMarker')),
     field('CANDIDATE_SURNAME', mandatory(testResult, 'journalData.candidate.candidateName.lastName')),
     field('CAT_TYPE', formatCPCTestCategory(testResult)),
-    // field('COMBINATION', formatCPCCombinationCode(t)),
     // unused - DATA_VALIDATION_FLAGS
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('DEBRIEF_GIVEN', testResult.activityCode === '51' ? 0 : 1),
@@ -77,7 +76,6 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('SEC5_PERCENT_SCORE', optional(t, 'question5.score', 0)),
     field('SEC5_Q_NO', optional(t, 'question5.questionCode', '')),
     field('STAFF_NO', testResult.journalData.examiner.staffNumber),
-    // SUP
     field('SUP', optionalBoolean(testResult, 'accompaniment.supervisor')),
     field('TEST_CATEGORY_TYPE', 'CPC'),
     field('TEST_CENTRE_ID', testResult.journalData.testCentre.centreId),
@@ -85,7 +83,6 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     // unused - TEST_CENTRE_SECTOR_AREA_ID
     // unused - TEST_CENTRE_SECTOR_DESC
     // unused - TEST_CENTRE_SECTOR_ID
-    // TEST_RESULT
     field('TEST_RESULT', formatResult(result)),
     field('TIME', testDateTime.format('HHmm')),
     // unused - TOTAL_DATA_KEYSTROKES

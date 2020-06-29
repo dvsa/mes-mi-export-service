@@ -71,10 +71,6 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
       val: 20,
     },
     {
-      col: 'SEC1_Q_NO',
-      val: 'Q08',
-    },
-    {
       col: 'SEC2_MARK1',
       val: 1,
     },
@@ -93,10 +89,6 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
     {
       col: 'SEC2_PERCENT_SCORE',
       val: 20,
-    },
-    {
-      col: 'SEC2_Q_NO',
-      val: 'Q04',
     },
     {
       col: 'SEC3_MARK1',
@@ -119,10 +111,6 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
       val: 15,
     },
     {
-      col: 'SEC3_Q_NO',
-      val: 'Q15',
-    },
-    {
       col: 'SEC4_MARK1',
       val: 1,
     },
@@ -141,10 +129,6 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
     {
       col: 'SEC4_PERCENT_SCORE',
       val: 20,
-    },
-    {
-      col: 'SEC4_Q_NO',
-      val: 'Q11',
     },
     {
       col: 'SEC5_MARK1',
@@ -191,10 +175,6 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
       val: 20,
     },
     {
-      col: 'SEC5_Q_NO',
-      val: 'Q05',
-    },
-    {
       col: 'STAFF_NO',
       val: '10000012',
     },
@@ -225,6 +205,26 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
     {
       col: 'WELSH_FORM_IND',
       val: 'E',
+    },
+    {
+      col: 'SEC1_Q_NO',
+      val: 'Q08',
+    },
+    {
+      col: 'SEC2_Q_NO',
+      val: 'Q04',
+    },
+    {
+      col: 'SEC3_Q_NO',
+      val: 'Q15',
+    },
+    {
+      col: 'SEC4_Q_NO',
+      val: 'Q11',
+    },
+    {
+      col: 'SEC5_Q_NO',
+      val: 'Q05',
     },
     {
       col: 'CANDIDATE_FORENAMES',

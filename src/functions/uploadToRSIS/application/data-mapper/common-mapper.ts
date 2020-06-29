@@ -18,6 +18,8 @@ import { trimTestCategoryPrefix } from '@dvsa/mes-microservice-common/domain/tri
 import { formatRekeyReason, formatIpadIssueReason } from './rekey-reason-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
+export const ftaActivityCode = '51';
+
 /**
  * Maps data common to all test categories.
  *
@@ -87,7 +89,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('DEBRIEF_WITNESSED', optionalBoolean(r, 'testSummary.debriefWitnessed')),
 
     // debrief is always given (even to explain why test is being terminated), unless candidate didn't turn up
-    field('DEBRIEF_GIVEN', r.activityCode === '51' ? 0 : 1),
+    field('DEBRIEF_GIVEN', r.activityCode === ftaActivityCode ? 0 : 1),
 
     field('ACTIVITY_CODE', Number(r.activityCode)),
     // PASS_CERTIFICATE is optional field set below

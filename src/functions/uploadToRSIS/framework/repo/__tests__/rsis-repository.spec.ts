@@ -1,4 +1,4 @@
-import {getTableNameByTestCategory, saveTestResult} from '../rsis-repository';
+import { getTableNameByTestCategory, saveTestResult } from '../rsis-repository';
 import * as database from '../database';
 import * as logger from '@dvsa/mes-microservice-common/application/utils/logger';
 import { Mock } from 'typemoq';

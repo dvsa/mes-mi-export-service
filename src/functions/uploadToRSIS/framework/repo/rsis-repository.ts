@@ -47,6 +47,6 @@ export const saveTestResult = async (
 };
 
 export const getTableNameByTestCategory = (testCategory: CategoryCode): string => {
-  const category = testCategory as TestCategory;
-  return ([TestCategory.CCPC, TestCategory.DCPC].indexOf(category) >= 0 ? 'cpc4_holding' : 'dl25mes_holding');
+  return ([TestCategory.CCPC, TestCategory.DCPC]
+    .indexOf(testCategory as TestCategory) >= 0 ? 'cpc4_holding' : 'dl25mes_holding');
 };

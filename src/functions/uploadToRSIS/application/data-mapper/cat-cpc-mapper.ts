@@ -1,10 +1,10 @@
 import { ResultUpload } from '../result-client';
 import { DataField, FormType } from '../../domain/mi-export-data';
-import { TestData, TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
+import { TestData, TestResultCatCPCSchema, ActivityCode } from '@dvsa/mes-test-schema/categories/CPC';
 import { addIfSet, field, mandatory, optional, optionalBoolean } from './data-mapper';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 import moment = require('moment');
-import { formatDateOfBirth, formatResult, formatLanguage } from './common-mapper';
+import { formatDateOfBirth, formatResult, formatLanguage, ftaActivityCode } from './common-mapper';
 
 export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult as TestResultCatCPCSchema;
@@ -21,7 +21,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('CAT_TYPE', formatCPCTestCategory(testResult)),
     // unused - DATA_VALIDATION_FLAGS
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
-    field('DEBRIEF_GIVEN', testResult.activityCode === '51' ? 0 : 1),
+    field('DEBRIEF_GIVEN', testResult.activityCode === ftaActivityCode ? 0 : 1),
     field('DRIVER_NUMBER', mandatory(testResult, 'journalData.candidate.driverNumber')),
     field('DTC_AUTHORITY_CODE', testResult.journalData.testCentre.costCode),
     // unused - EXAMINER_FORENAMES
@@ -40,28 +40,24 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('SEC1_MARK3', optionalBoolean(t, 'question1.answer3.selected')),
     field('SEC1_MARK4', optionalBoolean(t, 'question1.answer4.selected')),
     field('SEC1_PERCENT_SCORE', optional(t, 'question1.score', 0)),
-    field('SEC1_Q_NO', optional(t, 'question1.questionCode', '')),
     // SEC2
     field('SEC2_MARK1', optionalBoolean(t, 'question2.answer1.selected')),
     field('SEC2_MARK2', optionalBoolean(t, 'question2.answer2.selected')),
     field('SEC2_MARK3', optionalBoolean(t, 'question2.answer3.selected')),
     field('SEC2_MARK4', optionalBoolean(t, 'question2.answer4.selected')),
     field('SEC2_PERCENT_SCORE', optional(t, 'question2.score', 0)),
-    field('SEC2_Q_NO', optional(t, 'question2.questionCode', '')),
     // SEC3
     field('SEC3_MARK1', optionalBoolean(t, 'question3.answer1.selected')),
     field('SEC3_MARK2', optionalBoolean(t, 'question3.answer2.selected')),
     field('SEC3_MARK3', optionalBoolean(t, 'question3.answer3.selected')),
     field('SEC3_MARK4', optionalBoolean(t, 'question3.answer4.selected')),
     field('SEC3_PERCENT_SCORE', optional(t, 'question3.score', 0)),
-    field('SEC3_Q_NO', optional(t, 'question3.questionCode', '')),
     // SEC4
     field('SEC4_MARK1', optionalBoolean(t, 'question4.answer1.selected')),
     field('SEC4_MARK2', optionalBoolean(t, 'question4.answer2.selected')),
     field('SEC4_MARK3', optionalBoolean(t, 'question4.answer3.selected')),
     field('SEC4_MARK4', optionalBoolean(t, 'question4.answer4.selected')),
     field('SEC4_PERCENT_SCORE', optional(t, 'question4.score', 0)),
-    field('SEC4_Q_NO', optional(t, 'question4.questionCode', '')),
     // SEC5
     field('SEC5_MARK1', optionalBoolean(t, 'question5.answer1.selected')),
     field('SEC5_MARK2', optionalBoolean(t, 'question5.answer2.selected')),
@@ -74,7 +70,6 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('SEC5_MARK9', optionalBoolean(t, 'question5.answer9.selected')),
     field('SEC5_MARK10', optionalBoolean(t, 'question5.answer10.selected')),
     field('SEC5_PERCENT_SCORE', optional(t, 'question5.score', 0)),
-    field('SEC5_Q_NO', optional(t, 'question5.questionCode', '')),
     field('STAFF_NO', testResult.journalData.examiner.staffNumber),
     field('SUP', optionalBoolean(testResult, 'accompaniment.supervisor')),
     field('TEST_CATEGORY_TYPE', 'CPC'),
@@ -92,6 +87,18 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
+  // field('SEC1_Q_NO', optional(t, 'question1.questionCode', ''));
+  // field('SEC2_Q_NO', optional(t, 'question2.questionCode', '')),
+  //   field('SEC3_Q_NO', optional(t, 'question3.questionCode', '')),
+  //   field('SEC4_Q_NO', optional(t, 'question4.questionCode', '')),
+  //   field('SEC5_Q_NO', optional(t, 'question5.questionCode', '')),
+
+  addIfSet(m, 'SEC1_Q_NO', optional(t, 'question1.questionCode', null));
+  addIfSet(m, 'SEC2_Q_NO', optional(t, 'question2.questionCode', null));
+  addIfSet(m, 'SEC3_Q_NO', optional(t, 'question3.questionCode', null));
+  addIfSet(m, 'SEC4_Q_NO', optional(t, 'question4.questionCode', null));
+  addIfSet(m, 'SEC5_Q_NO', optional(t, 'question5.questionCode', null));
+
   addIfSet(m, 'CANDIDATE_FORENAMES', optional(testResult, 'journalData.candidate.candidateName.firstName', null));
   addIfSet(m, 'DRIVER_NO_DOB', candidateDOB);
   addIfSet(m, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));

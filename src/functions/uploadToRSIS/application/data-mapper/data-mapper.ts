@@ -33,6 +33,7 @@ import { mapCatFData } from './cat-f-mapper';
 import { mapCatKData } from './cat-k-mapper';
 import { mapCatHData } from './cat-h-mapper';
 import { mapCatGData } from './cat-g-mapper';
+import { mapCatCPCData } from './cat-cpc-mapper';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -118,6 +119,10 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
       break;
     case TestCategory.K:
       mappedDataFields = mappedDataFields.concat(mapCatKData(result));
+      break;
+    case TestCategory.CCPC:
+    case TestCategory.DCPC:
+      mappedDataFields = mapCatCPCData(result);
       break;
     default:
       const message = `Unsupported Category: ${category}`;

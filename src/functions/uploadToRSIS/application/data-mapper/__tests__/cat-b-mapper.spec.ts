@@ -15,7 +15,7 @@ import { doesResultMatchExpectations } from './helpers/result-comparer';
 
 describe('mapCatBData', () => {
 
-  it('Should map a minially populated test result (test terminated early as possible)', () => {
+  it('Should map a minimally populated test result (test terminated early as possible)', () => {
     const minimalInput = getCatBMinimalInput();
 
     const expected = getMinimalDataField();

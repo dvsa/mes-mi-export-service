@@ -668,159 +668,159 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'PRECAUTIONS_COMMENT',
-      val: 'precautions fault',
+      val: 'Driving fault comment: precautions fault',
     },
     {
       col: 'CONTROL_ACC_COMMENT',
-      val: 'controls accelerator fault',
+      val: 'Driving fault comment: controls accelerator fault',
     },
     {
       col: 'CONTROL_CLUTCH_COMMENT',
-      val: 'controls clutch fault',
+      val: 'Driving fault comment: controls clutch fault',
     },
     {
       col: 'CONTROL_GEARS_COMMENT',
-      val: 'controls gears fault',
+      val: 'Driving fault comment: controls gears fault',
     },
     {
       col: 'CONTROL_FOOTBRAKE_COMMENT',
-      val: 'controls footbrake fault',
+      val: 'Driving fault comment: controls footbrake fault',
     },
     {
       col: 'CONTROL_PARK_COMMENT',
-      val: 'controls parking brake fault',
+      val: 'Driving fault comment: controls parking brake fault',
     },
     {
       col: 'CONTROL_STEERING_COMMENT',
-      val: 'controls steering fault',
+      val: 'Driving fault comment: controls steering fault',
     },
     {
       col: 'MOVE_OFF_SAFETY_COMMENT',
-      val: 'move off safety fault',
+      val: 'Driving fault comment: move off safety fault',
     },
     {
       col: 'MOVE_OFF_CONTROL_COMMENT',
-      val: 'move off control fault',
+      val: 'Driving fault comment: move off control fault',
     },
     {
       col: 'MIRRORS_MC_REAR_SIG_COMMENT',
-      val: 'use of mirrors signalling fault',
+      val: 'Driving fault comment: use of mirrors signalling fault',
     },
     {
       col: 'MIRRORS_MC_REAR_DIR_COMMENT',
-      val: 'use of mirrors change direction fault',
+      val: 'Driving fault comment: use of mirrors change direction fault',
     },
     {
       col: 'MIRRORS_MC_REAR_SPE_COMMENT',
-      val: 'use of mirrors change speed fault',
+      val: 'Driving fault comment: use of mirrors change speed fault',
     },
     {
       col: 'SIGNALS_NECESSARY_COMMENT',
-      val: 'signals necessary fault',
+      val: 'Driving fault comment: signals necessary fault',
     },
     {
       col: 'SIGNALS_CORRECTLY_COMMENT',
-      val: 'signals correctly fault',
+      val: 'Driving fault comment: signals correctly fault',
     },
     {
       col: 'SIGNALS_TIMED_COMMENT',
-      val: 'signals timed fault',
+      val: 'Driving fault comment: signals timed fault',
     },
     {
       col: 'CLEARANCE_OBSTRUCT_COMMENT',
-      val: 'clearance fault',
+      val: 'Driving fault comment: clearance fault',
     },
     {
       col: 'RESPONSE_TRAF_SIGNS_COMMENT',
-      val: 'response to signs traffic signs fault',
+      val: 'Driving fault comment: response to signs traffic signs fault',
     },
     {
       col: 'RESPONSE_ROAD_MARK_COMMENT',
-      val: 'response to signs road markings fault',
+      val: 'Driving fault comment: response to signs road markings fault',
     },
     {
       col: 'RESPONSE_TRAF_LIGHT_COMMENT',
-      val: 'response to signs traffic lights fault',
+      val: 'Driving fault comment: response to signs traffic lights fault',
     },
     {
       col: 'RESPONSE_TRAF_CONT_COMMENT',
-      val: 'response to signs traffic controllers fault',
+      val: 'Driving fault comment: response to signs traffic controllers fault',
     },
     {
       col: 'RESPONSE_OTHER_COMMENT',
-      val: 'response to signs other road users fault',
+      val: 'Driving fault comment: response to signs other road users fault',
     },
     {
       col: 'USE_OF_SPEED_COMMENT',
-      val: 'use of speed fault',
+      val: 'Driving fault comment: use of speed fault',
     },
     {
       col: 'FOLLOWING_DISTANCE_COMMENT',
-      val: 'following distance fault',
+      val: 'Driving fault comment: following distance fault',
     },
     {
       col: 'MAINTAIN_PROG_SPEED_COMMENT',
-      val: 'progress appropriate speed fault',
+      val: 'Driving fault comment: progress appropriate speed fault',
     },
     {
       col: 'MAINTAIN_PROG_HES_COMMENT',
-      val: 'progress undue hesitation fault',
+      val: 'Driving fault comment: progress undue hesitation fault',
     },
     {
       col: 'JUNCTIONS_SPEED_COMMENT',
-      val: 'junctions approach speed fault',
+      val: 'Driving fault comment: junctions approach speed fault',
     },
     {
       col: 'JUNCTIONS_OBSERV_COMMENT',
-      val: 'junctions observation fault',
+      val: 'Driving fault comment: junctions observation fault',
     },
     {
       col: 'JUNCTIONS_TURN_RIGHT_COMMENT',
-      val: 'junctions turning right fault',
+      val: 'Driving fault comment: junctions turning right fault',
     },
     {
       col: 'JUNCTIONS_TURN_LEFT_COMMENT',
-      val: 'junctions turning left fault',
+      val: 'Driving fault comment: junctions turning left fault',
     },
     {
       col: 'JUNCTIONS_TURN_CUT_COMMENT',
-      val: 'junctions cutting corners fault',
+      val: 'Driving fault comment: junctions cutting corners fault',
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
-      val: 'judgement overtaking fault',
+      val: 'Driving fault comment: judgement overtaking fault',
     },
     {
       col: 'JUDGEMENT_MEET_COMMENT',
-      val: 'judgement meeting fault',
+      val: 'Driving fault comment: judgement meeting fault',
     },
     {
       col: 'JUDGEMENT_CROSS_COMMENT',
-      val: 'judgement crossing fault',
+      val: 'Driving fault comment: judgement crossing fault',
     },
     {
       col: 'POSITIONING_NORMAL_COMMENT',
-      val: 'positioning normal driving fault',
+      val: 'Driving fault comment: positioning normal driving fault',
     },
     {
       col: 'POSITIONING_LANE_COMMENT',
-      val: 'positioning lane discipline fault',
+      val: 'Driving fault comment: positioning lane discipline fault',
     },
     {
       col: 'PEDESTRIAN_CROSSING_COMMENT',
-      val: 'pedestrian crossings fault',
+      val: 'Driving fault comment: pedestrian crossings fault',
     },
     {
       col: 'POSITION_STOPS_COMMENT',
-      val: 'position normal stops fault',
+      val: 'Driving fault comment: position normal stops fault',
     },
     {
       col: 'AWARENESS_PLAN_COMMENT',
-      val: 'awareness planning fault',
+      val: 'Driving fault comment: awareness planning fault',
     },
     {
       col: 'ANCILLARY_CONTROLS_COMMENT',
-      val: 'ancillary controls fault',
+      val: 'Driving fault comment: ancillary controls fault',
     },
     {
       col: 'SHOW_ME_1_CODE',
@@ -1537,159 +1537,159 @@ export function getADIFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'PRECAUTIONS_COMMENT',
-      val: 'precautions serious',
+      val: 'Serious fault comment: precautions serious',
     },
     {
       col: 'CONTROL_ACC_COMMENT',
-      val: 'controls accelerator serious',
+      val: 'Serious fault comment: controls accelerator serious',
     },
     {
       col: 'CONTROL_CLUTCH_COMMENT',
-      val: 'controls clutch serious',
+      val: 'Serious fault comment: controls clutch serious',
     },
     {
       col: 'CONTROL_GEARS_COMMENT',
-      val: 'controls gears serious',
+      val: 'Serious fault comment: controls gears serious',
     },
     {
       col: 'CONTROL_FOOTBRAKE_COMMENT',
-      val: 'controls footbrake serious',
+      val: 'Serious fault comment: controls footbrake serious',
     },
     {
       col: 'CONTROL_PARK_COMMENT',
-      val: 'controls parking brake serious',
+      val: 'Serious fault comment: controls parking brake serious',
     },
     {
       col: 'CONTROL_STEERING_COMMENT',
-      val: 'controls steering serious',
+      val: 'Serious fault comment: controls steering serious',
     },
     {
       col: 'MOVE_OFF_SAFETY_COMMENT',
-      val: 'move off safety serious',
+      val: 'Serious fault comment: move off safety serious',
     },
     {
       col: 'MOVE_OFF_CONTROL_COMMENT',
-      val: 'move off control serious',
+      val: 'Serious fault comment: move off control serious',
     },
     {
       col: 'MIRRORS_MC_REAR_SIG_COMMENT',
-      val: 'use of mirrors signalling serious',
+      val: 'Serious fault comment: use of mirrors signalling serious',
     },
     {
       col: 'MIRRORS_MC_REAR_DIR_COMMENT',
-      val: 'use of mirrors change direction serious',
+      val: 'Serious fault comment: use of mirrors change direction serious',
     },
     {
       col: 'MIRRORS_MC_REAR_SPE_COMMENT',
-      val: 'use of mirrors change speed serious',
+      val: 'Serious fault comment: use of mirrors change speed serious',
     },
     {
       col: 'SIGNALS_NECESSARY_COMMENT',
-      val: 'signals necessary serious',
+      val: 'Serious fault comment: signals necessary serious',
     },
     {
       col: 'SIGNALS_CORRECTLY_COMMENT',
-      val: 'signals correctly serious',
+      val: 'Serious fault comment: signals correctly serious',
     },
     {
       col: 'SIGNALS_TIMED_COMMENT',
-      val: 'signals timed serious',
+      val: 'Serious fault comment: signals timed serious',
     },
     {
       col: 'CLEARANCE_OBSTRUCT_COMMENT',
-      val: 'clearance serious',
+      val: 'Serious fault comment: clearance serious',
     },
     {
       col: 'RESPONSE_TRAF_SIGNS_COMMENT',
-      val: 'response to signs traffic signs serious',
+      val: 'Serious fault comment: response to signs traffic signs serious',
     },
     {
       col: 'RESPONSE_ROAD_MARK_COMMENT',
-      val: 'response to signs road markings serious',
+      val: 'Serious fault comment: response to signs road markings serious',
     },
     {
       col: 'RESPONSE_TRAF_LIGHT_COMMENT',
-      val: 'response to signs traffic lights serious',
+      val: 'Serious fault comment: response to signs traffic lights serious',
     },
     {
       col: 'RESPONSE_TRAF_CONT_COMMENT',
-      val: 'response to signs traffic controllers serious',
+      val: 'Serious fault comment: response to signs traffic controllers serious',
     },
     {
       col: 'RESPONSE_OTHER_COMMENT',
-      val: 'response to signs other road users serious',
+      val: 'Serious fault comment: response to signs other road users serious',
     },
     {
       col: 'USE_OF_SPEED_COMMENT',
-      val: 'use of speed serious',
+      val: 'Serious fault comment: use of speed serious',
     },
     {
       col: 'FOLLOWING_DISTANCE_COMMENT',
-      val: 'following distance serious',
+      val: 'Serious fault comment: following distance serious',
     },
     {
       col: 'MAINTAIN_PROG_SPEED_COMMENT',
-      val: 'progress appropriate speed serious',
+      val: 'Serious fault comment: progress appropriate speed serious',
     },
     {
       col: 'MAINTAIN_PROG_HES_COMMENT',
-      val: 'progress undue hesitation serious',
+      val: 'Serious fault comment: progress undue hesitation serious',
     },
     {
       col: 'JUNCTIONS_SPEED_COMMENT',
-      val: 'junctions approach speed serious',
+      val: 'Serious fault comment: junctions approach speed serious',
     },
     {
       col: 'JUNCTIONS_OBSERV_COMMENT',
-      val: 'junctions observation serious',
+      val: 'Serious fault comment: junctions observation serious',
     },
     {
       col: 'JUNCTIONS_TURN_RIGHT_COMMENT',
-      val: 'junctions turning right serious',
+      val: 'Serious fault comment: junctions turning right serious',
     },
     {
       col: 'JUNCTIONS_TURN_LEFT_COMMENT',
-      val: 'junctions turning left serious',
+      val: 'Serious fault comment: junctions turning left serious',
     },
     {
       col: 'JUNCTIONS_TURN_CUT_COMMENT',
-      val: 'junctions cutting corners serious',
+      val: 'Serious fault comment: junctions cutting corners serious',
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
-      val: 'judgement overtaking serious',
+      val: 'Serious fault comment: judgement overtaking serious',
     },
     {
       col: 'JUDGEMENT_MEET_COMMENT',
-      val: 'judgement meeting serious',
+      val: 'Serious fault comment: judgement meeting serious',
     },
     {
       col: 'JUDGEMENT_CROSS_COMMENT',
-      val: 'judgement crossing serious',
+      val: 'Serious fault comment: judgement crossing serious',
     },
     {
       col: 'POSITIONING_NORMAL_COMMENT',
-      val: 'positioning normal driving serious',
+      val: 'Serious fault comment: positioning normal driving serious',
     },
     {
       col: 'POSITIONING_LANE_COMMENT',
-      val: 'positioning lane discipline serious',
+      val: 'Serious fault comment: positioning lane discipline serious',
     },
     {
       col: 'PEDESTRIAN_CROSSING_COMMENT',
-      val: 'pedestrian crossings serious',
+      val: 'Serious fault comment: pedestrian crossings serious',
     },
     {
       col: 'POSITION_STOPS_COMMENT',
-      val: 'position normal stops serious',
+      val: 'Serious fault comment: position normal stops serious',
     },
     {
       col: 'AWARENESS_PLAN_COMMENT',
-      val: 'awareness planning serious',
+      val: 'Serious fault comment: awareness planning serious',
     },
     {
       col: 'ANCILLARY_CONTROLS_COMMENT',
-      val: 'ancillary controls serious',
+      val: 'Serious fault comment: ancillary controls serious',
     },
     {
       col: 'SHOW_ME_1_CODE',
@@ -2410,159 +2410,159 @@ export function getADIFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'PRECAUTIONS_COMMENT',
-      val: 'precautions dangerous',
+      val: 'Dangerous fault comment: precautions dangerous',
     },
     {
       col: 'CONTROL_ACC_COMMENT',
-      val: 'controls accelerator dangerous',
+      val: 'Dangerous fault comment: controls accelerator dangerous',
     },
     {
       col: 'CONTROL_CLUTCH_COMMENT',
-      val: 'controls clutch dangerous',
+      val: 'Dangerous fault comment: controls clutch dangerous',
     },
     {
       col: 'CONTROL_GEARS_COMMENT',
-      val: 'controls gears dangerous',
+      val: 'Dangerous fault comment: controls gears dangerous',
     },
     {
       col: 'CONTROL_FOOTBRAKE_COMMENT',
-      val: 'controls footbrake dangerous',
+      val: 'Dangerous fault comment: controls footbrake dangerous',
     },
     {
       col: 'CONTROL_PARK_COMMENT',
-      val: 'controls parking brake dangerous',
+      val: 'Dangerous fault comment: controls parking brake dangerous',
     },
     {
       col: 'CONTROL_STEERING_COMMENT',
-      val: 'controls steering dangerous',
+      val: 'Dangerous fault comment: controls steering dangerous',
     },
     {
       col: 'MOVE_OFF_SAFETY_COMMENT',
-      val: 'move off safety dangerous',
+      val: 'Dangerous fault comment: move off safety dangerous',
     },
     {
       col: 'MOVE_OFF_CONTROL_COMMENT',
-      val: 'move off control dangerous',
+      val: 'Dangerous fault comment: move off control dangerous',
     },
     {
       col: 'MIRRORS_MC_REAR_SIG_COMMENT',
-      val: 'use of mirrors signalling dangerous',
+      val: 'Dangerous fault comment: use of mirrors signalling dangerous',
     },
     {
       col: 'MIRRORS_MC_REAR_DIR_COMMENT',
-      val: 'use of mirrors change direction dangerous',
+      val: 'Dangerous fault comment: use of mirrors change direction dangerous',
     },
     {
       col: 'MIRRORS_MC_REAR_SPE_COMMENT',
-      val: 'use of mirrors change speed dangerous',
+      val: 'Dangerous fault comment: use of mirrors change speed dangerous',
     },
     {
       col: 'SIGNALS_NECESSARY_COMMENT',
-      val: 'signals necessary dangerous',
+      val: 'Dangerous fault comment: signals necessary dangerous',
     },
     {
       col: 'SIGNALS_CORRECTLY_COMMENT',
-      val: 'signals correctly dangerous',
+      val: 'Dangerous fault comment: signals correctly dangerous',
     },
     {
       col: 'SIGNALS_TIMED_COMMENT',
-      val: 'signals timed dangerous',
+      val: 'Dangerous fault comment: signals timed dangerous',
     },
     {
       col: 'CLEARANCE_OBSTRUCT_COMMENT',
-      val: 'clearance dangerous',
+      val: 'Dangerous fault comment: clearance dangerous',
     },
     {
       col: 'RESPONSE_TRAF_SIGNS_COMMENT',
-      val: 'response to signs traffic signs dangerous',
+      val: 'Dangerous fault comment: response to signs traffic signs dangerous',
     },
     {
       col: 'RESPONSE_ROAD_MARK_COMMENT',
-      val: 'response to signs road markings dangerous',
+      val: 'Dangerous fault comment: response to signs road markings dangerous',
     },
     {
       col: 'RESPONSE_TRAF_LIGHT_COMMENT',
-      val: 'response to signs traffic lights dangerous',
+      val: 'Dangerous fault comment: response to signs traffic lights dangerous',
     },
     {
       col: 'RESPONSE_TRAF_CONT_COMMENT',
-      val: 'response to signs traffic controllers dangerous',
+      val: 'Dangerous fault comment: response to signs traffic controllers dangerous',
     },
     {
       col: 'RESPONSE_OTHER_COMMENT',
-      val: 'response to signs other road users dangerous',
+      val: 'Dangerous fault comment: response to signs other road users dangerous',
     },
     {
       col: 'USE_OF_SPEED_COMMENT',
-      val: 'use of speed dangerous',
+      val: 'Dangerous fault comment: use of speed dangerous',
     },
     {
       col: 'FOLLOWING_DISTANCE_COMMENT',
-      val: 'following distance dangerous',
+      val: 'Dangerous fault comment: following distance dangerous',
     },
     {
       col: 'MAINTAIN_PROG_SPEED_COMMENT',
-      val: 'progress appropriate speed dangerous',
+      val: 'Dangerous fault comment: progress appropriate speed dangerous',
     },
     {
       col: 'MAINTAIN_PROG_HES_COMMENT',
-      val: 'progress undue hesitation dangerous',
+      val: 'Dangerous fault comment: progress undue hesitation dangerous',
     },
     {
       col: 'JUNCTIONS_SPEED_COMMENT',
-      val: 'junctions approach speed dangerous',
+      val: 'Dangerous fault comment: junctions approach speed dangerous',
     },
     {
       col: 'JUNCTIONS_OBSERV_COMMENT',
-      val: 'junctions observation dangerous',
+      val: 'Dangerous fault comment: junctions observation dangerous',
     },
     {
       col: 'JUNCTIONS_TURN_RIGHT_COMMENT',
-      val: 'junctions turning right dangerous',
+      val: 'Dangerous fault comment: junctions turning right dangerous',
     },
     {
       col: 'JUNCTIONS_TURN_LEFT_COMMENT',
-      val: 'junctions turning left dangerous',
+      val: 'Dangerous fault comment: junctions turning left dangerous',
     },
     {
       col: 'JUNCTIONS_TURN_CUT_COMMENT',
-      val: 'junctions cutting corners dangerous',
+      val: 'Dangerous fault comment: junctions cutting corners dangerous',
     },
     {
       col: 'JUDGEMENT_OVER_COMMENT',
-      val: 'judgement overtaking dangerous',
+      val: 'Dangerous fault comment: judgement overtaking dangerous',
     },
     {
       col: 'JUDGEMENT_MEET_COMMENT',
-      val: 'judgement meeting dangerous',
+      val: 'Dangerous fault comment: judgement meeting dangerous',
     },
     {
       col: 'JUDGEMENT_CROSS_COMMENT',
-      val: 'judgement crossing dangerous',
+      val: 'Dangerous fault comment: judgement crossing dangerous',
     },
     {
       col: 'POSITIONING_NORMAL_COMMENT',
-      val: 'positioning normal driving dangerous',
+      val: 'Dangerous fault comment: positioning normal driving dangerous',
     },
     {
       col: 'POSITIONING_LANE_COMMENT',
-      val: 'positioning lane discipline dangerous',
+      val: 'Dangerous fault comment: positioning lane discipline dangerous',
     },
     {
       col: 'PEDESTRIAN_CROSSING_COMMENT',
-      val: 'pedestrian crossings dangerous',
+      val: 'Dangerous fault comment: pedestrian crossings dangerous',
     },
     {
       col: 'POSITION_STOPS_COMMENT',
-      val: 'position normal stops dangerous',
+      val: 'Dangerous fault comment: position normal stops dangerous',
     },
     {
       col: 'AWARENESS_PLAN_COMMENT',
-      val: 'awareness planning dangerous',
+      val: 'Dangerous fault comment: awareness planning dangerous',
     },
     {
       col: 'ANCILLARY_CONTROLS_COMMENT',
-      val: 'ancillary controls dangerous',
+      val: 'Dangerous fault comment: ancillary controls dangerous',
     },
     {
       col: 'SHOW_ME_1_CODE',

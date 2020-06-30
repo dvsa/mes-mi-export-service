@@ -10,7 +10,8 @@ import {
   TestData,
   QuestionOutcome,
   QuestionResult,
-  FaultComments } from '@dvsa/mes-test-schema/categories/common/';
+  FaultComments,
+} from '@dvsa/mes-test-schema/categories/common/';
 import { mapCatADI2Data } from './cat-adi2-mapper';
 import { mapCatBEData } from './cat-be-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -254,7 +255,7 @@ export const formatMultipleManoeuvreFaults = (object: TestData,
   return 0;
 };
 
-export const formatManoeuvreComment = (object: any, path:string): string | null => {
+export const formatManoeuvreComment = (object: any, path: string): string | null => {
   const comment: FaultComments | null = get(object, path, null);
   return comment;
 };
@@ -433,7 +434,7 @@ export const formatQuestionSeriousCE = (testData: TestData | undefined): number 
   return totalFaults === 2 ? 1 : 0;
 };
 
-export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : number => {
+export const getVehicleChecksFaultCountBE = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
@@ -447,7 +448,7 @@ export const getVehicleChecksFaultCountBE = (testData: TestData| undefined) : nu
   return totalFaults;
 };
 
-export const getVehicleChecksFaultCountF = (testData: TestData| undefined) : number => {
+export const getVehicleChecksFaultCountF = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
@@ -466,7 +467,7 @@ export const getVehicleChecksFaultCountF = (testData: TestData| undefined) : num
  * Tell me questions are recorded
  * @param testData
  */
-export const getVehicleChecksFaultCountShowMeTellMe = (testData: TestData| undefined) : number => {
+export const getVehicleChecksFaultCountShowMeTellMe = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
   const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
   const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
@@ -542,30 +543,38 @@ export const formatQuestionCompleted = (testData: TestData | undefined, question
 /**
  * Get the fault/serious/dangerous comments for a specific competency, if any.
  *
- * Comments should never be completed for more than one competency (i.e. fault, serious, dangerous) but if they are
- * then dangerous is used first, then serious, then driving faults.
- *
  * @param testData The MES test result
  * @param path The JSON attribute, below ``drivingFaults``, ``seriousFaults`` and ``dangerousFaults``
  * @returns The value, or ``null``
  */
 export const getCompetencyComments = (testData: TestData | undefined, path: string): string | null => {
-  const dangerousComments = get(testData, `dangerousFaults.${path}`, null);
-  if (dangerousComments) {
-    return dangerousComments;
-  }
+  const dangerousFaultComment: string = get(testData, `dangerousFaults.${path}`, null);
+  const seriousFaultComment: string = get(testData, `seriousFaults.${path}`, null);
+  const drivingFaultComment: string = get(testData, `drivingFaults.${path}`, null);
 
-  const seriousComments = get(testData, `seriousFaults.${path}`, null);
-  if (seriousComments) {
-    return seriousComments;
-  }
+  return getCompetencyCommentString(dangerousFaultComment, seriousFaultComment, drivingFaultComment);
+};
 
-  const faultComments = get(testData, `drivingFaults.${path}`, null);
-  if (faultComments) {
-    return faultComments;
-  }
+export const getCompetencyCommentString = (
+  dangerousFaultComment: string,
+  seriousFaultComment: string,
+  drivingFaultComment: string): string | null => {
 
-  return null;
+  const comments: string[] = [];
+
+  if (dangerousFaultComment) {
+    comments.push(`Dangerous fault comment: ${dangerousFaultComment}`);
+  }
+  if (seriousFaultComment) {
+    comments.push(`Serious fault comment: ${seriousFaultComment}`);
+  }
+  if (drivingFaultComment) {
+    comments.push(`Driving fault comment: ${drivingFaultComment}`);
+  }
+  if (comments.length === 0) {
+    return null;
+  }
+  return comments.join(', ');
 };
 
 export const formatSingleFaultOutcomeBySeverity =

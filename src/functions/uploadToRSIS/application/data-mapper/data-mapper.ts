@@ -36,8 +36,6 @@ import { mapCatHData } from './cat-h-mapper';
 import { mapCatGData } from './cat-g-mapper';
 import { mapCatCPCData } from './cat-cpc-mapper';
 
-type FaultSeverity = 'Driving' | 'Serious' | 'Dangerous';
-
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
  * export to MI.
@@ -128,7 +126,7 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
       mappedDataFields = mapCatCPCData(result);
       break;
     default:
-      const message = `Unsupported Category: ${ category }`;
+      const message = `Unsupported Category: ${category}`;
       error(message);
       throw new Error(message);
       break;
@@ -139,22 +137,20 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
   // (i.e. a developer mistake, but easily done given these are long lists of database column mappings)
   const duplicatedFields: Set<string> = new Set();
   mappedDataFields.forEach((fieldToCheck) => {
-    if (mappedDataFields.filter((field) => {
-      return field.col === fieldToCheck.col;
-    }).length > 1) {
+    if (mappedDataFields.filter((field) => { return field.col === fieldToCheck.col; }).length > 1) {
       duplicatedFields.add(fieldToCheck.col);
     }
   });
   if (duplicatedFields.size > 0) {
-    const message = `Duplicate columns mapped: ${ Array.from(duplicatedFields).join(', ') }`;
+    const message = `Duplicate columns mapped: ${Array.from(duplicatedFields).join(', ')}`;
     error(message);
     throw new Error(message);
   }
 
   const mappingSummary = mappedDataFields.map((field, index) => {
-    return `Field: ${ index }\tColumn: ${ field.col }\tValue: '${ field.val }'`;
+    return `Field: ${index}\tColumn: ${field.col}\tValue: '${field.val}'`;
   }).join('\n');
-  debug(`Mapped result ${ JSON.stringify(result.uploadKey) } to ${ mappedDataFields.length } fields:\n${ mappingSummary }`);
+  debug(`Mapped result ${JSON.stringify(result.uploadKey)} to ${mappedDataFields.length} fields:\n${mappingSummary}`);
 
   return mappedDataFields;
 };
@@ -547,36 +543,23 @@ export const formatQuestionCompleted = (testData: TestData | undefined, question
 /**
  * Get the fault/serious/dangerous comments for a specific competency, if any.
  *
- * Comments should never be completed for more than one competency (i.e. fault, serious, dangerous) but if they are
- * then dangerous is used first, then serious, then driving faults.
- *
  * @param testData The MES test result
  * @param path The JSON attribute, below ``drivingFaults``, ``seriousFaults`` and ``dangerousFaults``
  * @returns The value, or ``null``
  */
-// export const getCompetencyComments = (testData: TestData | undefined, path: string): string | null => {
-//   const dangerousComments = get(testData, `dangerousFaults.${ path }`, null);
-//   if (dangerousComments) {
-//     return dangerousComments;
-//   }
-//
-//   const seriousComments = get(testData, `seriousFaults.${ path }`, null);
-//   if (seriousComments) {
-//     return seriousComments;
-//   }
-//
-//   const faultComments = get(testData, `drivingFaults.${ path }`, null);
-//   if (faultComments) {
-//     return faultComments;
-//   }
-//
-//   return null;
-// };
-
 export const getCompetencyComments = (testData: TestData | undefined, path: string): string | null => {
   const dangerousFaultComment: string = get(testData, `dangerousFaults.${path}`, null);
   const seriousFaultComment: string = get(testData, `seriousFaults.${path}`, null);
   const drivingFaultComment: string = get(testData, `drivingFaults.${path}`, null);
+
+  return getCompetencyCommentString(dangerousFaultComment, seriousFaultComment, drivingFaultComment);
+};
+
+export const getCompetencyCommentString = (
+  dangerousFaultComment: string,
+  seriousFaultComment: string,
+  drivingFaultComment: string): string | null => {
+
   const comments: string[] = [];
 
   if (dangerousFaultComment) {
@@ -608,18 +591,4 @@ export const optionalIsLeftBoolean = (testResult: TestResultCatAM1Schema): Boole
 export const optionalIsRightBoolean = (testResult: TestResultCatAM1Schema): BooleanAsNumber => {
   const direction = get(testResult, 'testSummary.circuit', '');
   return direction.toUpperCase() === 'RIGHT' ? 1 : 0;
-};
-
-export const prependFaultCommentMessage = (
-  dataFields: DataField[],
-  faultSeverity: FaultSeverity): DataField[] => {
-  return dataFields.map((dataField: DataField) => {
-    const dataValue = dataField.val;
-
-    return {
-      ...dataField,
-      val: (typeof dataValue === 'string' && dataValue.includes('fault comment')) ?
-        `${faultSeverity} fault comment: ${dataField.val}` : dataField.val,
-    };
-  });
 };

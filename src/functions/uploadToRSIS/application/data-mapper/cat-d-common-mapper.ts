@@ -8,11 +8,9 @@ import {
   getCompetencyComments,
   optional,
   optionalBoolean,
-  formatQuestionFaultD,
-  formatQuestionSeriousD,
   formatManoeuvreDangerous,
-  formatQuestionCompleted,
   formatManoeuvreComment,
+  getCompetencyCommentString,
 } from './data-mapper';
 import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
@@ -344,21 +342,10 @@ export const mapCommonCatDData = (result: ResultUpload): DataField[] => {
 export const getPcvDoorExerciseCompetencyComments =
   (testData: CatDUniqueTypes.TestData | undefined, path: string): string | null => {
     const dangerousComments = get(testData, `${path}.dangerousFaultComments`, null);
-    if (dangerousComments) {
-      return dangerousComments;
-    }
-
     const seriousComments = get(testData, `${path}.seriousFaultComments`, null);
-    if (seriousComments) {
-      return seriousComments;
-    }
-
     const faultComments = get(testData, `${path}.drivingFaultComments`, null);
-    if (faultComments) {
-      return faultComments;
-    }
 
-    return null;
+    return getCompetencyCommentString(dangerousComments, seriousComments, faultComments);
   };
 
 export const getSafetyQuestionFaultCount =

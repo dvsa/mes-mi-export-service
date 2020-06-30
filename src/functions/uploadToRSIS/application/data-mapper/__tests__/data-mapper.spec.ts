@@ -14,7 +14,7 @@ import {
   getCatAM2SafetyAndBalanceFaultCount,
   formatMultipleManoeuvreFaults,
 } from '../data-mapper';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, get } from 'lodash';
 import { QuestionOutcome, TestData } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { getCatBMinimalInput } from './helpers/cat-b/inputs/minimal-inputs';
@@ -354,7 +354,8 @@ describe('data mapper', () => {
       };
 
       expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
-        .toEqual('Precautions dangerous comment');
+        // tslint:disable-next-line:max-line-length
+        .toEqual('Dangerous fault comment: Precautions dangerous comment, Serious fault comment: Precautions serious comment, Driving fault comment: Precautions fault comment');
     });
 
     it('Should return the serious comment if set', () => {
@@ -370,7 +371,8 @@ describe('data mapper', () => {
       };
 
       expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
-        .toEqual('Precautions serious comment');
+        // tslint:disable-next-line:max-line-length
+        .toEqual('Serious fault comment: Precautions serious comment, Driving fault comment: Precautions fault comment');
     });
 
     it('Should return the fault comment if set', () => {
@@ -383,7 +385,7 @@ describe('data mapper', () => {
       };
 
       expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
-        .toEqual('Precautions fault comment');
+        .toEqual('Driving fault comment: Precautions fault comment');
     });
 
     it('Should return null if nothing set', () => {
@@ -443,5 +445,42 @@ describe('data mapper', () => {
       expect(optionalIsRightBoolean(input)).toEqual(0);
     });
   });
-
+  describe('getCompetencyComments', () => {
+    it('should concatenate a comment for a competency with all severity of faults', () => {
+      const td = {
+        dangerousFaults: { useOfStand: 'Very bad by candidate' },
+        seriousFaults: { useOfStand: 'Very bad by candidate' },
+        drivingFaults: { useOfStand: 'Very bad by candidate' },
+      };
+      expect(getCompetencyComments(td as TestData, 'useOfStand'))
+        // tslint:disable-next-line:max-line-length
+        .toEqual('Dangerous fault comment: Very bad by candidate, Serious fault comment: Very bad by candidate, Driving fault comment: Very bad by candidate');
+    });
+    it('should return null when none of specified comment is found in any fault', () => {
+      const td = {
+        dangerousFaults: { other: '' },
+        seriousFaults: { other: '' },
+        drivingFaults: { other: '' },
+      };
+      expect(getCompetencyComments(td as TestData, 'useOfStand')).toEqual(null);
+    });
+    it('should return a string that has more than one fault of the same type', () => {
+      const td = {
+        dangerousFaults: { controlsAcceleratorComments: 'comment was written' },
+        seriousFaults: {},
+        drivingFaults: { controlsAcceleratorComments: 'more was detailed' },
+      };
+      expect(getCompetencyComments(td as TestData, 'controlsAcceleratorComments'))
+        .toEqual('Dangerous fault comment: comment was written, Driving fault comment: more was detailed');
+    });
+    it('should return only one fault comment as only one fault type recorded against competency', () => {
+      const td = {
+        dangerousFaults: { controlsAcceleratorComments: 'comment was written' },
+        seriousFaults: { controlsFootbrakeComments: 'poor breaking' },
+        drivingFaults: { controlsAcceleratorComments: 'more was detailed' },
+      };
+      expect(getCompetencyComments(td as TestData, 'controlsFootbrakeComments'))
+        .toEqual('Serious fault comment: poor breaking');
+    });
+  });
 });

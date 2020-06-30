@@ -12,14 +12,13 @@ import {
   getFullyPopulatedDangerousDataFields,
 } from './helpers/cat-b/data-fields/fully-populated-data-fields';
 import { doesResultMatchExpectations } from './helpers/result-comparer';
-import { prependFaultCommentMessage } from '../data-mapper';
 
 describe('mapCatBData', () => {
 
-  it('Should map a minially populated test result (test terminated early as possible)', () => {
+  it('Should map a minimally populated test result (test terminated early as possible)', () => {
     const minimalInput = getCatBMinimalInput();
 
-    const expected = prependFaultCommentMessage(getMinimalDataField(), 'Driving');
+    const expected = getMinimalDataField();
 
     // expect no faults, serious or dangerous...
     expect(mapCatBData(minimalInput)).toEqual(expected);

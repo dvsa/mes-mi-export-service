@@ -245,8 +245,8 @@ export const formatManoeuvreFault = (object: any, path: string): BooleanAsNumber
 export const formatMultipleManoeuvreFaults = (object: TestData,
                                               path: string,
                                               desiredOutcome: ManoeuvreOutcome): BooleanAsNumber => {
-  const firstManoeuvre = get(object, `manoeuvres[0].${ path }`, null);
-  const secondManoeuvre = get(object, `manoeuvres[1].${ path }`, null);
+  const firstManoeuvre = get(object, `manoeuvres[0].${path}`, null);
+  const secondManoeuvre = get(object, `manoeuvres[1].${path}`, null);
   const manoeuvre: ManoeuvreOutcome | null = firstManoeuvre ? firstManoeuvre : secondManoeuvre;
 
   if (manoeuvre && manoeuvre === desiredOutcome) {

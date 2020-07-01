@@ -250,5 +250,21 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
       col: 'COMBINATION',
       val: '4',
     },
+    {
+      col: 'CANDIDATE_PHYSICAL_DESCRIPTION',
+      val: 'some description of the candidate',
+    },
+    {
+      col: 'CANDIDATE_IDENTIFICATION',
+      val: 'Licence',
+    },
+    {
+      col: 'ADDITIONAL_INFORMATION',
+      val: 'some additional information',
+    },
+    {
+      col: 'ASSESSMENT_REPORT',
+      val: 'this is a detailed assessment report',
+    },
   ];
 }

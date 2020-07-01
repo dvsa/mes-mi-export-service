@@ -1,9 +1,10 @@
+import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import { TestData, TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
+import moment = require('moment');
+
 import { ResultUpload } from '../result-client';
 import { DataField, FormType } from '../../domain/mi-export-data';
-import { TestData, TestResultCatCPCSchema, ActivityCode } from '@dvsa/mes-test-schema/categories/CPC';
 import { addIfSet, field, mandatory, optional, optionalBoolean } from './data-mapper';
-import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
-import moment = require('moment');
 import { formatDateOfBirth, formatResult, formatLanguage, ftaActivityCode } from './common-mapper';
 
 export const mapCatCPCData = (result: ResultUpload): DataField[] => {
@@ -87,12 +88,6 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
-  // field('SEC1_Q_NO', optional(t, 'question1.questionCode', ''));
-  // field('SEC2_Q_NO', optional(t, 'question2.questionCode', '')),
-  //   field('SEC3_Q_NO', optional(t, 'question3.questionCode', '')),
-  //   field('SEC4_Q_NO', optional(t, 'question4.questionCode', '')),
-  //   field('SEC5_Q_NO', optional(t, 'question5.questionCode', '')),
-
   addIfSet(m, 'SEC1_Q_NO', optional(t, 'question1.questionCode', null));
   addIfSet(m, 'SEC2_Q_NO', optional(t, 'question2.questionCode', null));
   addIfSet(m, 'SEC3_Q_NO', optional(t, 'question3.questionCode', null));
@@ -105,6 +100,11 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'PASS_CERTIFICATE', optional(testResult, 'passCompletion.passCertificateNumber', null));
   addIfSet(m, 'VEHICLE_REGISTRATION', optional(testResult, 'vehicleDetails.registrationNumber', null));
   addIfSet(m, 'COMBINATION', formatCPCCombinationCode(t));
+
+  addIfSet(m, 'CANDIDATE_PHYSICAL_DESCRIPTION', optional(testResult, 'testSummary.candidateDescription', null));
+  addIfSet(m, 'CANDIDATE_IDENTIFICATION', optional(testResult, 'testSummary.identification', null));
+  addIfSet(m, 'ADDITIONAL_INFORMATION', optional(testResult, 'testSummary.additionalInformation', null));
+  addIfSet(m, 'ASSESSMENT_REPORT', optional(testResult, 'testSummary.assessmentReport', null));
 
   return m;
 };

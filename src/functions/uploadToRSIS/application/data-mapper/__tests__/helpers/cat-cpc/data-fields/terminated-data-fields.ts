@@ -56,6 +56,8 @@ export function getCatCPCTerminatedDataFields(): DataField[] {
     { col: 'CANDIDATE_FORENAMES', val: 'Jennifer' },
     { col: 'DRIVER_NO_DOB', val: '890101' },
     { col: 'ETHNICITY', val: 'D' },
+    { col: 'CANDIDATE_PHYSICAL_DESCRIPTION', val: 'Bfhfgfg' },
+    { col: 'CANDIDATE_IDENTIFICATION', val: 'Licence' },
+    { col: 'ASSESSMENT_REPORT', val: 'Bfbfg' },
   ];
-
 }

@@ -247,6 +247,10 @@ export function getFullyPopulatedCatCPCTest(): ResultUpload {
       },
       testSummary: {
         D255: false,
+        assessmentReport: 'this is a detailed assessment report',
+        additionalInformation: 'some additional information',
+        candidateDescription: 'some description of the candidate',
+        identification: 'Licence',
       },
       activityCode: '1',
       changeMarker: false,

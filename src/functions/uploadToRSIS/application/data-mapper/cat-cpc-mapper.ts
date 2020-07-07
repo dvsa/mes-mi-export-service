@@ -129,6 +129,5 @@ const formatCPCCombinationCode = (testData: TestData): string | null => {
 export const formatCPCVehicleDetails =
   (category: CategoryCode, vehicleDetails: VehicleDetails | undefined): string | null => {
     const configuration = get(vehicleDetails, 'configuration', null);
-    return category === TestCategory.CCPC ?
-    (configuration ? configuration.substring(0, 1) : null) : null;
+    return category === TestCategory.CCPC && configuration ? configuration.substring(0, 1) : null;
   };

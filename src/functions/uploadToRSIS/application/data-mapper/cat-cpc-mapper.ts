@@ -1,11 +1,13 @@
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
-import { TestData, TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
+import { CategoryCode, TestData, TestResultCatCPCSchema, VehicleDetails } from '@dvsa/mes-test-schema/categories/CPC';
 import moment = require('moment');
 
 import { ResultUpload } from '../result-client';
 import { DataField, FormType } from '../../domain/mi-export-data';
 import { addIfSet, field, mandatory, optional, optionalBoolean } from './data-mapper';
 import { formatDateOfBirth, formatResult, formatLanguage, ftaActivityCode } from './common-mapper';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { get } from 'lodash';
 
 export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult as TestResultCatCPCSchema;
@@ -105,6 +107,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'CANDIDATE_IDENTIFICATION', optional(testResult, 'testSummary.identification', null));
   addIfSet(m, 'ADDITIONAL_INFORMATION', optional(testResult, 'testSummary.additionalInformation', null));
   addIfSet(m, 'ASSESSMENT_REPORT', optional(testResult, 'testSummary.assessmentReport', null));
+  addIfSet(m, 'VEHICLE_DETAILS', formatCPCVehicleDetails(testResult.category, testResult));
 
   return m;
 };
@@ -113,6 +116,18 @@ export const formatCPCTestCategory = (result: TestResultCatCPCSchema): string =>
   return result.category.substring(0, 1);
 };
 
-const formatCPCCombinationCode = (testData: TestData): string | null =>  {
+const formatCPCCombinationCode = (testData: TestData): string | null => {
   return testData.combination ? testData.combination.replace(/[^0-9]/g, '') : null;
+};
+
+/**
+ * Function to return null if DCPC otherwise return the first char of configuration from the vehicleDetails object
+ * Rigid - R, Articulated - A, Drawbar - D
+ * @param category
+ * @param testResult
+ */
+export const formatCPCVehicleDetails = (category: CategoryCode, testResult: TestResultCatCPCSchema): string | null => {
+  const configuration = get(testResult, 'vehicleDetails.configuration', null);
+  return category === TestCategory.CCPC ?
+    (configuration ? configuration.substring(0, 1) : null) : null;
 };

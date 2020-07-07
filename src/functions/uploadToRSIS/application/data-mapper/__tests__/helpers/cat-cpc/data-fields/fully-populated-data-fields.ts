@@ -266,5 +266,9 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
       col: 'ASSESSMENT_REPORT',
       val: 'this is a detailed assessment report',
     },
+    {
+      col: 'VEHICLE_DETAILS',
+      val: 'R',
+    },
   ];
 }

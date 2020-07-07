@@ -107,7 +107,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'CANDIDATE_IDENTIFICATION', optional(testResult, 'testSummary.identification', null));
   addIfSet(m, 'ADDITIONAL_INFORMATION', optional(testResult, 'testSummary.additionalInformation', null));
   addIfSet(m, 'ASSESSMENT_REPORT', optional(testResult, 'testSummary.assessmentReport', null));
-  addIfSet(m, 'VEHICLE_DETAILS', formatCPCVehicleDetails(testResult.category, testResult));
+  addIfSet(m, 'VEHICLE_DETAILS', formatCPCVehicleDetails(testResult.category, testResult.vehicleDetails));
 
   return m;
 };
@@ -124,10 +124,11 @@ const formatCPCCombinationCode = (testData: TestData): string | null => {
  * Function to return null if DCPC otherwise return the first char of configuration from the vehicleDetails object
  * Rigid - R, Articulated - A, Drawbar - D
  * @param category
- * @param testResult
+ * @param vehicleDetails
  */
-export const formatCPCVehicleDetails = (category: CategoryCode, testResult: TestResultCatCPCSchema): string | null => {
-  const configuration = get(testResult, 'vehicleDetails.configuration', null);
-  return category === TestCategory.CCPC ?
+export const formatCPCVehicleDetails =
+  (category: CategoryCode, vehicleDetails: VehicleDetails | undefined): string | null => {
+    const configuration = get(vehicleDetails, 'configuration', null);
+    return category === TestCategory.CCPC ?
     (configuration ? configuration.substring(0, 1) : null) : null;
-};
+  };

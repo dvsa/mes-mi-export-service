@@ -6,7 +6,7 @@ import { ResultUpload } from '../../result-client';
 import { getTerminatedCatCPCTest } from './helpers/cat-cpc/inputs/terminated-input';
 import { getCatCPCTerminatedDataFields } from './helpers/cat-cpc/data-fields/terminated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
+import { VehicleDetails } from '@dvsa/mes-test-schema/categories/CPC';
 
 describe('mapCatCPCData', () => {
   it('should map a fully populated regular test result', () => {
@@ -26,13 +26,13 @@ describe('mapCatCPCData', () => {
 describe('formatCPCVehicleDetails', () => {
   it('should return null if DCPC', () => {
     const fullyPopulatedResult = getFullyPopulatedCatCPCTest();
-    expect(formatCPCVehicleDetails(TestCategory.DCPC, fullyPopulatedResult.testResult as TestResultCatCPCSchema))
+    expect(formatCPCVehicleDetails(TestCategory.DCPC, fullyPopulatedResult.testResult.vehicleDetails as VehicleDetails))
       .toEqual(null);
   });
 
   it('should return R if CCPC', () => {
     const fullyPopulatedResult = getFullyPopulatedCatCPCTest();
-    expect(formatCPCVehicleDetails(TestCategory.CCPC, fullyPopulatedResult.testResult as TestResultCatCPCSchema))
+    expect(formatCPCVehicleDetails(TestCategory.CCPC, fullyPopulatedResult.testResult.vehicleDetails as VehicleDetails))
       .toEqual('R');
   });
 });

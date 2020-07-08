@@ -44,7 +44,7 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
     },
     {
       col: 'FORM_TYPE',
-      val: 2,
+      val: 5,
     },
     {
       col: 'INT',

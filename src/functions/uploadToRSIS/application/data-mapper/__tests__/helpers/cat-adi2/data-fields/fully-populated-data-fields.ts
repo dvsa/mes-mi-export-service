@@ -20,7 +20,7 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'VEHICLE_CHECKS_TOTAL',
-      val: 1,
+      val: 3,
     },
     {
       col: 'REV_RIGHT_TRAIL_CONT_TOTAL',
@@ -636,7 +636,7 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'VEHICLE_CHECKS_COMPLETED',
-      val: 0,
+      val: 1,
     },
     {
       col: 'TAXI_MANOEUVRE_COMPLETED',
@@ -829,6 +829,14 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
     {
       col: 'SHOW_ME_1_DESCRIPTION',
       val: 'First Show Me Question',
+    },
+    {
+      col: 'SHOW_ME_2_CODE',
+      val: 'S2',
+    },
+    {
+      col: 'SHOW_ME_2_DESCRIPTION',
+      val: 'Second Show Me Question',
     },
     {
       col: 'TELL_ME_1_CODE',
@@ -1493,7 +1501,7 @@ export function getADIFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'VEHICLE_CHECKS_COMPLETED',
-      val: 0,
+      val: 1,
     },
     {
       col: 'TAXI_MANOEUVRE_COMPLETED',
@@ -1698,6 +1706,14 @@ export function getADIFullyPopulatedSeriousDataFields(): DataField[] {
     {
       col: 'SHOW_ME_1_DESCRIPTION',
       val: 'First Show Me Question',
+    },
+    {
+      col: 'SHOW_ME_2_CODE',
+      val: 'S2',
+    },
+    {
+      col: 'SHOW_ME_2_DESCRIPTION',
+      val: 'Second Show Me Question',
     },
     {
       col: 'TELL_ME_1_CODE',
@@ -2378,7 +2394,7 @@ export function getADIFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'VEHICLE_CHECKS_COMPLETED',
-      val: 0,
+      val: 1,
     },
     {
       col: 'TAXI_MANOEUVRE_COMPLETED',
@@ -2571,6 +2587,14 @@ export function getADIFullyPopulatedDangerousDataFields(): DataField[] {
     {
       col: 'SHOW_ME_1_DESCRIPTION',
       val: 'First Show Me Question',
+    },
+    {
+      col: 'SHOW_ME_2_CODE',
+      val: 'S2',
+    },
+    {
+      col: 'SHOW_ME_2_DESCRIPTION',
+      val: 'Second Show Me Question',
     },
     {
       col: 'TELL_ME_1_CODE',

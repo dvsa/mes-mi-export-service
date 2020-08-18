@@ -28,7 +28,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('DRIVER_NUMBER', mandatory(testResult, 'journalData.candidate.driverNumber')),
     field('DTC_AUTHORITY_CODE', testResult.journalData.testCentre.costCode),
     // unused - EXAMINER_FORENAMES
-    field('EXAMINER_PERSON_ID', testResult.journalData.examiner.staffNumber),
+    field('EXAMINER_PERSON_ID', Number(testResult.journalData.examiner.staffNumber)),
     // unused - EXAMINER_SURNAME
     field('FORM_TYPE', FormType.CPC),
     // unused - IMAGE_REFERENCE
@@ -90,14 +90,14 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
-  addIfSet(m, 'SEC1_Q_NO', optional(t, 'question1.questionCode', null));
-  addIfSet(m, 'SEC2_Q_NO', optional(t, 'question2.questionCode', null));
-  addIfSet(m, 'SEC3_Q_NO', optional(t, 'question3.questionCode', null));
-  addIfSet(m, 'SEC4_Q_NO', optional(t, 'question4.questionCode', null));
-  addIfSet(m, 'SEC5_Q_NO', optional(t, 'question5.questionCode', null));
+  addIfSet(m, 'SEC1_Q_NO', formatCPCQuestionNumber(t, 1));
+  addIfSet(m, 'SEC2_Q_NO', formatCPCQuestionNumber(t, 2));
+  addIfSet(m, 'SEC3_Q_NO', formatCPCQuestionNumber(t, 3));
+  addIfSet(m, 'SEC4_Q_NO', formatCPCQuestionNumber(t, 4));
+  addIfSet(m, 'SEC5_Q_NO', formatCPCQuestionNumber(t, 5));
 
   addIfSet(m, 'CANDIDATE_FORENAMES', optional(testResult, 'journalData.candidate.candidateName.firstName', null));
-  addIfSet(m, 'DRIVER_NO_DOB', candidateDOB);
+  addIfSet(m, 'DRIVER_NO_DOB', Number(candidateDOB));
   addIfSet(m, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));
   addIfSet(m, 'PASS_CERTIFICATE', optional(testResult, 'passCompletion.passCertificateNumber', null));
   addIfSet(m, 'VEHICLE_REGISTRATION', optional(testResult, 'vehicleDetails.registrationNumber', null));
@@ -116,8 +116,13 @@ export const formatCPCTestCategory = (result: TestResultCatCPCSchema): string =>
   return result.category.substring(0, 1);
 };
 
-const formatCPCCombinationCode = (testData: TestData): string | null => {
-  return testData.combination ? testData.combination.replace(/[^0-9]/g, '') : null;
+const formatCPCCombinationCode = (testData: TestData): number | null => {
+  return testData.combination ? Number(testData.combination.replace(/[^0-9]/g, '')) : null;
+};
+
+const formatCPCQuestionNumber = (testData: TestData, questionNo: number): number | null => {
+  const questionCode: string | null = optional(testData, `question${questionNo}.questionCode`, null);
+  return questionCode ? Number(questionCode.replace(/[^0-9]/g, '')) : null;
 };
 
 /**

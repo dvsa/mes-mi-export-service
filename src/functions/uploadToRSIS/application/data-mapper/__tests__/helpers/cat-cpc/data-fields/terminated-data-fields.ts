@@ -59,5 +59,7 @@ export function getCatCPCTerminatedDataFields(): DataField[] {
     { col: 'CANDIDATE_PHYSICAL_DESCRIPTION', val: 'Bfhfgfg' },
     { col: 'CANDIDATE_IDENTIFICATION', val: 'Licence' },
     { col: 'ASSESSMENT_REPORT', val: 'Bfbfg' },
+    { col: 'CHANNEL_INDICATOR', val: 2 },
+    { col: 'COMMUNICATION_METHOD', val: 'Not provided' },
   ];
 }

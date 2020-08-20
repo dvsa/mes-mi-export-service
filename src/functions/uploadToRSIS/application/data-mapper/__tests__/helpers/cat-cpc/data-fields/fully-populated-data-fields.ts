@@ -69,5 +69,8 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
     { col: 'ADDITIONAL_INFORMATION', val: 'some additional information' },
     { col: 'ASSESSMENT_REPORT', val: 'this is a detailed assessment report' },
     { col: 'VEHICLE_DETAILS', val: 'R' },
+    { col: 'CHANNEL_INDICATOR', val: 2 },
+    { col: 'COMMUNICATION_METHOD', val: 'Post' },
+    { col: 'COMMUNICATION_EMAIL', val: 'ken.doe@example.com' },
   ];
 }

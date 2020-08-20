@@ -288,7 +288,7 @@ export const formatDateOfBirth = (result: ResultUpload): Date => {
  * @param result The MES test result
  * @returns The formatted date
  */
-const formatRekeyDateTime = (result: ResultUpload): Date|null => {
+export const formatRekeyDateTime = (result: ResultUpload): Date|null => {
   const rekeyDateText = get(result, 'testResult.rekeyDate', null);
   if (rekeyDateText) {
     return  moment(rekeyDateText, 'YYYY-MM-DDTHH:mm:ss').toDate();

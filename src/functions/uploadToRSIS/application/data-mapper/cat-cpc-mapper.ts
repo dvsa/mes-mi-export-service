@@ -3,11 +3,12 @@ import { CategoryCode, TestData, TestResultCatCPCSchema, VehicleDetails } from '
 import moment = require('moment');
 
 import { ResultUpload } from '../result-client';
-import { DataField, FormType } from '../../domain/mi-export-data';
+import { ChannelIndicator, DataField, FormType } from '../../domain/mi-export-data';
 import { addIfSet, field, mandatory, optional, optionalBoolean } from './data-mapper';
-import { formatDateOfBirth, formatResult, formatLanguage, ftaActivityCode } from './common-mapper';
+import { formatDateOfBirth, formatResult, formatLanguage, ftaActivityCode, formatRekeyDateTime } from './common-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { get } from 'lodash';
+import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';
 
 export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult as TestResultCatCPCSchema;
@@ -22,6 +23,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('C', optionalBoolean(testResult, 'changeMarker')),
     field('CANDIDATE_SURNAME', mandatory(testResult, 'journalData.candidate.candidateName.lastName')),
     field('CAT_TYPE', formatCPCTestCategory(testResult)),
+    field('CHANNEL_INDICATOR', testResult.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
     // unused - DATA_VALIDATION_FLAGS
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('DEBRIEF_GIVEN', testResult.activityCode === ftaActivityCode ? 0 : 1),
@@ -108,6 +110,14 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'ADDITIONAL_INFORMATION', optional(testResult, 'testSummary.additionalInformation', null));
   addIfSet(m, 'ASSESSMENT_REPORT', optional(testResult, 'testSummary.assessmentReport', null));
   addIfSet(m, 'VEHICLE_DETAILS', formatCPCVehicleDetails(testResult.category, testResult.vehicleDetails));
+
+  addIfSet(m, 'REKEY_TIMESTAMP', formatRekeyDateTime(result));
+  addIfSet(m, 'REKEY_REASONS', formatRekeyReason(optional(testResult, 'rekeyReason', null)));
+  addIfSet(m, 'IPAD_ISSUE_REASON', formatIpadIssueReason(optional(testResult, 'rekeyReason', null)));
+  addIfSet(m, 'OTHER_REKEY_REASON', optional(testResult, 'rekeyReason.other.reason', null));
+
+  addIfSet(m, 'COMMUNICATION_METHOD', optional(testResult, 'communicationPreferences.communicationMethod', null));
+  addIfSet(m, 'COMMUNICATION_EMAIL', optional(testResult, 'communicationPreferences.updatedEmail', null));
 
   return m;
 };

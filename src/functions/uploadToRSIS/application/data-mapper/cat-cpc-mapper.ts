@@ -28,7 +28,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('DEBRIEF_GIVEN', testResult.activityCode === ftaActivityCode ? 0 : 1),
     field('DRIVER_NUMBER', mandatory(testResult, 'journalData.candidate.driverNumber')),
-    field('DTC_AUTHORITY_CODE', testResult.journalData.testCentre.costCode),
+    field('DTC_AUTHORITY_CODE', optional(testResult, 'journalData.testCentre.costCode', null)),
     // unused - EXAMINER_FORENAMES
     field('EXAMINER_PERSON_ID', Number(testResult.journalData.examiner.staffNumber)),
     // unused - EXAMINER_SURNAME
@@ -78,7 +78,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('STAFF_NO', testResult.journalData.examiner.staffNumber),
     field('SUP', optionalBoolean(testResult, 'accompaniment.supervisor')),
     field('TEST_CATEGORY_TYPE', 'CPC'),
-    field('TEST_CENTRE_ID', testResult.journalData.testCentre.centreId),
+    field('TEST_CENTRE_ID', optional(testResult, 'journalData.testCentre.centreId', null)),
     // unused - TEST_CENTRE_NAME
     // unused - TEST_CENTRE_SECTOR_AREA_ID
     // unused - TEST_CENTRE_SECTOR_DESC

@@ -45,7 +45,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // unused - DRIVER_NO_DOB
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('TIME', testDateTime.format('HHmm')),
-    field('DTC_AUTHORITY_CODE', r.journalData.testCentre.costCode),
+    field('DTC_AUTHORITY_CODE', optional(r, 'journalData.testCentre.costCode', null)),
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
     // wrong size vehicle, and test still goes ahead) this field is what the test category is changed to
@@ -115,7 +115,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // unused - TEST_CENTRE_AREA_NAME
     // unused - TEST_CENTRE_COUNTRY_DESC
     // unused - TEST_CENTRE_COUNTRY_ID
-    field('TEST_CENTRE_ID', r.journalData.testCentre.centreId),
+    field('TEST_CENTRE_ID', optional(r, 'journalData.testCentre.centreId', null)),
     // unused - TEST_CENTRE_LOCAL_AUTH_CODE
     // unused - TEST_CENTRE_LOCAL_AUTH_ID
     // unused - TEST_CENTRE_LOCAL_AUTH_NAME

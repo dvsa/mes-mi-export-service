@@ -6,10 +6,12 @@ import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults,
+  getFullyPopulatedDelegatedTest,
 } from './helpers/cat-be/inputs/fully-populated-inputs';
 import {
   getCatBEFullyPopulatedSeriousDataFields,
   getCatBEFullyPopulatedDangerousDataFields,
+  getCatBEFullyPopulatedDelegatedExaminer,
 } from './helpers/cat-be/data-fields/fully-populated-data-fields';
 import { doesResultMatchExpectations } from './helpers/result-comparer';
 
@@ -245,6 +247,16 @@ describe('mapCatBEData', () => {
     const fullyPopulated = getFullyPopulatedDangerousFaults(getCatBEMinimalInput());
 
     const expected = getCatBEFullyPopulatedDangerousDataFields();
+
+    // expect all dangerous, no faults or serious
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatBEData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
+  });
+
+  it('Should map a fully populated delegated test result', () => {
+    const fullyPopulated = getFullyPopulatedDelegatedTest(getCatBEMinimalInput());
+
+    const expected = getCatBEFullyPopulatedDelegatedExaminer();
 
     // expect all dangerous, no faults or serious
     const arraysMatched: boolean = doesResultMatchExpectations(mapCatBEData(fullyPopulated), expected);

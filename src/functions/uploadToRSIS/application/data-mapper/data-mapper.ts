@@ -137,7 +137,9 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
   // (i.e. a developer mistake, but easily done given these are long lists of database column mappings)
   const duplicatedFields: Set<string> = new Set();
   mappedDataFields.forEach((fieldToCheck) => {
-    if (mappedDataFields.filter((field) => { return field.col === fieldToCheck.col; }).length > 1) {
+    if (mappedDataFields.filter((field) => {
+      return field.col === fieldToCheck.col;
+    }).length > 1) {
       duplicatedFields.add(fieldToCheck.col);
     }
   });
@@ -526,20 +528,24 @@ export const formatQuestionCompletedB = (testData: TestData | undefined): Boolea
   return 0;
 };
 
-export const formatQuestionCompleted = (testData: TestData | undefined, questionCount: number): BooleanAsNumber => {
-  let totalFaults: number = 0;
-  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
-  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
+export const formatQuestionCompleted =
+  (testData: TestData | undefined, questionCount: number, delegatedTest?: boolean): BooleanAsNumber => {
+    if (delegatedTest) {
+      return get(testData, 'vehicleChecks.vehicleChecksCompleted', false) ? 1 : 0;
+    }
+    let totalFaults: number = 0;
+    const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
+    const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
 
-  if (tellMeFaults) {
-    totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome != null).length;
-  }
-  if (showMeFaults) {
-    totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome != null).length;
-  }
+    if (tellMeFaults) {
+      totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome != null).length;
+    }
+    if (showMeFaults) {
+      totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome != null).length;
+    }
 
-  return totalFaults === questionCount ? 1 : 0;
-};
+    return totalFaults === questionCount ? 1 : 0;
+  };
 /**
  * Get the fault/serious/dangerous comments for a specific competency, if any.
  *

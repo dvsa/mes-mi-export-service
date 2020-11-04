@@ -11,7 +11,7 @@ export function getCatCPCFullyPopulatedDataFields(): DataField[] {
     { col: 'DEBRIEF_GIVEN', val: 1 },
     { col: 'DRIVER_NUMBER', val: 'DOEXX653220A99HC' },
     { col: 'DTC_AUTHORITY_CODE', val: 'EXTC1' },
-    { col: 'EXAMINER_PERSON_ID', val: 10000012 },
+    { col: 'EXAMINER_PERSON_ID', val: 1000012 },
     { col: 'FORM_TYPE', val: 5 },
     { col: 'INT', val: 1 },
     { col: 'SEC1_MARK1', val: 1 },

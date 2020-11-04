@@ -214,6 +214,41 @@ export function getFullyPopulatedDangerousFaults(result: any): ResultUpload {
   };
 }
 
+export function getFullyPopulatedDelegatedTest(result: any): ResultUpload {
+  return {
+    ...result,
+    testResult: {
+      delegatedTest: true,
+      testData: {
+        testRequirements: {
+          normalStart1: true,
+          normalStart2: true,
+          busStop1: true,
+          busStop2: true,
+          angledStartControlledStop: true,
+          uphillStart: true,
+          downhillStart: true,
+        },
+        safetyQuestionResult: {
+          fireExtinguisher: true,
+          emergencyExit: true,
+          fuelCutoff: true,
+        },
+        vehicleChecks: {
+          vehicleChecksCompleted: true,
+        },
+        manoeuvres: getManoeuvresByOutcomeSeverity(SeverityShortCodes.DangerousFault),
+        dangerousFaults: getFaultsByOutcomeSeverity(SeverityText.Dangerous),
+        eyesightTest: getEyesightTestBySeverityOutcome(true, false),
+        pcvDoorExercise: {
+          dangerousFaultComments: 'pcv door exercise controls dangerous',
+        },
+      },
+      testSummary: getTestSummary(IndependentDrivingText.NotApplicable),
+    },
+  };
+}
+
 export function getVehicleChecksByOutcomeSeverity(
   severityShortCode: String,
   hasComment: boolean,

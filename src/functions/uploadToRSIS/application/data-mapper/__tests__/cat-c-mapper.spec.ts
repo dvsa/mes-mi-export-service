@@ -5,11 +5,11 @@ import { getCatCMinimalDataFields } from './helpers/cat-c/data-fields/minimal-da
 import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
-  getFullyPopulatedDangerousFaults,
+  getFullyPopulatedDangerousFaults, getFullyPopulatedDelegatedTest,
 } from './helpers/cat-c/inputs/fully-populated-inputs';
 import {
   getCatCFullyPopulatedSeriousDataFields,
-  getCatCFullyPopulatedDangerousDataFields,
+  getCatCFullyPopulatedDangerousDataFields, getCatCFullyPopulatedDelegatedTest,
 } from './helpers/cat-c/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { doesResultMatchExpectations } from './helpers/result-comparer';
@@ -252,6 +252,16 @@ describe('mapCatCData', () => {
     const fullyPopulated = getFullyPopulatedDangerousFaults(getMinimalInput(TestCategory.C));
 
     const expected = getCatCFullyPopulatedDangerousDataFields();
+
+    // expect all dangerous, no faults or serious
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatCData(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
+  });
+
+  it('Should map a fully populated delegated test result', () => {
+    const fullyPopulated = getFullyPopulatedDelegatedTest(getMinimalInput(TestCategory.C));
+
+    const expected = getCatCFullyPopulatedDelegatedTest();
 
     // expect all dangerous, no faults or serious
     const arraysMatched: boolean = doesResultMatchExpectations(mapCatCData(fullyPopulated), expected);

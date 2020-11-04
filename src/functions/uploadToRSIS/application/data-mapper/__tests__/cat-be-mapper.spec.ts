@@ -258,7 +258,6 @@ describe('mapCatBEData', () => {
 
     const expected = getCatBEFullyPopulatedDelegatedExaminer();
 
-    // expect all dangerous, no faults or serious
     const arraysMatched: boolean = doesResultMatchExpectations(mapCatBEData(fullyPopulated), expected);
     expect(arraysMatched).toEqual(true);
   });

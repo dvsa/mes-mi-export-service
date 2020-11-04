@@ -11,7 +11,7 @@ export function getCatCPCTerminatedDataFields(): DataField[] {
     { col: 'DEBRIEF_GIVEN', val: 1 },
     { col: 'DRIVER_NUMBER', val: 'PEARS123456789DO' },
     { col: 'DTC_AUTHORITY_CODE', val: 'EXTC1' },
-    { col: 'EXAMINER_PERSON_ID', val: 10000012 },
+    { col: 'EXAMINER_PERSON_ID', val: 1000012 },
     { col: 'FORM_TYPE', val: 5 },
     { col: 'INT', val: 0 },
     { col: 'SEC1_MARK1', val: 0 },

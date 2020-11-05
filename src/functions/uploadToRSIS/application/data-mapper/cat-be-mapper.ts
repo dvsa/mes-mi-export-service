@@ -17,9 +17,11 @@ import {
   formatManoeuvreComment,
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
+import { get } from 'lodash';
 
 export const mapCatBEData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData as CatBEUniqueTypes.TestData;
+  const delegatedTest = get(result, 'testResult.delegatedTest', false);
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),
@@ -232,7 +234,7 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     //  unused - REVERSE_PARK_CARPARK
     //  unused - REVERSE_PARK_ROAD
     //  unused - TURN_IN_ROAD_COMPLETED
-    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 5)),
+    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 5, delegatedTest)),
     //  unused - TAXI_MANOEUVRE_COMPLETED
     //  unused - TAXI_WHEELCHAIR_COMPLETED
     field('UNCOUPLE_RECOUPLE_COMPLETED', optionalBoolean(t, 'uncoupleRecouple.selected')),

@@ -14,15 +14,17 @@ import {
   formatQuestionCompleted,
 } from './data-mapper';
 import { mapCommonCatDData } from './cat-d-common-mapper';
+import { get } from 'lodash';
 
 export const mapCatDEData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData as CatDEUniqueTypes.TestData;
+  const delegatedTest = get(result, 'testResult.delegatedTest', false);
 
   const catCDataFields: DataField[] = mapCommonCatDData(result);
 
   const m: DataField[] = [
     ...catCDataFields,
-    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 2)),
+    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 2, delegatedTest)),
     field('VEHICLE_CHECKS_TOTAL', formatQuestionFaultDE(t)),
     field('VEHICLE_CHECKS_SERIOUS', formatQuestionSeriousDE(t)),
     field('UNCOUPLE_RECOUPLE_TOTAL', formatManoeuvreFault(t, 'uncoupleRecouple.fault')),

@@ -30,7 +30,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('DRIVER_NUMBER', mandatory(testResult, 'journalData.candidate.driverNumber')),
     field('DTC_AUTHORITY_CODE', get(testResult, 'journalData.testCentre.costCode', null)),
     // unused - EXAMINER_FORENAMES
-    field('EXAMINER_PERSON_ID', Number(testResult.journalData.examiner.staffNumber)),
+    field('EXAMINER_PERSON_ID', optional(testResult, 'journalData.examiner.individualId', 0)),
     // unused - EXAMINER_SURNAME
     field('FORM_TYPE', FormType.CPC),
     // unused - IMAGE_REFERENCE

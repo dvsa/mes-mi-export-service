@@ -14,15 +14,17 @@ import {
 } from './data-mapper';
 import { mapCommonCatCData } from './cat-c-common-mapper';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
+import { get } from 'lodash';
 
 export const mapCatCEData = (result: ResultUpload): DataField[] => {
   const t = result.testResult.testData as CatCEUniqueTypes.TestData;
+  const delegatedTest = get(result, 'testResult.delegatedTest', false);
 
   const catCDataFields: DataField[] = mapCommonCatCData(result);
 
   const m: DataField[] = [
     ...catCDataFields,
-    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 2)),
+    field('VEHICLE_CHECKS_COMPLETED', formatQuestionCompleted(t, 2, delegatedTest)),
     field('VEHICLE_CHECKS_TOTAL', formatQuestionFaultCE(t)),
     field('VEHICLE_CHECKS_SERIOUS', formatQuestionSeriousCE(t)),
     field('UNCOUPLE_RECOUPLE_TOTAL', formatManoeuvreFault(t, 'uncoupleRecouple.fault')),

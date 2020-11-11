@@ -65,7 +65,7 @@ describe('mapCatDData', () => {
     expect(arraysMatched).toEqual(true);
   });
 
-  it('Should map a fully populated regular test result (every possible dangerous fault)', () => {
+  it('Should map a fully populated delegated test result', () => {
     const fullyPopulated = getFullyPopulatedDelegatedTest(getMinimalInput(TestCategory.D));
     const expected = getCatDFullyPopulatedDelegatedTest();
 

@@ -4,15 +4,16 @@ import { getMinimalInput } from './helpers/cat-d/inputs/minimal-inputs';
 import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
-  getFullyPopulatedDangerousFaults,
+  getFullyPopulatedDangerousFaults, getFullyPopulatedDelegatedTest,
 } from './helpers/cat-d/inputs/fully-populated-inputs';
 import {
   getCatDFullyPopulatedSeriousDataFields,
-  getCatDFullyPopulatedDangerousDataFields, getCatDFullyPopulatedDrivingDataFields,
+  getCatDFullyPopulatedDangerousDataFields, getCatDFullyPopulatedDrivingDataFields, getCatDFullyPopulatedDelegatedTest,
 } from './helpers/cat-d/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getCatDMinimalDataFields } from './helpers/cat-d/data-fields/minimal-data-fields';
 import { doesResultMatchExpectations } from './helpers/result-comparer';
+import { mapCatDData } from '../cat-d-mapper';
 
 describe('mapCatD1Data', () => {
 
@@ -48,6 +49,14 @@ describe('mapCatD1Data', () => {
     const expected = getCatDFullyPopulatedDangerousDataFields();
     // expect all dangerous, no faults or serious
     const arraysMatched: boolean = doesResultMatchExpectations(mapCatD1Data(fullyPopulated), expected);
+    expect(arraysMatched).toEqual(true);
+  });
+
+  it('Should map a fully populated delegated test result', () => {
+    const fullyPopulated = getFullyPopulatedDelegatedTest(getMinimalInput(TestCategory.D1));
+    const expected = getCatDFullyPopulatedDelegatedTest();
+
+    const arraysMatched: boolean = doesResultMatchExpectations(mapCatDData(fullyPopulated), expected);
     expect(arraysMatched).toEqual(true);
   });
 });

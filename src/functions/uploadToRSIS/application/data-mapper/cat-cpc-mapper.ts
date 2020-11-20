@@ -31,6 +31,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('DTC_AUTHORITY_CODE', get(testResult, 'journalData.testCentre.costCode', null)),
     // unused - EXAMINER_FORENAMES
     field('EXAMINER_PERSON_ID', optional(testResult, 'journalData.examiner.individualId', 0)),
+    field('KEYED_PERSON_ID', mandatory(testResult, 'examinerKeyed').toString()),
     // unused - EXAMINER_SURNAME
     field('FORM_TYPE', FormType.CPC),
     // unused - IMAGE_REFERENCE
@@ -89,6 +90,9 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     // unused - TOTAL_FUNCTION_KEYSTROKES
     field('TOTAL_PERCENT', optional(t, 'totalPercent', 0)),
     field('WELSH_FORM_IND', formatLanguage(result)),
+    field('INSURANCE_DECLARATION_ACCEPTED', optionalBoolean(t, 'preTestDeclarations.insuranceDeclarationAccepted')),
+    field('RESIDENCY_DECLARATION_ACCEPTED', optionalBoolean(t, 'preTestDeclarations.residencyDeclarationAccepted')),
+    field('PASS_CERT_RECEIVED', optionalBoolean(t, 'postTestDeclarations.passCertificateNumberReceived')),
   ];
 
   // add the optional fields, only if set

@@ -90,9 +90,18 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     // unused - TOTAL_FUNCTION_KEYSTROKES
     field('TOTAL_PERCENT', optional(t, 'totalPercent', 0)),
     field('WELSH_FORM_IND', formatLanguage(result)),
-    field('INSURANCE_DECLARATION_ACCEPTED', optionalBoolean(t, 'preTestDeclarations.insuranceDeclarationAccepted')),
-    field('RESIDENCY_DECLARATION_ACCEPTED', optionalBoolean(t, 'preTestDeclarations.residencyDeclarationAccepted')),
-    field('PASS_CERT_RECEIVED', optionalBoolean(t, 'postTestDeclarations.passCertificateNumberReceived')),
+    field(
+      'INSURANCE_DECLARATION_ACCEPTED',
+      optionalBoolean(testResult, 'preTestDeclarations.insuranceDeclarationAccepted'),
+    ),
+    field(
+      'RESIDENCY_DECLARATION_ACCEPTED',
+      optionalBoolean(testResult, 'preTestDeclarations.residencyDeclarationAccepted'),
+    ),
+    field(
+      'PASS_CERT_RECEIVED',
+      optionalBoolean(testResult, 'postTestDeclarations.passCertificateNumberReceived'),
+    ),
   ];
 
   // add the optional fields, only if set

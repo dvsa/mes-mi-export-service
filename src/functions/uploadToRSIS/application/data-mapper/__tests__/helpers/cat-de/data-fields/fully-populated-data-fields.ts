@@ -3,7 +3,6 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 export function getCatDEFullyPopulatedDrivingDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
-    { col: 'H_CODE_SAFETY_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
     { col: 'PRECAUTIONS_TOTAL', val: 2 },
@@ -202,7 +201,6 @@ export function getCatDEFullyPopulatedDrivingDataFields(): DataField[] {
 export function getCatDEFullyPopulatedSeriousDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
-    { col: 'H_CODE_SAFETY_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
@@ -402,7 +400,6 @@ export function getCatDEFullyPopulatedSeriousDataFields(): DataField[] {
 export function getCatDEFullyPopulatedDangerousDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
-    { col: 'H_CODE_SAFETY_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },

@@ -3,7 +3,6 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 export function getCatDEMinimalDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
-    { col: 'H_CODE_SAFETY_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },

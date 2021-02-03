@@ -3,6 +3,7 @@ import { DataField } from '../../../../../../domain/mi-export-data';
 export function getCatDFullyPopulatedDrivingDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
+    { col: 'H_CODE_SAFETY_TOTAL', val: 1 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 1 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 1 },
     { col: 'PRECAUTIONS_TOTAL', val: 2 },
@@ -148,6 +149,7 @@ export function getCatDFullyPopulatedDrivingDataFields(): DataField[] {
     { col: 'CONTROL_PARK_COMMENT', val: 'Driving fault comment: controls parking brake fault' },
     { col: 'CONTROL_STEERING_COMMENT', val: 'Driving fault comment: controls steering fault' },
     { col: 'CONTROL_PCV_DOOR_COMMENT', val: 'Driving fault comment: pcv door exercise controls fault' },
+    { col: 'H_CODE_SAFETY_COMMENT', val: 'some comment regarding a fault' },
     { col: 'MOVE_OFF_SAFETY_COMMENT', val: 'Driving fault comment: move off safety fault' },
     { col: 'MOVE_OFF_CONTROL_COMMENT', val: 'Driving fault comment: move off control fault' },
     { col: 'MIRRORS_MC_REAR_SIG_COMMENT', val: 'Driving fault comment: use of mirrors signalling fault' },
@@ -203,6 +205,7 @@ export function getCatDFullyPopulatedDrivingDataFields(): DataField[] {
 export function getCatDFullyPopulatedSeriousDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
+    { col: 'H_CODE_SAFETY_TOTAL', val: 1 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
@@ -404,6 +407,7 @@ export function getCatDFullyPopulatedSeriousDataFields(): DataField[] {
 export function getCatDFullyPopulatedDangerousDataFields(): DataField[] {
   return [
     { col: 'AUTOMATIC_TEST', val: 0 },
+    { col: 'H_CODE_SAFETY_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_CONT_TOTAL', val: 0 },
     { col: 'REV_LEFT_TRAIL_OBSERV_TOTAL', val: 0 },
     { col: 'PRECAUTIONS_TOTAL', val: 0 },
@@ -607,6 +611,10 @@ export function getCatDFullyPopulatedDelegatedTest(): DataField[] {
   return [
     {
       col: 'AUTOMATIC_TEST',
+      val: 0,
+    },
+    {
+      col: 'H_CODE_SAFETY_TOTAL',
       val: 0,
     },
     {

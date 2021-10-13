@@ -16,6 +16,7 @@ import {
   getCompetencyComments,
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 /**
  * Maps data specific to the ``B`` (Car) test category.
@@ -25,7 +26,7 @@ import { formatGearboxCategory } from '../helpers/shared-formatters';
  * @throws MissingTestResultDataError If mandatory data missing from MES test result
  */
 export const mapCatBData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatBUniqueTypes.TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatBUniqueTypes.TestData;
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),

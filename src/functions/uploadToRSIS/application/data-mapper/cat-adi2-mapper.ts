@@ -16,6 +16,7 @@ import {
 import { formatGearboxCategory } from '../helpers/shared-formatters';
 import { get } from 'lodash';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 /**
  * Maps data specific to the ``ADI2`` test category.
@@ -25,7 +26,7 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
  * @throws MissingTestResultDataError If mandatory data missing from MES test result
  */
 export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatADI2UniqueTypes.TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatADI2UniqueTypes.TestData;
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),

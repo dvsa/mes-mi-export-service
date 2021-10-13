@@ -14,8 +14,8 @@ import {
   getCatAM2SafetyAndBalanceFaultCount,
   formatMultipleManoeuvreFaults,
 } from '../data-mapper';
-import { cloneDeep, get } from 'lodash';
-import { QuestionOutcome, TestData } from '@dvsa/mes-test-schema/categories/common';
+import { cloneDeep } from 'lodash';
+import { QuestionOutcome, TestData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { getCatBMinimalInput } from './helpers/cat-b/inputs/minimal-inputs';
 import { getCatAM1MinimalInput } from './helpers/cat-a-mod1/inputs/minimal-inputs';
@@ -115,9 +115,15 @@ describe('data mapper', () => {
 
   describe('formatMultipleManoeuvreFaults', () => {
 
-    const singleFault = catADI2InputWithSingleFaultOutcomes.testResult.testData as CatADI2UniqueTypes.TestData;
-    const seriousFault = catADI2InputWithSeriousOutcomes.testResult.testData as CatADI2UniqueTypes.TestData;
-    const dangerousFault = catADI2InputWithDangerousOutcomes.testResult.testData as CatADI2UniqueTypes.TestData;
+    const singleFault = (
+      catADI2InputWithSingleFaultOutcomes.testResult as TestResultCommonSchema
+    ).testData as CatADI2UniqueTypes.TestData;
+    const seriousFault = (
+      catADI2InputWithSeriousOutcomes.testResult as TestResultCommonSchema
+    ).testData as CatADI2UniqueTypes.TestData;
+    const dangerousFault = (
+      catADI2InputWithDangerousOutcomes.testResult as TestResultCommonSchema
+    ).testData as CatADI2UniqueTypes.TestData;
 
     it('Should return 0 if no manoeuvres of specified type for DF', () => {
       const output = formatMultipleManoeuvreFaults(singleFault,
@@ -214,18 +220,21 @@ describe('data mapper', () => {
             outcome: tellMeOutcome,
           };
         }
-        input.testResult.testData = {
+        ((input.testResult as TestResultCommonSchema).testData as CatBUniqueTypes.TestData) = {
           vehicleChecks,
         };
       }
 
-      expect(formatQuestionFault(input.testResult.testData as TestData)).toEqual(expected);
+      expect(formatQuestionFault((input.testResult as TestResultCommonSchema).testData as TestData))
+        .toEqual(expected);
     };
   });
 
   describe('getCatAM2SafetyAndBalanceFaultCount', () => {
     it('should return the total number of safety and balance questions marked as riding fauls', () => {
-      const testData = getFullyPopulatedDrivingFaults(getCatAMod2MinimalInput()).testResult.testData;
+      const testData = (
+        getFullyPopulatedDrivingFaults(getCatAMod2MinimalInput()).testResult as TestResultCommonSchema
+      ).testData;
       expect(getCatAM2SafetyAndBalanceFaultCount(testData as TestData)).toEqual(1);
     });
   });
@@ -275,12 +284,13 @@ describe('data mapper', () => {
             outcome: tellMeOutcome,
           };
         }
-        input.testResult.testData = {
+        ((input.testResult as TestResultCommonSchema).testData as CatBUniqueTypes.TestData) = {
           vehicleChecks,
         };
       }
 
-      expect(formatQuestionSerious(input.testResult.testData as TestData)).toEqual(expected);
+      expect(formatQuestionSerious((input.testResult as TestResultCommonSchema).testData as TestData))
+        .toEqual(expected);
     };
   });
 
@@ -329,19 +339,20 @@ describe('data mapper', () => {
             outcome: tellMeOutcome,
           };
         }
-        input.testResult.testData = {
+        ((input.testResult as TestResultCommonSchema).testData as CatBUniqueTypes.TestData) = {
           vehicleChecks,
         };
       }
 
-      expect(formatQuestionDangerous(input.testResult.testData as TestData)).toEqual(expected);
+      expect(formatQuestionDangerous((input.testResult as TestResultCommonSchema).testData as TestData))
+        .toEqual(expected);
     };
   });
 
   describe('formatQuestionDangerous', () => {
     it('Should return the dangerous comment if set', () => {
       const input = cloneDeep(minimalInput);
-      input.testResult.testData = {
+      (input.testResult as TestResultCommonSchema).testData = {
         drivingFaults: {
           precautionsComments: 'Precautions fault comment',
         },
@@ -353,14 +364,14 @@ describe('data mapper', () => {
         },
       };
 
-      expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
+      expect(getCompetencyComments((input.testResult as TestResultCommonSchema).testData, 'precautionsComments'))
         // tslint:disable-next-line:max-line-length
         .toEqual('Dangerous fault comment: Precautions dangerous comment, Serious fault comment: Precautions serious comment, Driving fault comment: Precautions fault comment');
     });
 
     it('Should return the serious comment if set', () => {
       const input = cloneDeep(minimalInput);
-      input.testResult.testData = {
+      (input.testResult as TestResultCommonSchema).testData = {
         drivingFaults: {
           precautionsComments: 'Precautions fault comment',
         },
@@ -370,45 +381,47 @@ describe('data mapper', () => {
         // no dangerous comment
       };
 
-      expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
+      expect(getCompetencyComments((input.testResult as TestResultCommonSchema).testData, 'precautionsComments'))
         // tslint:disable-next-line:max-line-length
         .toEqual('Serious fault comment: Precautions serious comment, Driving fault comment: Precautions fault comment');
     });
 
     it('Should return the fault comment if set', () => {
       const input = cloneDeep(minimalInput);
-      input.testResult.testData = {
+      (input.testResult as TestResultCommonSchema).testData = {
         drivingFaults: {
           precautionsComments: 'Precautions fault comment',
         },
         // no serious or dangerous comment
       };
 
-      expect(getCompetencyComments(input.testResult.testData, 'precautionsComments'))
+      expect(getCompetencyComments((input.testResult as TestResultCommonSchema).testData, 'precautionsComments'))
         .toEqual('Driving fault comment: Precautions fault comment');
     });
 
     it('Should return null if nothing set', () => {
       const input = cloneDeep(minimalInput);
-      input.testResult.testData = {}; // no fault, serious or dangerous comment
+      (input.testResult as TestResultCommonSchema).testData = {}; // no fault, serious or dangerous comment
 
-      expect(getCompetencyComments(input.testResult.testData, 'precautionsComments')).toBeNull();
+      expect(getCompetencyComments((input.testResult as TestResultCommonSchema).testData, 'precautionsComments'))
+        .toBeNull();
     });
   });
   describe('formatSingleFaultOutcomeBySeverity', () => {
     it('should return 1 if outcome is of specified severity', () => {
       const catAM1InputWithSingleFaultOutcomes =
         getCatAM1FullyPopulatedSingleFaultCompetencies(catAM1MinimalInput);
-      const input: CatAMod1TestData =
-        cloneDeep(catAM1InputWithSingleFaultOutcomes.testResult.testData) as CatAMod1TestData;
+      const input: CatAMod1TestData = cloneDeep(
+        (catAM1InputWithSingleFaultOutcomes.testResult as TestResultCommonSchema).testData) as CatAMod1TestData;
       if (input.singleFaultCompetencies) {
         input.singleFaultCompetencies.useOfStand = 'D';
       }
       expect(formatSingleFaultOutcomeBySeverity(input, 'singleFaultCompetencies.useOfStand', 'D')).toEqual(1);
     });
     it('should return 0 if outcome is NOT of specified severity', () => {
-      const input: CatAMod1TestData =
-        cloneDeep(catAM1InputWithSingleFaultOutcomes.testResult.testData) as CatAMod1TestData;
+      const input: CatAMod1TestData = cloneDeep(
+        (catAM1InputWithSingleFaultOutcomes.testResult as TestResultCommonSchema).testData,
+      ) as CatAMod1TestData;
       if (input.singleFaultCompetencies) {
         input.singleFaultCompetencies.useOfStand = 'DF';
       }

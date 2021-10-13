@@ -14,9 +14,10 @@ import {
 } from './data-mapper';
 import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 export const mapCommonCatCData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatCUniqueTypes.TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatCUniqueTypes.TestData;
   const category = result.testResult.category;
 
   const m: DataField[] = [

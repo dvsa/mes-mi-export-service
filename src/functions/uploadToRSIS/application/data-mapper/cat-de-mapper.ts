@@ -15,9 +15,10 @@ import {
 } from './data-mapper';
 import { mapCommonCatDData } from './cat-d-common-mapper';
 import { get } from 'lodash';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 export const mapCatDEData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatDEUniqueTypes.TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatDEUniqueTypes.TestData;
   const delegatedTest = get(result, 'testResult.delegatedTest', false);
 
   const catCDataFields: DataField[] = mapCommonCatDData(result);

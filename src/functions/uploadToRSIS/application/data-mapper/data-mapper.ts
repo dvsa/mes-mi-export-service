@@ -125,6 +125,18 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.DCPC:
       mappedDataFields = mapCatCPCData(result);
       break;
+    case TestCategory.CM:
+    case TestCategory.C1M:
+    case TestCategory.CEM:
+    case TestCategory.C1EM:
+    case TestCategory.DM:
+    case TestCategory.D1M:
+    case TestCategory.DEM:
+    case TestCategory.D1EM:
+      mappedDataFields = [
+        ...mappedDataFields,
+      ];
+      break;
     default:
       const message = `Unsupported Category: ${category}`;
       error(message);

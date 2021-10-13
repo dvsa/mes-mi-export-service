@@ -18,9 +18,10 @@ import {
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
 import { get } from 'lodash';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 export const mapCatBEData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatBEUniqueTypes.TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatBEUniqueTypes.TestData;
   const delegatedTest = get(result, 'testResult.delegatedTest', false);
 
   const m: DataField[] = [

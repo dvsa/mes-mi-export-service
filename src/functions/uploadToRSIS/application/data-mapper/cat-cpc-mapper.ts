@@ -12,7 +12,7 @@ import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper'
 
 export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult as TestResultCatCPCSchema;
-  const t: TestData = result.testResult.testData as TestData;
+  const t: TestData = testResult.testData as TestData;
   const testDateTime = moment(testResult.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
   const candidateDOB = moment(formatDateOfBirth(result)).format('YYMMDD');
 

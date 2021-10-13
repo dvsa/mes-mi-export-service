@@ -13,7 +13,7 @@ import { formatGearboxCategory } from '../helpers/shared-formatters';
 
 export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult as TestResultCatAM1Schema;
-  const t: TestData = result.testResult.testData as TestData;
+  const t: TestData = testResult.testData as TestData;
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),

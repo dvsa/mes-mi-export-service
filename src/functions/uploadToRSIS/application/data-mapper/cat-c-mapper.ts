@@ -4,9 +4,10 @@ import { field, formatQuestionFaultC, formatQuestionSeriousC, formatQuestionComp
 import { mapCommonCatCData } from './cat-c-common-mapper';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { get } from 'lodash';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 export const mapCatCData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatCUniqueTypes.TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatCUniqueTypes.TestData;
   const delegatedTest = get(result, 'testResult.delegatedTest', false);
 
   return [

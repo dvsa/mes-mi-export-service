@@ -16,11 +16,12 @@ import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters'
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { get } from 'lodash';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/D/partial';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 type FaultSeverity = 'DF';
 
 export const mapCommonCatDData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatDUniqueTypes.TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatDUniqueTypes.TestData;
   const category = result.testResult.category;
 
   const m: DataField[] = [

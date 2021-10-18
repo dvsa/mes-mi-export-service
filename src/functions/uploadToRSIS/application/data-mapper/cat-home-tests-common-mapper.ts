@@ -17,9 +17,10 @@ import { formatGearboxCategoryWithOverride } from '../helpers/shared-formatters'
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { get } from 'lodash';
 import { HighwayCodeSafety } from '@dvsa/mes-test-schema/categories/F/partial';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 export const mapCommonCatHomeTestsData = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatFUniqueTypes.TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatFUniqueTypes.TestData;
   const category = result.testResult.category;
 
   const m: DataField[] = [

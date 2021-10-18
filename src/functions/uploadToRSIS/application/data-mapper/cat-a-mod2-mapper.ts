@@ -10,6 +10,7 @@ import {
   optionalBoolean,
 } from './data-mapper';
 import { formatGearboxCategory } from '../helpers/shared-formatters';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 
 enum ModeOfTransport {
   BikeToBike = 'Bike to bike',
@@ -17,7 +18,7 @@ enum ModeOfTransport {
 }
 
 export const mapCatAMod2Data = (result: ResultUpload): DataField[] => {
-  const t = result.testResult.testData as CatAM2TestData;
+  const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatAM2TestData;
 
   const m: DataField[] = [
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),

@@ -201,6 +201,9 @@ const formatTestType = (result: ResultUpload): number => {
     ['EUA2M1', 16], ['EUA2M2', 1],
     ['EUAM1', 16], ['EUAM2', 1],
     ['EUAMM1', 17], ['EUAMM2', 9],
+    // manoeuvre catgeories
+    ['CM', 18], ['C+EM', 18], ['C1M', 18], ['C1+EM', 18],
+    ['DM', 19], ['D+EM', 19], ['D1M', 19], ['D1+EM', 19],
   ]);
 
   const vehicleCategory = result.testResult.category;
@@ -288,10 +291,10 @@ export const formatDateOfBirth = (result: ResultUpload): Date => {
  * @param result The MES test result
  * @returns The formatted date
  */
-export const formatRekeyDateTime = (result: ResultUpload): Date|null => {
+export const formatRekeyDateTime = (result: ResultUpload): Date | null => {
   const rekeyDateText = get(result, 'testResult.rekeyDate', null);
   if (rekeyDateText) {
-    return  moment(rekeyDateText, 'YYYY-MM-DDTHH:mm:ss').toDate();
+    return moment(rekeyDateText, 'YYYY-MM-DDTHH:mm:ss').toDate();
   }
   return null;
 };

@@ -1,9 +1,9 @@
 #!/bin/sh -e
 LAMBDAS=$1
 
-npx webpack --env.lambdas=${LAMBDAS}
+npx webpack --env lambdas=${LAMBDAS}
 
-bundle_dir="build/bundle/"
+bundle_dir="build/bundle"
 artefact_dir="artefacts/"
 version_num=$(jq -r '.version' < package.json | cut -d . -f 1,2).$(date +%s)
 git_rev=$(git rev-parse --short HEAD)

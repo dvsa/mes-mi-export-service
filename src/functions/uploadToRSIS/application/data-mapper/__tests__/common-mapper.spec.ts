@@ -12,7 +12,8 @@ import { InterfaceType, ResultUpload } from '../../result-client';
 import { mapCommonData, formatDrivingSchoolCandidate } from '../common-mapper';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import moment = require('moment');
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 describe('mapCommonData', () => {
 
@@ -611,36 +612,59 @@ describe('mapCommonData', () => {
   });
 
   it('Should reject a test result with missing mandatory data (language)', () => {
-    const missingMandatory = cloneDeep(minimalInput);
+    let missingMandatory = cloneDeep(minimalInput);
     if (missingMandatory.testResult.communicationPreferences) {
-      delete missingMandatory.testResult.communicationPreferences.conductedLanguage;
+      const { conductedLanguage, ...rest } = missingMandatory.testResult.communicationPreferences;
+
+      missingMandatory = {
+        ...missingMandatory,
+        testResult: {
+          ...missingMandatory.testResult,
+          communicationPreferences: rest as CommunicationPreferences,
+        },
+      };
     }
     expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('testResult.communicationPreferences.conductedLanguage'));
   });
 
   it('Should reject a test result with missing mandatory data (booked staff num)', () => {
-    const missingMandatory = cloneDeep(minimalInput);
+    let missingMandatory = cloneDeep(minimalInput);
     if (missingMandatory.testResult) {
-      delete missingMandatory.testResult.examinerBooked;
+      const { examinerBooked, ...rest } = missingMandatory.testResult;
+
+      missingMandatory = {
+        ...missingMandatory,
+        testResult: rest as TestResultSchemasUnion,
+      };
     }
     expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('examinerBooked'));
   });
 
   it('Should reject a test result with missing mandatory data (staff num)', () => {
-    const missingMandatory = cloneDeep(minimalInput);
+    let missingMandatory = cloneDeep(minimalInput);
     if (missingMandatory.testResult) {
-      delete missingMandatory.testResult.examinerConducted;
+      const { examinerConducted, ...rest } = missingMandatory.testResult;
+
+      missingMandatory = {
+        ...missingMandatory,
+        testResult: rest as TestResultSchemasUnion,
+      };
     }
     expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('examinerConducted'));
   });
 
   it('Should reject a test result with missing mandatory data (keyed staff num)', () => {
-    const missingMandatory = cloneDeep(minimalInput);
+    let missingMandatory = cloneDeep(minimalInput);
     if (missingMandatory.testResult) {
-      delete missingMandatory.testResult.examinerKeyed;
+      const { examinerKeyed, ...rest } = missingMandatory.testResult;
+
+      missingMandatory = {
+        ...missingMandatory,
+        testResult: rest as TestResultSchemasUnion,
+      };
     }
     expect(() => mapCommonData(missingMandatory))
       .toThrow(new MissingTestResultDataError('examinerKeyed'));

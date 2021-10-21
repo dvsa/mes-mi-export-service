@@ -15,11 +15,11 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
  * @throws Various raw exceptions if insert error
  */
 export const saveTestResult = async (
-    connection: Connection | undefined,
-    config: Config,
-    mappedFields: DataField[],
-    appRef: number,
-    testCategory: CategoryCode): Promise<void> => {
+  connection: Connection | undefined,
+  config: Config,
+  mappedFields: DataField[],
+  appRef: number,
+  testCategory: CategoryCode): Promise<void> => {
 
   const table = getTableNameByTestCategory(testCategory);
 

@@ -22,7 +22,7 @@ export const doesResultMatchExpectations = (result: DataField[], expectations: D
     console.log(`result length: ${result.length} expectations length: ${expectations.length}`);
     console.log(`comparison 1: ${JSON.stringify(result1)}`);
     console.log(`comparison 2: ${JSON.stringify(result2)}`);
-  // tslint:enable:no-console
+    // tslint:enable:no-console
     return false;
   }
   return true;

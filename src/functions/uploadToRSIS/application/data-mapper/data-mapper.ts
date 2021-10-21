@@ -70,82 +70,82 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
   const category = result.testResult.category;
 
   switch (category) {
-    case TestCategory.ADI2:
-      mappedDataFields = mappedDataFields.concat(mapCatADI2Data(result));
-      break;
-    case TestCategory.B:
-      mappedDataFields = mappedDataFields.concat(mapCatBData(result));
-      break;
-    case TestCategory.BE:
-      mappedDataFields = mappedDataFields.concat(mapCatBEData(result));
-      break;
-    case TestCategory.C:
-      mappedDataFields = mappedDataFields.concat(mapCatCData(result));
-      break;
-    case TestCategory.C1:
-      mappedDataFields = mappedDataFields.concat(mapCatC1Data(result));
-      break;
-    case TestCategory.CE:
-      mappedDataFields = mappedDataFields.concat(mapCatCEData(result));
-      break;
-    case TestCategory.C1E:
-      mappedDataFields = mappedDataFields.concat(mapCatC1EData(result));
-      break;
-    case TestCategory.D:
-      mappedDataFields = mappedDataFields.concat(mapCatDData(result));
-      break;
-    case TestCategory.D1:
-      mappedDataFields = mappedDataFields.concat(mapCatD1Data(result));
-      break;
-    case TestCategory.DE:
-      mappedDataFields = mappedDataFields.concat(mapCatDEData(result));
-      break;
-    case TestCategory.D1E:
-      mappedDataFields = mappedDataFields.concat(mapCatD1EData(result));
-      break;
-    case TestCategory.EUA2M1:
-    case TestCategory.EUA1M1:
-    case TestCategory.EUAM1:
-    case TestCategory.EUAMM1:
-      mappedDataFields = mappedDataFields.concat(mapCatAMod1Data(result));
-      break;
-    case TestCategory.EUA1M2:
-    case TestCategory.EUA2M2:
-    case TestCategory.EUAM2:
-    case TestCategory.EUAMM2:
-      mappedDataFields = mappedDataFields.concat(mapCatAMod2Data(result));
-      break;
-    case TestCategory.F:
-      mappedDataFields = mappedDataFields.concat(mapCatFData(result));
-      break;
-    case TestCategory.G:
-      mappedDataFields = mappedDataFields.concat(mapCatGData(result));
-      break;
-    case TestCategory.H:
-      mappedDataFields = mappedDataFields.concat(mapCatHData(result));
-      break;
-    case TestCategory.K:
-      mappedDataFields = mappedDataFields.concat(mapCatKData(result));
-      break;
-    case TestCategory.CCPC:
-    case TestCategory.DCPC:
-      mappedDataFields = mapCatCPCData(result);
-      break;
-    case TestCategory.CM:
-    case TestCategory.C1M:
-    case TestCategory.CEM:
-    case TestCategory.C1EM:
-    case TestCategory.DM:
-    case TestCategory.D1M:
-    case TestCategory.DEM:
-    case TestCategory.D1EM:
-      mappedDataFields = mappedDataFields.concat(mapCatManoeuvresData(result));
-      break;
-    default:
-      const message = `Unsupported Category: ${category}`;
-      error(message);
-      throw new Error(message);
-      break;
+  case TestCategory.ADI2:
+    mappedDataFields = mappedDataFields.concat(mapCatADI2Data(result));
+    break;
+  case TestCategory.B:
+    mappedDataFields = mappedDataFields.concat(mapCatBData(result));
+    break;
+  case TestCategory.BE:
+    mappedDataFields = mappedDataFields.concat(mapCatBEData(result));
+    break;
+  case TestCategory.C:
+    mappedDataFields = mappedDataFields.concat(mapCatCData(result));
+    break;
+  case TestCategory.C1:
+    mappedDataFields = mappedDataFields.concat(mapCatC1Data(result));
+    break;
+  case TestCategory.CE:
+    mappedDataFields = mappedDataFields.concat(mapCatCEData(result));
+    break;
+  case TestCategory.C1E:
+    mappedDataFields = mappedDataFields.concat(mapCatC1EData(result));
+    break;
+  case TestCategory.D:
+    mappedDataFields = mappedDataFields.concat(mapCatDData(result));
+    break;
+  case TestCategory.D1:
+    mappedDataFields = mappedDataFields.concat(mapCatD1Data(result));
+    break;
+  case TestCategory.DE:
+    mappedDataFields = mappedDataFields.concat(mapCatDEData(result));
+    break;
+  case TestCategory.D1E:
+    mappedDataFields = mappedDataFields.concat(mapCatD1EData(result));
+    break;
+  case TestCategory.EUA2M1:
+  case TestCategory.EUA1M1:
+  case TestCategory.EUAM1:
+  case TestCategory.EUAMM1:
+    mappedDataFields = mappedDataFields.concat(mapCatAMod1Data(result));
+    break;
+  case TestCategory.EUA1M2:
+  case TestCategory.EUA2M2:
+  case TestCategory.EUAM2:
+  case TestCategory.EUAMM2:
+    mappedDataFields = mappedDataFields.concat(mapCatAMod2Data(result));
+    break;
+  case TestCategory.F:
+    mappedDataFields = mappedDataFields.concat(mapCatFData(result));
+    break;
+  case TestCategory.G:
+    mappedDataFields = mappedDataFields.concat(mapCatGData(result));
+    break;
+  case TestCategory.H:
+    mappedDataFields = mappedDataFields.concat(mapCatHData(result));
+    break;
+  case TestCategory.K:
+    mappedDataFields = mappedDataFields.concat(mapCatKData(result));
+    break;
+  case TestCategory.CCPC:
+  case TestCategory.DCPC:
+    mappedDataFields = mapCatCPCData(result);
+    break;
+  case TestCategory.CM:
+  case TestCategory.C1M:
+  case TestCategory.CEM:
+  case TestCategory.C1EM:
+  case TestCategory.DM:
+  case TestCategory.D1M:
+  case TestCategory.DEM:
+  case TestCategory.D1EM:
+    mappedDataFields = mappedDataFields.concat(mapCatManoeuvresData(result));
+    break;
+  default:
+    const message = `Unsupported Category: ${category}`;
+    error(message);
+    throw new Error(message);
+    break;
   }
 
   // purely as a check for human error when maintaining data mappers in the future, or adding new mappers for

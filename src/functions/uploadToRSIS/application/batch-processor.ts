@@ -56,7 +56,7 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
     }
 
   } catch (err) {
-    error(err);
+    error(err as string);
     return true;
 
   } finally {
@@ -77,7 +77,7 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
  * @returns Whether the result was able to be processed, if ``false`` then abort the rest of the batch
  */
 export async function processResult(config: Config, connection: Connection | undefined, resultUpload: ResultUpload):
-    Promise<boolean> {
+Promise<boolean> {
   try {
     // map MES test result to RSIS data fields
     info('Mapping data fields for ', resultUpload.uploadKey);
@@ -91,7 +91,7 @@ export async function processResult(config: Config, connection: Connection | und
     // insert into staging table and commit
     await saveTestResult(connection, config, miData, appRef, category);
 
-    info(`Save successful, setting to Accepted...`);
+    info('Save successful, setting to Accepted...');
 
     // update test result as accepted
     return await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.ACCEPTED, null);

@@ -32,7 +32,7 @@ describe('mapCatDData', () => {
     const minimalInput = getMinimalInputWithPassCompletion(TestCategory.D);
     const result = mapCatDData(minimalInput);
     // expect licence type to be overriden to manual for CAT D, Automatic and Code78 false
-    const licenceType =  result.find(field => field.col === 'AUTOMATIC_TEST');
+    const licenceType = result.find(field => field.col === 'AUTOMATIC_TEST');
     if (licenceType === undefined) {
       fail();
     } else {
@@ -85,7 +85,7 @@ describe('getPcvDoorExerciseCompetencyComments', () => {
     };
     const comment = getPcvDoorExerciseCompetencyComments(td, 'pcvDoorExercise');
     expect(comment)
-      // tslint:disable-next-line:max-line-length
+      // eslint-disable-next-line max-len
       .toEqual('Dangerous fault comment: some dangerous comment, Serious fault comment: some serious comment, Driving fault comment: some driving comment');
   });
 

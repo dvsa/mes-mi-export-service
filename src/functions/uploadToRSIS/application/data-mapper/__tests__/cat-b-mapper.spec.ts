@@ -4,7 +4,7 @@ import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults,
- } from './helpers/cat-b/inputs/fully-populated-inputs';
+} from './helpers/cat-b/inputs/fully-populated-inputs';
 import { getMinimalDataField } from './helpers/cat-b/data-fields/minimal-data-fields';
 import {
   getFullyPopulatedFaultDataFields,

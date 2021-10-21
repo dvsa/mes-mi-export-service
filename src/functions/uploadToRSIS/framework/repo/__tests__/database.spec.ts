@@ -27,7 +27,7 @@ describe('createConnection', () => {
 
     const conn = await createConnection(useRSISConfig);
 
-    expect(oracledb.getConnection).toHaveBeenCalledWith({
+    expect(oracledb.getConnection as unknown as Promise<oracledb.Connection>).toHaveBeenCalledWith({
       user: 'bbb',
       password: 'ccc',
       connectString: 'aaa',

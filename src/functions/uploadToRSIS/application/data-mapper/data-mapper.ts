@@ -35,6 +35,7 @@ import { mapCatKData } from './cat-k-mapper';
 import { mapCatHData } from './cat-h-mapper';
 import { mapCatGData } from './cat-g-mapper';
 import { mapCatCPCData } from './cat-cpc-mapper';
+import { mapCatManoeuvresData } from './cat-manoeuvres-mapper';
 
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
@@ -133,9 +134,7 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     case TestCategory.D1M:
     case TestCategory.DEM:
     case TestCategory.D1EM:
-      mappedDataFields = [
-        ...mappedDataFields,
-      ];
+      mappedDataFields = mappedDataFields.concat(mapCatManoeuvresData(result));
       break;
     default:
       const message = `Unsupported Category: ${category}`;

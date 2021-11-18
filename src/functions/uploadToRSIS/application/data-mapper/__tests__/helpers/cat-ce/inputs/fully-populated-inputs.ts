@@ -182,6 +182,7 @@ export function getVehicleChecksByOutcomeSeverity(
       },
     ],
     showMeTellMeComments: hasComment ? `show me tell me ${severityText}` : undefined,
+    fullLicenceHeld: true,
   };
 }
 

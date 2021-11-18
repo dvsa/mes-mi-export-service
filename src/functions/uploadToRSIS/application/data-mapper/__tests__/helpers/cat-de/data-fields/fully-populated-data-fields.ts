@@ -196,6 +196,7 @@ export function getCatDEFullyPopulatedDrivingDataFields(): DataField[] {
     { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 0 },
+    { col: 'RIGID_HELD', val: 0 },
   ];
 }
 
@@ -396,6 +397,7 @@ export function getCatDEFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 0 },
+    { col: 'RIGID_HELD', val: 0 },
   ];
 }
 
@@ -597,5 +599,6 @@ export function getCatDEFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 0 },
+    { col: 'RIGID_HELD', val: 0 },
   ];
 }

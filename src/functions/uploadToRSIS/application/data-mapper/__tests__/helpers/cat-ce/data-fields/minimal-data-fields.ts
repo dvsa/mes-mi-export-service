@@ -142,5 +142,6 @@ export function getCatCEMinimalDataFields(): DataField[] {
     { col: 'UNCOUPLE_RECOUPLE_SERIOUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 0 },
+    { col: 'RIGID_HELD', val: 0 },
   ];
 }

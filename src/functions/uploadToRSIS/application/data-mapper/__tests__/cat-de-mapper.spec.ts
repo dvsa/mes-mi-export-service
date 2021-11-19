@@ -59,6 +59,5 @@ describe('mapCatDEData', () => {
     const expected = getCatDEFullyPopulatedDangerousDataFields();
     const arraysMatched: boolean = doesResultMatchExpectations(mapCatDEData(fullyPopulated), expected);
     expect(arraysMatched).toEqual(true);
-
   });
 });

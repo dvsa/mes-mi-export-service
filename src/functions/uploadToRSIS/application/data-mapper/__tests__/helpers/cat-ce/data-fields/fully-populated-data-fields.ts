@@ -191,6 +191,7 @@ export function getCatCEFullyPopulatedSeriousDataFields(): DataField[] {
     { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
     { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 1 },
     { col: 'UNCOUPLE_RECOUPLE_COMMENT', val: 'uncouple recouple' },
+    { col: 'RIGID_HELD', val: 1 },
   ];
 }
 
@@ -386,5 +387,6 @@ export function getCatCEFullyPopulatedDangerousDataFields(): DataField[] {
     { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 1 },
     { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 1 },
     { col: 'UNCOUPLE_RECOUPLE_COMMENT', val: 'uncouple recouple' },
+    { col: 'RIGID_HELD', val: 1 },
   ];
 }

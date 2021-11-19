@@ -219,6 +219,7 @@ describe('mapCatC1EData', () => {
       { col: 'UNCOUPLE_RECOUPLE_DANGEROUS', val: 0 },
       { col: 'UNCOUPLE_RECOUPLE_COMPLETED', val: 1 },
       { col: 'UNCOUPLE_RECOUPLE_COMMENT', val: 'uncouple recouple' },
+      { col: 'RIGID_HELD', val: 1 },
     ];
 
     // expect the right number of faults, with no serious or dangerous

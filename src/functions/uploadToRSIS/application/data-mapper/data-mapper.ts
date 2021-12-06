@@ -37,6 +37,11 @@ import { mapCatGData } from './cat-g-mapper';
 import { mapCatCPCData } from './cat-cpc-mapper';
 import { mapCatManoeuvresData } from './cat-manoeuvres-mapper';
 
+enum FaultLimit {
+  TRAILER = 2,
+  NON_TRAILER = 5,
+}
+
 /**
  * Encapsulates a fatal error caused by mandatory data missing from the MES test result that we are trying to
  * export to MI.
@@ -332,7 +337,8 @@ export const formatQuestionFaultC = (testData: TestData | undefined): number => 
  */
 export const formatQuestionFaultCE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
-  return totalFaults === 2 ? 1 : totalFaults;
+  const faultLimit: number = getVehicleCheckFaultLimit(testData);
+  return (totalFaults === faultLimit) ? (faultLimit - 1) : totalFaults;
 };
 
 /**
@@ -365,7 +371,8 @@ export const formatQuestionFaultF = (testData: TestData | undefined): number => 
  */
 export const formatQuestionFaultDE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
-  return totalFaults === 2 ? 1 : totalFaults;
+  const faultLimit: number = getVehicleCheckFaultLimit(testData);
+  return (totalFaults === faultLimit) ? (faultLimit - 1) : totalFaults;
 };
 
 /**
@@ -387,7 +394,8 @@ export const formatQuestionSeriousD = (testData: TestData | undefined): number =
  */
 export const formatQuestionSeriousDE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
-  return totalFaults === 2 ? 1 : 0;
+  const faultLimit: number = getVehicleCheckFaultLimit(testData);
+  return (totalFaults === faultLimit) ? 1 : 0;
 };
 
 /**
@@ -444,7 +452,8 @@ export const formatQuestionSeriousC = (testData: TestData | undefined): number =
  */
 export const formatQuestionSeriousCE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
-  return totalFaults === 2 ? 1 : 0;
+  const faultLimit: number = getVehicleCheckFaultLimit(testData);
+  return (totalFaults === faultLimit) ? 1 : 0;
 };
 
 export const getVehicleChecksFaultCountBE = (testData: TestData | undefined): number => {
@@ -608,4 +617,10 @@ export const optionalIsLeftBoolean = (testResult: TestResultCatAM1Schema): Boole
 export const optionalIsRightBoolean = (testResult: TestResultCatAM1Schema): BooleanAsNumber => {
   const direction = get(testResult, 'testSummary.circuit', '');
   return direction.toUpperCase() === 'RIGHT' ? 1 : 0;
+};
+
+export const getVehicleCheckFaultLimit = (testData: TestData | undefined): FaultLimit => {
+  const fullLicenceHeld: boolean = get(testData, 'vehicleChecks.fullLicenceHeld', false);
+
+  return fullLicenceHeld ? FaultLimit.TRAILER : FaultLimit.NON_TRAILER;
 };

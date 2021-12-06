@@ -42,7 +42,6 @@ describe('mapCatDEData', () => {
     const fullyPopulated = getFullyPopulatedDrivingFaults(getMinimalInput(TestCategory.DE));
     const expected: DataField[] =  getCatDEFullyPopulatedDrivingDataFields();
     const result = mapCatDEData(fullyPopulated);
-    expect(result).toEqual(expected);
     const arraysMatched: boolean = doesResultMatchExpectations(result, expected);
     expect(arraysMatched).toEqual(true);
   });

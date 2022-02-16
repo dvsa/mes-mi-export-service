@@ -52,7 +52,7 @@
     "package": "./package.sh",
     "postci": "npm run bootstrap",
     "prepush": "npm run security-scan && npm run lint && npm test",
-    "security-scan": "git secrets --scan && git log -p | scanrepo",
+    "security-scan": "git secrets --scan",
     "start": "npm run compile && sls offline start",
     "test": "npm run compile && jasmine",
     "test:jasmine-coverage": "nyc npm run test"

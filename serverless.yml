@@ -2,7 +2,7 @@ service: mes-mi-export-service
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs14.x
 
 functions:
   uploadToRSIS:

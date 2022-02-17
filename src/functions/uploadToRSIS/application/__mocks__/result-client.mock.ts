@@ -17,7 +17,7 @@ import { pass, failAllFaults, failAllSerious, failAllDangerous, rekeyPass } from
  * @throws Error API call failed
  */
 export const getNextUploadBatch = async (baseUrl: string, interfaceType: InterfaceType, batchSize: number):
-    Promise<ResultUpload[]> => {
+Promise<ResultUpload[]> => {
   info(`STUBBED: Calling getNextUpdateBatch for ${interfaceType}, batch size of ${batchSize}`);
 
   const batch: ResultUpload[] = [

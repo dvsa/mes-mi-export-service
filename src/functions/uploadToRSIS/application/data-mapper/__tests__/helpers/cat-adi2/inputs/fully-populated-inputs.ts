@@ -176,7 +176,7 @@ export function getVehicleChecksByOutcomeSeverity(
   severityShortCode: String,
   severityText: String,
   isSerious: boolean = false,
-  ) {
+) {
   return {
     tellMeQuestions: [
       {

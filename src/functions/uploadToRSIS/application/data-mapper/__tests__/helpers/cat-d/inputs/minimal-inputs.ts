@@ -1,5 +1,6 @@
 import { ResultUpload, InterfaceType } from '../../../../../result-client';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 export function getMinimalInput(subCategory: TestCategory): ResultUpload {
   return {
@@ -103,7 +104,7 @@ export function getMinimalInputWithPassCompletion(subCategory: TestCategory): Re
         },
       },
       activityCode: '22',
-    },
+    } as TestResultSchemasUnion,
     autosaved: 0, // false
   };
 }

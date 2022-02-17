@@ -365,7 +365,7 @@ describe('data mapper', () => {
       };
 
       expect(getCompetencyComments((input.testResult as TestResultCommonSchema).testData, 'precautionsComments'))
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         .toEqual('Dangerous fault comment: Precautions dangerous comment, Serious fault comment: Precautions serious comment, Driving fault comment: Precautions fault comment');
     });
 
@@ -382,7 +382,7 @@ describe('data mapper', () => {
       };
 
       expect(getCompetencyComments((input.testResult as TestResultCommonSchema).testData, 'precautionsComments'))
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         .toEqual('Serious fault comment: Precautions serious comment, Driving fault comment: Precautions fault comment');
     });
 
@@ -466,7 +466,7 @@ describe('data mapper', () => {
         drivingFaults: { useOfStand: 'Very bad by candidate' },
       };
       expect(getCompetencyComments(td as TestData, 'useOfStand'))
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         .toEqual('Dangerous fault comment: Very bad by candidate, Serious fault comment: Very bad by candidate, Driving fault comment: Very bad by candidate');
     });
     it('should return null when none of specified comment is found in any fault', () => {

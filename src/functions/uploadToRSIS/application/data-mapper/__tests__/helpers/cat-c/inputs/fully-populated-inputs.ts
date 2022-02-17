@@ -162,7 +162,7 @@ export function getVehicleChecksByOutcomeSeverity(
   hasComment: boolean,
   severityText: String = '',
   isSerious: boolean = false,
-  ) {
+) {
   return {
     tellMeQuestions: [
       {

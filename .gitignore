@@ -19,3 +19,4 @@ artefacts
 .serverless/
 .nyc_output/
 oracle-instant-client/
+tslint-to-eslint-config.log

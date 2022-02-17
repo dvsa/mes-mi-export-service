@@ -45,6 +45,6 @@ export type BooleanAsNumber = 0 | 1;
 export type DataFieldValue = string | number | Date;
 
 export type DataField = {
-  col: string,
+  col: string;
   val: DataFieldValue;
 };

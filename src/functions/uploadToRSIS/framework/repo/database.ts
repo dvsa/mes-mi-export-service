@@ -19,7 +19,7 @@ export const createConnection = async (config: Config): Promise<Connection | und
         password: config.rsisDatabasePassword,
         connectString: connectionString,
       });
-      info(`Connection successfully created`);
+      info('Connection successfully created');
     } catch (err) {
       error(`Failed to connect to RSIS DB using connection string ${connectionString} with error: `, err);
       throw err;
@@ -40,7 +40,7 @@ export const createConnection = async (config: Config): Promise<Connection | und
  */
 export const execute =
   async (connection: Connection, sqlQuery: string, expectedRows: number, appRef: number, bindValues?: any):
-    Promise<void> => {
+  Promise<void> => {
     debug(`Executing statement: \n***\n${sqlQuery}\n***`);
     let result;
     try {
@@ -54,7 +54,7 @@ export const execute =
         throw new Error(err);
       }
     } catch (err) {
-      error(`Failed to execute sql query with errors: `, err);
+      error('Failed to execute sql query with errors: ', err);
       throw(err);
     }
 

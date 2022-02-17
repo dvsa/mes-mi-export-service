@@ -24,23 +24,23 @@ export enum InterfaceType {
 
 // Needs to be kept in sync with the UPLOAD_QUEUE table
 export type UploadKey = {
-  applicationReference: ApplicationReference,
-  staffNumber: string,
-  interfaceType: InterfaceType,
+  applicationReference: ApplicationReference;
+  staffNumber: string;
+  interfaceType: InterfaceType;
 };
 
 export type ResultUpload = {
-  uploadKey: UploadKey,
-  testResult: TestResultSchemasUnion,
-  autosaved: BooleanAsNumber,
+  uploadKey: UploadKey;
+  testResult: TestResultSchemasUnion;
+  autosaved: BooleanAsNumber;
 };
 
 type UpdateUploadStatusPayload = {
-  staff_number: string,
-  interface: InterfaceType,
-  state: ProcessingStatus,
-  retry_count: number,
-  error_message: string | null,
+  staff_number: string;
+  interface: InterfaceType;
+  state: ProcessingStatus;
+  retry_count: number;
+  error_message: string | null;
 };
 
 const axiosInstance = axios.create();
@@ -54,7 +54,7 @@ const axiosInstance = axios.create();
  * @throws Error API call failed
  */
 export const getNextUploadBatch = async (baseUrl: string, interfaceType: InterfaceType, batchSize: number):
-  Promise<ResultUpload[]> => {
+Promise<ResultUpload[]> => {
   info(`Calling getNextUpdateBatch for ${interfaceType}, batch size of ${batchSize}`);
 
   const url = `${baseUrl}/upload?interface=${interfaceType}&batch_size=${batchSize}`;
@@ -69,7 +69,7 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
       }
 
       const resultList: ResultUpload[] = [];
-      const parseResult = response.data;
+      const parseResult = response.data as string[];
       parseResult.forEach((element: string) => {
         let uncompressedResult: string = '';
         let test: TestResultSchemasUnion;
@@ -104,7 +104,7 @@ export const getNextUploadBatch = async (baseUrl: string, interfaceType: Interfa
           reject(new Error('failed parsing test result'));
         }
       });
-      debug(`Received batch`);
+      debug('Received batch');
       resolve(resultList);
     }).catch((err) => {
       const ex = mapHTTPErrorToDomainError(err);
@@ -141,14 +141,14 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
 
   debug(`calling ${url} with body ${JSON.stringify(payload)}`);
 
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     const result = axiosInstance.put(url, payload);
     result.then((response) => {
       debug('Status successfully updated');
       resolve();
     }).catch((err) => {
       const ex = mapHTTPErrorToDomainError(err);
-      const errorMessage = `Failed to update upload status for app ` +
+      const errorMessage = 'Failed to update upload status for app ' +
       `ref ${formatApplicationReference(key.applicationReference)} to` +
       ` status of ${status} and interface type of ${interfaceType} with upload key of ` +
       `${JSON.stringify(key)}, error returned from API call is:`;
@@ -181,7 +181,7 @@ export const isRecordAutosaved = (test: TestResultSchemasUnion): BooleanAsNumber
 
   // We assume that when these properties are null then the test is autosaved
   return (
-      get(test, 'testSummary.candidateDescription', false) &&
+    get(test, 'testSummary.candidateDescription', false) &&
       get(test, 'testSummary.identification', false) &&
       get(test, 'testSummary.independentDriving', false) &&
       get(test, 'testSummary.routeNumber', false) &&

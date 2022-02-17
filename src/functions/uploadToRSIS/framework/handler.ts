@@ -20,7 +20,7 @@ export async function handler(event: ScheduledEvent, fnCtx: Context): Promise<Re
     return createResponse({ message: 'batch progressed ok' }, HttpStatus.OK);
 
   } catch (err) {
-    error(err);
+    error(err as string);
     return createResponse({ message: err }, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

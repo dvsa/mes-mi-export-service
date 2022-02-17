@@ -95,15 +95,15 @@ describe('getManoeuvreCommentByType', () => {
         selected: true,
       },
     },
-      {
-        reverseParkCarpark: {
-          controlFault: undefined,
-          controlFaultComments: 'bad control reverse park car park',
-          observationFault: undefined,
-          observationFaultComments: '',
-          selected: true,
-        },
-      }],
+    {
+      reverseParkCarpark: {
+        controlFault: undefined,
+        controlFaultComments: 'bad control reverse park car park',
+        observationFault: undefined,
+        observationFaultComments: '',
+        selected: true,
+      },
+    }],
   };
   it('should return the requested comment where found', () => {
     const comment = getManoeuvreCommentByType(testData, 'reverseParkCarpark', 'controlFaultComments');

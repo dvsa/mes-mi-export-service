@@ -118,7 +118,7 @@ describe('batch-processor', () => {
 
   describe('upload-result', () => {
     it('Should do nothing with an empty batch', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([]);
+      spyOn(resultClient, 'getNextUploadBatch').and.returnValue(Promise.resolve([]));
       spyOn(database, 'createConnection');
       spyOn(dataMapper, 'mapDataForMIExport');
       spyOn(repository, 'saveTestResult');
@@ -133,8 +133,8 @@ describe('batch-processor', () => {
     });
 
     it('Should process a successful batch of 1', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([dummyResult1]);
-      spyOn(database, 'createConnection').and.returnValue(moqConn);
+      spyOn(resultClient, 'getNextUploadBatch').and.returnValue(Promise.resolve([dummyResult1]));
+      spyOn(database, 'createConnection').and.returnValue(Promise.resolve(moqConn as unknown as Connection));
       spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
       spyOn(repository, 'saveTestResult');
       spyOn(resultClient, 'updateUploadStatus');
@@ -146,8 +146,9 @@ describe('batch-processor', () => {
     });
 
     it('Should process a successful batch of 3', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([dummyResult1, dummyResult2, dummyResult1]);
-      spyOn(database, 'createConnection').and.returnValue(moqConn);
+      spyOn(resultClient, 'getNextUploadBatch')
+        .and.returnValue(Promise.resolve([dummyResult1, dummyResult2, dummyResult1]));
+      spyOn(database, 'createConnection').and.returnValue(Promise.resolve(moqConn as unknown as Connection));
       spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
       spyOn(repository, 'saveTestResult');
       spyOn(resultClient, 'updateUploadStatus');
@@ -159,8 +160,9 @@ describe('batch-processor', () => {
     });
 
     it('Should abort a batch if uanble to update status', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([dummyResult1, dummyResult1, dummyResult1]);
-      spyOn(database, 'createConnection').and.returnValue(moqConn);
+      spyOn(resultClient, 'getNextUploadBatch')
+        .and.returnValue(Promise.resolve([dummyResult1, dummyResult1, dummyResult1]));
+      spyOn(database, 'createConnection').and.returnValue(Promise.resolve(moqConn as unknown as Connection));
       spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
       spyOn(repository, 'saveTestResult');
       spyOn(resultClient, 'updateUploadStatus').and.throwError('oops');
@@ -172,7 +174,8 @@ describe('batch-processor', () => {
     });
 
     it('Should set whole batch to failed if uanble to connect to DB', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([dummyResult1, dummyResult1, dummyResult1]);
+      spyOn(resultClient, 'getNextUploadBatch')
+        .and.returnValue(Promise.resolve([dummyResult1, dummyResult1, dummyResult1]));
       spyOn(database, 'createConnection').and.throwError('oops');
       spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
       spyOn(repository, 'saveTestResult');
@@ -185,7 +188,8 @@ describe('batch-processor', () => {
     });
 
     it('Should abort if unable to set whole batch to failed after uanble to connect to DB', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue([dummyResult1, dummyResult1, dummyResult1]);
+      spyOn(resultClient, 'getNextUploadBatch')
+        .and.returnValue(Promise.resolve([dummyResult1, dummyResult1, dummyResult1]));
       spyOn(database, 'createConnection').and.throwError('oops');
       spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
       spyOn(repository, 'saveTestResult');

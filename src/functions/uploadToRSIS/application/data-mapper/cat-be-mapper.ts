@@ -279,7 +279,7 @@ export const mapCatBEData = (result: ResultUpload): DataField[] => {
     field('ANGLED_START_COMPLETED', optionalBoolean(t, 'testRequirements.angledStartControlledStop')),
     field('UPHILL_START', optionalBoolean(t, 'testRequirements.uphillStart')),
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
-      //  unused - HILL_START_COMPLETED
+    //  unused - HILL_START_COMPLETED
   ];
 
   // add the optional fields, only if set

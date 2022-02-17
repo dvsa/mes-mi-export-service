@@ -19,23 +19,23 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
     field('AUTOMATIC_TEST', formatGearboxCategory(result)),
     // RIDING FAULTS - SINGLE FAULT COMPETENCY
     // useOfStand
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     field('MC_USE_OF_STAND_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.useOfStand', 'D')),
     field('MC_USE_OF_STAND_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.useOfStand', 'S')),
     field('MC_USE_OF_STAND_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.useOfStand', 'DF')),
     // manualHandling
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     field('MC_MANUAL_HANDLING_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.manualHandling', 'D')),
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     field('MC_MANUAL_HANDLING_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.manualHandling', 'S')),
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     field('MC_MANUAL_HANDLING_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.manualHandling', 'DF')),
     // slalom
     field('MC_SLALOM_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.slalom', 'D')),
     field('MC_SLALOM_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.slalom', 'S')),
     field('MC_SLALOM_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.slalom', 'DF')),
     // slowControl
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     field('MC_SLOW_CONTROL_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.slowControl', 'D')),
     field('MC_SLOW_CONTROL_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.slowControl', 'S')),
     field('MC_SLOW_CONTROL_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.slowControl', 'DF')),
@@ -48,11 +48,11 @@ export const mapCatAMod1Data = (result: ResultUpload): DataField[] => {
     field('SPARE1_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.controlledStop', 'S')),
     field('SPARE1_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.controlledStop', 'DF')),
     // emergencyStop
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     field('CONTROL_STOP_PROMPT_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'D')),
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     field('CONTROL_STOP_PROMPT_SERIOUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'S')),
-    // tslint:disable-next-line:max-line-length
+    // eslint-disable-next-line max-len
     field('CONTROL_STOP_PROMPT_TOTAL', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.emergencyStop', 'DF')),
     // avoidance
     field('MC_AVOIDANCE_DANGEROUS', formatSingleFaultOutcomeBySeverity(t, 'singleFaultCompetencies.avoidance', 'D')),

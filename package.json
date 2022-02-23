@@ -18,7 +18,7 @@
     "package": "./package.sh",
     "postci": "npm run bootstrap",
     "prepush": "npm run security-scan && npm run lint && npm test",
-    "security-scan": "git secrets --scan && git log -p | scanrepo",
+    "security-scan": "git secrets --scan",
     "start": "npm run compile && sls offline start",
     "test": "npm run compile && jasmine",
     "test:jasmine-coverage": "nyc npm run test"
@@ -31,7 +31,7 @@
     "oracledb": "^5.3.0"
   },
   "devDependencies": {
-    "@dvsa/mes-test-schema": "3.37.2",
+    "@dvsa/mes-test-schema": "3.38.0",
     "@types/aws-lambda": "^8.10.84",
     "@types/jasmine": "^3.10.0",
     "@types/node": "^14.17.5",

@@ -193,7 +193,7 @@ const formatTestType = (result: ResultUpload): number => {
     ['G', 6],
     ['H', 7],
     ['K', 8],
-    // Note that some extra data will be needed in MES to indentify CPC tests, if MES adds support for them...
+    // Note that some extra data will be needed in MES to identify CPC tests, if MES adds support for them...
     ['CCPC', 44], ['DCPC', 44],
     // LGV (Lorry) CPC (all C Categories) => 44
     // PCV (Bus) CPC (all D Categories) => 44
@@ -201,7 +201,7 @@ const formatTestType = (result: ResultUpload): number => {
     ['EUA2M1', 16], ['EUA2M2', 1],
     ['EUAM1', 16], ['EUAM2', 1],
     ['EUAMM1', 17], ['EUAMM2', 9],
-    // manoeuvre catgeories
+    // manoeuvre categories
     ['CM', 18], ['C+EM', 18], ['C1M', 18], ['C1+EM', 18],
     ['DM', 19], ['D+EM', 19], ['D1M', 19], ['D1+EM', 19],
   ]);

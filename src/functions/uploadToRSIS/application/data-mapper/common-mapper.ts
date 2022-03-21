@@ -149,6 +149,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
+  addIfSet(mappedFields, 'TRUE_LIKENESS', formatTrueLikeness(result));
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result, category));
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
   addIfSet(mappedFields, 'CANDIDATE_FORENAMES', optional(r, 'journalData.candidate.candidateName.firstName', null));
@@ -303,4 +304,9 @@ export const formatDrivingSchoolCandidate = (result: ResultUpload): BooleanAsNum
   const isDrivingSchoolBike = get(result, 'testResult.vehicleDetails.schoolBike', false);
   const isDrivingSchoolCar = get(result, 'testResult.vehicleDetails.schoolCar', false);
   return (isDrivingSchoolBike || isDrivingSchoolCar) ? 1 : 0;
+};
+
+export const formatTrueLikeness = (result: ResultUpload): BooleanAsNumber => {
+  const trueLikeness: boolean = get(result, 'testResult.testSummary.trueLikenessToPhoto', false);
+  return trueLikeness ? 1 : 0;
 };

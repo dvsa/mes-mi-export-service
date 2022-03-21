@@ -714,22 +714,28 @@ describe('mapCommonData', () => {
     });
   });
   describe('formatTrueLikeness', () => {
-    const input: ResultUpload = {
-      ...minimalInput,
-      testResult: {
-        ...minimalInput.testResult,
-        testSummary: {
-          trueLikenessToPhoto: true,
-        },
-      },
-    };
     it('should return 1 if trueLikenessToPhoto is true', () => {
-      const result = formatTrueLikeness(input);
+      const result = formatTrueLikeness({
+        ...minimalInput,
+        testResult: {
+          ...minimalInput.testResult,
+          testSummary: {
+            trueLikenessToPhoto: true,
+          },
+        },
+      });
       expect(result).toEqual(1);
     });
     it('should return 0 if trueLikenessToPhoto is not true', () => {
-      input.testResult.testSummary = {};
-      const result = formatTrueLikeness(input);
+      const result = formatTrueLikeness({
+        ...minimalInput,
+        testResult: {
+          ...minimalInput.testResult,
+          testSummary: {
+            trueLikenessToPhoto: false,
+          },
+        },
+      });
       expect(result).toEqual(0);
     });
   });

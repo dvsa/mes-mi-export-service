@@ -272,6 +272,7 @@ export const mapCommonCatCData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
+  addIfSet(m, 'MANOEUVRES_PASS_CERTIFICATE', optional(t, 'preTestDeclarations.manoeuvrePassCertificateNumber', null));
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'PRECAUTIONS_COMMENT', getCompetencyComments(t, 'precautionsComments'));
   addIfSet(m, 'CONTROL_ACC_COMMENT', getCompetencyComments(t, 'controlsAcceleratorComments'));

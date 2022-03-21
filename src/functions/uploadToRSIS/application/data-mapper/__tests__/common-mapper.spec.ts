@@ -9,7 +9,7 @@ import {
   ResultIndicator,
 } from '../../../domain/mi-export-data';
 import { InterfaceType, ResultUpload } from '../../result-client';
-import { mapCommonData, formatDrivingSchoolCandidate } from '../common-mapper';
+import {mapCommonData, formatDrivingSchoolCandidate, formatTrueLikeness} from '../common-mapper';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import moment = require('moment');
 import { CategoryCode, CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
@@ -710,6 +710,26 @@ describe('mapCommonData', () => {
     it('should return 0 if NOT schoolCar or schoolBike', () => {
       input.testResult.vehicleDetails = {};
       const result = formatDrivingSchoolCandidate(input);
+      expect(result).toEqual(0);
+    });
+  });
+  describe('formatTrueLikeness', () => {
+    const input: ResultUpload = {
+      ...minimalInput,
+      testResult: {
+        ...minimalInput.testResult,
+        testSummary: {
+          trueLikenessToPhoto: true,
+        },
+      },
+    };
+    it('should return 1 if trueLikenessToPhoto is true', () => {
+      const result = formatTrueLikeness(input);
+      expect(result).toEqual(1);
+    });
+    it('should return 0 if trueLikenessToPhoto is not true', () => {
+      input.testResult.testSummary = {};
+      const result = formatTrueLikeness(input);
       expect(result).toEqual(0);
     });
   });

@@ -18,6 +18,9 @@ import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common'
 
 export const mapCommonCatCData = (result: ResultUpload): DataField[] => {
   const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatCUniqueTypes.TestData;
+  const p = (
+    result.testResult as Required<TestResultCommonSchema>
+  ).preTestDeclarations as CatCUniqueTypes.PreTestDeclarations;
   const category = result.testResult.category;
 
   const m: DataField[] = [
@@ -272,7 +275,7 @@ export const mapCommonCatCData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
-  addIfSet(m, 'MANOEUVRES_PASS_CERTIFICATE', optional(t, 'preTestDeclarations.manoeuvrePassCertificateNumber', null));
+  addIfSet(m, 'MANOEUVRES_PASS_CERTIFICATE', optional(p, 'manoeuvrePassCertificateNumber', null));
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'PRECAUTIONS_COMMENT', getCompetencyComments(t, 'precautionsComments'));
   addIfSet(m, 'CONTROL_ACC_COMMENT', getCompetencyComments(t, 'controlsAcceleratorComments'));

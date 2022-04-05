@@ -1,6 +1,7 @@
 import { ResultUpload, InterfaceType } from '../../../../../result-client';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import {CatDUniqueTypes} from '@dvsa/mes-test-schema/categories/D';
 
 export function getMinimalInput(subCategory: TestCategory): ResultUpload {
   return {
@@ -21,6 +22,9 @@ export function getMinimalInput(subCategory: TestCategory): ResultUpload {
       examinerBooked: 12345678,
       examinerConducted: 12345678,
       examinerKeyed: 12345678,
+      preTestDeclarations: {
+        manoeuvrePassCertificateNumber: 'A123456X',
+      } as CatDUniqueTypes.PreTestDeclarations,
       journalData: {
         examiner: {
           staffNumber: '001122',

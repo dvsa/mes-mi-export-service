@@ -17,7 +17,7 @@ import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 describe('mapCommonData', () => {
 
-  // minimally populated pass, no gearbox or reg, staff number with leading zeros, no gender, no title, no firstanme
+  // minimally populated pass, no gearbox or reg, staff number with leading zeros, no gender, no title, no firstname
   const minimalInput: ResultUpload = {
     uploadKey: {
       applicationReference: {
@@ -83,12 +83,13 @@ describe('mapCommonData', () => {
       },
       testSummary: {
         routeNumber: 15,
+        trueLikenessToPhoto: true,
       },
     },
     autosaved: 0, // false
   };
 
-  it('Should map a minially populated regular test result (pass, no gearbox, english, minimal write up)', () => {
+  it('Should map a minimally populated regular test result (pass, no gearbox, english, minimal write up)', () => {
     const expected: DataField[] = [
       { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
       { col: 'FORM_TYPE', val: FormType.MES },
@@ -135,6 +136,7 @@ describe('mapCommonData', () => {
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'NO_WRITE_UP', val: 0 },
+      { col: 'TRUE_LIKENESS', val: 1 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'DOB', val: new Date('2000-01-31') },
@@ -259,6 +261,7 @@ describe('mapCommonData', () => {
         testData: fullTestResult,
         testSummary: {
           routeNumber: 15,
+          trueLikenessToPhoto: false,
           independentDriving: 'Sat nav',
           candidateDescription: 'Short',
           debriefWitnessed: false,
@@ -317,6 +320,7 @@ describe('mapCommonData', () => {
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'NO_WRITE_UP', val: 0 },
+      { col: 'TRUE_LIKENESS', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
@@ -439,6 +443,7 @@ describe('mapCommonData', () => {
         },
         testData: terminatedTestResult,
         testSummary: {
+          trueLikenessToPhoto: false,
           independentDriving: 'Sat nav',
           debriefWitnessed: true,
           identification: 'Licence',
@@ -497,6 +502,7 @@ describe('mapCommonData', () => {
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'NO_WRITE_UP', val: 0 },
+      { col: 'TRUE_LIKENESS', val: 0 },
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
@@ -580,6 +586,7 @@ describe('mapCommonData', () => {
       { col: 'HEALTH_DECLARATION_ACCEPTED', val: 0 },
       { col: 'PASS_CERT_RECEIVED', val: 0 },
       { col: 'NO_WRITE_UP', val: 0 },
+      { col: 'TRUE_LIKENESS', val: 1 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
       { col: 'DOB', val: new Date('2000-01-31') },

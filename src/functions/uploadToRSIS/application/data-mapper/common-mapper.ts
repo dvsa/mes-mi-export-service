@@ -1,5 +1,13 @@
 import { ResultUpload } from '../result-client';
-import { field, optionalBoolean, optional, mandatory, MissingTestResultDataError, addIfSet } from './data-mapper';
+import {
+  field,
+  optionalBoolean,
+  optional,
+  mandatory,
+  MissingTestResultDataError,
+  addIfSet,
+  addIfDefined,
+} from './data-mapper';
 import moment = require('moment');
 import { get } from 'lodash';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -149,7 +157,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
-  addIfSet(mappedFields, 'TRUE_LIKENESS', formatTrueLikeness(result));
+  addIfDefined(mappedFields, 'TRUE_LIKENESS', formatTrueLikeness(result));
   addIfSet(mappedFields, 'ADI_NUMBER', formatInstructorPRN(result, category));
   addIfSet(mappedFields, 'PASS_CERTIFICATE', optional(r, 'passCompletion.passCertificateNumber', null));
   addIfSet(mappedFields, 'CANDIDATE_FORENAMES', optional(r, 'journalData.candidate.candidateName.firstName', null));

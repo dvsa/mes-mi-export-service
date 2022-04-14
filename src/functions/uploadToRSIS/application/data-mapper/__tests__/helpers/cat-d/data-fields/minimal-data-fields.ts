@@ -144,5 +144,6 @@ export function getCatDMinimalDataFields(): DataField[] {
     { col: 'VEHICLE_CHECKS_COMPLETED', val: 0 },
     { col: 'VEHICLE_CHECKS_TOTAL', val: 0 },
     { col: 'VEHICLE_CHECKS_SERIOUS', val: 0 },
+    { col: 'MANOEUVRES_PASS_CERTIFICATE', val: 'A123456X' },
   ];
 }

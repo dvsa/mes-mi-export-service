@@ -22,6 +22,9 @@ type FaultSeverity = 'DF';
 
 export const mapCommonCatDData = (result: ResultUpload): DataField[] => {
   const t = (result.testResult as Required<TestResultCommonSchema>).testData as CatDUniqueTypes.TestData;
+  const p = (
+    result.testResult as Required<TestResultCommonSchema>
+  ).preTestDeclarations as CatDUniqueTypes.PreTestDeclarations;
   const category = result.testResult.category;
 
   const m: DataField[] = [
@@ -278,7 +281,7 @@ export const mapCommonCatDData = (result: ResultUpload): DataField[] => {
   ];
 
   // add the optional fields, only if set
-  addIfSet(m, 'MANOEUVRES_PASS_CERTIFICATE', optional(t, 'preTestDeclarations.manoeuvrePassCertificateNumber', null));
+  addIfSet(m, 'MANOEUVRES_PASS_CERTIFICATE', optional(p, 'manoeuvrePassCertificateNumber', null));
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'PRECAUTIONS_COMMENT', getCompetencyComments(t, 'precautionsComments'));
   addIfSet(m, 'CONTROL_ACC_COMMENT', getCompetencyComments(t, 'controlsAcceleratorComments'));

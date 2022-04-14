@@ -197,6 +197,12 @@ export const addIfSet = (fields: DataField[], column: string, value: DataFieldVa
   }
 };
 
+export const addIfDefined = (fields: DataField[], column: string, value: DataFieldValue | null) => {
+  if (value !== undefined && value !== null) {
+    fields.push({ col: column, val: value });
+  }
+};
+
 /**
  * Get an optional value from the MES test result.
  *

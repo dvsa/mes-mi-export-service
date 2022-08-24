@@ -1,0 +1,89 @@
+import { DataField } from '../../../../../../domain/mi-export-data';
+
+export function getADI3MinimalDataField(): DataField[] {
+  return [
+    {
+      col: 'APP_REF_NO',
+      val: 23123428013,
+    },
+    {
+      col: 'TEST_TYPE',
+      val: 11,
+    },
+    { col: 'ADI_PRN',
+      val: 4405399,
+    },
+    {
+      col: 'CHANNEL_INDICATOR',
+      val: 2,
+    },
+    {
+      col: 'DATE_OF_TEST',
+      val: '220823',
+    },
+    {
+      col: 'TIME',
+      val: '1600',
+    },
+    {
+      col: 'DEBRIEF_WITNESSED',
+      val: 0,
+    },
+    {
+      col: 'TEST_CATEGORY_TYPE',
+      val: 'ADI3',
+    },
+    {
+      col: 'PDI_LOGBOOK',
+      val: 0,
+    },
+    {
+      col: 'TRAINEE_LICENCE',
+      val: 0,
+    },
+    {
+      col: 'ACTIVITY_CODE',
+      val: 34,
+    },
+    {
+      col: 'CANDIDATE_SURNAME',
+      val: 'Wheeler',
+    },
+    {
+      col: 'DRIVER_NUMBER',
+      val: 'WHEEL123456789DO',
+    },
+    {
+      col: 'DUAL_CONTROL_IND',
+      val: 0,
+    },
+    {
+      col: 'ACTIVITY_CODE',
+      val: 34,
+    },
+    {
+      col: 'TEST_RESULT',
+      val: 'N',
+    },
+    {
+      col: 'INSURANCE_DECLARATION_ACCEPTED',
+      val: 0,
+    },
+    {
+      col: 'CANDIDATE_FORENAMES',
+      val: 'Mike',
+    },
+    {
+      col: 'DRIVER_NO_DOB',
+      val: 870727,
+    },
+    {
+      col: 'ETHNICITY',
+      val: 'D',
+    },
+    {
+      col: 'COMMUNICATION_METHOD',
+      val: 'Not provided',
+    },
+  ];
+}

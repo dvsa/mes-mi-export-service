@@ -189,12 +189,13 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
  * @returns The DL25 test type
  * @throws Error if unsupported type of test
  */
-const formatTestType = (result: ResultUpload): number => {
+export const formatTestType = (result: ResultUpload): number => {
 
   // DL25 test category to test type mapping, as per the TARS TEST_CATEGORY_CROSS_REFERENCE table,
   // documented at https://wiki.i-env.net/display/MES/Test+Category+Cross+Reference and agreed with DVSA MI Team.
   const mapping: Map<string, number> = new Map([
     ['ADI2', 10],
+    ['ADI3', 11],
     ['B', 2], ['B+E', 2],
     ['C', 3], ['C+E', 3], ['C1', 3], ['C1+E', 3],
     ['D', 4], ['D+E', 4], ['D1', 4], ['D1+E', 4],

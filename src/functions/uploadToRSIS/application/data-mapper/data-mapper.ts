@@ -75,7 +75,7 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
       mappedDataFields = mappedDataFields.concat(mapCatADI2Data(result));
       break;
     case TestCategory.ADI3:
-      mappedDataFields = mappedDataFields.concat(mapCatADI3Data(result));
+      mappedDataFields = mapCatADI3Data(result);
       break;
     case TestCategory.B:
       mappedDataFields = mappedDataFields.concat(mapCatBData(result));

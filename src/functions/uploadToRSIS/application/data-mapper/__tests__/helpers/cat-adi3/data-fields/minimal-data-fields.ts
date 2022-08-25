@@ -58,6 +58,26 @@ export function getADI3MinimalDataField(): DataField[] {
       val: 0,
     },
     {
+      col: 'BOOKED_STAFF_NO',
+      val: '10000013',
+    },
+    {
+      col: 'KEYED_STAFF_NO',
+      val: '10000013',
+    },
+    {
+      col: 'STAFF_NO',
+      val: '10000013',
+    },
+    {
+      col: 'DTC_AUTHORITY_CODE',
+      val: 'ITC1',
+    },
+    {
+      col: 'TEST_CENTRE_ID',
+      val: 54000,
+    },
+    {
       col: 'ACTIVITY_CODE',
       val: 34,
     },

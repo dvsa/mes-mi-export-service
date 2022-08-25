@@ -1,6 +1,6 @@
-import {ResultUpload, InterfaceType} from '../../../../../result-client';
-import {TestCategory} from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {TestResultSchemasUnion} from '@dvsa/mes-test-schema/categories';
+import { ResultUpload, InterfaceType } from '../../../../../result-client';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 export function getMinimalInput(subCategory: TestCategory): ResultUpload {
   return {
@@ -81,20 +81,20 @@ export function getMinimalInputWithPassCompletion(subCategory: TestCategory): Re
             observationFaultComments: 'A',
           },
         },
-        uncoupleRecouple: {fault: 'D', selected: true, faultComments: 'B'},
+        uncoupleRecouple: { fault: 'D', selected: true, faultComments: 'B' },
       },
       appVersion: '4.1.1.4',
       journalData: {
-        examiner: {staffNumber: '10000014', individualId: 1000014},
+        examiner: { staffNumber: '10000014', individualId: 1000014 },
         candidate: {
           gender: 'M',
           candidateId: 4445,
           dateOfBirth: '1982-06-25',
           businessName: 'Caladan Enterprises',
           driverNumber: 'CATCM22222222205',
-          candidateName: {title: 'Mr', lastName: 'Rautha', firstName: 'Feyd'},
+          candidateName: { title: 'Mr', lastName: 'Rautha', firstName: 'Feyd' },
           ethnicityCode: 'D',
-          businessAddress: {postcode: 'FR1 1MN', addressLine1: '123 Arrakin Road'},
+          businessAddress: { postcode: 'FR1 1MN', addressLine1: '123 Arrakin Road' },
           mobileTelephone: '(951) 401-3627',
           candidateAddress: {
             postcode: 'AR01 0IS',
@@ -108,7 +108,7 @@ export function getMinimalInputWithPassCompletion(subCategory: TestCategory): Re
           businessTelephone: '07777777777',
           secondaryTelephone: '(979) 526-2534',
         },
-        testCentre: {centreId: 54321, costCode: 'EXTC1', centreName: 'Example Test Centre'},
+        testCentre: { centreId: 54321, costCode: 'EXTC1', centreName: 'Example Test Centre' },
         testSlotAttributes: {
           start: '2022-03-10T09:00:00',
           slotId: 5555,
@@ -122,12 +122,12 @@ export function getMinimalInputWithPassCompletion(subCategory: TestCategory): Re
           specialNeedsCode: 'NONE',
           specialNeedsArray: ['None'],
         },
-        applicationReference: {checkDigit: 4, applicationId: 55512305, bookingSequence: 1},
+        applicationReference: { checkDigit: 4, applicationId: 55512305, bookingSequence: 1 },
       },
       rekeyReason: {
-        other: {reason: '', selected: false},
-        transfer: {selected: false},
-        ipadIssue: {lost: false, broken: false, stolen: false, selected: false, technicalFault: false},
+        other: { reason: '', selected: false },
+        transfer: { selected: false },
+        ipadIssue: { lost: false, broken: false, stolen: false, selected: false, technicalFault: false },
       },
       testSummary: {
         D255: false,
@@ -139,7 +139,7 @@ export function getMinimalInputWithPassCompletion(subCategory: TestCategory): Re
       },
       activityCode: '2',
       changeMarker: false,
-      accompaniment: {ADI: true, supervisor: true},
+      accompaniment: { ADI: true, supervisor: true },
       delegatedTest: false,
       examinerKeyed: 10000014,
       examinerBooked: 10000014,
@@ -163,7 +163,7 @@ export function getMinimalInputWithPassCompletion(subCategory: TestCategory): Re
         healthDeclarationAccepted: false,
         passCertificateNumberReceived: false,
       },
-      communicationPreferences: {updatedEmail: '', conductedLanguage: 'English', communicationMethod: 'Post'},
+      communicationPreferences: { updatedEmail: '', conductedLanguage: 'English', communicationMethod: 'Post' },
     } as TestResultSchemasUnion,
     autosaved: 0, // false
   };

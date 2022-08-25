@@ -45,6 +45,17 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('DUAL_CONTROL_IND', optionalBoolean(testResult, 'vehicleDetails.dualControls')),
     // AUTOMATIC_TEST is optional field set below
 
+    // Examiner and location
+    field('BOOKED_STAFF_NO', mandatory(testResult, 'examinerBooked').toString()),
+    field('KEYED_STAFF_NO', mandatory(testResult, 'examinerKeyed').toString()),
+    field('STAFF_NO', mandatory(testResult, 'examinerConducted').toString()),
+    field('DTC_AUTHORITY_CODE', get(testResult, 'journalData.testCentre.costCode', null)),
+    field('TEST_CENTRE_ID', get(testResult, 'journalData.testCentre.centreId', null)),
+
+    // communication
+    // COMMUNICATION_METHOD is optional field set below
+    // COMMUNICATION_EMAIL is optional field set below
+
     // Report and Summary
     // STUDENT_LEVEL is optional field set below
     // LESSON_THEME is optional field set below
@@ -79,7 +90,6 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     // ACCOMPANIED_BY_SUPERVISOR is optional field set below
     // ACCOMPANIED_BY_TRAINER is optional field set below
     // ACCOMPANIED_BY_OTHER is optional field set below
-    field('ACTIVITY_CODE', Number(testResult.activityCode)),
     field('TEST_RESULT', formatResult(result)),
     field('INSURANCE_DECLARATION_ACCEPTED',
           optionalBoolean(testResult, 'preTestDeclarations.insuranceDeclarationAccepted')),
@@ -99,14 +109,14 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'DRIVER_NO_DOB', Number(candidateDOB));
   addIfSet(mappedFields, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));
 
+  // Vehicle
+  addIfSet(mappedFields, 'VEHICLE_REGISTRATION', optional(testResult, 'vehicleDetails.registrationNumber', null));
+  addIfSet(mappedFields, 'AUTOMATIC_TEST', formatGearboxCategory(result));
+
   // Communication
   addIfSet(mappedFields, 'COMMUNICATION_METHOD',
            optional(testResult, 'communicationPreferences.communicationMethod', null));
   addIfSet(mappedFields, 'COMMUNICATION_EMAIL', optional(testResult, 'communicationPreferences.updatedEmail', null));
-
-  // Vehicle
-  addIfSet(mappedFields, 'VEHICLE_REGISTRATION', optional(testResult, 'vehicleDetails.registrationNumber', null));
-  addIfSet(mappedFields, 'AUTOMATIC_TEST', formatGearboxCategory(result));
 
   // Report and Summary
   addIfSet(mappedFields, 'STUDENT_LEVEL', optional(testResult, 'testData.LessonAndTheme.studentLevel', null));

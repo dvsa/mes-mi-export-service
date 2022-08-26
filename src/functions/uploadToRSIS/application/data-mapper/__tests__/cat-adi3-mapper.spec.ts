@@ -5,7 +5,7 @@ import { mapCatADI3Data } from '../cat-adi3-mapper';
 import { getADI3FullyPopulated } from './helpers/cat-adi3/inputs/fully-populated-inputs';
 import { getADI3FullyPopulatedFaultDataFields } from './helpers/cat-adi3/data-fields/fully-populated-data-fields';
 
-describe('mapCatADI3Data', () => {
+fdescribe('mapCatADI3Data', () => {
 
   it('Should map a minimally populated test result (test terminated early as possible)', () => {
     const minimalInput = getCatADI3MinimalInput();

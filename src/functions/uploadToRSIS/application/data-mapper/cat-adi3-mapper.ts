@@ -4,7 +4,13 @@ import moment = require('moment');
 import { ResultUpload } from '../result-client';
 import { ChannelIndicator, DataField } from '../../domain/mi-export-data';
 import { addIfSet, field, mandatory, optional, optionalBoolean } from './data-mapper';
-import { formatDateOfBirth, formatResult, formatRekeyDateTime, formatTestType } from './common-mapper';
+import {
+  formatDateOfBirth,
+  formatResult,
+  formatRekeyDateTime,
+  formatTestType,
+  formatDrivingSchoolCandidate
+} from './common-mapper';
 import { get } from 'lodash';
 import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';
 import { trimTestCategoryPrefix } from '@dvsa/mes-microservice-common/domain/trim-test-category-prefix';
@@ -29,6 +35,12 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('TEST_CATEGORY_TYPE', trimTestCategoryPrefix(testResult.category)),
     field('PDI_LOGBOOK', optionalBoolean(testResult, 'trainerDetails.pdiLogbook')),
     field('TRAINEE_LICENCE', optionalBoolean(testResult, 'trainerDetails.traineeLicence')),
+    field('DRIVING_SCHOOL_CANDIDATE', formatDrivingSchoolCandidate(result)),
+    field('SPECIAL_NEEDS', optionalBoolean(testResult, 'testSummary.D255')),
+    field('EXTENDED_TEST', optionalBoolean(testResult, 'journalData.testSlotAttributes.extendedTest')),
+    field('SHORT_NOTICE_EXAMINER', optionalBoolean(testResult, 'changeMarker')),
+    field('VEHICLE_SLOT_TYPE', testResult.journalData.testSlotAttributes.vehicleTypeCode),
+    field('NO_WRITE_UP', result.autosaved),
 
     // Test outcome
     field('ACTIVITY_CODE', Number(testResult.activityCode)),
@@ -39,6 +51,10 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     // DRIVER_NO_DOB is optional field set below
     // ETHNICITY is optional field set below
     field('DRIVER_NUMBER', mandatory(testResult, 'journalData.candidate.driverNumber')),
+    // CANDIDATE_POST_CODE is optional field set below
+    // CANDIDATE_TITLE is optional field set below
+    // ETHNICITY is optional field set below
+    // GENDER is optional field set below
 
     // Vehicle
     // VEHICLE_REGISTRATION is optional field set below
@@ -94,6 +110,9 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('INSURANCE_DECLARATION_ACCEPTED',
           optionalBoolean(testResult, 'preTestDeclarations.insuranceDeclarationAccepted')),
 
+    // Writeup
+    // ADDITIONAL_INFORMATION is optional field set below
+
     // Rekey
     // REKEY_TIMESTAMP is optional field set below
     // REKEY_REASONS is optional field set below
@@ -108,6 +127,11 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
            optional(testResult, 'journalData.candidate.candidateName.firstName', null));
   addIfSet(mappedFields, 'DRIVER_NO_DOB', Number(candidateDOB));
   addIfSet(mappedFields, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));
+  addIfSet(mappedFields, 'CANDIDATE_POST_CODE',
+           optional(testResult, 'journalData.candidate.candidateAddress.postcode', null));
+  addIfSet(mappedFields, 'CANDIDATE_TITLE', optional(testResult, 'journalData.candidate.candidateName.title', null));
+  addIfSet(mappedFields, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));
+  addIfSet(mappedFields, 'GENDER', optional(testResult, 'journalData.candidate.gender', null));
 
   // Vehicle
   addIfSet(mappedFields, 'VEHICLE_REGISTRATION', optional(testResult, 'vehicleDetails.registrationNumber', null));
@@ -160,6 +184,9 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'ACCOMPANIED_BY_SUPERVISOR', optionalBoolean(testResult, 'accompaniment.supervisor'));
   addIfSet(mappedFields, 'ACCOMPANIED_BY_TRAINER', optionalBoolean(testResult, 'accompaniment.trainer'));
   addIfSet(mappedFields, 'ACCOMPANIED_BY_OTHER', optionalBoolean(testResult, 'accompaniment.other'));
+
+  // Writeup
+  addIfSet(mappedFields, 'ADDITIONAL_INFORMATION', optional(testResult, 'testSummary.additionalInformation', null));
 
   // Rekey
   addIfSet(mappedFields, 'REKEY_TIMESTAMP', formatRekeyDateTime(result));

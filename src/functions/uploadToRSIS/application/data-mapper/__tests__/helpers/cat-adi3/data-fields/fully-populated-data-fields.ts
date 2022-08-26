@@ -218,5 +218,41 @@ export function getADI3FullyPopulatedFaultDataFields(): DataField[] {
       col: 'ACCOMPANIED_BY_TRAINER',
       val: 1,
     },
+    {
+      col: 'DRIVING_SCHOOL_CANDIDATE',
+      val: 0,
+    },
+    {
+      col: 'SPECIAL_NEEDS',
+      val: 0,
+    },
+    {
+      col: 'EXTENDED_TEST',
+      val: 0,
+    },
+    {
+      col: 'SHORT_NOTICE_EXAMINER',
+      val: 0,
+    },
+    {
+      col: 'VEHICLE_SLOT_TYPE',
+      val: 'C',
+    },
+    {
+      col: 'NO_WRITE_UP',
+      val: 0,
+    },
+    {
+      col: 'CANDIDATE_POST_CODE',
+      val: 'PO57 0DE',
+    },
+    {
+      col: 'CANDIDATE_TITLE',
+      val: 'Mr',
+    },
+    {
+      col: 'GENDER',
+      val: 'M',
+    },
   ];
 }

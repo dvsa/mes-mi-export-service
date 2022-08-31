@@ -9,7 +9,7 @@ import {
   formatResult,
   formatRekeyDateTime,
   formatTestType,
-  formatDrivingSchoolCandidate
+  formatDrivingSchoolCandidate,
 } from './common-mapper';
 import { get } from 'lodash';
 import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';

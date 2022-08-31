@@ -2,14 +2,13 @@ import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain
 import moment = require('moment');
 
 import { ResultUpload } from '../result-client';
-import { ChannelIndicator, DataField } from '../../domain/mi-export-data';
+import { ChannelIndicator, DataField, FormType } from '../../domain/mi-export-data';
 import { addIfSet, field, mandatory, optional, optionalBoolean } from './data-mapper';
 import {
   formatDateOfBirth,
   formatResult,
   formatRekeyDateTime,
-  formatTestType,
-  formatDrivingSchoolCandidate,
+  formatTestType, formatLanguage,
 } from './common-mapper';
 import { get } from 'lodash';
 import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';
@@ -29,14 +28,14 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('TEST_TYPE', formatTestType(result)),
     field('ADI_PRN', mandatory(testResult, 'journalData.candidate.prn')),
     field('CHANNEL_INDICATOR', testResult.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
+    field('FORM_TYPE', FormType.MES),
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('TIME', testDateTime.format('HHmm')),
     field('DEBRIEF_WITNESSED', optionalBoolean(testResult, 'testSummary.debriefWitnessed')),
     field('TEST_CATEGORY_TYPE', trimTestCategoryPrefix(testResult.category)),
+    field('WELSH_FORM_IND', formatLanguage(result)),
     field('PDI_LOGBOOK', optionalBoolean(testResult, 'trainerDetails.pdiLogbook')),
     field('TRAINEE_LICENCE', optionalBoolean(testResult, 'trainerDetails.traineeLicence')),
-    field('DRIVING_SCHOOL_CANDIDATE', formatDrivingSchoolCandidate(result)),
-    field('SPECIAL_NEEDS', optionalBoolean(testResult, 'testSummary.D255')),
     field('EXTENDED_TEST', optionalBoolean(testResult, 'journalData.testSlotAttributes.extendedTest')),
     field('SHORT_NOTICE_EXAMINER', optionalBoolean(testResult, 'changeMarker')),
     field('VEHICLE_SLOT_TYPE', testResult.journalData.testSlotAttributes.vehicleTypeCode),

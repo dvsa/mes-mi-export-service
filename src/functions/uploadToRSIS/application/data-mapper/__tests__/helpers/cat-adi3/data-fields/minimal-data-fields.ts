@@ -106,12 +106,12 @@ export function getADI3MinimalDataField(): DataField[] {
       val: 'Not provided',
     },
     {
-      col: 'DRIVING_SCHOOL_CANDIDATE',
-      val: 0,
+      col: 'FORM_TYPE',
+      val: 4,
     },
     {
-      col: 'SPECIAL_NEEDS',
-      val: 0,
+      col: 'WELSH_FORM_IND',
+      val: 'E',
     },
     {
       col: 'EXTENDED_TEST',

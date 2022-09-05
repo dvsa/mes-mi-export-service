@@ -730,7 +730,7 @@ describe('mapCommonData', () => {
             trueLikenessToPhoto: true,
           },
         },
-      });
+      } as ResultUpload);
       expect(result).toEqual(1);
     });
     it('should return 0 if trueLikenessToPhoto is not true', () => {
@@ -742,7 +742,7 @@ describe('mapCommonData', () => {
             trueLikenessToPhoto: false,
           },
         },
-      });
+      } as ResultUpload);
       expect(result).toEqual(0);
     });
   });

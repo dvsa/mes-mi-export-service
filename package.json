@@ -27,11 +27,11 @@
     "@dvsa/mes-microservice-common": "0.8.1",
     "axios": "^0.21.2",
     "lodash": "^4.17.21",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "oracledb": "^5.3.0"
   },
   "devDependencies": {
-    "@dvsa/mes-test-schema": "3.38.4",
+    "@dvsa/mes-test-schema": "3.39.4",
     "@types/aws-lambda": "^8.10.84",
     "@types/jasmine": "^3.10.0",
     "@types/node": "^14.17.5",

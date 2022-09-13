@@ -129,7 +129,6 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'CANDIDATE_POST_CODE',
            optional(testResult, 'journalData.candidate.candidateAddress.postcode', null));
   addIfSet(mappedFields, 'CANDIDATE_TITLE', optional(testResult, 'journalData.candidate.candidateName.title', null));
-  addIfSet(mappedFields, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));
   addIfSet(mappedFields, 'GENDER', optional(testResult, 'journalData.candidate.gender', null));
 
   // Vehicle

@@ -33,7 +33,6 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('TIME', testDateTime.format('HHmm')),
     field('DEBRIEF_WITNESSED', optionalBoolean(testResult, 'testSummary.debriefWitnessed')),
     // debrief is always given (even to explain why test is being terminated), unless candidate didn't turn up
-    field('DEBRIEF_GIVEN', testResult.activityCode === ftaActivityCode ? 0 : 1),
     field('TEST_CATEGORY_TYPE', trimTestCategoryPrefix(testResult.category)),
     field('WELSH_FORM_IND', formatLanguage(result)),
     field('PDI_LOGBOOK', optionalBoolean(testResult, 'trainerDetails.pdiLogbook')),

@@ -254,9 +254,5 @@ export function getADI3FullyPopulatedFaultDataFields(): DataField[] {
       col: 'GENDER',
       val: 'M',
     },
-    {
-      col: 'DEBRIEF_GIVEN',
-      val: 1,
-    },
   ];
 }

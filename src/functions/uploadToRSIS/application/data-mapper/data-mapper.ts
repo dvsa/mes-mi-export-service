@@ -13,6 +13,7 @@ import {
   FaultComments,
 } from '@dvsa/mes-test-schema/categories/common/';
 import { mapCatADI2Data } from './cat-adi2-mapper';
+import { mapCatADI3Data } from './cat-adi3-mapper';
 import { mapCatBEData } from './cat-be-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { mapCatC1Data } from './cat-c1-mapper';
@@ -72,6 +73,9 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
   switch (category) {
   case TestCategory.ADI2:
     mappedDataFields = mappedDataFields.concat(mapCatADI2Data(result));
+    break;
+  case TestCategory.ADI3:
+    mappedDataFields = mapCatADI3Data(result);
     break;
   case TestCategory.B:
     mappedDataFields = mappedDataFields.concat(mapCatBData(result));

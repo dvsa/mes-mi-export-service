@@ -101,6 +101,10 @@ describe('getTableNameByTestCategory', () => {
     const table = getTableNameByTestCategory('DCPC');
     expect(table).toEqual('cpc4_holding');
   });
+  it('should return the correct table for ADI3', () => {
+    const table = getTableNameByTestCategory('ADI3');
+    expect(table).toEqual('adi3_holding');
+  });
   it('should return the correct table for other tests', () => {
     const table = getTableNameByTestCategory('B');
     expect(table).toEqual('dl25mes_holding');

@@ -48,13 +48,13 @@ export const saveTestResult = async (
 
 export const getTableNameByTestCategory = (testCategory: CategoryCode): string => {
   switch (testCategory) {
-    case TestCategory.CCPC:
-    case TestCategory.DCPC:
-      return 'cpc4_holding';
-    case TestCategory.ADI3:
-    case TestCategory.SC:
-      return 'adi3_holding';
-    default:
-      return 'dl25mes_holding';
+  case TestCategory.CCPC:
+  case TestCategory.DCPC:
+    return 'cpc4_holding';
+  case TestCategory.ADI3:
+  case TestCategory.SC:
+    return 'adi3_holding';
+  default:
+    return 'dl25mes_holding';
   }
 };

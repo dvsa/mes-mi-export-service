@@ -47,6 +47,10 @@ export function getADI3FullyPopulatedFaultDataFields(): DataField[] {
       val: 1,
     },
     {
+      col:'CANDIDATE_INDIVIDUAL_ID',
+      val:1125,
+    },
+    {
       col: 'CANDIDATE_SURNAME',
       val: 'Wheeler',
     },

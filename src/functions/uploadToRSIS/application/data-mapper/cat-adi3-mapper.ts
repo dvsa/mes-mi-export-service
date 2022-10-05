@@ -46,6 +46,7 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('ACTIVITY_CODE', Number(testResult.activityCode)),
 
     // Candidate/trainer
+    field('CANDIDATE_INDIVIDUAL_ID', mandatory(testResult, 'journalData.candidate.candidateId')),
     field('CANDIDATE_SURNAME', mandatory(testResult, 'journalData.candidate.candidateName.lastName')),
     // CANDIDATE_FORNAMES is optional field set below
     // DRIVER_NO_DOB is optional field set below

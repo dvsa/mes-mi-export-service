@@ -46,6 +46,10 @@ export function getADI3MinimalDataField(): DataField[] {
       val: 34,
     },
     {
+      col:'CANDIDATE_INDIVIDUAL_ID',
+      val:1125,
+    },
+    {
       col: 'CANDIDATE_SURNAME',
       val: 'Wheeler',
     },

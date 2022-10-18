@@ -102,6 +102,9 @@ export function getADI2FullyPopulatedDrivingFaults(result: any): ResultUpload {
         eyesightTest: {
           complete: true,
         },
+        eco: {
+          fuelEfficientDriving: 1,
+        },
       },
       trainerDetails: {
         orditTrainedCandidate: true,

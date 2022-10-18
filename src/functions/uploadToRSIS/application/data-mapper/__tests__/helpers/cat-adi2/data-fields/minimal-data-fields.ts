@@ -656,7 +656,7 @@ export function getADI2MinimalDataField(): DataField[] {
     },
     {
       col:'FUEL_EFFICIENT_DRIVING',
-      val:0,
+      val:1,
     },
   ];
 }

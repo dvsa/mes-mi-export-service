@@ -664,7 +664,7 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'FUEL_EFFICIENT_DRIVING',
-      val: 0,
+      val: 1,
     },
     {
       col: 'CONTROL_STOP_COMMENT',

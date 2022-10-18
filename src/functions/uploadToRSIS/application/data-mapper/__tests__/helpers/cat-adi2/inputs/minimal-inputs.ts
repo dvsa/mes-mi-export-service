@@ -1,6 +1,8 @@
 import { ResultUpload, InterfaceType } from '../../../../../result-client';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import TestData = CatADI2UniqueTypes.TestData;
 
-export function getCatADI2MinimalInput(): ResultUpload {
+export function getCatADI2MinimalInput(): ResultUpload & {testData: TestData} {
   return {
     uploadKey: {
       applicationReference: {
@@ -43,6 +45,13 @@ export function getCatADI2MinimalInput(): ResultUpload {
         },
       },
       activityCode: '22',
+    },
+    testData: {
+      eco: {
+        fuelEfficientDriving: true,
+        ecoRelatedFault: 'Mock driving fault',
+        ecoCaptureReason: 'Mock reason for ECO capture',
+      },
     },
     autosaved: 0, // false
   };

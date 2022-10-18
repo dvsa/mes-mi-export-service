@@ -663,6 +663,10 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
       val: 1,
     },
     {
+      col: 'FUEL_EFFICIENT_DRIVING',
+      val: 0,
+    },
+    {
       col: 'CONTROL_STOP_COMMENT',
       val: 'controlled stop',
     },
@@ -1533,6 +1537,10 @@ export function getADIFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'DOWN_HILL_START',
+      val: 0,
+    },
+    {
+      col: 'FUEL_EFFICIENT_DRIVING',
       val: 0,
     },
     {
@@ -2418,6 +2426,10 @@ export function getADIFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'DOWN_HILL_START',
+      val: 0,
+    },
+    {
+      col: 'FUEL_EFFICIENT_DRIVING',
       val: 0,
     },
     {

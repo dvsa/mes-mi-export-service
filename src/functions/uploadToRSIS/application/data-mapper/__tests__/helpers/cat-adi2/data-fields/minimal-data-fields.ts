@@ -660,11 +660,11 @@ export function getADI2MinimalDataField(): DataField[] {
     },
     {
       col:'ECO_FAULTS',
-      val:'Mock driving fault'
+      val:'Mock driving fault',
     },
     {
       col:'ECO_REASON',
-      val:'Mock reason for ECO capture'
+      val:'Mock reason for ECO capture',
     },
   ];
 }

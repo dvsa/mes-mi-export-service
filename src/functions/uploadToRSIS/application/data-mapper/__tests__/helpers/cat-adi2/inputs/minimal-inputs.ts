@@ -1,5 +1,4 @@
 import { ResultUpload, InterfaceType } from '../../../../../result-client';
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
 export function getCatADI2MinimalInput(): ResultUpload {
   return {
@@ -46,6 +45,8 @@ export function getCatADI2MinimalInput(): ResultUpload {
       testData: {
         eco: {
           fuelEfficientDriving: true,
+          ecoRelatedFault: 'Mock driving fault',
+          ecoCaptureReason: 'Mock reason for ECO capture',
         },
       },
       activityCode: '22',

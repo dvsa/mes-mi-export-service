@@ -654,5 +654,17 @@ export function getADI2MinimalDataField(): DataField[] {
       col:'DOWN_HILL_START',
       val:0,
     },
+    {
+      col:'FUEL_EFFICIENT_DRIVING',
+      val:1,
+    },
+    {
+      col:'ECO_FAULTS',
+      val:'Mock driving fault',
+    },
+    {
+      col:'ECO_REASON',
+      val:'Mock reason for ECO capture',
+    },
   ];
 }

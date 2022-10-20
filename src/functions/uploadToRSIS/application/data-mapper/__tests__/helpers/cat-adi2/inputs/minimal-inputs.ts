@@ -42,6 +42,13 @@ export function getCatADI2MinimalInput(): ResultUpload {
           checkDigit: 3,
         },
       },
+      testData: {
+        eco: {
+          fuelEfficientDriving: true,
+          ecoRelatedFault: 'Mock driving fault',
+          ecoCaptureReason: 'Mock reason for ECO capture',
+        },
+      },
       activityCode: '22',
     },
     autosaved: 0, // false

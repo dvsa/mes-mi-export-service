@@ -307,11 +307,15 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
     field('DOWN_HILL_START', optionalBoolean(t, 'testRequirements.downhillStart')),
     //  unused - HILL_START_COMPLETED
 
+    field('FUEL_EFFICIENT_DRIVING', optionalBoolean(t, 'eco.fuelEfficientDriving')),
+
     field('ORDIT_TRAINED', getOrditTrained(result) as DataFieldValue),
     field('TRAINING_RECS_AVAIL', getTrainingRecords(result) as DataFieldValue),
   ];
 
   // add the optional fields, only if set
+  addIfSet(m, 'ECO_FAULTS', optional(t, 'eco.ecoRelatedFault', null));
+  addIfSet(m, 'ECO_REASON', optional(t, 'eco.ecoCaptureReason', null));
   addIfSet(m, 'EYESIGHT_COMMENT', optional(t, 'eyesightTest.faultComments', null));
   addIfSet(m, 'CONTROL_STOP_COMMENT', optional(t, 'controlledStop.faultComments', null));
   addIfSet(m, 'REV_RIGHT_TRAIL_CONT_COMMENT', getManoeuvreCommentByType(t, 'reverseRight', 'controlFaultComments'));

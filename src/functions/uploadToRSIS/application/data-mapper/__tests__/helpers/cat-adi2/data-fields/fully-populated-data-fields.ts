@@ -663,6 +663,10 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
       val: 1,
     },
     {
+      col: 'FUEL_EFFICIENT_DRIVING',
+      val: 1,
+    },
+    {
       col: 'CONTROL_STOP_COMMENT',
       val: 'controlled stop',
     },
@@ -869,6 +873,18 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
     {
       col: 'INDEPENDENT_DRIVING',
       val: 'Sat nav',
+    },
+    {
+      col:'FUEL_EFFICIENT_DRIVING',
+      val:1,
+    },
+    {
+      col:'ECO_FAULTS',
+      val:'Mock driving fault',
+    },
+    {
+      col:'ECO_REASON',
+      val:'Mock reason for ECO capture',
     },
   ];
 }
@@ -1533,6 +1549,10 @@ export function getADIFullyPopulatedSeriousDataFields(): DataField[] {
     },
     {
       col: 'DOWN_HILL_START',
+      val: 0,
+    },
+    {
+      col: 'FUEL_EFFICIENT_DRIVING',
       val: 0,
     },
     {
@@ -2418,6 +2438,10 @@ export function getADIFullyPopulatedDangerousDataFields(): DataField[] {
     },
     {
       col: 'DOWN_HILL_START',
+      val: 0,
+    },
+    {
+      col: 'FUEL_EFFICIENT_DRIVING',
       val: 0,
     },
     {

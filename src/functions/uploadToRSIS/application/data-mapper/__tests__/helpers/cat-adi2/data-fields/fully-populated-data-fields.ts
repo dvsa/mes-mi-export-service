@@ -874,6 +874,18 @@ export function getADI2FullyPopulatedFaultDataFields(): DataField[] {
       col: 'INDEPENDENT_DRIVING',
       val: 'Sat nav',
     },
+    {
+      col:'FUEL_EFFICIENT_DRIVING',
+      val:1
+    },
+    {
+      col:'ECO_FAULTS',
+      val:'Mock driving fault'
+    },
+    {
+      col:'ECO_REASON',
+      val:'Mock reason for ECO capture'
+    },
   ];
 }
 

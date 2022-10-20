@@ -103,7 +103,9 @@ export function getADI2FullyPopulatedDrivingFaults(result: any): ResultUpload {
           complete: true,
         },
         eco: {
-          fuelEfficientDriving: 1,
+          fuelEfficientDriving: true,
+          ecoRelatedFault: 'Mock driving fault',
+          ecoCaptureReason: 'Mock reason for ECO capture',
         },
       },
       trainerDetails: {

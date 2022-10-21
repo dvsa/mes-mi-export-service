@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@dvsa/mes-microservice-common": "0.8.1",
-    "axios": "^0.21.2",
+    "axios": "^0.27.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "oracledb": "^5.3.0"

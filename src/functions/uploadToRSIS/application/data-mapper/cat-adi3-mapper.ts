@@ -145,7 +145,7 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   // Report and Summary
   addIfSet(mappedFields, 'STUDENT_LEVEL', optional(testResult, 'testData.lessonAndTheme.studentLevel', null));
   addIfSet(mappedFields, 'LESSON_THEME', optional(testResult, 'testData.lessonAndTheme.lessonThemes', []).join('|'));
-  addIfSet(mappedFields, 'LESSON_THEME_OTHER', optional(testResult, 'testData.lessonAndTheme.other', null));
+  addIfSet(mappedFields, 'OTHER_LESSON_THEME', optional(testResult, 'testData.lessonAndTheme.other', null));
   addIfSet(mappedFields, 'LESSON_PLAN_1', optional(testResult, 'testData.lessonPlanning.q1.score', null));
   addIfSet(mappedFields, 'LESSON_PLAN_2', optional(testResult, 'testData.lessonPlanning.q2.score', null));
   addIfSet(mappedFields, 'LESSON_PLAN_3', optional(testResult, 'testData.lessonPlanning.q3.score', null));

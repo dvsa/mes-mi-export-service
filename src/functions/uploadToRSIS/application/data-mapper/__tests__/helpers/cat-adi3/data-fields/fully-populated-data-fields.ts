@@ -270,5 +270,9 @@ export function getADI3FullyPopulatedFaultDataFields(): DataField[] {
       col:'LESSON_THEME_OTHER',
       val:'Other theme',
     },
+    {
+      col:'ADI_NUMBER',
+      val:2,
+    },
   ];
 }

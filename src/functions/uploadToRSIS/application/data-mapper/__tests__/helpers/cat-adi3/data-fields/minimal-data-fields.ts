@@ -145,5 +145,9 @@ export function getADI3MinimalDataField(): DataField[] {
       col: 'GENDER',
       val: 'M',
     },
+    {
+      col:'ADI_NUMBER',
+      val:2,
+    },
   ];
 }

@@ -124,6 +124,8 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   // ADI3 optional fields
 
   // Candidate/trainer
+  addIfSet(mappedFields, 'ADI_NUMBER',
+           optional(testResult, 'journalData.candidate.previousADITests', null));
   addIfSet(mappedFields, 'CANDIDATE_FORENAMES',
            optional(testResult, 'journalData.candidate.candidateName.firstName', null));
   addIfSet(mappedFields, 'DRIVER_NO_DOB', Number(candidateDOB));

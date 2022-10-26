@@ -263,7 +263,7 @@ export function getADI3FullyPopulatedFaultDataFields(): DataField[] {
       val:'beginner',
     },
     {
-      col:'LESSON_THEME',
+      col:'LESSON_THEMES',
       val:'junctions|townCityDriving',
     },
     {

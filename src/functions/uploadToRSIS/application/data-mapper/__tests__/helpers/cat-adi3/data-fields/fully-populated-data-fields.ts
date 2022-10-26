@@ -259,16 +259,16 @@ export function getADI3FullyPopulatedFaultDataFields(): DataField[] {
       val: 'M',
     },
     {
-      col:"STUDENT_LEVEL",
-      val:"beginner"
+      col:'STUDENT_LEVEL',
+      val:'beginner',
     },
     {
-      col:"LESSON_THEME",
-      val:"junctions|townCityDriving"
+      col:'LESSON_THEME',
+      val:'junctions|townCityDriving',
     },
     {
-      col:"LESSON_THEME_OTHER",
-      val:"Other theme"
-    }
+      col:'LESSON_THEME_OTHER',
+      val:'Other theme',
+    },
   ];
 }

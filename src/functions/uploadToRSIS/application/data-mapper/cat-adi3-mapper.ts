@@ -1,5 +1,4 @@
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
-import moment = require('moment');
 
 import { ResultUpload } from '../result-client';
 import { ChannelIndicator, DataField, FormType } from '../../domain/mi-export-data';
@@ -8,7 +7,10 @@ import {
   formatDateOfBirth,
   formatResult,
   formatRekeyDateTime,
-  formatTestType, formatLanguage, ftaActivityCode,
+  formatTestType,
+  formatLanguage,
+  formatStartTestDate,
+  formatStartTestTime,
 } from './common-mapper';
 import { get } from 'lodash';
 import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';
@@ -18,9 +20,6 @@ import { TestData as CatADI3TestData } from '@dvsa/mes-test-schema/categories/AD
 
 export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult;
-  const testDateTime = moment(testResult.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
-  const candidateDOB = moment(formatDateOfBirth(result)).format('YYMMDD');
-
   const mappedFields: DataField[] = [
 
     // Test Details
@@ -29,8 +28,8 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('ADI_PRN', mandatory(testResult, 'journalData.candidate.prn')),
     field('CHANNEL_INDICATOR', testResult.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
     field('FORM_TYPE', FormType.MES),
-    field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
-    field('TIME', testDateTime.format('HHmm')),
+    field('DATE_OF_TEST', formatStartTestDate(result)),
+    field('TIME', formatStartTestTime(result)),
     field('DEBRIEF_WITNESSED', optionalBoolean(testResult, 'testSummary.debriefWitnessed')),
     // debrief is always given (even to explain why test is being terminated), unless candidate didn't turn up
     field('TEST_CATEGORY_TYPE', trimTestCategoryPrefix(testResult.category)),
@@ -49,7 +48,7 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('CANDIDATE_INDIVIDUAL_ID', mandatory(testResult, 'journalData.candidate.candidateId')),
     field('CANDIDATE_SURNAME', mandatory(testResult, 'journalData.candidate.candidateName.lastName')),
     // CANDIDATE_FORNAMES is optional field set below
-    // DRIVER_NO_DOB is optional field set below
+    // DOB is optional field set below
     // ETHNICITY is optional field set below
     field('DRIVER_NUMBER', mandatory(testResult, 'journalData.candidate.driverNumber')),
     // CANDIDATE_POST_CODE is optional field set below
@@ -126,7 +125,7 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   // Candidate/trainer
   addIfSet(mappedFields, 'CANDIDATE_FORENAMES',
            optional(testResult, 'journalData.candidate.candidateName.firstName', null));
-  addIfSet(mappedFields, 'DRIVER_NO_DOB', Number(candidateDOB));
+  addIfSet(mappedFields, 'DOB', formatDateOfBirth(result));
   addIfSet(mappedFields, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));
   addIfSet(mappedFields, 'CANDIDATE_POST_CODE',
            optional(testResult, 'journalData.candidate.candidateAddress.postcode', null));

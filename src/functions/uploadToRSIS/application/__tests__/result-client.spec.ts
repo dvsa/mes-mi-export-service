@@ -1,6 +1,6 @@
 import { isRecordAutosaved } from '../result-client';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import moment = require('moment');
+import { subDays } from 'date-fns';
 
 describe('result-client', () => {
   describe('isRecordAutosaved', () => {
@@ -13,7 +13,7 @@ describe('result-client', () => {
           testSlotAttributes: {
             slotId: 12345,
             vehicleTypeCode: 'C',
-            start: moment().subtract(15, 'days').toString(),
+            start: subDays(new Date(), 15).toString(),
             welshTest: false,
             extendedTest: false,
             specialNeeds: false,
@@ -45,7 +45,7 @@ describe('result-client', () => {
             testSlotAttributes: {
               slotId: 12345,
               vehicleTypeCode: 'C',
-              start: moment().subtract(15, 'days').toString(),
+              start: subDays(new Date(), 15).toString(),
               welshTest: false,
               extendedTest: false,
               specialNeeds: false,
@@ -76,7 +76,7 @@ describe('result-client', () => {
             testSlotAttributes: {
               slotId: 12345,
               vehicleTypeCode: 'C',
-              start: moment().subtract(14, 'days').format().toString(),
+              start: subDays(new Date(), 14).toString(),
               welshTest: false,
               extendedTest: false,
               specialNeeds: false,
@@ -115,7 +115,7 @@ describe('result-client', () => {
           testSlotAttributes: {
             slotId: 12345,
             vehicleTypeCode: 'C',
-            start: moment().subtract(11, 'days').toString(),
+            start: subDays(new Date(), 11).toString(),
             welshTest: false,
             extendedTest: false,
             specialNeeds: false,

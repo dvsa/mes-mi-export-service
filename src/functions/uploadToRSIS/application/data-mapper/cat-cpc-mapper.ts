@@ -1,11 +1,18 @@
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 import { CategoryCode, TestData, TestResultCatCPCSchema, VehicleDetails } from '@dvsa/mes-test-schema/categories/CPC';
-import moment = require('moment');
 
 import { ResultUpload } from '../result-client';
 import { ChannelIndicator, DataField, FormType } from '../../domain/mi-export-data';
 import { addIfSet, field, mandatory, optional, optionalBoolean } from './data-mapper';
-import { formatDateOfBirth, formatResult, formatLanguage, ftaActivityCode, formatRekeyDateTime } from './common-mapper';
+import {
+  formatDateOfBirth,
+  formatResult,
+  formatLanguage,
+  ftaActivityCode,
+  formatRekeyDateTime,
+  formatStartTestTime,
+  formatStartTestDate,
+} from './common-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { get } from 'lodash';
 import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';
@@ -13,8 +20,6 @@ import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper'
 export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult as TestResultCatCPCSchema;
   const t: TestData = testResult.testData as TestData;
-  const testDateTime = moment(testResult.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
-  const candidateDOB = moment(formatDateOfBirth(result)).format('YYMMDD');
 
   const m: DataField[] = [
     field('ACTIVITY_CODE', Number(testResult.activityCode)),
@@ -25,7 +30,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     field('CAT_TYPE', formatCPCTestCategory(testResult)),
     field('CHANNEL_INDICATOR', testResult.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
     // unused - DATA_VALIDATION_FLAGS
-    field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
+    field('DATE_OF_TEST', formatStartTestDate(result)),
     field('DEBRIEF_GIVEN', testResult.activityCode === ftaActivityCode ? 0 : 1),
     field('DRIVER_NUMBER', mandatory(testResult, 'journalData.candidate.driverNumber')),
     field('DTC_AUTHORITY_CODE', get(testResult, 'journalData.testCentre.costCode', null)),
@@ -85,7 +90,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
     // unused - TEST_CENTRE_SECTOR_DESC
     // unused - TEST_CENTRE_SECTOR_ID
     field('TEST_RESULT', formatResult(result)),
-    field('TIME', testDateTime.format('HHmm')),
+    field('TIME', formatStartTestTime(result)),
     // unused - TOTAL_DATA_KEYSTROKES
     // unused - TOTAL_FUNCTION_KEYSTROKES
     field('TOTAL_PERCENT', optional(t, 'totalPercent', 0)),
@@ -112,7 +117,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   addIfSet(m, 'SEC5_Q_NO', formatCPCQuestionNumber(t, 5));
 
   addIfSet(m, 'CANDIDATE_FORENAMES', optional(testResult, 'journalData.candidate.candidateName.firstName', null));
-  addIfSet(m, 'DRIVER_NO_DOB', Number(candidateDOB));
+  addIfSet(m, 'DOB', formatDateOfBirth(result));
   addIfSet(m, 'ETHNICITY', optional(testResult, 'journalData.candidate.ethnicityCode', null));
   addIfSet(m, 'PASS_CERTIFICATE', optional(testResult, 'passCompletion.passCertificateNumber', null));
   addIfSet(m, 'VEHICLE_REGISTRATION', optional(testResult, 'vehicleDetails.registrationNumber', null));

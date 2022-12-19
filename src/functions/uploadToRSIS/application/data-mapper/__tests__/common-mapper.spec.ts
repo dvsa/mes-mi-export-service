@@ -9,9 +9,16 @@ import {
   ResultIndicator,
 } from '../../../domain/mi-export-data';
 import { InterfaceType, ResultUpload } from '../../result-client';
-import {mapCommonData, formatDrivingSchoolCandidate, formatTrueLikeness} from '../common-mapper';
+import {
+  mapCommonData,
+  formatDrivingSchoolCandidate,
+  formatTrueLikeness,
+  formatDateOfBirth,
+  formatStartTestDate,
+  formatStartTestTime,
+  formatRekeyDateTime,
+} from '../common-mapper';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import moment = require('moment');
 import { CategoryCode, CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
@@ -96,7 +103,7 @@ describe('mapCommonData', () => {
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
       { col: 'SPECIAL_NEEDS', val: 0 },
       { col: 'APP_REF_NO', val: 2222013 },
-      { col: 'DATE_OF_TEST', val: '190610' },
+      { col: 'DATE_OF_TEST', val: '20190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
@@ -139,7 +146,7 @@ describe('mapCommonData', () => {
       { col: 'TRUE_LIKENESS', val: 1 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
-      { col: 'DOB', val: new Date('2000-01-31') },
+      { col: 'DOB', val: '20000131' },
       { col: 'COMMUNICATION_METHOD', val: 'Email' },
       { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
     ];
@@ -163,7 +170,7 @@ describe('mapCommonData', () => {
       },
     };
 
-    const input: ResultUpload = {
+    const input = {
       uploadKey: {
         applicationReference: {
           applicationId: 2222,
@@ -272,7 +279,7 @@ describe('mapCommonData', () => {
         },
       },
       autosaved: 0, // false
-    };
+    } as ResultUpload;
 
     const expected: DataField[] = [
       { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES_REKEY },
@@ -280,7 +287,7 @@ describe('mapCommonData', () => {
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 1 },
       { col: 'SPECIAL_NEEDS', val: 1 },
       { col: 'APP_REF_NO', val: 2222113 },
-      { col: 'DATE_OF_TEST', val: '190610' },
+      { col: 'DATE_OF_TEST', val: '20190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
@@ -324,7 +331,7 @@ describe('mapCommonData', () => {
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
-      { col: 'DOB', val: new Date('2000-01-31') },
+      { col: 'DOB', val: '20000131' },
       { col: 'CANDIDATE_TITLE', val: 'Mr' },
       { col: 'ETHNICITY', val: 'A' },
       { col: 'GENDER', val: Gender.Female },
@@ -347,7 +354,7 @@ describe('mapCommonData', () => {
       },
     };
 
-    const input: ResultUpload = {
+    const input = {
       uploadKey: {
         applicationReference: {
           applicationId: 2222,
@@ -454,7 +461,7 @@ describe('mapCommonData', () => {
         },
       },
       autosaved: 0, // false
-    };
+    } as ResultUpload;
 
     const expected: DataField[] = [
       { col: 'CHANNEL_INDICATOR', val: ChannelIndicator.MES },
@@ -462,7 +469,7 @@ describe('mapCommonData', () => {
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
       { col: 'SPECIAL_NEEDS', val: 0 },
       { col: 'APP_REF_NO', val: 2222113 },
-      { col: 'DATE_OF_TEST', val: '190610' },
+      { col: 'DATE_OF_TEST', val: '20190610' },
       { col: 'TIME', val: '1245' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
@@ -506,7 +513,7 @@ describe('mapCommonData', () => {
       { col: 'ADI_NUMBER', val: '555555' },
       { col: 'CANDIDATE_FORENAMES', val: 'BBBBBB' },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
-      { col: 'DOB', val: new Date('2000-01-31') },
+      { col: 'DOB', val: '20000131' },
       { col: 'CANDIDATE_TITLE', val: 'Mr' },
       { col: 'GENDER', val: Gender.Male },
       { col: 'VEHICLE_REGISTRATION', val: 'DDDDDD' },
@@ -546,7 +553,7 @@ describe('mapCommonData', () => {
       { col: 'DRIVING_SCHOOL_CANDIDATE', val: 0 },
       { col: 'SPECIAL_NEEDS', val: 0 },
       { col: 'APP_REF_NO', val: 2222013 },
-      { col: 'DATE_OF_TEST', val: '190610' },
+      { col: 'DATE_OF_TEST', val: '20190610' },
       { col: 'TIME', val: '0930' },
       { col: 'DTC_AUTHORITY_CODE', val: 'CC1' },
       { col: 'TEST_CATEGORY_TYPE', val: 'B' },
@@ -589,10 +596,10 @@ describe('mapCommonData', () => {
       { col: 'TRUE_LIKENESS', val: 1 },
       { col: 'PASS_CERTIFICATE', val: 'C4444Q' },
       { col: 'CANDIDATE_POST_CODE', val: 'AA12 3BB' },
-      { col: 'DOB', val: new Date('2000-01-31') },
+      { col: 'DOB', val: '20000131' },
       { col: 'COMMUNICATION_METHOD', val: 'Email' },
       { col: 'COMMUNICATION_EMAIL', val: 'still-noone@nowhere.com' },
-      { col: 'REKEY_TIMESTAMP', val: moment('2019-10-02T11:50:57', 'YYYY-MM-DDTHH:mm:ss').toDate() },
+      { col: 'REKEY_TIMESTAMP', val: '2019-10-02T11:50:57' },
       { col: 'REKEY_REASONS', val: 'iPad issue|Other' },
       { col: 'IPAD_ISSUE_REASON', val: 'stolen' },
       { col: 'OTHER_REKEY_REASON', val: 'other reason' },
@@ -702,24 +709,104 @@ describe('mapCommonData', () => {
       },
     };
 
-    it('should return 1 if schoolCar or schoolBike', () => {
-      input.testResult.vehicleDetails = {
-        schoolCar: true,
-      };
-      let result = formatDrivingSchoolCandidate(input);
+    it('should return 1 if schoolCar', () => {
+
+      const result = formatDrivingSchoolCandidate({
+        testResult: {
+          vehicleDetails: {
+            schoolCar: true,
+          },
+        },
+      } as ResultUpload);
       expect(result).toEqual(1);
-      input.testResult.vehicleDetails = {
-        schoolBike: true,
-      };
-      result = formatDrivingSchoolCandidate(input);
+
+    });
+
+    it('should return 1 if schoolBike', () => {
+
+      const result = formatDrivingSchoolCandidate({
+        testResult: {
+          vehicleDetails: {
+            schoolBike: true,
+          },
+        },
+      } as ResultUpload);
       expect(result).toEqual(1);
     });
+
     it('should return 0 if NOT schoolCar or schoolBike', () => {
       input.testResult.vehicleDetails = {};
       const result = formatDrivingSchoolCandidate(input);
       expect(result).toEqual(0);
     });
   });
+
+  describe('formatDateOfBirth', () => {
+    it('should return null when no candidate dob', () => {
+      const result = formatDateOfBirth({
+        testResult: {},
+      } as ResultUpload);
+      expect(result).toEqual(null);
+    });
+
+    it('should return date as yyyyMMdd when candidate dob', () => {
+      const result = formatDateOfBirth({
+        ...minimalInput,
+      } as ResultUpload);
+      expect(result).toEqual('20000131' as any);
+    });
+  });
+
+  describe('formatStartTestDate', () => {
+    it('should return null when no start date', () => {
+      const result = formatStartTestDate({
+        testResult: {},
+      } as ResultUpload);
+      expect(result).toEqual('');
+    });
+
+    it('should return date as yyyyMMdd when start date', () => {
+      const result = formatStartTestDate({
+        ...minimalInput,
+      } as ResultUpload);
+      expect(result).toEqual('20190610');
+    });
+  });
+
+  describe('formatStartTestTime', () => {
+    it('should return null when no start date', () => {
+      const result = formatStartTestTime({
+        testResult: {},
+      } as ResultUpload);
+      expect(result).toEqual('');
+    });
+
+    it('should return date as yyyyMMdd when start date', () => {
+      const result = formatStartTestTime({
+        ...minimalInput,
+      } as ResultUpload);
+      expect(result).toEqual('0930');
+    });
+  });
+
+  describe('formatRekeyDateTime', () => {
+    it('should return null when no start date', () => {
+      const result = formatRekeyDateTime({
+        testResult: {},
+      } as ResultUpload);
+      expect(result).toEqual(null);
+    });
+
+    it('should return date as yyyy-MM-ddTHH:mm:ss when start date', () => {
+      const result = formatRekeyDateTime({
+        testResult: {
+          rekeyDate: '2022-12-12T11:07:27',
+        },
+      } as ResultUpload);
+      expect(result).toEqual('2022-12-12T11:07:27');
+    });
+  });
+
   describe('formatTrueLikeness', () => {
     it('should return 1 if trueLikenessToPhoto is true', () => {
       const result = formatTrueLikeness({
@@ -733,6 +820,7 @@ describe('mapCommonData', () => {
       } as ResultUpload);
       expect(result).toEqual(1);
     });
+
     it('should return 0 if trueLikenessToPhoto is not true', () => {
       const result = formatTrueLikeness({
         ...minimalInput,
@@ -746,4 +834,5 @@ describe('mapCommonData', () => {
       expect(result).toEqual(0);
     });
   });
+
 });

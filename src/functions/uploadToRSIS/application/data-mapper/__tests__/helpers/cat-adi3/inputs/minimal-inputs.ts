@@ -94,7 +94,7 @@ export function getCatADI3MinimalInput(): ResultUpload {
           prn: 4405399,
           gender: 'M',
           candidateId: 1125,
-          dateOfBirth: '1987-07-27',
+          dateOfBirth: '2000-09-28',
           driverNumber: 'WHEEL123456789DO',
           candidateName: {
             title: 'Mr',

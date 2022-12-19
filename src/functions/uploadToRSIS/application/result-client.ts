@@ -6,7 +6,7 @@ import * as zlib from 'zlib';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
 import { BooleanAsNumber } from '../domain/mi-export-data';
 import { get } from 'lodash';
-import * as moment from 'moment';
+import { differenceInDays } from 'date-fns';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {
@@ -172,19 +172,18 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
 };
 
 export const isRecordAutosaved = (test: TestResultSchemasUnion): BooleanAsNumber => {
-  const testDate = moment(new Date(test.journalData.testSlotAttributes.start));
+  const testDate = new Date(test.journalData.testSlotAttributes.start);
 
-  // Two weeks or older is always flagged as autosave
-  if (moment().diff(testDate, 'days') >= 14) {
+  if (differenceInDays(new Date(), testDate) >= 14) {
     return 1;
   }
 
   // We assume that when these properties are null then the test is autosaved
   return (
     get(test, 'testSummary.candidateDescription', false) &&
-      get(test, 'testSummary.identification', false) &&
-      get(test, 'testSummary.independentDriving', false) &&
-      get(test, 'testSummary.routeNumber', false) &&
-      get(test, 'testSummary.weatherConditions', false)
+    get(test, 'testSummary.identification', false) &&
+    get(test, 'testSummary.independentDriving', false) &&
+    get(test, 'testSummary.routeNumber', false) &&
+    get(test, 'testSummary.weatherConditions', false)
   ) ? 0 : 1;
 };

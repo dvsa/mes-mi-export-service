@@ -20,7 +20,7 @@ export function getADI3FullyPopulatedFaultDataFields(): DataField[] {
     },
     {
       col: 'DATE_OF_TEST',
-      val: '220823',
+      val: '20220823',
     },
     {
       col: 'TIME',
@@ -99,8 +99,8 @@ export function getADI3FullyPopulatedFaultDataFields(): DataField[] {
       val: 'Mike',
     },
     {
-      col: 'DRIVER_NO_DOB',
-      val: 870727,
+      col: 'DOB',
+      val: '20000928',
     },
     {
       col: 'ETHNICITY',

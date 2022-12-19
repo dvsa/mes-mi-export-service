@@ -8,7 +8,7 @@ import {
   addIfSet,
   addIfDefined,
 } from './data-mapper';
-import moment = require('moment');
+import { format } from 'date-fns';
 import { get } from 'lodash';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -41,7 +41,6 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
   const category: CategoryCode = r.category;
 
   // test slot start date time from TARS is in local timezone, not UTC
-  const testDateTime = moment(r.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');
   const mappedFields: DataField[] = [
     field('CHANNEL_INDICATOR', r.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
     //  unused - REC_TYPE
@@ -51,8 +50,8 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('SPECIAL_NEEDS', optionalBoolean(r, 'testSummary.D255')),
     field('APP_REF_NO', formatApplicationReference(r.journalData.applicationReference)),
     // unused - DRIVER_NO_DOB
-    field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
-    field('TIME', testDateTime.format('HHmm')),
+    field('DATE_OF_TEST', formatStartTestDate(result)),
+    field('TIME', formatStartTestTime(result)),
     field('DTC_AUTHORITY_CODE', get(r, 'journalData.testCentre.costCode', null)),
 
     // Note: when we add functionality for examiner to change the test cetegory (e.g. candidate turned up with
@@ -233,7 +232,7 @@ export const formatTestType = (result: ResultUpload): number => {
  * @returns The PRN (as a string), or ``null``
  */
 const formatInstructorPRN = (result: ResultUpload, category: CategoryCode): string | null => {
-  let path: string = '';
+  let path: string;
 
   if (category === TestCategory.ADI2) {
     path = 'testResult.trainerDetails.trainerRegistrationNumber';
@@ -288,11 +287,33 @@ export const formatLanguage = (result: ResultUpload): Language => {
  * Formats the candidate's date of birth.
  *
  * @param result The MES test result
- * @returns The language indicator
+ * @returns dob
  */
-export const formatDateOfBirth = (result: ResultUpload): Date => {
+export const formatDateOfBirth = (result: ResultUpload): Date | null => {
   const dob = get(result, 'testResult.journalData.candidate.dateOfBirth', null);
-  return dob ? moment(dob, 'YYYY-MM-DD').toDate() : dob;
+  return dob ? format(new Date(dob), 'yyyyMMdd') : dob;
+};
+
+/**
+ * Formats the start test date.
+ *
+ * @param result The MES test result
+ * @returns date
+ */
+export const formatStartTestDate = (result: ResultUpload): Date | string => {
+  const start = get(result, 'testResult.journalData.testSlotAttributes.start', '');
+  return start ? format(new Date(start), 'yyyyMMdd') : start;
+};
+
+/**
+ * Formats the start test time.
+ *
+ * @param result The MES test result
+ * @returns time
+ */
+export const formatStartTestTime = (result: ResultUpload): Date | string => {
+  const start = get(result, 'testResult.journalData.testSlotAttributes.start', '');
+  return start ? format(new Date(start), 'HHmm') : start;
 };
 
 /**
@@ -301,10 +322,10 @@ export const formatDateOfBirth = (result: ResultUpload): Date => {
  * @param result The MES test result
  * @returns The formatted date
  */
-export const formatRekeyDateTime = (result: ResultUpload): Date | null => {
+export const formatRekeyDateTime = (result: ResultUpload): string | null => {
   const rekeyDateText = get(result, 'testResult.rekeyDate', null);
   if (rekeyDateText) {
-    return moment(rekeyDateText, 'YYYY-MM-DDTHH:mm:ss').toDate();
+    return format(new Date(rekeyDateText),'yyyy-MM-dd\'T\'HH:mm:ss');
   }
   return null;
 };

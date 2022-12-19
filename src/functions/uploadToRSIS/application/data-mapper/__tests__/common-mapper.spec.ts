@@ -797,7 +797,7 @@ describe('mapCommonData', () => {
       expect(result).toEqual(null);
     });
 
-    it('should return date as yyyyMMdd when start date', () => {
+    it('should return date as yyyy-MM-ddTHH:mm:ss when start date', () => {
       const result = formatRekeyDateTime({
         testResult: {
           rekeyDate: '2022-12-12T11:07:27',

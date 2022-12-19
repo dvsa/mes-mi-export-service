@@ -5,6 +5,7 @@
     "allowJs": false,
     "sourceMap": true,
     "lib": ["es2017"],
+    "target": "es2017",
     "types": [
       "node",
       "jasmine",

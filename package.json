@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/dvsa/mes-mi-export-service.git"
   },
+  "bugs": {
+    "url": "https://github.com/dvsa/mes-mi-export-service/issues"
+  },
   "scripts": {
     "clean": "rimraf build artefacts",
     "compile": "rm -rf build && tsc",
@@ -75,8 +78,5 @@
     "sourceMap": true,
     "produce-source-map": true,
     "instrument": true
-  },
-  "bugs": {
-    "url": "https://github.com/dvsa/mes-mi-export-service/issues"
   }
 }

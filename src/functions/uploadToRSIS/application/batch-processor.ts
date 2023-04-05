@@ -1,4 +1,4 @@
-import { info, error } from '@dvsa/mes-microservice-common/application/utils/logger';
+import {info, error, customMetric} from '@dvsa/mes-microservice-common/application/utils/logger';
 import {
   getNextUploadBatch,
   InterfaceType,
@@ -7,12 +7,13 @@ import {
   ResultUpload,
   UploadKey,
 } from './result-client';
-import { mapDataForMIExport, MissingTestResultDataError } from '../application/data-mapper/data-mapper';
+import { mapDataForMIExport, MissingTestResultDataError } from './data-mapper/data-mapper';
 import { Config } from '../framework/config/config';
 import { createConnection } from '../framework/repo/database';
 import { Connection } from 'oracledb';
 import { saveTestResult } from '../framework/repo/rsis-repository';
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import {Metric} from '../../../common/application/metric/metrics';
 
 /**
  * Upload a batch of test results to RSIS MI.
@@ -30,6 +31,7 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
       try {
         connection = await createConnection(config);
       } catch (err) {
+        customMetric(Metric.ConnectionToRSISFailure, 'Connection to RSIS DB failed');
         // error after reading the batch, so set all results in the batch to failed
         for (const resultUpload of batch) {
           const errorMessage = `Unable to connect to RSIS MI DB: ${JSON.stringify(err)}`;
@@ -56,9 +58,8 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
     }
 
   } catch (err) {
-    error(err as string);
+    error('getNextUploadBatch err', err);
     return true;
-
   } finally {
     // close DB connection
     if (connection) {
@@ -76,8 +77,11 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
  * @param resultUpload The test result
  * @returns Whether the result was able to be processed, if ``false`` then abort the rest of the batch
  */
-export async function processResult(config: Config, connection: Connection | undefined, resultUpload: ResultUpload):
-Promise<boolean> {
+export async function processResult(
+  config: Config,
+  connection: Connection | undefined,
+  resultUpload: ResultUpload,
+): Promise<boolean> {
   try {
     // map MES test result to RSIS data fields
     info('Mapping data fields for ', resultUpload.uploadKey);
@@ -97,6 +101,8 @@ Promise<boolean> {
     return await updateStatus(config, resultUpload.uploadKey, ProcessingStatus.ACCEPTED, null);
 
   } catch (err) {
+    error('processResult error', err);
+
     let errorMessage = null;
     if (err instanceof MissingTestResultDataError) {
       errorMessage = `Error mapping data for ${JSON.stringify(resultUpload.uploadKey)}: ${err.message}`;
@@ -119,8 +125,12 @@ Promise<boolean> {
  * @param errorMessage The error message to set, if any
  * @returns Whether the status was successfully updated
  */
-async function updateStatus(config: Config, uploadKey: UploadKey, status: ProcessingStatus,
-                            errorMessage: string | null): Promise<boolean> {
+async function updateStatus(
+  config: Config,
+  uploadKey: UploadKey,
+  status: ProcessingStatus,
+  errorMessage: string | null,
+): Promise<boolean> {
   try {
     // retry count is always zero, we never retry an RSIS DB failure
     await updateUploadStatus(config.testResultsBaseUrl, InterfaceType.RSIS, uploadKey, status, 0, errorMessage);

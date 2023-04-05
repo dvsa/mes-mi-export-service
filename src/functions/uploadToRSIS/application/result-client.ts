@@ -1,4 +1,4 @@
-import { info, error, debug } from '@dvsa/mes-microservice-common/application/utils/logger';
+import {info, error, debug, customMetric} from '@dvsa/mes-microservice-common/application/utils/logger';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import axios, { AxiosError } from 'axios';
@@ -7,6 +7,7 @@ import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain
 import { BooleanAsNumber } from '../domain/mi-export-data';
 import { get } from 'lodash';
 import * as moment from 'moment';
+import {Metric} from '../../../common/application/metric/metrics';
 
 // Needs to kept in sync with the PROCESSING_STATUS table
 export enum ProcessingStatus {
@@ -53,8 +54,11 @@ const axiosInstance = axios.create();
  * @returns A list of test results to upload, possibly empty
  * @throws Error API call failed
  */
-export const getNextUploadBatch = async (baseUrl: string, interfaceType: InterfaceType, batchSize: number):
-Promise<ResultUpload[]> => {
+export const getNextUploadBatch = async (
+  baseUrl: string,
+  interfaceType: InterfaceType,
+  batchSize: number,
+): Promise<ResultUpload[]> => {
   info(`Calling getNextUpdateBatch for ${interfaceType}, batch size of ${batchSize}`);
 
   const url = `${baseUrl}/upload?interface=${interfaceType}&batch_size=${batchSize}`;
@@ -63,6 +67,7 @@ Promise<ResultUpload[]> => {
     const result = axiosInstance.get(url);
     result.then((response) => {
       if (!response.data) {
+        customMetric(Metric.GetNextUploadBatchSuccess, 'Get next upload batch empty but successful for RSIS');
         debug('Empty batch returned, nothing waiting to be processed');
         resolve([]);
         return;
@@ -104,12 +109,14 @@ Promise<ResultUpload[]> => {
           reject(new Error('failed parsing test result'));
         }
       });
+      customMetric(Metric.GetNextUploadBatchSuccess, 'Get next upload batch successful for RSIS');
       debug('Received batch');
       resolve(resultList);
     }).catch((err) => {
       const ex = mapHTTPErrorToDomainError(err);
       const errorMessage = `Failed to get next upload batch for interface ${interfaceType} ` +
         `and batch size ${batchSize} with error: `;
+      customMetric(Metric.GetNextUploadBatchFailure, 'Get next upload batch failed for RSIS');
       error(errorMessage, err);
       reject(ex);
     });
@@ -126,8 +133,14 @@ Promise<ResultUpload[]> => {
  * @param errorMessage The latest error message (if any)
  * @throws Error API call failed
  */
-export const updateUploadStatus = async (baseUrl: string, interfaceType: InterfaceType, key: UploadKey,
-                                         status: ProcessingStatus, retryCount: number, errorMessage: string | null) => {
+export const updateUploadStatus = async (
+  baseUrl: string,
+  interfaceType: InterfaceType,
+  key: UploadKey,
+  status: ProcessingStatus,
+  retryCount: number,
+  errorMessage: string | null,
+) => {
   info(`Calling updateUploadStatus - status ${status} for ${interfaceType} and key ${JSON.stringify(key)}`);
   const url = `${baseUrl}/${formatApplicationReference(key.applicationReference)}/upload`;
 

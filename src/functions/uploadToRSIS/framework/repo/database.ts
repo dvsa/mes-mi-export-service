@@ -33,29 +33,34 @@ export const createConnection = async (config: Config): Promise<Connection | und
 /**
  * Executes a SQL statement (e.g. an insert or update). Auto-Commit mode is set to true.
  * @param connection   The Connection to use
- * @param sqlUpdate    The SQL update to run
+ * @param sqlQuery
  * @param expectedRows The number of rows that should be updated
+ * @param appRef
  * @param bindValues   The bind variables values
  * @throws Various errors that must be caught and logged, including if expected rows proved to be different
  */
-export const execute =
-  async (connection: Connection, sqlQuery: string, expectedRows: number, appRef: number, bindValues?: any):
-  Promise<void> => {
-    debug(`Executing statement: \n***\n${sqlQuery}\n***`);
-    let result;
-    try {
-      result = await connection.execute(sqlQuery, bindValues || {}, { autoCommit: true });
+export const execute = async (
+  connection: Connection,
+  sqlQuery: string,
+  expectedRows: number,
+  appRef: number,
+  bindValues?: any,
+): Promise<void> => {
+  debug(`Executing statement: \n***\n${sqlQuery}\n***`);
+  let result;
+  try {
+    result = await connection.execute(sqlQuery, bindValues || {}, { autoCommit: true });
 
-      debug(`${result.rowsAffected} rows updated`);
+    debug(`${result.rowsAffected} rows updated`);
 
-      if (result.rowsAffected !== expectedRows) {
-        const err = `Error executing SQL query, expected ${expectedRows} rows ` +
+    if (result.rowsAffected !== expectedRows) {
+      const err = `Error executing SQL query, expected ${expectedRows} rows ` +
         `to be updated, but got ${result.rowsAffected}, with app ref of ${appRef}`;
-        throw new Error(err);
-      }
-    } catch (err) {
-      error('Failed to execute sql query with errors: ', err);
-      throw(err);
+      throw new Error(err);
     }
+  } catch (err) {
+    error('Failed to execute sql query with errors: ', err);
+    throw(err);
+  }
 
-  };
+};

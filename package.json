@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/dvsa/mes-mi-export-service.git"
   },
+  "bugs": {
+    "url": "https://github.com/dvsa/mes-mi-export-service/issues"
+  },
   "scripts": {
     "clean": "rimraf build artefacts",
     "compile": "rm -rf build && tsc",
@@ -44,6 +47,7 @@
     "husky": "^8.0.1",
     "jasmine": "^4.4.0",
     "jasmine-spec-reporter": "^7.0.0",
+    "lint-staged": "^13.2.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
@@ -76,7 +80,9 @@
     "produce-source-map": true,
     "instrument": true
   },
-  "bugs": {
-    "url": "https://github.com/dvsa/mes-mi-export-service/issues"
+  "lint-staged": {
+    "./src/**/*.ts": [
+      "npm run lint:fix"
+    ]
   }
 }

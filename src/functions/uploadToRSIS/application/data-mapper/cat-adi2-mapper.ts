@@ -386,7 +386,7 @@ export const mapCatADI2Data = (result: ResultUpload): DataField[] => {
 };
 
 const getOrditTrained = (result: ResultUpload): BooleanAsNumber | null => {
-  const orditTrained: boolean = get(result, 'testResult.trainerDetails.orditTrainedCandidate');
+  const orditTrained = get(result, 'testResult.trainerDetails.orditTrainedCandidate');
 
   if (typeof orditTrained === 'undefined') {
     return null;
@@ -398,7 +398,7 @@ const getOrditTrained = (result: ResultUpload): BooleanAsNumber | null => {
 };
 
 const getTrainingRecords = (result: ResultUpload): BooleanAsNumber | null => {
-  const trainingRecords: boolean = get(result, 'testResult.trainerDetails.trainingRecords');
+  const trainingRecords = get(result, 'testResult.trainerDetails.trainingRecords');
 
   if (typeof trainingRecords === 'undefined') {
     return null;
@@ -416,8 +416,11 @@ export const isManoeuvreCompleted = (testData: CatADI2UniqueTypes.TestData, mano
 };
 
 export const getManoeuvreCommentByType = (
-  testData: CatADI2UniqueTypes.TestData, manoeuvreName: string, commentType: string): string | null => {
-  const commentOne: string = get(testData, `manoeuvres[0].${manoeuvreName}.${commentType}`, null);
-  const commentTwo: string = get(testData, `manoeuvres[1].${manoeuvreName}.${commentType}`, null);
+  testData: CatADI2UniqueTypes.TestData,
+  manoeuvreName: string,
+  commentType: string
+): string | null => {
+  const commentOne = get(testData, `manoeuvres[0].${manoeuvreName}.${commentType}`, null);
+  const commentTwo = get(testData, `manoeuvres[1].${manoeuvreName}.${commentType}`, null);
   return commentOne || commentTwo;
 };

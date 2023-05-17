@@ -344,28 +344,33 @@ export const mapCommonCatDData = (result: ResultUpload): DataField[] => {
   return m;
 };
 
-export const getPcvDoorExerciseCompetencyComments =
-  (testData: CatDUniqueTypes.TestData | undefined, path: string): string | null => {
-    const dangerousComments = get(testData, `${path}.dangerousFaultComments`, null);
-    const seriousComments = get(testData, `${path}.seriousFaultComments`, null);
-    const faultComments = get(testData, `${path}.drivingFaultComments`, null);
+export const getPcvDoorExerciseCompetencyComments = (
+  testData: CatDUniqueTypes.TestData | undefined,
+  path: string,
+): string | null => {
+  const dangerousComments = get(testData, `${path}.dangerousFaultComments`, null) as unknown as string;
+  const seriousComments = get(testData, `${path}.seriousFaultComments`, null) as unknown as string;
+  const faultComments = get(testData, `${path}.drivingFaultComments`, null) as unknown as string;
 
-    return getCompetencyCommentString(dangerousComments, seriousComments, faultComments);
-  };
+  return getCompetencyCommentString(dangerousComments, seriousComments, faultComments);
+};
 
-export const getSafetyQuestionFaultCount =
-  (testData: CatDUniqueTypes.TestData | undefined, faultSeverity: FaultSeverity): number => {
+export const getSafetyQuestionFaultCount = (
+  testData: CatDUniqueTypes.TestData | undefined,
+  faultSeverity: FaultSeverity
+): number => {
 
-    const safetyQuestions: SafetyQuestionResult[] = get(testData, 'safetyQuestions.questions', []);
-    const faults: SafetyQuestionResult[] =
-      safetyQuestions.filter((questionResult: SafetyQuestionResult) => questionResult.outcome === faultSeverity);
+  const safetyQuestions: SafetyQuestionResult[] = get(testData, 'safetyQuestions.questions', []);
+  const faults: SafetyQuestionResult[] = safetyQuestions.filter(
+    (questionResult: SafetyQuestionResult) => questionResult.outcome === faultSeverity
+  );
 
-    if (faults && faults.length > 0) {
-      return 1;
-    }
-    return 0;
-  };
+  if (faults && faults.length > 0) {
+    return 1;
+  }
+  return 0;
+};
 
-export const getSafetyQuestionFaultComment = (testData: CatDUniqueTypes.TestData | undefined): number => {
+export const getSafetyQuestionFaultComment = (testData: CatDUniqueTypes.TestData | undefined): string | null => {
   return get(testData, 'safetyQuestions.faultComments', null);
 };

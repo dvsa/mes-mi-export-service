@@ -363,6 +363,6 @@ export const getSafetyQuestionFaultCount =
     return 0;
   };
 
-export const getSafetyQuestionFaultComment = (testData: CatFUniqueTypes.TestData | undefined): number => {
+export const getSafetyQuestionFaultComment = (testData: CatFUniqueTypes.TestData | undefined): string | null => {
   return get(testData, 'highwayCodeSafety.faultComments', null);
 };

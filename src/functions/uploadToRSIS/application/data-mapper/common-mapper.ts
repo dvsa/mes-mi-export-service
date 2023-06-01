@@ -183,7 +183,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 };
 
 /**
- * Formats the DL25 test type, calculated from the type of test (regular, CPC) and test category (B, C, D etc).
+ * Formats the DL25 test type, calculated from the type of test (regular, CPC) and test category (B, C, D etc.)
  *
  * @param result The MES test result
  * @returns The DL25 test type
@@ -214,6 +214,8 @@ export const formatTestType = (result: ResultUpload): number => {
     // manoeuvre categories
     ['CM', 18], ['C+EM', 18], ['C1M', 18], ['C1+EM', 18],
     ['DM', 19], ['D+EM', 19], ['D1M', 19], ['D1+EM', 19],
+    // standards checks
+    ['SC', 12],
   ]);
 
   const vehicleCategory = result.testResult.category;
@@ -233,7 +235,7 @@ export const formatTestType = (result: ResultUpload): number => {
  * @returns The PRN (as a string), or ``null``
  */
 const formatInstructorPRN = (result: ResultUpload, category: CategoryCode): string | null => {
-  let path: string = '';
+  let path: string;
 
   if (category === TestCategory.ADI2) {
     path = 'testResult.trainerDetails.trainerRegistrationNumber';
@@ -241,7 +243,7 @@ const formatInstructorPRN = (result: ResultUpload, category: CategoryCode): stri
     path = 'testResult.instructorDetails.registrationNumber';
   }
 
-  const prn: number | null = get(result, path, null);
+  const prn = get(result, path, null) as (number | null);
   if (prn) {
     return prn.toString();
   }
@@ -290,9 +292,9 @@ export const formatLanguage = (result: ResultUpload): Language => {
  * @param result The MES test result
  * @returns The language indicator
  */
-export const formatDateOfBirth = (result: ResultUpload): Date => {
+export const formatDateOfBirth = (result: ResultUpload): Date | null => {
   const dob = get(result, 'testResult.journalData.candidate.dateOfBirth', null);
-  return dob ? moment(dob, 'YYYY-MM-DD').toDate() : dob;
+  return dob ? moment(dob, 'YYYY-MM-DD').toDate() : <null>dob;
 };
 
 /**

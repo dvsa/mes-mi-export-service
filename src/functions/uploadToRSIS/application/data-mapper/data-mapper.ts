@@ -75,6 +75,7 @@ export const mapDataForMIExport = (result: ResultUpload): DataField[] => {
     mappedDataFields = mappedDataFields.concat(mapCatADI2Data(result));
     break;
   case TestCategory.ADI3:
+  case TestCategory.SC:
     mappedDataFields = mapCatADI3Data(result);
     break;
   case TestCategory.B:
@@ -291,28 +292,29 @@ export const formatManoeuvreComment = (object: any, path: string): string | null
 /**
  * Get the number of faults for show me and tell me questions (max is ``1``).
  *
- * @param object The MES test result
  * @returns The total number (can only be ``0`` or ``1``)
+ * @param testData
  */
 export const formatQuestionFault = (testData: TestData | undefined): BooleanAsNumber => {
-  const tellMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P');
-  const showMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P');
+  const tellMeFaults = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P') as QuestionOutcome;
+  const showMeFaults = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P') as QuestionOutcome;
   if (tellMeFaults === 'DF' || showMeFaults === 'DF') {
     return 1;
   }
   return 0;
 };
 
-export const getCatAM2SafetyAndBalanceFaultCount =
-  (testData: CatAMod2TestData | undefined): number => {
-    const safetyQuestionOneOutcome = get(
-      testData, 'safetyAndBalanceQuestions.safetyQuestions[0].outcome') === 'DF' ? 1 : 0;
-    const safetyQuestionTwoOutcome = get(
-      testData, 'safetyAndBalanceQuestions.safetyQuestions[1].outcome') === 'DF' ? 1 : 0;
-    const balanceQuestionOneOutcome = get(
-      testData, 'safetyAndBalanceQuestions.balanceQuestions[0].outcome') === 'DF' ? 1 : 0;
-    return (safetyQuestionOneOutcome + safetyQuestionTwoOutcome + balanceQuestionOneOutcome) > 0 ? 1 : 0;
-  };
+export const getCatAM2SafetyAndBalanceFaultCount = (
+  testData: CatAMod2TestData | undefined,
+): number => {
+  const safetyQuestionOneOutcome = get(
+    testData, 'safetyAndBalanceQuestions.safetyQuestions[0].outcome') === 'DF' ? 1 : 0;
+  const safetyQuestionTwoOutcome = get(
+    testData, 'safetyAndBalanceQuestions.safetyQuestions[1].outcome') === 'DF' ? 1 : 0;
+  const balanceQuestionOneOutcome = get(
+    testData, 'safetyAndBalanceQuestions.balanceQuestions[0].outcome') === 'DF' ? 1 : 0;
+  return (safetyQuestionOneOutcome + safetyQuestionTwoOutcome + balanceQuestionOneOutcome) > 0 ? 1 : 0;
+};
 
 export const formatQuestionFaultBE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -331,8 +333,8 @@ export const formatQuestionFaultADI2 = (testData: TestData | undefined): number 
 /**
  * Gets the number of faults for show me tell me questions for category C and C1
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionFaultC = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -342,8 +344,8 @@ export const formatQuestionFaultC = (testData: TestData | undefined): number => 
 /**
  * Gets the number of faults for show me tell me questions for category CE and C1E
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionFaultCE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -354,8 +356,8 @@ export const formatQuestionFaultCE = (testData: TestData | undefined): number =>
 /**
  * Gets the number of faults for show me tell me questions for category D and D1
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionFaultD = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -365,8 +367,8 @@ export const formatQuestionFaultD = (testData: TestData | undefined): number => 
 /**
  * Gets the number of faults for show me tell me questions for category F, G, H  and K
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionFaultF = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountF(testData);
@@ -376,8 +378,8 @@ export const formatQuestionFaultF = (testData: TestData | undefined): number => 
 /**
  * Gets the number of faults for show me tell me questions for category DE and D1E
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionFaultDE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -388,8 +390,8 @@ export const formatQuestionFaultDE = (testData: TestData | undefined): number =>
 /**
  * Gets the number of serious faults for show me tell me questions for category D and D1
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionSeriousD = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -399,8 +401,8 @@ export const formatQuestionSeriousD = (testData: TestData | undefined): number =
 /**
  * Gets the number of serious faults for show me tell me questions for category DE and D1E
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionSeriousDE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -426,12 +428,12 @@ export const formatManoeuvreSerious = (object: any, path: string): BooleanAsNumb
 /**
  * Get whether there was a serious fault for show me or tell me question.
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionSerious = (testData: TestData | undefined): BooleanAsNumber => {
-  const tellMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P');
-  const showMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P');
+  const tellMeFaults = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P') as QuestionOutcome;
+  const showMeFaults = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P') as QuestionOutcome;
   if (tellMeFaults === 'S' || showMeFaults === 'S') {
     return 1;
   }
@@ -446,8 +448,8 @@ export const formatQuestionSeriousBE = (testData: TestData | undefined): Boolean
 /**
  * Gets the number of serious faults for show me tell me questions for category C and C1
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionSeriousC = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -457,8 +459,8 @@ export const formatQuestionSeriousC = (testData: TestData | undefined): number =
 /**
  * Gets the number of serious faults for show me tell me questions for category CE and C1E
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionSeriousCE = (testData: TestData | undefined): number => {
   const totalFaults: number = getVehicleChecksFaultCountBE(testData);
@@ -468,13 +470,13 @@ export const formatQuestionSeriousCE = (testData: TestData | undefined): number 
 
 export const getVehicleChecksFaultCountBE = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
-  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
-  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', []);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', []);
 
-  if (tellMeFaults) {
+  if (tellMeFaults?.length) {
     totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome === 'DF').length;
   }
-  if (showMeFaults) {
+  if (showMeFaults?.length) {
     totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome === 'DF').length;
   }
   return totalFaults;
@@ -482,13 +484,13 @@ export const getVehicleChecksFaultCountBE = (testData: TestData | undefined): nu
 
 export const getVehicleChecksFaultCountF = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
-  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
-  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', []);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', []);
 
-  if (tellMeFaults) {
+  if (tellMeFaults?.length) {
     totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome === 'DF').length;
   }
-  if (showMeFaults) {
+  if (showMeFaults?.length) {
     totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome === 'DF').length;
   }
   return totalFaults;
@@ -501,13 +503,13 @@ export const getVehicleChecksFaultCountF = (testData: TestData | undefined): num
  */
 export const getVehicleChecksFaultCountShowMeTellMe = (testData: TestData | undefined): number => {
   let totalFaults: number = 0;
-  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
-  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', []);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', []);
 
-  if (tellMeFaults) {
+  if (tellMeFaults?.length) {
     totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome === 'DF').length;
   }
-  if (showMeFaults) {
+  if (showMeFaults?.length) {
     totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome === 'DF').length;
   }
   return totalFaults;
@@ -531,12 +533,13 @@ export const formatManoeuvreDangerous = (object: any, path: string): BooleanAsNu
 /**
  * Get whether there was a dangerous fault for show me or tell me question.
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionDangerous = (testData: TestData | undefined): BooleanAsNumber => {
-  const tellMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P');
-  const showMeFaults: QuestionOutcome = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P');
+  const tellMeFaults = get(testData, 'vehicleChecks.tellMeQuestion.outcome', 'P') as QuestionOutcome;
+  const showMeFaults = get(testData, 'vehicleChecks.showMeQuestion.outcome', 'P') as QuestionOutcome;
+
   if (tellMeFaults === 'D' || showMeFaults === 'D') {
     return 1;
   }
@@ -546,8 +549,8 @@ export const formatQuestionDangerous = (testData: TestData | undefined): Boolean
 /**
  * Get whether the show me and tell me questions were completed.
  *
- * @param object The MES test result
  * @returns The boolean value (as a number)
+ * @param testData
  */
 export const formatQuestionCompletedB = (testData: TestData | undefined): BooleanAsNumber => {
   const tellMeCode = get(testData, 'vehicleChecks.tellMeQuestion.code', null);
@@ -558,24 +561,27 @@ export const formatQuestionCompletedB = (testData: TestData | undefined): Boolea
   return 0;
 };
 
-export const formatQuestionCompleted =
-  (testData: TestData | undefined, questionCount: number, delegatedTest?: boolean): BooleanAsNumber => {
-    if (delegatedTest) {
-      return get(testData, 'vehicleChecks.vehicleChecksCompleted', false) ? 1 : 0;
-    }
-    let totalFaults: number = 0;
-    const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', null);
-    const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', null);
+export const formatQuestionCompleted = (
+  testData: TestData | undefined,
+  questionCount: number,
+  delegatedTest?: boolean,
+): BooleanAsNumber => {
+  if (delegatedTest) {
+    return get(testData, 'vehicleChecks.vehicleChecksCompleted', false) ? 1 : 0;
+  }
+  let totalFaults: number = 0;
+  const tellMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.tellMeQuestions', []);
+  const showMeFaults: QuestionResult[] = get(testData, 'vehicleChecks.showMeQuestions', []);
 
-    if (tellMeFaults) {
-      totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome != null).length;
-    }
-    if (showMeFaults) {
-      totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome != null).length;
-    }
+  if (tellMeFaults?.length) {
+    totalFaults = totalFaults + tellMeFaults.filter(fault => fault.outcome != null).length;
+  }
+  if (showMeFaults?.length) {
+    totalFaults = totalFaults + showMeFaults.filter(fault => fault.outcome != null).length;
+  }
 
-    return totalFaults === questionCount ? 1 : 0;
-  };
+  return totalFaults === questionCount ? 1 : 0;
+};
 /**
  * Get the fault/serious/dangerous comments for a specific competency, if any.
  *
@@ -583,10 +589,13 @@ export const formatQuestionCompleted =
  * @param path The JSON attribute, below ``drivingFaults``, ``seriousFaults`` and ``dangerousFaults``
  * @returns The value, or ``null``
  */
-export const getCompetencyComments = (testData: TestData | undefined, path: string): string | null => {
-  const dangerousFaultComment: string = get(testData, `dangerousFaults.${path}`, null);
-  const seriousFaultComment: string = get(testData, `seriousFaults.${path}`, null);
-  const drivingFaultComment: string = get(testData, `drivingFaults.${path}`, null);
+export const getCompetencyComments = (
+  testData: TestData | undefined,
+  path: string,
+): string | null => {
+  const dangerousFaultComment = get(testData, `dangerousFaults.${path}`, null) as unknown as string;
+  const seriousFaultComment = get(testData, `seriousFaults.${path}`, null) as unknown as string;
+  const drivingFaultComment = get(testData, `drivingFaults.${path}`, null) as unknown as string;
 
   return getCompetencyCommentString(dangerousFaultComment, seriousFaultComment, drivingFaultComment);
 };
@@ -594,7 +603,8 @@ export const getCompetencyComments = (testData: TestData | undefined, path: stri
 export const getCompetencyCommentString = (
   dangerousFaultComment: string,
   seriousFaultComment: string,
-  drivingFaultComment: string): string | null => {
+  drivingFaultComment: string,
+): string | null => {
 
   const comments: string[] = [];
 

@@ -143,6 +143,12 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'COMMUNICATION_EMAIL', optional(testResult, 'communicationPreferences.updatedEmail', null));
 
   // Report and Summary
+
+  // SC specific fields
+  addIfSet(mappedFields, 'VALID_CERTIFICATE', optionalBoolean(testResult, 'preTestDeclarations.validCertificate'));
+  addIfSet(mappedFields, 'START_TIME', optional(testResult, 'testData.startTime', null));
+  addIfSet(mappedFields, 'END_TIME', optional(testResult, 'testData.endTime', null));
+  // ADI3 & SC specific fields
   addIfSet(mappedFields, 'STUDENT_LEVEL', optional(testResult, 'testData.lessonAndTheme.studentLevel', null));
   addIfSet(mappedFields, 'LESSON_THEMES', optional(testResult, 'testData.lessonAndTheme.lessonThemes', []).join('|'));
   addIfSet(mappedFields, 'OTHER_LESSON_THEME', optional(testResult, 'testData.lessonAndTheme.other', null));

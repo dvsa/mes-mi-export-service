@@ -277,7 +277,7 @@ export function getSCFullyPopulatedFaultDataFields(): DataField[] {
   return [
     ...getADI3FullyPopulatedFaultDataFields(),
     { col: 'VALID_CERTIFICATE', val: 1 },
-    { col: 'START_TIME', val: '11:15'},
-    { col: 'END_TIME', val: '12:38'},
+    { col: 'START_TIME', val: new Date('2023-06-14T11:45') },
+    { col: 'END_TIME', val: new Date('2023-06-14T20:45') },
   ];
 }

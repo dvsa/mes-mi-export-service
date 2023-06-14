@@ -3,12 +3,12 @@ import moment = require('moment');
 
 import { ResultUpload } from '../result-client';
 import { ChannelIndicator, DataField, FormType } from '../../domain/mi-export-data';
-import { addIfSet, field, mandatory, optional, optionalBoolean } from './data-mapper';
+import { addIfSet, addIfSetParseToDate, field, mandatory, optional, optionalBoolean } from './data-mapper';
 import {
   formatDateOfBirth,
   formatResult,
   formatRekeyDateTime,
-  formatTestType, formatLanguage, ftaActivityCode,
+  formatTestType, formatLanguage,
 } from './common-mapper';
 import { get } from 'lodash';
 import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';
@@ -146,8 +146,8 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
 
   // SC specific fields
   addIfSet(mappedFields, 'VALID_CERTIFICATE', optionalBoolean(testResult, 'preTestDeclarations.validCertificate'));
-  addIfSet(mappedFields, 'START_TIME', optional(testResult, 'testData.startTime', null));
-  addIfSet(mappedFields, 'END_TIME', optional(testResult, 'testData.endTime', null));
+  addIfSetParseToDate(mappedFields, 'START_TIME', optional(testResult, 'testData.startTime', null));
+  addIfSetParseToDate(mappedFields, 'END_TIME', optional(testResult, 'testData.endTime', null));
   // ADI3 & SC specific fields
   addIfSet(mappedFields, 'STUDENT_LEVEL', optional(testResult, 'testData.lessonAndTheme.studentLevel', null));
   addIfSet(mappedFields, 'LESSON_THEMES', optional(testResult, 'testData.lessonAndTheme.lessonThemes', []).join('|'));

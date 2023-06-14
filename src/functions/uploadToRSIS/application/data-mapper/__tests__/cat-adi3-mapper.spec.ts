@@ -47,8 +47,8 @@ describe('mapCatADI3Data', () => {
           } as PreTestDeclarations,
           testData: {
             ...minimalInput.testResult.testData,
-            startTime: '11:15',
-            endTime: '12:38',
+            startTime: '2023-06-14T11:45',
+            endTime: '2023-06-14T20:45',
           },
         } as TestResultCatADI3Schema,
       };

@@ -202,6 +202,12 @@ export const addIfSet = (fields: DataField[], column: string, value: DataFieldVa
   }
 };
 
+export const addIfSetParseToDate = (fields: DataField[], column: string, value: DataFieldValue | null) => {
+  if (value) {
+    fields.push({ col: column, val: new Date(value) });
+  }
+};
+
 export const addIfDefined = (fields: DataField[], column: string, value: DataFieldValue | null) => {
   if (value !== undefined && value !== null) {
     fields.push({ col: column, val: value });

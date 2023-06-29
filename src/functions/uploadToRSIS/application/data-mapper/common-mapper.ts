@@ -37,9 +37,13 @@ export const ftaActivityCode = '51';
  * @throws MissingTestResultDataError If mandatory data missing from MES test result
  */
 export const mapCommonData = (result: ResultUpload): DataField[] => {
-
   const r: TestResultSchemasUnion = result.testResult;
   const category: CategoryCode = r.category;
+
+  const testType = determineDl25TestType(category) as DataFieldValue;
+  if (!testType) {
+    throw new Error(`Unsupported test category ${category}`);
+  }
 
   // test slot start date time from TARS is in local timezone, not UTC
   const testDateTime = moment(r.journalData.testSlotAttributes.start, 'YYYY-MM-DDTHH:mm:ss');

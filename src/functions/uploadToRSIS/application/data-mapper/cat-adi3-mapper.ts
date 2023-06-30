@@ -1,14 +1,15 @@
 import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import { determineDl25TestType } from '@dvsa/mes-microservice-common/application/utils/dl25-test-type';
 import moment = require('moment');
 
 import { ResultUpload } from '../result-client';
-import { ChannelIndicator, DataField, FormType } from '../../domain/mi-export-data';
+import {ChannelIndicator, DataField, DataFieldValue, FormType} from '../../domain/mi-export-data';
 import { addIfSet, addIfSetParseToDate, field, mandatory, optional, optionalBoolean } from './data-mapper';
 import {
   formatDateOfBirth,
   formatResult,
   formatRekeyDateTime,
-  formatTestType, formatLanguage,
+  formatLanguage,
 } from './common-mapper';
 import { get } from 'lodash';
 import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';
@@ -25,7 +26,7 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
 
     // Test Details
     field('APP_REF_NO', formatApplicationReference(testResult.journalData.applicationReference)),
-    field('TEST_TYPE', formatTestType(result)),
+    field('TEST_TYPE', determineDl25TestType(result.testResult.category) as DataFieldValue),
     field('ADI_PRN', mandatory(testResult, 'journalData.candidate.prn')),
     field('CHANNEL_INDICATOR', testResult.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),
     field('FORM_TYPE', FormType.MES),

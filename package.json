@@ -32,7 +32,7 @@
     "axios": "^1.4.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "oracledb": "^5.5.0"
+    "oracledb": "^6.1.0"
   },
   "devDependencies": {
     "@dvsa/mes-test-schema": "3.41.1",

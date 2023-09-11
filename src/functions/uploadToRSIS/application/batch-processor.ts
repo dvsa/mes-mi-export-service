@@ -63,7 +63,7 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
     // close DB connection
     if (connection) {
       info('Closing the DB connection');
-      connection.close;
+      await connection.close();
     }
   }
   return true;

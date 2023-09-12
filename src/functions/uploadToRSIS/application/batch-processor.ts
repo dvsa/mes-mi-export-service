@@ -7,7 +7,7 @@ import {
   ResultUpload,
   UploadKey,
 } from './result-client';
-import { mapDataForMIExport, MissingTestResultDataError } from '../application/data-mapper/data-mapper';
+import { mapDataForMIExport, MissingTestResultDataError } from './data-mapper/data-mapper';
 import { Config } from '../framework/config/config';
 import { createConnection } from '../framework/repo/database';
 import { Connection } from 'oracledb';
@@ -61,9 +61,9 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
 
   } finally {
     // close DB connection
-    if (connection) {
+    if (connection && connection.close) {
       info('Closing the DB connection');
-      connection.close;
+      await connection.close();
     }
   }
   return true;

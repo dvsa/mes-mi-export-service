@@ -19,7 +19,8 @@ export const saveTestResult = async (
   config: Config,
   mappedFields: DataField[],
   appRef: number,
-  testCategory: CategoryCode): Promise<void> => {
+  testCategory: CategoryCode,
+): Promise<void> => {
 
   const table = getTableNameByTestCategory(testCategory);
 

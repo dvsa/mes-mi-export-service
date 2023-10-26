@@ -11,6 +11,7 @@ import {
   getADIFullyPopulatedDangerousDataFields,
   getADIFullyPopulatedSeriousDataFields,
 } from './helpers/cat-adi2/data-fields/fully-populated-data-fields';
+import {CatADI2UniqueTypes} from '@dvsa/mes-test-schema/categories/ADI2';
 
 describe('mapCatADI2Data', () => {
 
@@ -56,30 +57,36 @@ describe('mapCatADI2Data', () => {
 describe('isManoeuvreCompleted', () => {
   it('should return true if manoeuvre selected', () => {
     const testData = {
-      manoeuvres: [{
-        forwardPark: {
-          controlFault: undefined,
-          controlFaultComments: '',
-          observationFault: undefined,
-          observationFaultComments: '',
-          selected: true,
+      manoeuvres: [
+        {
+          forwardPark: {
+            controlFault: undefined,
+            controlFaultComments: '',
+            observationFault: undefined,
+            observationFaultComments: '',
+            selected: true,
+          },
         },
-      }],
-    };
+        {},
+      ],
+    } as CatADI2UniqueTypes.TestData;
     expect(isManoeuvreCompleted(testData, 'forwardPark')).toEqual(1);
   });
   it('should return false if manoeuvre NOT selected', () => {
     const testData = {
-      manoeuvres: [{
-        forwardPark: {
-          controlFault: undefined,
-          controlFaultComments: '',
-          observationFault: undefined,
-          observationFaultComments: '',
-          selected: false,
+      manoeuvres: [
+        {
+          forwardPark: {
+            controlFault: undefined,
+            controlFaultComments: '',
+            observationFault: undefined,
+            observationFaultComments: '',
+            selected: false,
+          },
         },
-      }],
-    };
+        {},
+      ],
+    } as CatADI2UniqueTypes.TestData;
     expect(isManoeuvreCompleted(testData, 'forwardPark')).toEqual(0);
   });
 });
@@ -104,7 +111,7 @@ describe('getManoeuvreCommentByType', () => {
         selected: true,
       },
     }],
-  };
+  } as CatADI2UniqueTypes.TestData;
   it('should return the requested comment where found', () => {
     const comment = getManoeuvreCommentByType(testData, 'reverseParkCarpark', 'controlFaultComments');
     expect(comment).toEqual('bad control reverse park car park');

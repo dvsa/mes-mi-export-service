@@ -1,5 +1,4 @@
-
-import * as awsSdk from 'aws-sdk';
+import { GetSecretValueCommand, SecretsManager } from '@aws-sdk/client-secrets-manager';
 import { isEmpty } from 'lodash';
 
 export const defaultIfNotPresent = (value: string | null | undefined, defaultValue: string) => {
@@ -24,18 +23,20 @@ export const throwIfNotPresent = (value: string | null | undefined, configKey: s
  * @throws Error if secret does not exist
  */
 export const getSecrets = async (name: string, keys: string[]): Promise<Map<string, string>> => {
-  const secretsmanager = new awsSdk.SecretsManager();
-  const params: awsSdk.SecretsManager.GetSecretValueRequest = {
-    SecretId: name,
-  };
-
   try {
-    const secretValues: Map<string, string> = new Map();
-    const response = await secretsmanager.getSecretValue(params).promise();
+    const response = await new SecretsManager().send(
+      new GetSecretValueCommand({
+        SecretId: name,
+      })
+    );
+
     const secrets = JSON.parse(response.SecretString || '');
     if (isEmpty(secrets)) {
       throw new Error(`Secret ${name} was empty`);
     }
+
+    const secretValues: Map<string, string> = new Map();
+
     keys.forEach((key) => {
       if (secrets[key]) {
         secretValues.set(key, secrets[key]);

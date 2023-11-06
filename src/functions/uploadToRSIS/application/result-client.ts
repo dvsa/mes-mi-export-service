@@ -43,7 +43,7 @@ type UpdateUploadStatusPayload = {
   error_message: string | null;
 };
 
-const axiosInstance = axios.create();
+export const axiosInstance = axios.create();
 
 /**
  * Call the Get Next Upload Batch API, for the specified interface.
@@ -53,8 +53,11 @@ const axiosInstance = axios.create();
  * @returns A list of test results to upload, possibly empty
  * @throws Error API call failed
  */
-export const getNextUploadBatch = async (baseUrl: string, interfaceType: InterfaceType, batchSize: number):
-Promise<ResultUpload[]> => {
+export const getNextUploadBatch = async (
+  baseUrl: string,
+  interfaceType: InterfaceType,
+  batchSize: number
+): Promise<ResultUpload[]> => {
   info(`Calling getNextUpdateBatch for ${interfaceType}, batch size of ${batchSize}`);
 
   const url = `${baseUrl}/upload?interface=${interfaceType}&batch_size=${batchSize}`;
@@ -126,8 +129,14 @@ Promise<ResultUpload[]> => {
  * @param errorMessage The latest error message (if any)
  * @throws Error API call failed
  */
-export const updateUploadStatus = async (baseUrl: string, interfaceType: InterfaceType, key: UploadKey,
-                                         status: ProcessingStatus, retryCount: number, errorMessage: string | null) => {
+export const updateUploadStatus = async (
+  baseUrl: string,
+  interfaceType: InterfaceType,
+  key: UploadKey,
+  status: ProcessingStatus,
+  retryCount: number,
+  errorMessage: string | null,
+) => {
   info(`Calling updateUploadStatus - status ${status} for ${interfaceType} and key ${JSON.stringify(key)}`);
   const url = `${baseUrl}/${formatApplicationReference(key.applicationReference)}/upload`;
 
@@ -143,7 +152,7 @@ export const updateUploadStatus = async (baseUrl: string, interfaceType: Interfa
 
   return new Promise<void>((resolve, reject) => {
     const result = axiosInstance.put(url, payload);
-    result.then((response) => {
+    result.then(() => {
       debug('Status successfully updated');
       resolve();
     }).catch((err) => {
@@ -167,7 +176,7 @@ const mapHTTPErrorToDomainError = (err: AxiosError): Error => {
   if (request) {
     return new Error(`no response received ${err.message}`);
   }
-  // Failed to setup the request
+  // Failed to set up the request
   return new Error(err.message);
 };
 

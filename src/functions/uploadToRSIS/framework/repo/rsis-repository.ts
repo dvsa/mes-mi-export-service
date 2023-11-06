@@ -11,7 +11,9 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
  * Saves a test result to the RSIS MI DB, by populating a staging table.
  * @param connection The database connection to use (``undefined`` if in mock mode)
  * @param config The app configuration to use
- * @param testResult The test result to save
+ * @param mappedFields
+ * @param appRef
+ * @param testCategory
  * @throws Various raw exceptions if insert error
  */
 export const saveTestResult = async (

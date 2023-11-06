@@ -6,13 +6,13 @@ import { bootstrapConfig, config } from './config/config';
 import { uploadRSISBatch } from '../application/batch-processor';
 
 export async function handler(event: ScheduledEvent) {
+  bootstrapLogging('mi-export-service', event);
+
+  await bootstrapConfig();
+
+  info('upload to RSIS invoked...');
+
   try {
-    bootstrapLogging('mi-export-service', event);
-
-    await bootstrapConfig();
-
-    info('upload to RSIS invoked...');
-
     const outcome = await uploadRSISBatch(config());
     info('batch processed successfully: ', outcome);
 

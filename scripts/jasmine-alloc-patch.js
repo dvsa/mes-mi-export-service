@@ -1,0 +1,17 @@
+const fs = require('fs');
+
+const path = 'node_modules/jasmine/bin/jasmine.js';
+
+// post install script for updating the eslint.js to up the node allocation
+fs.readFile(path, 'utf8', (err, data) => {
+  if (err) {
+    return console.log(err);
+  }
+  const result = data
+    .replace(/--max-old-space-size=8192/g, '')
+    .replace('#!/usr/bin/env node', '#!/usr/bin/env node --max-old-space-size=8192');
+
+  fs.writeFile(path, result, 'utf8', (error) => {
+    if (error) return console.log(error);
+  });
+});

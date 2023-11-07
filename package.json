@@ -13,6 +13,7 @@
     "url": "https://github.com/dvsa/mes-mi-export-service/issues"
   },
   "scripts": {
+    "postinstall": "node scripts/jasmine-alloc-patch.js",
     "clean": "rimraf build artefacts",
     "compile": "rm -rf build && tsc",
     "compile-no-emit": "tsc --noEmit -p .",
@@ -23,7 +24,7 @@
     "prepush": "npm run security-scan && npm run lint && npm test",
     "security-scan": "git secrets --scan && git log -p | scanrepo",
     "start": "npm run compile && sls offline start",
-    "test": "node --max-old-space-size=3000 && npm run compile && jasmine",
+    "test": "node scripts/jasmine-alloc-patch.js && npm run compile && jasmine",
     "test:jasmine-coverage": "nyc npm run test",
     "prepare": "husky install"
   },

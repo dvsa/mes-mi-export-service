@@ -7,7 +7,7 @@ import { Connection } from 'oracledb';
 import { processResult, uploadRSISBatch } from '../batch-processor';
 import { Config } from '../../framework/config/config';
 
-xdescribe('batch-processor', () => {
+describe('batch-processor', () => {
 
   const dummyKey1: resultClient.UploadKey = {
     interfaceType: resultClient.InterfaceType.RSIS,

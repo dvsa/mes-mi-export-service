@@ -6,7 +6,7 @@ import { Connection } from 'oracledb';
 import { DataField } from '../../../domain/mi-export-data';
 import { Config } from '../../config/config';
 
-xdescribe('saveTestResult', () => {
+describe('saveTestResult', () => {
 
   const inputDate = new Date('2019-01-30');
   const input: DataField[] = [

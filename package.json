@@ -24,7 +24,7 @@
     "security-scan": "git secrets --scan && git log -p | scanrepo",
     "start": "npm run compile && sls offline start",
     "test": "npm run compile && jasmine",
-    "test:jasmine-coverage": "nyc npm run test",
+    "test:jasmine-coverage": "c8 npm run test",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -43,6 +43,7 @@
     "@types/oracledb": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
+    "c8": "^8.0.1",
     "eslint": "^8.52.0",
     "eslint-plugin-import": "^2.28.1",
     "husky": "^8.0.3",
@@ -50,7 +51,6 @@
     "jasmine-spec-reporter": "^7.0.0",
     "lint-staged": "^15.0.2",
     "npm-run-all": "^4.1.5",
-    "nyc": "^15.1.0",
     "rimraf": "^5.0.5",
     "serverless": "^3.35.2",
     "serverless-offline": "^13.2.0",

@@ -14,7 +14,7 @@ import * as MockAdapter from 'axios-mock-adapter';
 import {failAllDangerous, failAllFaults, failAllSerious, pass, rekeyPass} from '../__mocks__/result-uploads.mock';
 import moment = require('moment');
 
-xdescribe('result-client', () => {
+describe('result-client', () => {
   let mockAxios: MockAdapter;
   const moqZlib = Mock.ofInstance(zlib.gunzipSync);
 

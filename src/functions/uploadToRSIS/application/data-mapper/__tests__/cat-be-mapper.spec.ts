@@ -1,19 +1,19 @@
 import { DataField } from '../../../domain/mi-export-data';
 import { mapCatBEData } from '../cat-be-mapper';
-import { getCatBEMinimalInput } from './helpers/cat-be/inputs/minimal-inputs';
-import { getCatBEMinimalDataFields } from './helpers/cat-be/data-fields/minimal-data-fields';
+import { getCatBEMinimalInput } from '../__mocks__/cat-be/inputs/minimal-inputs';
+import { getCatBEMinimalDataFields } from '../__mocks__/cat-be/data-fields/minimal-data-fields';
 import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults,
   getFullyPopulatedDelegatedTest,
-} from './helpers/cat-be/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-be/inputs/fully-populated-inputs';
 import {
   getCatBEFullyPopulatedSeriousDataFields,
   getCatBEFullyPopulatedDangerousDataFields,
   getCatBEFullyPopulatedDelegatedExaminer,
-} from './helpers/cat-be/data-fields/fully-populated-data-fields';
-import { doesResultMatchExpectations } from './helpers/result-comparer';
+} from '../__mocks__/cat-be/data-fields/fully-populated-data-fields';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
 
 describe('mapCatBEData', () => {
 

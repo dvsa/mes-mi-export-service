@@ -1,13 +1,13 @@
-import { getFullyPopulatedCatCPCTest } from './helpers/cat-cpc/inputs/fully-populated-inputs';
+import { getFullyPopulatedCatCPCTest } from '../__mocks__/cat-cpc/inputs/fully-populated-inputs';
 import { DataField } from '../../../domain/mi-export-data';
 import { formatCPCVehicleDetails, mapCatCPCData } from '../cat-cpc-mapper';
-import { getCatCPCFullyPopulatedDataFields } from './helpers/cat-cpc/data-fields/fully-populated-data-fields';
+import { getCatCPCFullyPopulatedDataFields } from '../__mocks__/cat-cpc/data-fields/fully-populated-data-fields';
 import { ResultUpload } from '../../result-client';
-import { getTerminatedCatCPCTest } from './helpers/cat-cpc/inputs/terminated-input';
-import { getCatCPCTerminatedDataFields } from './helpers/cat-cpc/data-fields/terminated-data-fields';
+import { getTerminatedCatCPCTest } from '../__mocks__/cat-cpc/inputs/terminated-input';
+import { getCatCPCTerminatedDataFields } from '../__mocks__/cat-cpc/data-fields/terminated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/CPC';
-import { doesResultMatchExpectations } from './helpers/result-comparer';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
 
 describe('mapCatCPCData', () => {
   it('should map a fully populated regular test result', () => {

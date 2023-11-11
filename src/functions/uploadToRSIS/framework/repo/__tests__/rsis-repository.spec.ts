@@ -37,9 +37,16 @@ describe('saveTestResult', () => {
     useRSIS: true,
   };
 
+  beforeEach(() => {
+    jest.spyOn(database, 'execute').mockImplementation(() => Promise.resolve());
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('Should construct the insert statement correctly', async () => {
     const moqConn = Mock.ofType<Connection>();
-    spyOn(database, 'execute');
 
     const expectedSql = `insert into dl25mes_holding (
       TEST1,TEST2,TEST3
@@ -53,9 +60,9 @@ describe('saveTestResult', () => {
     expect(database.execute).toHaveBeenCalledWith(moqConn.object, expectedSql, 1, appRef, expectedValues);
   });
 
-  it('Should propogate any exceptions', async () => {
+  it('Should propagate any exceptions', async () => {
     const moqConn = Mock.ofType<Connection>();
-    spyOn(database, 'execute').and.callFake(() => { throw new Error('Oops'); });
+    jest.spyOn(database, 'execute').mockImplementation(() => { throw new Error('Oops'); });
 
     try {
       await saveTestResult(moqConn.object, useRSISConfig, input, appRef, category);
@@ -66,9 +73,6 @@ describe('saveTestResult', () => {
   });
 
   it('Should catch if connection is undefined', async () => {
-    const moqConn = Mock.ofType<Connection>();
-    spyOn(database, 'execute');
-
     try {
       await saveTestResult(undefined, useRSISConfig, input, appRef, category);
       fail('Should have propogated the exception');
@@ -81,14 +85,13 @@ describe('saveTestResult', () => {
 
   it('Should just log the SQL if in stubbed mode', async () => {
     const moqConn = Mock.ofType<Connection>();
-    spyOn(database, 'execute');
-    spyOn(logger, 'info');
+    jest.spyOn(logger, 'info');
 
     await saveTestResult(moqConn.object, noRSISConfig, input, appRef, category);
 
     expect(database.execute).toHaveBeenCalledTimes(0);
     expect(logger.info).toHaveBeenCalledWith(
-      jasmine.stringMatching(/^This is where we would be issuing the following SQL statement:*/));
+      expect.stringMatching(/^This is where we would be issuing the following SQL statement:*/));
   });
 });
 

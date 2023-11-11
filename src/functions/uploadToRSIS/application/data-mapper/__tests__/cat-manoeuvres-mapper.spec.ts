@@ -1,21 +1,21 @@
 import { mapCatManoeuvresData } from '../cat-manoeuvres-mapper';
-import { getMinimalInput } from './helpers/cat-manoeurves/inputs/minimal-inputs';
+import { getMinimalInput } from '../__mocks__/cat-manoeurves/inputs/minimal-inputs';
 import {
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults, getFullyPopulatedExtendedDangerousFaults, getFullyPopulatedExtendedSeriousFaults,
-} from './helpers/cat-manoeurves/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-manoeurves/inputs/fully-populated-inputs';
 import {
   getCatManoeuvreFullyPopulatedSeriousDataFields,
   getCatManoeuvreFullyPopulatedDangerousDataFields,
   getCatManoeuvreExtendedFullyPopulatedSeriousDataFields,
   getCatManoeuvreExtendedFullyPopulatedDangerousDataFields,
-} from './helpers/cat-manoeurves/data-fields/fully-populated-data-fields';
+} from '../__mocks__/cat-manoeurves/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   getCatManoeuvreExtendedMinimalDataFields,
   getCatManoeuvreMinimalDataFields,
-} from './helpers/cat-manoeurves/data-fields/minimal-data-fields';
-import { doesResultMatchExpectations } from './helpers/result-comparer';
+} from '../__mocks__/cat-manoeurves/data-fields/minimal-data-fields';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
 
 describe('mapCatManoeuvresData', () => {
   describe('non-extended', () => {

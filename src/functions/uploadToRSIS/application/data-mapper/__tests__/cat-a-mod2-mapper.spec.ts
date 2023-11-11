@@ -1,17 +1,17 @@
 import { mapCatAMod2Data } from '../cat-a-mod2-mapper';
-import { getCatAMod2MinimalInput } from './helpers/cat-a-mod2/inputs/minimal-inputs';
-import { getMinimalDataField } from './helpers/cat-a-mod2/data-fields/minimal-data-fields';
+import { getCatAMod2MinimalInput } from '../__mocks__/cat-a-mod2/inputs/minimal-inputs';
+import { getMinimalDataField } from '../__mocks__/cat-a-mod2/data-fields/minimal-data-fields';
 import {
   getFullyPopulatedDangerousFaults,
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
-} from './helpers/cat-a-mod2/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-a-mod2/inputs/fully-populated-inputs';
 import {
   getFullyPopulatedDangerousDataFields,
   getFullyPopulatedFaultDataFields,
   getFullyPopulatedSeriousDataFields,
-} from './helpers/cat-a-mod2/data-fields/fully-populated-data-fields';
-import { doesResultMatchExpectations } from './helpers/result-comparer';
+} from '../__mocks__/cat-a-mod2/data-fields/fully-populated-data-fields';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
 
 describe('mapCatAMod2Data', () => {
 

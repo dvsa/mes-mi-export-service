@@ -1,18 +1,18 @@
 import { DataField } from '../../../domain/mi-export-data';
 import { mapCatFData } from '../cat-f-mapper';
-import { getMinimalInput } from './helpers/cat-home-tests/inputs/minimal-inputs';
+import { getMinimalInput } from '../__mocks__/cat-home-tests/inputs/minimal-inputs';
 import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults,
-} from './helpers/cat-home-tests/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-home-tests/inputs/fully-populated-inputs';
 import {
   getCatHomeTestsFullyPopulatedSeriousDataFields,
   getCatHomeTestsFullyPopulatedDangerousDataFields, getCatHomeTestsDrivingFaultDataFields,
-} from './helpers/cat-home-tests/data-fields/fully-populated-data-fields';
+} from '../__mocks__/cat-home-tests/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { getCatHomeTestsMinimalDataFields } from './helpers/cat-home-tests/data-fields/minimal-data-fields';
-import { doesResultMatchExpectations } from './helpers/result-comparer';
+import { getCatHomeTestsMinimalDataFields } from '../__mocks__/cat-home-tests/data-fields/minimal-data-fields';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
 
 describe('mapCatKData', () => {
 

@@ -1,12 +1,12 @@
-import { doesResultMatchExpectations } from './helpers/result-comparer';
-import { getCatADI3MinimalInput } from './helpers/cat-adi3/inputs/minimal-inputs';
-import { getADI3MinimalDataField } from './helpers/cat-adi3/data-fields/minimal-data-fields';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
+import { getCatADI3MinimalInput } from '../__mocks__/cat-adi3/inputs/minimal-inputs';
+import { getADI3MinimalDataField } from '../__mocks__/cat-adi3/data-fields/minimal-data-fields';
 import { mapCatADI3Data } from '../cat-adi3-mapper';
-import { getADI3FullyPopulated } from './helpers/cat-adi3/inputs/fully-populated-inputs';
+import { getADI3FullyPopulated } from '../__mocks__/cat-adi3/inputs/fully-populated-inputs';
 import {
   getADI3FullyPopulatedFaultDataFields,
   getSCFullyPopulatedFaultDataFields,
-} from './helpers/cat-adi3/data-fields/fully-populated-data-fields';
+} from '../__mocks__/cat-adi3/data-fields/fully-populated-data-fields';
 import { ResultUpload } from '../../result-client';
 import { PreTestDeclarations, TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 

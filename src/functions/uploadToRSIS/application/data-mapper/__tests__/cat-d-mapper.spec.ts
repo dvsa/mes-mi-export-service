@@ -1,20 +1,20 @@
 import { DataField } from '../../../domain/mi-export-data';
 import { mapCatDData } from '../cat-d-mapper';
 import { getPcvDoorExerciseCompetencyComments } from '../cat-d-common-mapper';
-import { getMinimalInput, getMinimalInputWithPassCompletion } from './helpers/cat-d/inputs/minimal-inputs';
+import { getMinimalInput, getMinimalInputWithPassCompletion } from '../__mocks__/cat-d/inputs/minimal-inputs';
 import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults, getFullyPopulatedDelegatedTest,
-} from './helpers/cat-d/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-d/inputs/fully-populated-inputs';
 import {
   getCatDFullyPopulatedSeriousDataFields,
   getCatDFullyPopulatedDangerousDataFields, getCatDFullyPopulatedDrivingDataFields, getCatDFullyPopulatedDelegatedTest,
-} from './helpers/cat-d/data-fields/fully-populated-data-fields';
+} from '../__mocks__/cat-d/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { getCatDMinimalDataFields } from './helpers/cat-d/data-fields/minimal-data-fields';
-import { doesResultMatchExpectations } from './helpers/result-comparer';
+import { getCatDMinimalDataFields } from '../__mocks__/cat-d/data-fields/minimal-data-fields';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
 
 describe('mapCatDData', () => {
 

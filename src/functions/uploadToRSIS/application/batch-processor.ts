@@ -76,8 +76,11 @@ export async function uploadRSISBatch(config: Config): Promise<boolean> {
  * @param resultUpload The test result
  * @returns Whether the result was able to be processed, if ``false`` then abort the rest of the batch
  */
-export async function processResult(config: Config, connection: Connection | undefined, resultUpload: ResultUpload):
-Promise<boolean> {
+export async function processResult(
+  config: Config,
+  connection: Connection | undefined,
+  resultUpload: ResultUpload
+): Promise<boolean> {
   try {
     // map MES test result to RSIS data fields
     info('Mapping data fields for ', resultUpload.uploadKey);

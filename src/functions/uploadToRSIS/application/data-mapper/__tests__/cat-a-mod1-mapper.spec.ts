@@ -1,25 +1,25 @@
-import { getCatAM1MinimalInput } from './helpers/cat-a-mod1/inputs/minimal-inputs';
-import { getCatAMod1MinimalDataFields } from './helpers/cat-a-mod1/data-fields/minimal-data-fields';
+import { getCatAM1MinimalInput } from '../__mocks__/cat-a-mod1/inputs/minimal-inputs';
+import { getCatAMod1MinimalDataFields } from '../__mocks__/cat-a-mod1/data-fields/minimal-data-fields';
 import {
   getCatAMod1FullyPopulatedDFaultDataFields,
-} from './helpers/cat-a-mod1/data-fields/fully-populated-driving-faults';
+} from '../__mocks__/cat-a-mod1/data-fields/fully-populated-driving-faults';
 import { mapCatAMod1Data } from '../cat-a-mod1-mapper';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   getCatAM1FullyPopulatedDangerousFaults,
   getCatAM1FullyPopulatedDrivingFaults, getCatAM1FullyPopulatedSeriousFaults,
   getCatAM1FullyPopulatedSingleFaultCompetencies,
-} from './helpers/cat-a-mod1/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-a-mod1/inputs/fully-populated-inputs';
 import {
   getCatAMod1FullyPopulatedSingleFaultDataFields,
-} from './helpers/cat-a-mod1/data-fields/fully-populated-single-fault-competencies';
+} from '../__mocks__/cat-a-mod1/data-fields/fully-populated-single-fault-competencies';
 import {
   getCatAMod1FullyPopulatedSeriousFaultDataFields,
-} from './helpers/cat-a-mod1/data-fields/fully-populated-serious-faults';
+} from '../__mocks__/cat-a-mod1/data-fields/fully-populated-serious-faults';
 import {
   getCatAMod1FullyPopulatedDangerousFaultDataFields,
-} from './helpers/cat-a-mod1/data-fields/fully-populated-dangerous-faults';
-import { doesResultMatchExpectations } from './helpers/result-comparer';
+} from '../__mocks__/cat-a-mod1/data-fields/fully-populated-dangerous-faults';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
 
 describe('mapCatAMod1Data', () => {
   it('Should map a minimally populated test result', () => {

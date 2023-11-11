@@ -1,18 +1,18 @@
 import { DataField } from '../../../domain/mi-export-data';
 import { mapCatC1Data } from '../cat-c1-mapper';
-import { getMinimalInput } from './helpers/cat-c/inputs/minimal-inputs';
-import { getCatCMinimalDataFields } from './helpers/cat-c/data-fields/minimal-data-fields';
+import { getMinimalInput } from '../__mocks__/cat-c/inputs/minimal-inputs';
+import { getCatCMinimalDataFields } from '../__mocks__/cat-c/data-fields/minimal-data-fields';
 import {
   getFullyPopulatedDrivingFaults,
   getFullyPopulatedSeriousFaults,
   getFullyPopulatedDangerousFaults,
-} from './helpers/cat-c/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-c/inputs/fully-populated-inputs';
 import {
   getCatCFullyPopulatedSeriousDataFields,
   getCatCFullyPopulatedDangerousDataFields,
-} from './helpers/cat-c/data-fields/fully-populated-data-fields';
+} from '../__mocks__/cat-c/data-fields/fully-populated-data-fields';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { doesResultMatchExpectations } from './helpers/result-comparer';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
 
 describe('mapCatC1Data', () => {
 

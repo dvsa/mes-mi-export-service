@@ -17,22 +17,22 @@ import {
 import { cloneDeep } from 'lodash';
 import { QuestionOutcome, TestData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { getCatBMinimalInput } from './helpers/cat-b/inputs/minimal-inputs';
-import { getCatAM1MinimalInput } from './helpers/cat-a-mod1/inputs/minimal-inputs';
-import { getCatAM1FullyPopulatedSingleFaultCompetencies } from './helpers/cat-a-mod1/inputs/fully-populated-inputs';
+import { getCatBMinimalInput } from '../__mocks__/cat-b/inputs/minimal-inputs';
+import { getCatAM1MinimalInput } from '../__mocks__/cat-a-mod1/inputs/minimal-inputs';
+import { getCatAM1FullyPopulatedSingleFaultCompetencies } from '../__mocks__/cat-a-mod1/inputs/fully-populated-inputs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   TestData as CatAMod1TestData,
   TestResultCatAM1Schema,
 } from '@dvsa/mes-test-schema/categories/AM1';
-import { getFullyPopulatedDrivingFaults } from './helpers/cat-a-mod2/inputs/fully-populated-inputs';
-import { getCatAMod2MinimalInput } from './helpers/cat-a-mod2/inputs/minimal-inputs';
-import { getCatADI2MinimalInput } from './helpers/cat-adi2/inputs/minimal-inputs';
+import { getFullyPopulatedDrivingFaults } from '../__mocks__/cat-a-mod2/inputs/fully-populated-inputs';
+import { getCatAMod2MinimalInput } from '../__mocks__/cat-a-mod2/inputs/minimal-inputs';
+import { getCatADI2MinimalInput } from '../__mocks__/cat-adi2/inputs/minimal-inputs';
 import {
   getADI2FullyPopulatedDrivingFaults,
   getADI2FullyPopulatedSeriousFaults,
   getADIFullyPopulatedDangerousFaults,
-} from './helpers/cat-adi2/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-adi2/inputs/fully-populated-inputs';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
 describe('data mapper', () => {
@@ -62,8 +62,8 @@ describe('data mapper', () => {
         { col: 'CATB1', val: 'wibble' },
       ];
 
-      spyOn(commonMapper, 'mapCommonData').and.returnValue(dummyCommonMapping);
-      spyOn(catBMapper, 'mapCatBData').and.returnValue(dummyCatBMapping);
+      jest.spyOn(commonMapper, 'mapCommonData').mockReturnValue(dummyCommonMapping);
+      jest.spyOn(catBMapper, 'mapCatBData').mockReturnValue(dummyCatBMapping);
 
       const mapping = mapDataForMIExport(minimalInput);
       const expected: DataField[] = [
@@ -79,15 +79,15 @@ describe('data mapper', () => {
       const unsupportedInput = cloneDeep(minimalInput);
       unsupportedInput.testResult.category = 'A';
 
-      spyOn(commonMapper, 'mapCommonData').and.returnValue([] as DataField[]);
-      spyOn(catBMapper, 'mapCatBData').and.returnValue([] as DataField[]);
+      jest.spyOn(commonMapper, 'mapCommonData').mockReturnValue([] as DataField[]);
+      jest.spyOn(catBMapper, 'mapCatBData').mockReturnValue([] as DataField[]);
 
       expect(() => mapDataForMIExport(unsupportedInput)).toThrow(new Error('Unsupported Category: A'));
     });
 
-    it('Should propogate missing data errors', () => {
-      spyOn(commonMapper, 'mapCommonData').and.returnValue([] as DataField[]);
-      spyOn(catBMapper, 'mapCatBData').and.callFake(() => {
+    it('Should propagate missing data errors', () => {
+      jest.spyOn(commonMapper, 'mapCommonData').mockReturnValue([] as DataField[]);
+      jest.spyOn(catBMapper, 'mapCatBData').mockImplementation(() => {
         throw new MissingTestResultDataError('dummy');
       });
 
@@ -106,8 +106,8 @@ describe('data mapper', () => {
         { col: 'COL2', val: 5678 },
       ];
 
-      spyOn(commonMapper, 'mapCommonData').and.returnValue(dummyCommonMapping);
-      spyOn(catBMapper, 'mapCatBData').and.returnValue(dummyCatBMapping);
+      jest.spyOn(commonMapper, 'mapCommonData').mockReturnValue(dummyCommonMapping);
+      jest.spyOn(catBMapper, 'mapCatBData').mockReturnValue(dummyCatBMapping);
 
       expect(() => mapDataForMIExport(minimalInput)).toThrow(new Error('Duplicate columns mapped: COL1, COL2'));
     });

@@ -2,7 +2,7 @@ import * as oracledb from 'oracledb';
 import { Config } from '../../config/config';
 import { createConnection } from '../database';
 
-describe('createConnection', () => {
+describe.only('createConnection', () => {
 
   const noRSISConfig: Config = {
     batchSize: 10,
@@ -22,10 +22,16 @@ describe('createConnection', () => {
     useRSIS: true,
   };
 
-  it('Should create the connection correctly', async () => {
-    spyOn(oracledb, 'getConnection');
+  beforeEach(() => {
+    jest.spyOn(oracledb, 'getConnection').mockImplementation(() => Promise.resolve({} as oracledb.Connection));
+  });
 
-    const conn = await createConnection(useRSISConfig);
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('Should create the connection correctly', async () => {
+    await createConnection(useRSISConfig);
 
     expect(oracledb.getConnection as unknown as Promise<oracledb.Connection>).toHaveBeenCalledWith({
       user: 'bbb',
@@ -35,7 +41,7 @@ describe('createConnection', () => {
   });
 
   it('Should propogate any exceptions', async () => {
-    spyOn(oracledb, 'getConnection').and.callFake(() => { throw new Error('Oops'); });
+    jest.spyOn(oracledb, 'getConnection').mockImplementation(() => { throw new Error('Oops'); });
 
     try {
       await createConnection(useRSISConfig);
@@ -46,8 +52,6 @@ describe('createConnection', () => {
   });
 
   it('Should return undefined if in stubbed mode', async () => {
-    spyOn(oracledb, 'getConnection');
-
     const conn = await createConnection(noRSISConfig);
 
     expect(oracledb.getConnection).toHaveBeenCalledTimes(0);

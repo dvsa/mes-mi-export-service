@@ -8,7 +8,6 @@ import { processResult, uploadRSISBatch } from '../batch-processor';
 import { Config } from '../../framework/config/config';
 
 describe('batch-processor', () => {
-
   const dummyKey1: resultClient.UploadKey = {
     interfaceType: resultClient.InterfaceType.RSIS,
     applicationReference: {
@@ -116,13 +115,17 @@ describe('batch-processor', () => {
 
   const moqConn = Mock.ofType<Connection>();
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   describe('upload-result', () => {
     it('Should do nothing with an empty batch', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue(Promise.resolve([]));
-      spyOn(database, 'createConnection');
-      spyOn(dataMapper, 'mapDataForMIExport');
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus');
+      jest.spyOn(resultClient, 'getNextUploadBatch').mockReturnValue(Promise.resolve([]));
+      jest.spyOn(database, 'createConnection');
+      jest.spyOn(dataMapper, 'mapDataForMIExport');
+      jest.spyOn(repository, 'saveTestResult');
+      jest.spyOn(resultClient, 'updateUploadStatus');
 
       const result = await uploadRSISBatch(dummyConfig);
       expect(result).toBe(true); // processed successfully
@@ -133,11 +136,11 @@ describe('batch-processor', () => {
     });
 
     it('Should process a successful batch of 1', async () => {
-      spyOn(resultClient, 'getNextUploadBatch').and.returnValue(Promise.resolve([dummyResult1]));
-      spyOn(database, 'createConnection').and.returnValue(Promise.resolve(moqConn as unknown as Connection));
-      spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus');
+      jest.spyOn(resultClient, 'getNextUploadBatch').mockReturnValue(Promise.resolve([dummyResult1]));
+      jest.spyOn(database, 'createConnection').mockReturnValue(Promise.resolve(moqConn as unknown as Connection));
+      jest.spyOn(dataMapper, 'mapDataForMIExport').mockReturnValue([]);
+      jest.spyOn(repository, 'saveTestResult');
+      jest.spyOn(resultClient, 'updateUploadStatus').mockReturnValue(Promise.resolve());
 
       const result = await uploadRSISBatch(dummyConfig);
       expect(result).toBe(true); // processed successfully
@@ -146,12 +149,12 @@ describe('batch-processor', () => {
     });
 
     it('Should process a successful batch of 3', async () => {
-      spyOn(resultClient, 'getNextUploadBatch')
-        .and.returnValue(Promise.resolve([dummyResult1, dummyResult2, dummyResult1]));
-      spyOn(database, 'createConnection').and.returnValue(Promise.resolve(moqConn as unknown as Connection));
-      spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus');
+      jest.spyOn(resultClient, 'getNextUploadBatch')
+        .mockReturnValue(Promise.resolve([dummyResult1, dummyResult2, dummyResult1]));
+      jest.spyOn(database, 'createConnection').mockReturnValue(Promise.resolve(moqConn as unknown as Connection));
+      jest.spyOn(dataMapper, 'mapDataForMIExport').mockReturnValue([]);
+      jest.spyOn(repository, 'saveTestResult');
+      jest.spyOn(resultClient, 'updateUploadStatus');
 
       const result = await uploadRSISBatch(dummyConfig);
       expect(result).toBe(true); // processed successfully
@@ -160,12 +163,15 @@ describe('batch-processor', () => {
     });
 
     it('Should abort a batch if uanble to update status', async () => {
-      spyOn(resultClient, 'getNextUploadBatch')
-        .and.returnValue(Promise.resolve([dummyResult1, dummyResult1, dummyResult1]));
-      spyOn(database, 'createConnection').and.returnValue(Promise.resolve(moqConn as unknown as Connection));
-      spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus').and.throwError('oops');
+      jest.spyOn(resultClient, 'getNextUploadBatch').mockReturnValue(
+        Promise.resolve([dummyResult1, dummyResult1, dummyResult1]),
+      );
+      jest.spyOn(database, 'createConnection').mockReturnValue(Promise.resolve(moqConn as unknown as Connection));
+      jest.spyOn(dataMapper, 'mapDataForMIExport').mockReturnValue([]);
+      jest.spyOn(repository, 'saveTestResult');
+      jest.spyOn(resultClient, 'updateUploadStatus').mockImplementation(() => {
+        throw new Error('oops');
+      });
 
       const result = await uploadRSISBatch(dummyConfig);
       expect(result).toBe(false); // processed unsuccessfully
@@ -174,12 +180,15 @@ describe('batch-processor', () => {
     });
 
     it('Should set whole batch to failed if uanble to connect to DB', async () => {
-      spyOn(resultClient, 'getNextUploadBatch')
-        .and.returnValue(Promise.resolve([dummyResult1, dummyResult1, dummyResult1]));
-      spyOn(database, 'createConnection').and.throwError('oops');
-      spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus');
+      jest.spyOn(resultClient, 'getNextUploadBatch').mockReturnValue(
+        Promise.resolve([dummyResult1, dummyResult1, dummyResult1]),
+      );
+      jest.spyOn(database, 'createConnection').mockImplementation(() => {
+        throw new Error('oops');
+      });
+      jest.spyOn(dataMapper, 'mapDataForMIExport').mockReturnValue([]);
+      jest.spyOn(repository, 'saveTestResult');
+      jest.spyOn(resultClient, 'updateUploadStatus').mockReturnValue(Promise.resolve());
 
       const result = await uploadRSISBatch(dummyConfig);
       expect(result).toBe(true); // processed successfully
@@ -187,13 +196,18 @@ describe('batch-processor', () => {
       expect(resultClient.updateUploadStatus).toHaveBeenCalledTimes(3); // called for whole batch
     });
 
-    it('Should abort if unable to set whole batch to failed after uanble to connect to DB', async () => {
-      spyOn(resultClient, 'getNextUploadBatch')
-        .and.returnValue(Promise.resolve([dummyResult1, dummyResult1, dummyResult1]));
-      spyOn(database, 'createConnection').and.throwError('oops');
-      spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus').and.throwError('oops');
+    it('Should abort if unable to set whole batch to failed after unable to connect to DB', async () => {
+      jest.spyOn(resultClient, 'getNextUploadBatch').mockReturnValue(
+        Promise.resolve([dummyResult1, dummyResult1, dummyResult1]),
+      );
+      jest.spyOn(database, 'createConnection').mockImplementation(() => {
+        throw new Error('oops');
+      });
+      jest.spyOn(dataMapper, 'mapDataForMIExport').mockReturnValue([]);
+      jest.spyOn(repository, 'saveTestResult');
+      jest.spyOn(resultClient, 'updateUploadStatus').mockImplementation(() => {
+        throw new Error('oops');
+      });
 
       const result = await uploadRSISBatch(dummyConfig);
       expect(result).toBe(false); // processed unsuccessfully
@@ -204,44 +218,52 @@ describe('batch-processor', () => {
 
   describe('upload-result', () => {
     it('Should set successful mapping and upload to accepted', async () => {
-      spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus');
+      jest.spyOn(dataMapper, 'mapDataForMIExport').mockReturnValue([]);
+      jest.spyOn(repository, 'saveTestResult').mockReturnValue(Promise.resolve());
+      jest.spyOn(resultClient, 'updateUploadStatus').mockReturnValue(Promise.resolve());
 
       const result = await processResult(dummyConfig, moqConn.object, dummyResult1);
       expect(result).toBe(true); // processed successfully
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
-      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(dummyConfig.testResultsBaseUrl,
-                                                                   resultClient.InterfaceType.RSIS,
-                                                                   dummyKey1,
-                                                                   resultClient.ProcessingStatus.ACCEPTED,
-                                                                   0,
-                                                                   null);
+      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(
+        dummyConfig.testResultsBaseUrl,
+        resultClient.InterfaceType.RSIS,
+        dummyKey1,
+        resultClient.ProcessingStatus.ACCEPTED,
+        0,
+        null,
+      );
     });
 
     it('Should set upload error to failed', async () => {
-      spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
-      spyOn(repository, 'saveTestResult').and.throwError('Oops');
-      spyOn(resultClient, 'updateUploadStatus');
+      jest.spyOn(dataMapper, 'mapDataForMIExport').mockReturnValue([]);
+      jest.spyOn(repository, 'saveTestResult').mockImplementation(() => {
+        throw new Error('Oops');
+      });
+      jest.spyOn(resultClient, 'updateUploadStatus');
 
       const result = await processResult(dummyConfig, moqConn.object, dummyResult1);
       expect(result).toBe(true); // processed successfully
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
       expect(resultClient.updateUploadStatus)
-        .toHaveBeenCalledWith(dummyConfig.testResultsBaseUrl, resultClient.InterfaceType.RSIS,
-                              dummyKey1, resultClient.ProcessingStatus.FAILED, 0,
-                              'Error saving data for {"interfaceType":"RSIS",' +
+        .toHaveBeenCalledWith(
+          dummyConfig.testResultsBaseUrl,
+          resultClient.InterfaceType.RSIS,
+          dummyKey1,
+          resultClient.ProcessingStatus.FAILED,
+          0,
+          'Error saving data for {"interfaceType":"RSIS",' +
                               '"applicationReference":{"applicationId":1234,"bookingSequence":1,"checkDigit":2},' +
                               '"staffNumber":"4321"}: Oops');
     });
 
     it('Should set mapping error to failed', async () => {
-      spyOn(dataMapper, 'mapDataForMIExport')
-        .and.callFake(() => { throw new dataMapper.MissingTestResultDataError('oops'); });
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus');
+      jest.spyOn(repository, 'saveTestResult').mockReturnValue(Promise.resolve());
+      jest.spyOn(resultClient, 'updateUploadStatus').mockReturnValue(Promise.resolve());
+      jest.spyOn(dataMapper, 'mapDataForMIExport')
+        .mockImplementation(() => { throw new dataMapper.MissingTestResultDataError('oops'); });
 
       const result = await processResult(dummyConfig, moqConn.object, dummyResult1);
       expect(result).toBe(true); // processed successfully
@@ -256,20 +278,24 @@ describe('batch-processor', () => {
     });
 
     it('Should abort batch if update status fails', async () => {
-      spyOn(dataMapper, 'mapDataForMIExport').and.returnValue([]);
-      spyOn(repository, 'saveTestResult');
-      spyOn(resultClient, 'updateUploadStatus').and.throwError('oops');
+      jest.spyOn(dataMapper, 'mapDataForMIExport').mockReturnValue([]);
+      jest.spyOn(repository, 'saveTestResult').mockReturnValue(Promise.resolve());
+      jest.spyOn(resultClient, 'updateUploadStatus').mockImplementation(() => {
+        throw new Error('oops');
+      });
 
       const result = await processResult(dummyConfig, moqConn.object, dummyResult1);
       expect(result).toBe(false); // abort batch
       expect(dataMapper.mapDataForMIExport).toHaveBeenCalled();
       expect(repository.saveTestResult).toHaveBeenCalled();
-      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(dummyConfig.testResultsBaseUrl,
-                                                                   resultClient.InterfaceType.RSIS,
-                                                                   dummyKey1,
-                                                                   resultClient.ProcessingStatus.ACCEPTED,
-                                                                   0,
-                                                                   null);
+      expect(resultClient.updateUploadStatus).toHaveBeenCalledWith(
+        dummyConfig.testResultsBaseUrl,
+        resultClient.InterfaceType.RSIS,
+        dummyKey1,
+        resultClient.ProcessingStatus.ACCEPTED,
+        0,
+        null,
+      );
     });
   });
 });

@@ -1,16 +1,16 @@
-import { doesResultMatchExpectations } from './helpers/result-comparer';
-import { getCatADI2MinimalInput } from './helpers/cat-adi2/inputs/minimal-inputs';
+import { doesResultMatchExpectations } from '../__mocks__/result-comparer';
+import { getCatADI2MinimalInput } from '../__mocks__/cat-adi2/inputs/minimal-inputs';
 import { getManoeuvreCommentByType, isManoeuvreCompleted, mapCatADI2Data } from '../cat-adi2-mapper';
-import { getADI2MinimalDataField } from './helpers/cat-adi2/data-fields/minimal-data-fields';
+import { getADI2MinimalDataField } from '../__mocks__/cat-adi2/data-fields/minimal-data-fields';
 import {
   getADI2FullyPopulatedDrivingFaults,
   getADI2FullyPopulatedSeriousFaults, getADIFullyPopulatedDangerousFaults,
-} from './helpers/cat-adi2/inputs/fully-populated-inputs';
+} from '../__mocks__/cat-adi2/inputs/fully-populated-inputs';
 import {
   getADI2FullyPopulatedFaultDataFields,
   getADIFullyPopulatedDangerousDataFields,
   getADIFullyPopulatedSeriousDataFields,
-} from './helpers/cat-adi2/data-fields/fully-populated-data-fields';
+} from '../__mocks__/cat-adi2/data-fields/fully-populated-data-fields';
 import {CatADI2UniqueTypes} from '@dvsa/mes-test-schema/categories/ADI2';
 
 describe('mapCatADI2Data', () => {

@@ -1,13 +1,14 @@
-import { Context, ScheduledEvent } from 'aws-lambda';
-import createResponse from '../../../common/application/utils/createResponse';
-import Response from '../../../common/application/api/Response';
-import { HttpStatus } from '../../../common/application/api/HttpStatus';
-import { bootstrapConfig, config } from './config/config';
+import { ScheduledEvent } from 'aws-lambda';
+import { createResponse } from '@dvsa/mes-microservice-common/application/api/create-response';
+import { HttpStatus } from '@dvsa/mes-microservice-common/application/api/http-status';
 import { info, error, bootstrapLogging } from '@dvsa/mes-microservice-common/application/utils/logger';
 import { uploadRSISBatch } from '../application/batch-processor';
+import { bootstrapConfig, config } from './config/config';
 
-export async function handler(event: ScheduledEvent, fnCtx: Context): Promise<Response> {
+export async function handler(event: ScheduledEvent) {
+
   bootstrapLogging('mi-export-service', event);
+
   await bootstrapConfig();
 
   info('upload to RSIS invoked...');

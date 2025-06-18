@@ -1,21 +1,21 @@
-import {formatApplicationReference} from '@dvsa/mes-microservice-common/domain/tars';
-import {determineDl25TestType} from '@dvsa/mes-microservice-common/application/utils/dl25-test-type';
+import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain/tars';
+import { determineDl25TestType } from '@dvsa/mes-microservice-common/application/utils/dl25-test-type';
 import moment = require('moment');
 
-import {ResultUpload} from '../result-client';
-import {ChannelIndicator, DataField, DataFieldValue, FormType} from '../../domain/mi-export-data';
-import {addIfSet, addIfSetParseToDate, field, mandatory, optional, optionalBoolean} from './data-mapper';
+import { ResultUpload} from '../result-client';
+import { ChannelIndicator, DataField, DataFieldValue, FormType } from '../../domain/mi-export-data';
+import { addIfSet, addIfSetParseToDate, field, mandatory, optional, optionalBoolean } from './data-mapper';
 import {
   formatDateOfBirth,
   formatResult,
   formatRekeyDateTime,
   formatLanguage,
 } from './common-mapper';
-import {get} from 'lodash';
-import {formatIpadIssueReason, formatRekeyReason} from './rekey-reason-mapper';
-import {trimTestCategoryPrefix} from '@dvsa/mes-microservice-common/domain/trim-test-category-prefix';
-import {formatGearboxCategory} from '../helpers/shared-formatters';
-import {TestData as CatADI3TestData} from '@dvsa/mes-test-schema/categories/ADI3';
+import { get } from 'lodash';
+import { formatIpadIssueReason, formatRekeyReason } from './rekey-reason-mapper';
+import { trimTestCategoryPrefix } from '@dvsa/mes-microservice-common/domain/trim-test-category-prefix';
+import { formatGearboxCategory } from '../helpers/shared-formatters';
+import { TestData as CatADI3TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 
 export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   const testResult = result.testResult;

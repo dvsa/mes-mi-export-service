@@ -2,7 +2,7 @@ import { formatApplicationReference } from '@dvsa/mes-microservice-common/domain
 import { determineDl25TestType } from '@dvsa/mes-microservice-common/application/utils/dl25-test-type';
 import moment = require('moment');
 
-import { ResultUpload} from '../result-client';
+import { ResultUpload } from '../result-client';
 import { ChannelIndicator, DataField, DataFieldValue, FormType } from '../../domain/mi-export-data';
 import { addIfSet, addIfSetParseToDate, field, mandatory, optional, optionalBoolean } from './data-mapper';
 import {

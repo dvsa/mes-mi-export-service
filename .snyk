@@ -3,9 +3,9 @@ version: v1.25.0
 
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
-  SNYK-JS-AXIOS-6671926:
+  SNYK-JS-AXIOS-12613773:
     - '*':
-        reason: Missing Release of Resource after Effective Lifetime - Remediation not yet available
-        expires: 2025-04-01T09:00:00.119Z
-        created: 2023-12-04T09:00:00.122Z
+        reason: Version causes issues with building, will address when service is refactored
+        expires: 2025-11-01T09:00:00.119Z
+        created: 2025-10-01T09:00:00.122Z
 patch: {}

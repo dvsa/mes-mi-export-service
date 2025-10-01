@@ -29,19 +29,19 @@
     "sonar-scanner": "node_modules/sonar-scanner/bin/sonar-scanner"
   },
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.454.0",
-    "@dvsa/mes-microservice-common": "1.2.0",
+    "@aws-sdk/client-secrets-manager": "^3.899.0",
+    "@dvsa/mes-microservice-common": "1.2.1",
     "axios": "1.8.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "oracledb": "^6.2.0"
+    "oracledb": "^6.9.0"
   },
   "devDependencies": {
     "@dvsa/mes-test-schema": "3.45.0",
     "@types/aws-lambda": "^8.10.126",
     "@types/jasmine": "^5.1.2",
     "@types/node": "^20.9.2",
-    "@types/oracledb": "^6.0.3",
+    "@types/oracledb": "^6.9.1",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "axios-mock-adapter": "^1.22.0",

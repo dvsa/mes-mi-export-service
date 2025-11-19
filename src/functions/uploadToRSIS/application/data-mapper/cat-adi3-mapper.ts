@@ -3,7 +3,7 @@ import { determineDl25TestType } from '@dvsa/mes-microservice-common/application
 import moment = require('moment');
 
 import { ResultUpload } from '../result-client';
-import {ChannelIndicator, DataField, DataFieldValue, FormType} from '../../domain/mi-export-data';
+import { ChannelIndicator, DataField, DataFieldValue, FormType } from '../../domain/mi-export-data';
 import { addIfSet, addIfSetParseToDate, field, mandatory, optional, optionalBoolean } from './data-mapper';
 import {
   formatDateOfBirth,
@@ -188,6 +188,8 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   addIfSet(mappedFields, 'SEEK_FURTHER_DEV', optionalBoolean(testResult, 'testData.review.seekFurtherDevelopment'));
   addIfSet(mappedFields, 'REVIEW_FEEDBACK', optional(testResult, 'testData.review.feedback', null));
   addIfSet(mappedFields, 'RES_NO_ADVICE', optional(testResult, 'testData.review.reasonForNoAdviceGiven', null));
+  addIfSet(mappedFields, 'TEST_DURATION_REASON',
+           optional(testResult, 'testData.standardsChecksTestLength.reasonForTestBeingTooShort', null));
   addIfSet(mappedFields, 'ACCOMPANIED_BY_SUPERVISOR', optionalBoolean(testResult, 'accompaniment.supervisor'));
   addIfSet(mappedFields, 'ACCOMPANIED_BY_TRAINER', optionalBoolean(testResult, 'accompaniment.trainer'));
   addIfSet(mappedFields, 'ACCOMPANIED_BY_OTHER', optionalBoolean(testResult, 'accompaniment.other'));
@@ -204,12 +206,12 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   return mappedFields;
 };
 
-const getTotalAssessmentScore = (testData: CatADI3TestData) : number => {
-  return Object.keys(testData).reduce((sum, key: string) : number => {
+const getTotalAssessmentScore = (testData: CatADI3TestData): number => {
+  return Object.keys(testData).reduce((sum, key: string): number => {
     const value = get(testData, key);
     if (['lessonPlanning', 'riskManagement', 'teachingLearningStrategies'].includes(key) && typeof value === 'object') {
       return sum + (get(value, 'score') || 0);
     }
     return sum;
-  },                                  0);
+  }, 0);
 };

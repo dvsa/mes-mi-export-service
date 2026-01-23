@@ -32,7 +32,7 @@
     "@aws-sdk/client-secrets-manager": "^3.899.0",
     "@dvsa/mes-microservice-common": "1.2.1",
     "axios": "1.8.3",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "moment": "^2.29.4",
     "oracledb": "^6.9.0"
   },

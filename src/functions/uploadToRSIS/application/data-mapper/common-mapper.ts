@@ -54,7 +54,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     field('FORM_TYPE', FormType.MES),
     field('DRIVING_SCHOOL_CANDIDATE', formatDrivingSchoolCandidate(result)),
     field('SPECIAL_NEEDS', optionalBoolean(r, 'testSummary.D255')),
-    field('APP_REF_NO', formatApplicationReference(r.journalData.applicationReference)),
+    field('APP_REF_NO', Number(formatApplicationReference(r.journalData.applicationReference))),
     // unused - DRIVER_NO_DOB
     field('DATE_OF_TEST', testDateTime.format('YYMMDD')),
     field('TIME', testDateTime.format('HHmm')),

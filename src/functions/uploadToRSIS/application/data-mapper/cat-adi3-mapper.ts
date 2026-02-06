@@ -25,7 +25,7 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
   const mappedFields: DataField[] = [
 
     // Test Details
-    field('APP_REF_NO', formatApplicationReference(testResult.journalData.applicationReference)),
+    field('APP_REF_NO', Number(formatApplicationReference(testResult.journalData.applicationReference))),
     field('TEST_TYPE', determineDl25TestType(result.testResult.category) as DataFieldValue),
     field('ADI_PRN', mandatory(testResult, 'journalData.candidate.prn')),
     field('CHANNEL_INDICATOR', testResult.rekey ? ChannelIndicator.MES_REKEY : ChannelIndicator.MES),

@@ -19,7 +19,7 @@ export const mapCatCPCData = (result: ResultUpload): DataField[] => {
   const m: DataField[] = [
     field('ACTIVITY_CODE', Number(testResult.activityCode)),
     // unused - ADI_PRN
-    field('APP_REF_NO', formatApplicationReference(testResult.journalData.applicationReference)),
+    field('APP_REF_NO', Number(formatApplicationReference(testResult.journalData.applicationReference))),
     field('C', optionalBoolean(testResult, 'changeMarker')),
     field('CANDIDATE_SURNAME', mandatory(testResult, 'journalData.candidate.candidateName.lastName')),
     field('CAT_TYPE', formatCPCTestCategory(testResult)),

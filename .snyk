@@ -6,6 +6,6 @@ ignore:
   SNYK-JS-AXIOS-12613773:
     - '*':
         reason: Version causes issues with building, will address when service is refactored
-        expires: 2025-11-01T09:00:00.119Z
+        expires: 2026-03-01T09:00:00.119Z
         created: 2025-10-01T09:00:00.122Z
 patch: {}

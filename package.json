@@ -31,7 +31,7 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.974.0",
     "@dvsa/mes-microservice-common": "1.2.4",
-    "axios": "1.8.3",
+    "axios": "1.16.0",
     "lodash": "4.17.23",
     "moment": "^2.29.4",
     "oracledb": "^6.9.0"

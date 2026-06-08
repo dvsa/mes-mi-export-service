@@ -85,9 +85,9 @@ Promise<boolean> {
 
     info(`Mapped to ${miData.length} columns, saving to DB...`);
 
-    resultUpload.testResult.journalData.applicationReference;
     const appRef = Number(formatApplicationReference(resultUpload.testResult.journalData.applicationReference));
     const { category } = resultUpload.testResult;
+    info('Now saving ', appRef);
     // insert into staging table and commit
     await saveTestResult(connection, config, miData, appRef, category);
 

@@ -138,7 +138,7 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
     // unused - TEST_CENTRE_SECTOR_ID
     // unused - TEST_CENTRE_MAIN_COST_CODE
     // unused - TEST_CENTRE_MAIN_LA_ID
-    field('VEHICLE_SLOT_TYPE', r.journalData.testSlotAttributes.vehicleTypeCode),
+    field('VEHICLE_SLOT_TYPE', get(r, 'journalData.testSlotAttributes.vehicleTypeCode', null)),
     field('WELSH_FORM_IND', formatLanguage(result)),
     // unused - IMAGE_REFERENCE
     // unused - DATA_VALIDATION_FLAGS

@@ -40,7 +40,7 @@ export const mapCatADI3Data = (result: ResultUpload): DataField[] => {
     field('TRAINEE_LICENCE', optionalBoolean(testResult, 'trainerDetails.traineeLicence')),
     field('EXTENDED_TEST', optionalBoolean(testResult, 'journalData.testSlotAttributes.extendedTest')),
     field('SHORT_NOTICE_EXAMINER', optionalBoolean(testResult, 'changeMarker')),
-    field('VEHICLE_SLOT_TYPE', testResult.journalData.testSlotAttributes.vehicleTypeCode),
+    field('VEHICLE_SLOT_TYPE', get(testResult, 'journalData.testSlotAttributes.vehicleTypeCode', null)),
     field('NO_WRITE_UP', result.autosaved),
 
     // Test outcome

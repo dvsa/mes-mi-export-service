@@ -30,14 +30,14 @@
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.974.0",
-    "@dvsa/mes-microservice-common": "1.2.4",
+    "@dvsa/mes-microservice-common": "1.2.6",
     "axios": "1.18.1",
     "lodash": "4.18.1",
     "moment": "^2.29.4",
     "oracledb": "^6.9.0"
   },
   "devDependencies": {
-    "@dvsa/mes-test-schema": "3.52.0",
+    "@dvsa/mes-test-schema": "3.55.1",
     "@types/aws-lambda": "^8.10.126",
     "@types/jasmine": "^5.1.2",
     "@types/node": "^20.9.2",

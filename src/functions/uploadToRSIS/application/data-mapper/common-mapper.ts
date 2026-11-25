@@ -90,8 +90,15 @@ export const mapCommonData = (result: ResultUpload): DataField[] => {
 
     field('EXAMINER_ACTION_VERBAL', optionalBoolean(r, 'testData.ETA.verbal')),
     field('EXAMINER_ACTION_PHYSICAL', optionalBoolean(r, 'testData.ETA.physical')),
+
+    field('EXAMINER_ACTION_PHYSICAL_STEERING_CONTROL', optionalBoolean(r, 'testData.ETA.physicalType.steeringControl')),
+    field('EXAMINER_ACTION_PHYSICAL_HANDBRAKE', optionalBoolean(r, 'testData.ETA.physicalType.handbrake')),
+    field('EXAMINER_ACTION_PHYSICAL_FOOTBRAKE', optionalBoolean(r, 'testData.ETA.physicalType.footbrake')),
+    field('EXAMINER_ACTION_PHYSICAL_OTHER', optionalBoolean(r, 'testData.ETA.physicalType.other')),
+    field('EXAMINER_ACTION_PHYSICAL_OTHER_TEXT', optional(r, 'testData.ETA.physicalType.otherText', null)),
+
     field('DUAL_CONTROL_IND', optionalBoolean(r, 'vehicleDetails.dualControls')),
-    //  unused - SURVEY_A_IND
+    //  unused - SURVEY_A_INDxxx
     //  unused - SURVEY_B_IND
     //  unused - SURVEY_C_IND
     //  unused - SURVEY_D_IND

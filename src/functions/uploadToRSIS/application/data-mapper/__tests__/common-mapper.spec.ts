@@ -116,6 +116,11 @@ describe('mapCommonData', () => {
       { col: 'ROUTE_NUMBER', val: 15 },
       { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
       { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_STEERING_CONTROL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_HANDBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_FOOTBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER_TEXT', val: null },
       { col: 'DUAL_CONTROL_IND', val: 0 },
       { col: 'DEBRIEF_WITNESSED', val: 0 },
       { col: 'DEBRIEF_GIVEN', val: 1 },
@@ -145,6 +150,35 @@ describe('mapCommonData', () => {
     ];
 
     expect(mapCommonData(minimalInput)).toEqual(expected);
+  });
+
+  it('Should map populated physical examiner action details', () => {
+    const testData: CatBUniqueTypes.TestData = {
+      ETA: {
+        physical: true,
+        verbal: true,
+        physicalType: {
+          steeringControl: true,
+          handbrake: false,
+          footbrake: true,
+          other: true,
+          otherText: 'Assisted with steering',
+        },
+      },
+    };
+    const input = cloneDeep(minimalInput);
+    Object.assign(input.testResult, { testData });
+
+    const physicalActionFields = mapCommonData(input)
+      .filter(({ col }) => col.startsWith('EXAMINER_ACTION_PHYSICAL_'));
+
+    expect(physicalActionFields).toEqual([
+      { col: 'EXAMINER_ACTION_PHYSICAL_STEERING_CONTROL', val: 1 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_HANDBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_FOOTBRAKE', val: 1 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER', val: 1 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER_TEXT', val: 'Assisted with steering' },
+    ]);
   });
 
   it('Should map a fully populated regular test result (fail, welsh, rekey, ethnicity, write up)', () => {
@@ -300,6 +334,11 @@ describe('mapCommonData', () => {
       { col: 'ROUTE_NUMBER', val: 15 },
       { col: 'EXAMINER_ACTION_VERBAL', val: 1 },
       { col: 'EXAMINER_ACTION_PHYSICAL', val: 1 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_STEERING_CONTROL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_HANDBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_FOOTBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER_TEXT', val: null },
       { col: 'DUAL_CONTROL_IND', val: 1 },
       { col: 'DEBRIEF_WITNESSED', val: 0 },
       { col: 'DEBRIEF_GIVEN', val: 1 },
@@ -482,6 +521,11 @@ describe('mapCommonData', () => {
       { col: 'ROUTE_NUMBER', val: 99 },
       { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
       { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_STEERING_CONTROL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_HANDBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_FOOTBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER_TEXT', val: null },
       { col: 'DUAL_CONTROL_IND', val: 0 },
       { col: 'DEBRIEF_WITNESSED', val: 1 },
       { col: 'DEBRIEF_GIVEN', val: 1 },
@@ -566,6 +610,11 @@ describe('mapCommonData', () => {
       { col: 'ROUTE_NUMBER', val: 15 },
       { col: 'EXAMINER_ACTION_VERBAL', val: 0 },
       { col: 'EXAMINER_ACTION_PHYSICAL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_STEERING_CONTROL', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_HANDBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_FOOTBRAKE', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER', val: 0 },
+      { col: 'EXAMINER_ACTION_PHYSICAL_OTHER_TEXT', val: null },
       { col: 'DUAL_CONTROL_IND', val: 0 },
       { col: 'DEBRIEF_WITNESSED', val: 0 },
       { col: 'DEBRIEF_GIVEN', val: 1 },
